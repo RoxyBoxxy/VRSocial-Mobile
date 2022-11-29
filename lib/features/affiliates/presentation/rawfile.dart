@@ -8,26 +8,24 @@ class AffiliatesPage extends StatefulWidget {
 }
 
 class _AffiliatesPageState extends State<AffiliatesPage> {
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold (
-        body: WebviewScaffold(
-          url: Strings.affiliates,
-          appBar: new AppBar(
-            title: const Text('Widget webview'),
-          ),
-          withZoom: true,
-          withLocalStorage: true,
-          hidden: true,
-          initialChild: Container (
-            color: Colors.redAccent,
-            child: const Center(
-              child: Text('Waiting.....'),
-            ),
+    return Scaffold(
+      body: WebviewScaffold(
+        url: Strings.affiliates,
+        appBar: new AppBar(
+          title: const Text('Widget webview'),
+        ),
+        withZoom: true,
+        withLocalStorage: true,
+        hidden: true,
+        initialChild: Container(
+          color: Colors.redAccent,
+          child: const Center(
+            child: Text('Waiting.....'),
           ),
         ),
+      ),
     );
   }
-
 }

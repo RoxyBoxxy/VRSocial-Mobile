@@ -11,26 +11,28 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @Injectable(as: NotificationRepo)
-class NotificationRepoImpl extends NotificationRepo{
+class NotificationRepoImpl extends NotificationRepo {
   final ApiHelper apiHelper;
 
   NotificationRepoImpl(this.apiHelper);
   @override
-  Future<Either<Failure, List<NotificationEntity>>> getNotifications(NotificationOrMentionRequestModel model) async{
-    var map=model.toMap..addAll({
-      "page_size":ApiConstants.pageSize.toString()
+  Future<Either<Failure, List<NotificationEntity>>> getNotifications(
+      NotificationOrMentionRequestModel model) async {
+    var map = model.toMap
+      ..addAll({"page_size": ApiConstants.pageSize.toString()});
+    var either = await apiHelper.get(ApiConstants.getNotifications,
+        queryParameters: map);
+    return either.fold((l) => left(l), (r) {
+      var notificationModel = NotificationResponse.fromJson(r.data);
+      return right(notificationModel.data
+          .map((e) => NotificationEntity.fromResponse(model: e))
+          .toList());
     });
-     var either = await apiHelper.get(ApiConstants.getNotifications,queryParameters: map);
-     return either.fold((l) => left(l), (r) {
-       var notificationModel = NotificationResponse.fromJson(r.data);
-       return right(notificationModel.data.map((e) => NotificationEntity.fromResponse(model: e)).toList());
-     });
   }
 
   @override
   Future<Either<Failure, dynamic>> deleteNotification(List<String> index) {
-    return apiHelper.post(ApiConstants.deleteNotification, HashMap.from({"scope":index}));
+    return apiHelper.post(
+        ApiConstants.deleteNotification, HashMap.from({"scope": index}));
   }
-
-
 }

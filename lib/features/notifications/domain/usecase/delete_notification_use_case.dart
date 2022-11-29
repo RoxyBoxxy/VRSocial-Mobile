@@ -5,7 +5,7 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class DeleteNotificationUseCase extends UseCase<dynamic,List<String>>{
+class DeleteNotificationUseCase extends UseCase<dynamic, List<String>> {
   final NotificationRepo notificationRepo;
 
   DeleteNotificationUseCase(this.notificationRepo);
@@ -13,5 +13,4 @@ class DeleteNotificationUseCase extends UseCase<dynamic,List<String>>{
   Future<Either<Failure, dynamic>> call(List<String> params) {
     return notificationRepo.deleteNotification(params);
   }
-
 }

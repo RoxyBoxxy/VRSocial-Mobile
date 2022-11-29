@@ -7,13 +7,14 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class SearchHashtagsUseCase extends UseCase<List<HashTagEntity>,TextModelWithOffset>{
+class SearchHashtagsUseCase
+    extends UseCase<List<HashTagEntity>, TextModelWithOffset> {
   final SearchRepo searchRepo;
 
   SearchHashtagsUseCase(this.searchRepo);
   @override
-  Future<Either<Failure, List<HashTagEntity>>>call(TextModelWithOffset params) async{
+  Future<Either<Failure, List<HashTagEntity>>> call(
+      TextModelWithOffset params) async {
     return searchRepo.searchHashtag(params);
   }
-
 }

@@ -26,17 +26,21 @@ extension TextExtension on Text {
               : AppColors.colorPrimary.withOpacity(.5),
           text: this.data,
           fullWidth: fullWidth,
-          onTap:(){
-            if(snapshot.data != null && snapshot.data )callBack.call();
+          onTap: () {
+            if (snapshot.data != null && snapshot.data) callBack.call();
             FocusManager.instance.primaryFocus.unfocus();
           },
         ),
       );
 
-  FlatButton toFlatButton(VoidCallback callback, {Color color,RoundedRectangleBorder border}) => FlatButton(
+  TextButton toTextButton(VoidCallback callback,
+          {Color color, RoundedRectangleBorder border}) =>
+      TextButton(
         child: this,
-    shape: border,
-        color: color,
+        style: TextButton.styleFrom(
+          foregroundColor: color,
+          shape: border,
+        ),
         onPressed: () {
           FocusManager.instance.primaryFocus.unfocus();
           callback.call();
@@ -56,7 +60,7 @@ extension TextExtension on Text {
       );
 
   StreamBuilder toTextStreamBuilder(Stream<String> stream) => StreamBuilder(
-    initialData: this.data,
+        initialData: this.data,
         builder: (_, snapshot) => Text(
           snapshot.data,
           // style: this.style.copyWith(decoration: TextDecoration.underline),
@@ -80,22 +84,25 @@ extension TextExtension on Text {
       );
 
   Widget toNoBorderTextField() => TextField(
-        decoration:
-            InputDecoration(border: InputBorder.none, hintText: this.data,labelStyle: AppTheme.caption.copyWith(fontWeight: FontWeight.bold)),
+        decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: this.data,
+            labelStyle: AppTheme.caption.copyWith(fontWeight: FontWeight.bold)),
       );
 
-  Widget get toEllipsis=>  RichText(
+  Widget get toEllipsis => RichText(
       overflow: TextOverflow.ellipsis,
-      text: TextSpan(
-          text: this.data,
-          style: this.style));
+      text: TextSpan(text: this.data, style: this.style));
 
-  Widget toOutlinedBorder(VoidCallback callback,{double borderRadius=20})=> OutlineButton(
-
-    padding: EdgeInsets.zero,
-    child: this,
-    onPressed: callback,
-    borderSide: const BorderSide(color: AppColors.colorPrimary, width: 1),
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadius)),
-  );
+  Widget toOutlinedBorder(VoidCallback callback, {double borderRadius = 20}) =>
+      OutlinedButton(
+        child: this,
+        onPressed: callback,
+        style: OutlinedButton.styleFrom(
+          padding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+              side: const BorderSide(color: AppColors.colorPrimary, width: 1),
+              borderRadius: BorderRadius.circular(borderRadius)),
+        ),
+      );
 }

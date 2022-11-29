@@ -1,4 +1,3 @@
-
 import 'dart:collection';
 import 'dart:io';
 import 'package:colibri/core/common/api/api_constants.dart';
@@ -22,26 +21,31 @@ class FeedRepoImpl extends FeedRepo {
   Future<Either<Failure, List<PostEntity>>> getFeeds(String pageKey) async {
     print("fetching apis");
     // requestCount=requestCount+1;
-    var queryMap={"page_size":ApiConstants.pageSize.toString()};
-    if(pageKey!=null&&pageKey.isNotEmpty&&pageKey!="0")
-      queryMap.addAll({"offset":pageKey});
-    var response= await apiHelper.get(ApiConstants.feeds, queryParameters: queryMap);
-    return response.fold (
-            (l) => left(l),
-            (r) {
-              return right(FeedResponse.fromJson(r.data).data.feeds.map((e) => PostEntity.fromFeed(e).copyWith( parentPostUsername: e.username)).toList());
-            });
+    var queryMap = {"page_size": ApiConstants.pageSize.toString()};
+    if (pageKey != null && pageKey.isNotEmpty && pageKey != "0")
+      queryMap.addAll({"offset": pageKey});
+    var response =
+        await apiHelper.get(ApiConstants.feeds, queryParameters: queryMap);
+    return response.fold((l) => left(l), (r) {
+      return right(FeedResponse.fromJson(r.data)
+          .data
+          .feeds
+          .map((e) =>
+              PostEntity.fromFeed(e).copyWith(parentPostUsername: e.username))
+          .toList());
+    });
   }
 
   @override
-  Future<Either<Failure, List<PostEntity>>> saveNotificationToken() async{
-    if(await localDataSource.isUserLoggedIn() ){
+  Future<Either<Failure, List<PostEntity>>> saveNotificationToken() async {
+    if (await localDataSource.isUserLoggedIn()) {
       final pushToken = await localDataSource.getPushToken();
-      await apiHelper.post(ApiConstants.saveNotificationToken, HashMap.from({
-        "token":pushToken,
-        "type":Platform.isAndroid?"android":"ios"
-      }));
+      await apiHelper.post(
+          ApiConstants.saveNotificationToken,
+          HashMap.from({
+            "token": pushToken,
+            "type": Platform.isAndroid ? "android" : "ios"
+          }));
     }
   }
-
 }

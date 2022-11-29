@@ -2,9 +2,7 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:colibri/core/theme/colors.dart';
-import 'package:colibri/core/widgets/MediaOpener.dart';
 import 'package:colibri/features/feed/domain/entity/post_entity.dart';
-import 'package:colibri/features/posts/data/model/response/post_detail_response.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:flutter_cache_store/flutter_cache_store.dart';
@@ -15,8 +13,6 @@ import 'package:simple_url_preview/widgets/preview_description.dart';
 // import 'package:simple_url_preview/widgets/preview_site_name.dart';
 import 'package:simple_url_preview/widgets/preview_title.dart';
 import 'package:string_validator/string_validator.dart';
-import 'package:timelines/timelines.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -62,31 +58,31 @@ class SimpleUrlPreview extends StatefulWidget {
   final Function clearText;
 
   final PostEntity postEntity;
-  final Function  onClickAction;
+  final Function onClickAction;
 
-  SimpleUrlPreview({
-    @required this.url,
-    this.previewHeight = 130.0,
-    this.isClosable,
-    this.bgColor,
-    this.titleStyle,
-    this.titleLines = 2,
-    this.descriptionStyle,
-    this.descriptionLines = 3,
-    this.siteNameStyle,
-    this.imageLoaderColor,
-    this.previewContainerPadding,
-    this.onTap,
-    this.homePagePostCreate = false,
-    this.clearText,
-    this.postEntity,
-    this.onClickAction
-  })  : assert(previewHeight >= 130.0,
-  'The preview height should be greater than or equal to 130'),
+  SimpleUrlPreview(
+      {@required this.url,
+      this.previewHeight = 130.0,
+      this.isClosable,
+      this.bgColor,
+      this.titleStyle,
+      this.titleLines = 2,
+      this.descriptionStyle,
+      this.descriptionLines = 3,
+      this.siteNameStyle,
+      this.imageLoaderColor,
+      this.previewContainerPadding,
+      this.onTap,
+      this.homePagePostCreate = false,
+      this.clearText,
+      this.postEntity,
+      this.onClickAction})
+      : assert(previewHeight >= 130.0,
+            'The preview height should be greater than or equal to 130'),
         assert(titleLines <= 2 && titleLines > 0,
-        'The title lines should be less than or equal to 2 and not equal to 0'),
+            'The title lines should be less than or equal to 2 and not equal to 0'),
         assert(descriptionLines <= 3 && descriptionLines > 0,
-        'The description lines should be less than or equal to 3 and not equal to 0');
+            'The description lines should be less than or equal to 3 and not equal to 0');
 
   @override
   _SimpleUrlPreviewState createState() => _SimpleUrlPreviewState();
@@ -109,7 +105,6 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
 
   bool isVideoPlay = false;
   //widget.homePagePostCreate true close icon show : -
-
 
   @override
   void initState() {
@@ -178,269 +173,302 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
 
   void _extractOGData(htmlDom.Document document, Map data, String parameter) {
     var titleMetaTag = document.getElementsByTagName("meta")?.firstWhere(
-            (meta) => meta.attributes['property'] == parameter,
+        (meta) => meta.attributes['property'] == parameter,
         orElse: () => null);
     if (titleMetaTag != null) {
       data[parameter] = titleMetaTag.attributes['content'];
     }
   }
 
-
-
   void _launchURL() async {
-
     // isVideoPlay = !isVideoPlay;
     // setState(() {});
 
-    YoutubePlayerController _controller = YoutubePlayerController (
+    YoutubePlayerController _controller = YoutubePlayerController(
       initialVideoId: YoutubePlayer.convertUrlToId(widget.url),
-      flags: const YoutubePlayerFlags (
+      flags: const YoutubePlayerFlags(
         autoPlay: true,
         mute: false,
       ),
     );
 
-    showAnimatedDialog (
+    showAnimatedDialog(
         barrierDismissible: true,
-        context: context, builder: (c) => StatefulBuilder(builder: (context, setState) {
-          return Container (
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            color: AppColors.alertBg.withOpacity(0.5),
-            child: SafeArea(child: Stack (
-              children: [
+        context: context,
+        builder: (c) => StatefulBuilder(builder: (context, setState) {
+              return Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                color: AppColors.alertBg.withOpacity(0.5),
+                child: SafeArea(
+                    child: Stack(
+                  children: [
+                    // Align (
+                    //   alignment: Alignment.topRight,
+                    //   child: InkWell (
+                    //     onTap: () {
+                    //       ExtendedNavigator.root.pop();
+                    //     },
+                    //     child: Container (
+                    //       height: 50,
+                    //       width: 50,
+                    //       padding: EdgeInsets.only(right: 20, left: 20),
+                    //       decoration: BoxDecoration (
+                    //         color: Colors.blue.withOpacity(0.4),
+                    //       ),
+                    //       child: Icon(Icons.close, color: Colors.white, size: 30),
+                    //     ),
+                    //   ),
+                    // ),
 
-                // Align (
-                //   alignment: Alignment.topRight,
-                //   child: InkWell (
-                //     onTap: () {
-                //       ExtendedNavigator.root.pop();
-                //     },
-                //     child: Container (
-                //       height: 50,
-                //       width: 50,
-                //       padding: EdgeInsets.only(right: 20, left: 20),
-                //       decoration: BoxDecoration (
-                //         color: Colors.blue.withOpacity(0.4),
-                //       ),
-                //       child: Icon(Icons.close, color: Colors.white, size: 30),
-                //     ),
-                //   ),
-                // ),
-
-                Align (
-                  alignment: Alignment.topRight,
-                  child: InkWell (
-                    onTap: () {
-                      ExtendedNavigator.root.pop();
-                    },
-                    child: Container (
-                      height: 52,
-                      width: 52,
-                      decoration: BoxDecoration (
-                        color: Colors.blue.withOpacity(0.4),
-                      ),
-                      child: Icon(Icons.close, color: Colors.white, size: 30),
-                    ),
-                  ),
-                ),
-
-
-                Center (
-                  child: Column (
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-
-
-                      YoutubePlayer (
-                        controller: _controller,
-                        liveUIColor: Colors.grey,
-
-                      ),
-
-                      Container (
-                        height: 35,
-                        margin: EdgeInsets.only(top: 10),
-                        alignment: Alignment.center,
-                        child: Row (
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-
-                            InkWell (
-                              onTap: ()  {
-                                widget.onClickAction(0);
-                                Future.delayed(Duration(milliseconds: 300), () {
-                                  setState(() {});
-                                });
-                              },
-
-                              child: Row (
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  const Padding(padding: EdgeInsets.only(top: 0), child: Image (
-                                      height: 20,
-                                      width: 20,
-                                      image: AssetImage("images/png_image/white_message.png"), color: Color(0xFFFFFFFF))
-                                  ),
-                                  Padding(padding: const EdgeInsets.only(bottom: 0, left: 5), child: Text(widget?.postEntity?.commentCount ?? "0",
-                                      style: const TextStyle(color: Color(0xFFFFFFFF), fontFamily: "CeraPro", fontWeight: FontWeight.w400, fontSize: 14)))
-                                ],
-                              ),
-                              // child: buildPostButton(const Image (
-                              //           height: 20,
-                              //           width: 20,
-                              //           image: AssetImage("images/png_image/message.png"), color: const Color(0xFF737880),
-                              // ),
-                              //     widget.postEntity.commentCount ?? "", color: const Color(0xFF737880)),
-
-                              // child: buildPostButton(AppIcons.commentIcon,
-                              //         widget.postEntity.commentCount ?? "").toPadding(8),
-                            ),
-
-                            InkWell (
-                              onTap: () {
-
-                                widget.onClickAction(1);
-                                Future.delayed(Duration(milliseconds: 50), () {
-                                  setState(() {});
-                                });
-
-                              },
-                              child:  Row (
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-
-                                  Padding(padding: EdgeInsets.only(top: 0), child: Image (
-                                      height: 20,
-                                      width: 20,
-                                      image: AssetImage(widget?.postEntity?.isLiked ?? false ?
-                                      "images/png_image/heart.png" :
-                                      "images/png_image/white_like.png"
-                                      ), color: widget?.postEntity?.isLiked ?? false ? Colors.red : Color(0xFFFFFFFF))
-                                  ),
-                                  // ? AppIcons.heartIcon(color: Colors.red)
-                                  // : AppIcons.likeIcon(color: const Color(0xFF737880))),
-
-                                  Padding (
-                                      padding: const EdgeInsets.only(bottom: 0, left: 5),
-                                      child: Text(widget?.postEntity?.likeCount ?? "0",
-                                          style: TextStyle(color: widget?.postEntity?.isLiked ?? false ? Colors.red : Color(0xFFFFFFFF), fontFamily: "CeraPro", fontWeight: FontWeight.w400, fontSize: 14)))
-                                ],
-                              ),
-                              // child: buildPostButton (
-                              //     widget.postEntity.isLiked
-                              //         ? AppIcons.heartIcon
-                              //         : AppIcons.likeIcon,
-                              //     widget.postEntity.likeCount ?? "",
-                              //     isLiked: widget.postEntity.isLiked ?? false,
-                              //     color: widget.postEntity.isLiked ? Colors.red : const Color(0xFF737880)).toPadding(8),
-                            ),
-
-
-                            InkWell (
-                              onTap: () {
-                                widget.onClickAction(2);
-                                ExtendedNavigator.root.pop();
-                                // Future.delayed(Duration(milliseconds: 300), () {
-                                //   // setState(() {});
-                                // });
-                              },
-
-                              child: Row (
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Padding (
-                                      padding: EdgeInsets.only(top: 0),
-                                      child: Image (
-                                          height: 20,
-                                          width: 20,
-                                          image: AssetImage( widget?.postEntity?.isReposted ?? false ? "images/png_image/blur_share.png" : "images/png_image/white_repost.png"))
-                                  ),
-                                  Padding(padding: const EdgeInsets.only(bottom: 0, left: 5), child: Text(widget?.postEntity?.repostCount ?? "0",
-                                      style: TextStyle(color: widget?.postEntity?.isReposted ?? false ? AppColors.alertBg : Color(0xFFFFFFFF), fontFamily: "CeraPro", fontWeight: FontWeight.w400, fontSize: 14)))
-                                ],
-                              ),
-
-                              // child: buildPostButton(
-                              //            Image (
-                              //             height: 20,
-                              //             width: 20,
-                              //             image: const AssetImage("images/png_image/re_post.png"),
-                              //               color: widget.postEntity.isReposted
-                              //                       ? AppColors.colorPrimary
-                              //                       : const Color(0xFF737880)),
-                              //         // AppIcons.repostIcon(
-                              //         //     color: widget.postEntity.isReposted
-                              //         //         ? AppColors.colorPrimary
-                              //         //         : AppColors.textColor),
-                              //         widget.postEntity.repostCount ?? "",
-                              //         color: AppColors.colorPrimary,
-                              //         isLiked: widget.postEntity.isReposted)
-                              //     .toPadding(8),
-
-                              // child: buildPostButton(
-                              //         AppIcons.repostIcon(
-                              //             color: widget.postEntity.isReposted
-                              //                 ? AppColors.colorPrimary
-                              //                 : AppColors.textColor),
-                              //         widget.postEntity.repostCount ?? "",
-                              //         color: AppColors.colorPrimary,
-                              //         isLiked: widget.postEntity.isReposted)
-                              //     .toPadding(8),
-
-                            ),
-
-                            InkWell (
-                              onTap: () {
-                                widget.onClickAction(3);
-                                Future.delayed(Duration(milliseconds: 300), () {
-                                  setState(() {});
-                                });
-                              },
-                              child: const Image (
-                                  height: 20,
-                                  width: 20,
-                                  image: const AssetImage("images/png_image/white_share.png"),
-                                  color: const Color(0xFFFFFFFF)
-                              ),
-                            )
-
-                          ],
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: InkWell(
+                        onTap: () {
+                          ExtendedNavigator.root.pop();
+                        },
+                        child: Container(
+                          height: 52,
+                          width: 52,
+                          decoration: BoxDecoration(
+                            color: Colors.blue.withOpacity(0.4),
+                          ),
+                          child:
+                              Icon(Icons.close, color: Colors.white, size: 30),
                         ),
                       ),
-                    ],
-                  ),
-                ),
+                    ),
 
-              ],
-            )),
-          );
+                    Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          YoutubePlayer(
+                            controller: _controller,
+                            liveUIColor: Colors.grey,
+                          ),
+                          Container(
+                            height: 35,
+                            margin: EdgeInsets.only(top: 10),
+                            alignment: Alignment.center,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    widget.onClickAction(0);
+                                    Future.delayed(Duration(milliseconds: 300),
+                                        () {
+                                      setState(() {});
+                                    });
+                                  },
 
-      })
-    );
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      const Padding(
+                                          padding: EdgeInsets.only(top: 0),
+                                          child: Image(
+                                              height: 20,
+                                              width: 20,
+                                              image: AssetImage(
+                                                  "images/png_image/white_message.png"),
+                                              color: Color(0xFFFFFFFF))),
+                                      Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 0, left: 5),
+                                          child: Text(
+                                              widget?.postEntity
+                                                      ?.commentCount ??
+                                                  "0",
+                                              style: const TextStyle(
+                                                  color: Color(0xFFFFFFFF),
+                                                  fontFamily: "CeraPro",
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 14)))
+                                    ],
+                                  ),
+                                  // child: buildPostButton(const Image (
+                                  //           height: 20,
+                                  //           width: 20,
+                                  //           image: AssetImage("images/png_image/message.png"), color: const Color(0xFF737880),
+                                  // ),
+                                  //     widget.postEntity.commentCount ?? "", color: const Color(0xFF737880)),
+
+                                  // child: buildPostButton(AppIcons.commentIcon,
+                                  //         widget.postEntity.commentCount ?? "").toPadding(8),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    widget.onClickAction(1);
+                                    Future.delayed(Duration(milliseconds: 50),
+                                        () {
+                                      setState(() {});
+                                    });
+                                  },
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                          padding: EdgeInsets.only(top: 0),
+                                          child: Image(
+                                              height: 20,
+                                              width: 20,
+                                              image: AssetImage(widget
+                                                          ?.postEntity
+                                                          ?.isLiked ??
+                                                      false
+                                                  ? "images/png_image/heart.png"
+                                                  : "images/png_image/white_like.png"),
+                                              color:
+                                                  widget?.postEntity?.isLiked ??
+                                                          false
+                                                      ? Colors.red
+                                                      : Color(0xFFFFFFFF))),
+                                      // ? AppIcons.heartIcon(color: Colors.red)
+                                      // : AppIcons.likeIcon(color: const Color(0xFF737880))),
+
+                                      Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 0, left: 5),
+                                          child: Text(
+                                              widget?.postEntity?.likeCount ??
+                                                  "0",
+                                              style: TextStyle(
+                                                  color: widget?.postEntity
+                                                              ?.isLiked ??
+                                                          false
+                                                      ? Colors.red
+                                                      : Color(0xFFFFFFFF),
+                                                  fontFamily: "CeraPro",
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 14)))
+                                    ],
+                                  ),
+                                  // child: buildPostButton (
+                                  //     widget.postEntity.isLiked
+                                  //         ? AppIcons.heartIcon
+                                  //         : AppIcons.likeIcon,
+                                  //     widget.postEntity.likeCount ?? "",
+                                  //     isLiked: widget.postEntity.isLiked ?? false,
+                                  //     color: widget.postEntity.isLiked ? Colors.red : const Color(0xFF737880)).toPadding(8),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    widget.onClickAction(2);
+                                    ExtendedNavigator.root.pop();
+                                    // Future.delayed(Duration(milliseconds: 300), () {
+                                    //   // setState(() {});
+                                    // });
+                                  },
+
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                          padding: EdgeInsets.only(top: 0),
+                                          child: Image(
+                                              height: 20,
+                                              width: 20,
+                                              image: AssetImage(widget
+                                                          ?.postEntity
+                                                          ?.isReposted ??
+                                                      false
+                                                  ? "images/png_image/blur_share.png"
+                                                  : "images/png_image/white_repost.png"))),
+                                      Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 0, left: 5),
+                                          child: Text(
+                                              widget?.postEntity?.repostCount ??
+                                                  "0",
+                                              style: TextStyle(
+                                                  color: widget?.postEntity
+                                                              ?.isReposted ??
+                                                          false
+                                                      ? AppColors.alertBg
+                                                      : Color(0xFFFFFFFF),
+                                                  fontFamily: "CeraPro",
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 14)))
+                                    ],
+                                  ),
+
+                                  // child: buildPostButton(
+                                  //            Image (
+                                  //             height: 20,
+                                  //             width: 20,
+                                  //             image: const AssetImage("images/png_image/re_post.png"),
+                                  //               color: widget.postEntity.isReposted
+                                  //                       ? AppColors.colorPrimary
+                                  //                       : const Color(0xFF737880)),
+                                  //         // AppIcons.repostIcon(
+                                  //         //     color: widget.postEntity.isReposted
+                                  //         //         ? AppColors.colorPrimary
+                                  //         //         : AppColors.textColor),
+                                  //         widget.postEntity.repostCount ?? "",
+                                  //         color: AppColors.colorPrimary,
+                                  //         isLiked: widget.postEntity.isReposted)
+                                  //     .toPadding(8),
+
+                                  // child: buildPostButton(
+                                  //         AppIcons.repostIcon(
+                                  //             color: widget.postEntity.isReposted
+                                  //                 ? AppColors.colorPrimary
+                                  //                 : AppColors.textColor),
+                                  //         widget.postEntity.repostCount ?? "",
+                                  //         color: AppColors.colorPrimary,
+                                  //         isLiked: widget.postEntity.isReposted)
+                                  //     .toPadding(8),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    widget.onClickAction(3);
+                                    Future.delayed(Duration(milliseconds: 300),
+                                        () {
+                                      setState(() {});
+                                    });
+                                  },
+                                  child: const Image(
+                                      height: 20,
+                                      width: 20,
+                                      image: const AssetImage(
+                                          "images/png_image/white_share.png"),
+                                      color: const Color(0xFFFFFFFF)),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                )),
+              );
+            }));
 
     // if (await canLaunch(Uri.encodeFull(widget.url))) {
     //   await launch(Uri.encodeFull(widget.url));
     // } else {
     //   throw 'Could not launch ${widget.url}';
     // }
-
   }
 
   @override
   Widget build(BuildContext context) {
-
     _isClosable = widget.isClosable ?? false;
     _bgColor = widget.bgColor ?? Theme.of(context).primaryColor;
     _imageLoaderColor =
-        widget.imageLoaderColor ?? Theme.of(context).accentColor;
+        widget.imageLoaderColor ?? Theme.of(context).colorScheme.secondary;
     _initialize();
 
     if (_urlPreviewData == null || !_isVisible) {
-
       // Future.delayed(Duration(seconds: 3), () {
       //   return Expanded(child: Container(
       //     alignment: Alignment.center,
@@ -455,7 +483,6 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
       // });
 
       return SizedBox();
-
     }
 
     // isVideoPlay && !widget.homePagePostCreate ? YouTubePlayer(
@@ -463,54 +490,52 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
     //   path: widget.url,
     //   withAppBar: false,
     // ) :
-    return  Container (
+    return Container(
       padding: _previewContainerPadding,
       height: _previewHeight,
-      child: Stack (
+      child: Stack(
         children: [
-          GestureDetector (
+          GestureDetector(
             onTap: _onTap,
             child: _buildPreviewCard(context),
           ),
           _buildClosablePreview(),
-
-          widget.homePagePostCreate ? Align (
-            alignment: Alignment.topRight,
-            child: InkWell (
-              onTap: () {
-                // _onTap();
-                widget.clearText();
-              },
-              child: Container (
-                height: 20,
-                width: 20,
-                margin: EdgeInsets.only(right: 20, top: 5),
-                decoration: BoxDecoration (
-                    color: AppColors.twitterBlue,
-                    shape: BoxShape.circle
-                ),
-                child: const Icon(Icons.close, color: Colors.white, size: 15),
-              ),
-            ),
-          ) : Align (
-            alignment: Alignment.topCenter,
-            child: InkWell (
-              onTap: () {
-                _onTap();
-              },
-              child: Container (
-                height: 35,
-                width: 35,
-                margin: EdgeInsets.only(top: 60),
-                decoration: BoxDecoration (
-                    color: Colors.black.withOpacity(0.8),
-                    shape: BoxShape.circle
-                ),
-                child: const Icon(Icons.play_arrow, color: Colors.white),
-              ),
-            ),
-          )
-
+          widget.homePagePostCreate
+              ? Align(
+                  alignment: Alignment.topRight,
+                  child: InkWell(
+                    onTap: () {
+                      // _onTap();
+                      widget.clearText();
+                    },
+                    child: Container(
+                      height: 20,
+                      width: 20,
+                      margin: EdgeInsets.only(right: 20, top: 5),
+                      decoration: BoxDecoration(
+                          color: AppColors.twitterBlue, shape: BoxShape.circle),
+                      child: const Icon(Icons.close,
+                          color: Colors.white, size: 15),
+                    ),
+                  ),
+                )
+              : Align(
+                  alignment: Alignment.topCenter,
+                  child: InkWell(
+                    onTap: () {
+                      _onTap();
+                    },
+                    child: Container(
+                      height: 35,
+                      width: 35,
+                      margin: EdgeInsets.only(top: 60),
+                      decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.8),
+                          shape: BoxShape.circle),
+                      child: const Icon(Icons.play_arrow, color: Colors.white),
+                    ),
+                  ),
+                )
         ],
       ),
     );
@@ -518,94 +543,91 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
 
   Widget _buildClosablePreview() {
     return _isClosable
-        ? Align (
-      alignment: Alignment.topRight,
-      child: IconButton (
-        icon: Icon (
-          Icons.clear,
-        ),
-        onPressed: () {
-          setState(() {
-            _isVisible = false;
-          });
-        },
-      ),
-    ) : SizedBox();
+        ? Align(
+            alignment: Alignment.topRight,
+            child: IconButton(
+              icon: Icon(
+                Icons.clear,
+              ),
+              onPressed: () {
+                setState(() {
+                  _isVisible = false;
+                });
+              },
+            ),
+          )
+        : SizedBox();
   }
 
   _buildPreviewCard(BuildContext context) {
-    return Container (
+    return Container(
       // elevation: 5,
-      margin: EdgeInsets.only(left: widget.homePagePostCreate ? 70 : 0, right: widget.homePagePostCreate ? 15 : 0 ),
-      decoration: BoxDecoration (
-        color: Colors.white,
-        border: Border.all(color: Colors.grey.withOpacity(0.5)),
-        borderRadius: BorderRadius.circular(10)
-      ),
-      child: Column (
+      margin: EdgeInsets.only(
+          left: widget.homePagePostCreate ? 70 : 0,
+          right: widget.homePagePostCreate ? 15 : 0),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Colors.grey.withOpacity(0.5)),
+          borderRadius: BorderRadius.circular(10)),
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Expanded(child: PreviewImage (
+          Expanded(
+              child: PreviewImage(
             _urlPreviewData['og:image'],
             _imageLoaderColor,
           )),
-
-          Container (
+          Container(
             height: 85,
             padding: EdgeInsets.all(8),
             alignment: Alignment.topLeft,
-            child: Column (
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                PreviewTitle (
-                    _urlPreviewData['og:title'],
-                    _titleStyle == null
-                        ? const TextStyle (
-                      fontWeight: FontWeight.w500,
-                      fontSize: 15,
-                      fontFamily: "CeraPro",
-                      color: Colors.black,
-                    ) : _titleStyle,
-                      1,
-                    // _titleLines
+                PreviewTitle(
+                  _urlPreviewData['og:title'],
+                  _titleStyle == null
+                      ? const TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                          fontFamily: "CeraPro",
+                          color: Colors.black,
+                        )
+                      : _titleStyle,
+                  1,
+                  // _titleLines
                 ),
                 PreviewDescription(
                   _urlPreviewData['og:description'],
                   _descriptionStyle == null
-                      ? const TextStyle (
-                    fontSize: 10,
-                    color: Colors.black,
-                  )
+                      ? const TextStyle(
+                          fontSize: 10,
+                          color: Colors.black,
+                        )
                       : _descriptionStyle,
-                    2,
+                  2,
 
                   // _descriptionLines,
                 ),
-
                 PreviewSiteName(
                   widget.url,
                   // _urlPreviewData['og:site_name'],
                   _siteNameStyle == null
                       ? TextStyle(
-                    fontSize: 10,
-                    color: Theme.of(context).accentColor,
-                  )
+                          fontSize: 10,
+                          color: Theme.of(context).colorScheme.secondary,
+                        )
                       : _siteNameStyle,
-
                 ),
-
               ],
             ),
           ),
-
         ],
       ),
     );
   }
-
 }
-
 
 /// Shows site name of URL
 class PreviewSiteName extends StatelessWidget {
@@ -639,9 +661,10 @@ class PreviewImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (_image != null) {
-      return ClipRRect (
+      return ClipRRect(
         // borderRadius: BorderRadius.circular(10),
-        borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+        borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(10), topRight: Radius.circular(10)),
         child: CachedNetworkImage(
           imageUrl: _image,
           width: MediaQuery.of(context).size.width,
@@ -666,13 +689,13 @@ class PreviewImage extends StatelessWidget {
                   margin: EdgeInsets.all(5),
                   child: CircularProgressIndicator(
                     strokeWidth: 2.0,
-                    valueColor : AlwaysStoppedAnimation(Colors.white),
+                    valueColor: AlwaysStoppedAnimation(Colors.white),
                   ),
                 ),
               ),
             ],
           ),
-         /* progressIndicatorBuilder: (context, url, downloadProgress) => Icon(
+          /* progressIndicatorBuilder: (context, url, downloadProgress) => Icon(
             Icons.more_horiz,
             color: _imageLoaderColor,
           ),*/

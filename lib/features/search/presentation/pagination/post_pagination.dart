@@ -1,6 +1,3 @@
-
-
-
 // @injectable
 // class PostPagination extends CustomPagination<PostEntity> with PostInteractionMixin,SearchingMixin<PostEntity>{
 //

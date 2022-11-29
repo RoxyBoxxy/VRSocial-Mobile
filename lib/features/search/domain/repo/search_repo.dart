@@ -5,8 +5,11 @@ import 'package:colibri/features/search/domain/entity/people_entity.dart';
 import 'package:colibri/features/search/domain/entity/hashtag_entity.dart';
 import 'package:dartz/dartz.dart';
 
-abstract class SearchRepo{
-  Future<Either<Failure,List<HashTagEntity>>> searchHashtag(TextModelWithOffset model);
-  Future<Either<Failure,List<PeopleEntity>>> searchPeople(TextModelWithOffset model);
-  Future<Either<Failure,List<PostEntity>>> searchPosts(TextModelWithOffset model);
+abstract class SearchRepo {
+  Future<Either<Failure, List<HashTagEntity>>> searchHashtag(
+      TextModelWithOffset model);
+  Future<Either<Failure, List<PeopleEntity>>> searchPeople(
+      TextModelWithOffset model);
+  Future<Either<Failure, List<PostEntity>>> searchPosts(
+      TextModelWithOffset model);
 }

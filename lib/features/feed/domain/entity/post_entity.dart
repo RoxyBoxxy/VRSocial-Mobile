@@ -1,7 +1,4 @@
-import 'dart:convert' as utf8;
 
-import 'package:auto_route/auto_route.dart';
-import 'package:colibri/features/authentication/data/models/login_response.dart';
 
 import 'package:colibri/features/feed/data/models/feeds_response.dart';
 import 'package:colibri/features/feed/domain/entity/post_media.dart';
@@ -12,6 +9,7 @@ import 'package:colibri/features/profile/data/models/response/profile_posts_resp
 import 'package:equatable/equatable.dart';
 import 'package:faker/faker.dart';
 import 'package:colibri/extensions.dart';
+import 'package:flutter/foundation.dart';
 
 class PostEntity extends Equatable {
   final String postId;
@@ -113,7 +111,8 @@ class PostEntity extends Equatable {
       this.parentPostUsername,
       this.postOwnerVerified = false,
       this.ogData,
-      this.reposterFullname = null,this.isRposterCurrentUser=false});
+      this.reposterFullname = null,
+      this.isRposterCurrentUser = false});
 
   factory PostEntity.fromFeed(Feed data, {Feed previous}) {
     return PostEntity._(
@@ -148,14 +147,15 @@ class PostEntity extends Equatable {
         userProfileUrl: data.avatar,
         reposterFullname: data?.reposter?.name,
         urlForSharing: data.url,
-        ogData : data?.ogData != null ? data.ogData : null,
+        ogData: data?.ogData != null ? data.ogData : null,
         postOwnerVerified: data.owner.verified.isVerifiedUser);
   }
 
   factory PostEntity.fromDummy() {
     return PostEntity._(
         postId: faker.guid.guid(),
-        profileUrl: "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50",
+        profileUrl:
+            "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50",
         name: faker.person.name(),
         userName: faker.person.lastName(),
         time: "2 mins ago",
@@ -179,40 +179,43 @@ class PostEntity extends Equatable {
   factory PostEntity.fromProfilePosts(ProfilePost data) {
     ///123456
     return PostEntity._(
-      postId: data.id.toString(),
-      profileUrl: data.owner.avatar,
-      name: data.owner.name,
-      userName: data.owner.username,
-      time: data.time,
-      // description: faker.lorem.sentence(),
-      description: data.text ?? "",
-      media: data.media?.map((e) => PostMedia.fromProfilePostMedia(e))?.toList() ?? [],
-      isLiked: data.hasLiked,
-      isCommented: data.hasSaved,
-      isReposted: data.hasReposted,
-      likeCount: data.likesCount,
-      repostCount: data.repostsCount,
-      commentCount: data.replysCount,
-      offSetId: data.offsetId,
-      isAdvertisement: data.advertising,
-      isSaved: data.hasSaved,
-      threadID: data.id,
-      isOtherUser: !data.isOwner,
-      otherUserId: !data.isOwner ? data.owner.id.toString() : null,
-      showRepostedText: data.isRepost,
-      coverUrl: data.cover,
-      userProfileUrl: data.avatar,
-      urlForSharing: data.url,
-      responseTo: data?.replyTo?.name,
-      responseToUserId: data?.replyTo?.id.toString(),
-      advertisementEntity: data.advertising
-          ? AdvertisementEntity.fromAdsResponse(data.advertisementResponse)
-          : null,
-      postOwnerVerified: data.owner.verified.isVerifiedUser,
-      reposterFullname: data?.reposter?.name,
-      ogData: data?.ogData != null && data.ogData != "" ? data?.ogData : null
-      // ogData: data?.ogData != null ? data?.ogData : null
-    );
+        postId: data.id.toString(),
+        profileUrl: data.owner.avatar,
+        name: data.owner.name,
+        userName: data.owner.username,
+        time: data.time,
+        // description: faker.lorem.sentence(),
+        description: data.text ?? "",
+        media: data.media
+                ?.map((e) => PostMedia.fromProfilePostMedia(e))
+                ?.toList() ??
+            [],
+        isLiked: data.hasLiked,
+        isCommented: data.hasSaved,
+        isReposted: data.hasReposted,
+        likeCount: data.likesCount,
+        repostCount: data.repostsCount,
+        commentCount: data.replysCount,
+        offSetId: data.offsetId,
+        isAdvertisement: data.advertising,
+        isSaved: data.hasSaved,
+        threadID: data.id,
+        isOtherUser: !data.isOwner,
+        otherUserId: !data.isOwner ? data.owner.id.toString() : null,
+        showRepostedText: data.isRepost,
+        coverUrl: data.cover,
+        userProfileUrl: data.avatar,
+        urlForSharing: data.url,
+        responseTo: data?.replyTo?.name,
+        responseToUserId: data?.replyTo?.id.toString(),
+        advertisementEntity: data.advertising
+            ? AdvertisementEntity.fromAdsResponse(data.advertisementResponse)
+            : null,
+        postOwnerVerified: data.owner.verified.isVerifiedUser,
+        reposterFullname: data?.reposter?.name,
+        ogData: data?.ogData != null && data.ogData != "" ? data?.ogData : null
+        // ogData: data?.ogData != null ? data?.ogData : null
+        );
   }
 
   factory PostEntity.fromPostDetails(NextPostItem data, {Feed previous}) {
@@ -240,7 +243,7 @@ class PostEntity extends Equatable {
         threadID: data.id,
         responseTo: data?.replyTo?.name,
         responseToUserId: data?.replyTo?.id.toString(),
-        isOtherUser: data.owner.id.toString()!=data?.replyTo.toString(),
+        isOtherUser: data.owner.id.toString() != data?.replyTo.toString(),
         previous: previous != null ? PostEntity.fromFeed(previous) : null,
         showRepostedText: data.isRepost,
         userProfileUrl: null,
@@ -248,12 +251,10 @@ class PostEntity extends Equatable {
         reposterFullname: data?.reposter?.name,
         urlForSharing: data.url,
         postOwnerVerified: data.owner.verified.isVerifiedUser,
-        ogData: data?.ogData != null ? data?.ogData : null
-
-    );
+        ogData: data?.ogData != null ? data?.ogData : null);
   }
 
-  PostEntity copyWith (
+  PostEntity copyWith(
       {String commentCount,
       String description,
       bool isAdvertisement,
@@ -281,51 +282,49 @@ class PostEntity extends Equatable {
       bool showFullDivider,
       String parentPostUsername,
       String reposterFullname,
-        String responseToUserId,
+      String responseToUserId,
       bool isOtherUser,
       final ogData
       // OgDataClass1 ogData
 
       }) {
     return PostEntity._(
-      commentCount: commentCount ?? this.commentCount,
-      description: description ?? this.description,
-      isAdvertisement: isAdvertisement ?? this.isAdvertisement,
-      isCommented: isCommented ?? this.isCommented,
-      isLiked: isLiked ?? this.isLiked,
-      isReposted: isReposted ?? this.isReposted,
-      likeCount: likeCount ?? this.likeCount,
-      media: media ?? this.media,
-      name: name ?? this.name,
-      offSetId: offSetId ?? this.offSetId,
-      postId: postId ?? this.postId,
-      profileUrl: profileUrl ?? this.profileUrl,
-      repostCount: repostCount ?? this.repostCount,
-      time: time ?? this.time,
-      userName: userName ?? this.userName,
-      isSaved: isSaved ?? this.isSaved,
-      threadID: threadID ?? this.threadID,
-      replys: replys ?? this.replys,
-      previous: previous ?? this.previous,
-      responseTo: responseTo ?? this.responseTo,
-      isConnected: isConnected ?? this.isConnected,
-      showRepostedText: showRepostedText ?? this.showRepostedText,
-      isReplyItem: isReplyItem ?? this.isReplyItem,
-      parentPostTime: parentPostTime ?? this.parentPostTime,
-      showFullDivider: showFullDivider ?? this.showFullDivider,
-      userProfileUrl: this.userProfileUrl,
-      coverUrl: this.coverUrl,
-      urlForSharing: this.urlForSharing,
-      advertisementEntity: advertisementEntity,
-      parentPostUsername: parentPostUsername ?? this.parentPostUsername,
-      isOtherUser: isOtherUser ?? this.isOtherUser,
-      otherUserId: this.otherUserId,
-      responseToUserId: responseToUserId??this.responseToUserId,
-      postOwnerVerified: postOwnerVerified,
-      reposterFullname: reposterFullname ?? this.reposterFullname,
-      ogData: ogData ?? this.ogData
-
-    );
+        commentCount: commentCount ?? this.commentCount,
+        description: description ?? this.description,
+        isAdvertisement: isAdvertisement ?? this.isAdvertisement,
+        isCommented: isCommented ?? this.isCommented,
+        isLiked: isLiked ?? this.isLiked,
+        isReposted: isReposted ?? this.isReposted,
+        likeCount: likeCount ?? this.likeCount,
+        media: media ?? this.media,
+        name: name ?? this.name,
+        offSetId: offSetId ?? this.offSetId,
+        postId: postId ?? this.postId,
+        profileUrl: profileUrl ?? this.profileUrl,
+        repostCount: repostCount ?? this.repostCount,
+        time: time ?? this.time,
+        userName: userName ?? this.userName,
+        isSaved: isSaved ?? this.isSaved,
+        threadID: threadID ?? this.threadID,
+        replys: replys ?? this.replys,
+        previous: previous ?? this.previous,
+        responseTo: responseTo ?? this.responseTo,
+        isConnected: isConnected ?? this.isConnected,
+        showRepostedText: showRepostedText ?? this.showRepostedText,
+        isReplyItem: isReplyItem ?? this.isReplyItem,
+        parentPostTime: parentPostTime ?? this.parentPostTime,
+        showFullDivider: showFullDivider ?? this.showFullDivider,
+        userProfileUrl: this.userProfileUrl,
+        coverUrl: this.coverUrl,
+        urlForSharing: this.urlForSharing,
+        advertisementEntity: advertisementEntity,
+        parentPostUsername: parentPostUsername ?? this.parentPostUsername,
+        isOtherUser: isOtherUser ?? this.isOtherUser,
+        otherUserId: this.otherUserId,
+        responseToUserId: responseToUserId ?? this.responseToUserId,
+        postOwnerVerified: postOwnerVerified,
+        reposterFullname: reposterFullname ?? this.reposterFullname,
+        ogData: ogData ?? this.ogData);
   }
 
   @override

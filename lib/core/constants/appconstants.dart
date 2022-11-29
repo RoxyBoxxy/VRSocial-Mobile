@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AC {
-
   static SharedPreferences prefs;
-
 
   static SearchCubit searchCubitHash;
   static SearchCubit searchCubitA;
@@ -23,19 +21,15 @@ class AC {
   static var loginResponse;
 
   static getInstance() async {
-
-    prefs =  await SharedPreferences.getInstance();
+    prefs = await SharedPreferences.getInstance();
 
     // loginData();
   }
 
-
   static loginData() {
-
     Future.delayed(Duration(seconds: 2), () async {
       loginResponse = await localDataSource.getUserAuth();
     });
-
   }
 
   void init(BuildContext context) {
@@ -54,19 +48,15 @@ class AC {
     return MediaQuery.of(context).size.height;
   }
 
-
   static device17(BuildContext context) {
     return MediaQuery.of(context).size.width / 23;
   }
-
 
   static device12(BuildContext context) {
     return MediaQuery.of(context).size.width / 36;
   }
 
-
   static device65(BuildContext context) {
     return MediaQuery.of(context).size.width / 6;
   }
-
 }

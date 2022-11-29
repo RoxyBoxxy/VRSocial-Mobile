@@ -1,4 +1,3 @@
-import 'package:bloc/bloc.dart';
 import 'package:colibri/core/common/api/api_constants.dart';
 import 'package:colibri/core/common/failure.dart';
 import 'package:colibri/core/common/pagination/pagination_helper.dart';
@@ -19,74 +18,76 @@ import 'package:colibri/extensions.dart';
 part 'bookmark_state.dart';
 
 @injectable
-class BookmarkCubit extends PostPaginatonCubit<PostEntity,CommonUIState> {
-
-
-  final searchQuery=FieldValidators(null,null);
+class BookmarkCubit extends PostPaginatonCubit<PostEntity, CommonUIState> {
+  final searchQuery = FieldValidators(null, null);
 
   final GetBookmarksUseCase getBookmarksUseCase;
   final AddOrRemoveBookmarkUseCase addOrRemoveUseCase;
   final LikeUnlikeUseCase likeUnlikeUseCase;
   final RepostUseCase repostUseCase;
   final DeletePostUseCase deletePostUseCase;
-  BookmarkCubit(this.getBookmarksUseCase,
-      this.addOrRemoveUseCase,
-      this.likeUnlikeUseCase, this.repostUseCase, this.deletePostUseCase) : super(const CommonUIState.initial());
+  BookmarkCubit(this.getBookmarksUseCase, this.addOrRemoveUseCase,
+      this.likeUnlikeUseCase, this.repostUseCase, this.deletePostUseCase)
+      : super(const CommonUIState.initial());
 
   @override
-  Future<void> addOrRemoveBookmark(int index) async{
-    var item=pagingController.itemList[index];
-    pagingController.itemList[index]=item.copyWith(isSaved: !item.isSaved,);
+  Future<void> addOrRemoveBookmark(int index) async {
+    var item = pagingController.itemList[index];
+    pagingController.itemList[index] = item.copyWith(
+      isSaved: !item.isSaved,
+    );
     pagingController.notifyListeners();
     var either = await addOrRemoveUseCase(item.postId);
     either.fold((l) {
-      var oldItem=pagingController.itemList[index];
-      pagingController.itemList[index]=oldItem.copyWith(isSaved: !oldItem.isSaved,);
+      var oldItem = pagingController.itemList[index];
+      pagingController.itemList[index] = oldItem.copyWith(
+        isSaved: !oldItem.isSaved,
+      );
       pagingController.notifyListeners();
       emit(CommonUIState.error(l.errorMessage));
       emit(const CommonUIState.initial());
     }, (r) {
       pagingController.itemList.removeAt(index);
       pagingController.notifyListeners();
-      var message=Strings.removeBookmark;
+      var message = Strings.removeBookmark;
       emit(CommonUIState.success(message));
       emit(const CommonUIState.initial());
     });
   }
 
-
   @override
-  Future<void> deletePost(int index) async{
-    var either = await deletePostUseCase(pagingController.itemList[index].postId.toString());
+  Future<void> deletePost(int index) async {
+    var either = await deletePostUseCase(
+        pagingController.itemList[index].postId.toString());
     either.fold((l) {
       emit(const CommonUIState.initial());
       emit(CommonUIState.error(l.errorMessage));
-    }, (r){
+    }, (r) {
       emit(const CommonUIState.initial());
       emit(const CommonUIState.success("Deleted Successfully"));
       pagingController.itemList.removeAt(index);
       pagingController.notifyListeners();
-    }
-    );
+    });
   }
 
   @override
-  Future<Either<Failure, List<PostEntity>>> getItems(int pageKey) async{
+  Future<Either<Failure, List<PostEntity>>> getItems(int pageKey) async {
     return await getBookmarksUseCase(pageKey.toString());
   }
 
-
   @override
   int getNextKey(PostEntity item) {
-    return item.offSetId??0;
+    return item.offSetId ?? 0;
   }
 
   @override
   bool isLastPage(List<PostEntity> item) {
     // check if response has an advertisement object
     // if yes then item length will always be [ApiConstants.pageSize+1]
-    if(item.last.isAdvertisement&&item.length==ApiConstants.pageSize+1)return false;
-    else if(!item.last.isAdvertisement&&item.length==ApiConstants.pageSize)return false;
+    if (item.last.isAdvertisement && item.length == ApiConstants.pageSize + 1)
+      return false;
+    else if (!item.last.isAdvertisement && item.length == ApiConstants.pageSize)
+      return false;
     return true;
   }
 
@@ -94,21 +95,26 @@ class BookmarkCubit extends PostPaginatonCubit<PostEntity,CommonUIState> {
   PostEntity getLastItemWithoutAd(List<PostEntity> item) {
     // if there is an ad object as last we will give
     // second last item for calculating offset value
-    if(item.last.isAdvertisement)return item[item.length-2];
+    if (item.last.isAdvertisement) return item[item.length - 2];
     return item.last;
   }
 
   @override
-  Future<void> likeUnlikePost(int index) async{
-    var item=pagingController.itemList[index];
-    pagingController.itemList[index]=item.copyWith(isLiked: !item.isLiked,
-        likeCount: (item.isLiked?item.likeCount.dec:item.likeCount.inc).toString());
+  Future<void> likeUnlikePost(int index) async {
+    var item = pagingController.itemList[index];
+    pagingController.itemList[index] = item.copyWith(
+        isLiked: !item.isLiked,
+        likeCount: (item.isLiked ? item.likeCount.dec : item.likeCount.inc)
+            .toString());
     pagingController.notifyListeners();
     var either = await likeUnlikeUseCase(item.postId);
     either.fold((l) {
-      var oldItem=pagingController.itemList[index];
-      pagingController.itemList[index]=oldItem.copyWith(isLiked: !oldItem.isLiked,
-          likeCount: (oldItem.isLiked?oldItem.likeCount.dec:oldItem.likeCount.inc).toString());
+      var oldItem = pagingController.itemList[index];
+      pagingController.itemList[index] = oldItem.copyWith(
+          isLiked: !oldItem.isLiked,
+          likeCount:
+              (oldItem.isLiked ? oldItem.likeCount.dec : oldItem.likeCount.inc)
+                  .toString());
       pagingController.notifyListeners();
       emit(CommonUIState.error(l.errorMessage));
       emit(const CommonUIState.initial());
@@ -116,34 +122,53 @@ class BookmarkCubit extends PostPaginatonCubit<PostEntity,CommonUIState> {
   }
 
   @override
-  Future<void> repost(int index) async{
-    var item=pagingController.itemList[index];
+  Future<void> repost(int index) async {
+    var item = pagingController.itemList[index];
 
     // remove show reposted image first
-    if(item?.showRepostedText==true){
+    if (item?.showRepostedText == true) {
       pagingController.itemList.removeAt(index);
-      var firstWhere = pagingController.itemList.firstWhere((element) => element.postId==item.postId,orElse:()=> null);
-      if(firstWhere!=null){
-        var index=pagingController.itemList.indexOf(firstWhere);
-        pagingController.itemList[index]=firstWhere.copyWith(isReposted: !item.isReposted,
-            repostCount: (item.isReposted?item.repostCount.dec:item.repostCount.inc).toString());
+      var firstWhere = pagingController.itemList.firstWhere(
+          (element) => element.postId == item.postId,
+          orElse: () => null);
+      if (firstWhere != null) {
+        var index = pagingController.itemList.indexOf(firstWhere);
+        pagingController.itemList[index] = firstWhere.copyWith(
+            isReposted: !item.isReposted,
+            repostCount:
+                (item.isReposted ? item.repostCount.dec : item.repostCount.inc)
+                    .toString());
       }
-
-    }
-    else{
-      var firstWhere = pagingController.itemList.firstWhere((element) => element.postId==item.postId&&element?.showRepostedText==true,orElse:()=> null);
-      if(firstWhere!=null&&firstWhere.showRepostedText){
-        pagingController.itemList.removeAt(pagingController.itemList.indexOf(firstWhere));
-        var firstWhere2 = pagingController.itemList.firstWhere((element) => element.postId==item.postId,orElse:()=> null);
+    } else {
+      var firstWhere = pagingController.itemList.firstWhere(
+          (element) =>
+              element.postId == item.postId &&
+              element?.showRepostedText == true,
+          orElse: () => null);
+      if (firstWhere != null && firstWhere.showRepostedText) {
+        pagingController.itemList
+            .removeAt(pagingController.itemList.indexOf(firstWhere));
+        var firstWhere2 = pagingController.itemList.firstWhere(
+            (element) => element.postId == item.postId,
+            orElse: () => null);
         var indexOf = pagingController.itemList.indexOf(firstWhere2);
-        pagingController.itemList[indexOf]=firstWhere2.copyWith(isReposted: false,repostCount: firstWhere2.repostCount.dec);
-      }
-      else{
-        pagingController.itemList[index]=item.copyWith(isReposted: !item.isReposted,
-            repostCount: (item.isReposted?item.repostCount.dec:item.repostCount.inc).toString());
+        pagingController.itemList[indexOf] = firstWhere2.copyWith(
+            isReposted: false, repostCount: firstWhere2.repostCount.dec);
+      } else {
+        pagingController.itemList[index] = item.copyWith(
+            isReposted: !item.isReposted,
+            repostCount:
+                (item.isReposted ? item.repostCount.dec : item.repostCount.inc)
+                    .toString());
 
-
-        pagingController..itemList.insert(0, item.copyWith(showRepostedText: true,repostCount: item.repostCount.inc.toString(),isReposted: true))..notifyListeners();
+        pagingController
+          ..itemList.insert(
+              0,
+              item.copyWith(
+                  showRepostedText: true,
+                  repostCount: item.repostCount.inc.toString(),
+                  isReposted: true))
+          ..notifyListeners();
       }
     }
     pagingController.notifyListeners();
@@ -152,17 +177,17 @@ class BookmarkCubit extends PostPaginatonCubit<PostEntity,CommonUIState> {
   }
 
   @override
-  Future onOptionItemSelected(PostOptionsEnum postOptionsEnum, int index) async{
-   switch (postOptionsEnum) {
-
-     case PostOptionsEnum.SHOW_LIKES:
-       break;
-     case PostOptionsEnum.BOOKMARK:
-       await addOrRemoveBookmark(index);
-       break;
-     case PostOptionsEnum.DELETE:
-       await deletePost(index);
-       break;
-   }
+  Future onOptionItemSelected(
+      PostOptionsEnum postOptionsEnum, int index) async {
+    switch (postOptionsEnum) {
+      case PostOptionsEnum.SHOW_LIKES:
+        break;
+      case PostOptionsEnum.BOOKMARK:
+        await addOrRemoveBookmark(index);
+        break;
+      case PostOptionsEnum.DELETE:
+        await deletePost(index);
+        break;
+    }
   }
 }

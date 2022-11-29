@@ -25,52 +25,52 @@ dependencies:
   flutter:
     sdk: flutter
   # for functional programming
-  dartz: ^0.9.1
+  dartz: ^0.10.1
   # for api calls
   dio: ^3.0.10
   # Goolge fonts
-  google_fonts: 1.1.0
-  flutter_hooks: ^0.14.0
+  google_fonts: ^1.1.2
+  flutter_hooks: ^0.18.5+1
 #  auto_route: 0.6.9
-#  auto_route: 2.0.0
-  flutter_screenutil: 3.0.2
-  rxdart: ^0.24.1
+  auto_route: 0.6.9
+  flutter_screenutil: ^5.6.0
+  rxdart: ^0.25.0
 #  flutter_svg: ^0.18.0
-  flutter_svg: ^0.20.0-nullsafety.3
-  flutter_bloc: ^6.0.5
+  flutter_svg: ^1.1.6
+  flutter_bloc: ^8.1.1
 #  flutter_bloc: ^6.0.5
-  freezed: ^0.12.1
+  freezed: ^0.14.1+2
   freezed_annotation:
-  equatable: ^1.2.5
+  equatable: ^2.0.5
   injectable: ^1.0.5
-  get_it: ^5.0.1
+  get_it: ^7.2.0
   flushbar: ^1.10.4
-  flutter_webview_plugin: ^0.3.11
-  font_awesome_flutter: ^8.8.1
+  flutter_webview_plugin: ^0.4.0
+  font_awesome_flutter: ^10.2.1
   cached_network_image: ^2.3.2+1
-  image_picker: 0.6.7+8
+  image_picker: ^0.6.7+22
   emoji_picker:
     git:
       url: https://github.com/JeffG05/emoji_picker.git
       ref: e51ffca492de3e43a09e7450638e29f4ee63fec5
-  flutter_animated_dialog: ^1.1.0
+  flutter_animated_dialog: ^2.0.1
   giphy_picker: ^1.0.6
-  flutter_secure_storage: ^3.3.4
+  flutter_secure_storage: ^4.2.1
   intl: ^0.16.1
-  carousel_slider: ^2.3.1
-  video_thumbnail: 0.1.6
+  carousel_slider: ^4.1.1
+  video_thumbnail: ^0.5.3
   video_player:
 #  video_player: 0.11.0
-  photo_view: ^0.10.2
-  flutter_vlc_player: ^4.0.2
-  file_picker: 2.0.10
+  photo_view: ^0.14.0
+  flutter_vlc_player: ^5.0.5
+  file_picker: ^2.1.7
   photo: ^0.4.8
 #  wechat_assets_picker:
 #  wechat_assets_picker: ^4.2.2
   thumbnails: ^1.0.1
-  path_provider: 1.6.27
-  video_compress: ^2.1.0
-  flutter_easyloading: ^2.0.1
+  path_provider: ^1.6.28
+  video_compress: ^3.1.2
+  flutter_easyloading: ^3.0.5
   permission_handler: ^5.0.0+hotfix.4
   better_player: 0.0.61
 #  awesome_dialog: ^1.2.1
@@ -79,37 +79,37 @@ dependencies:
 #  flutter_twitter_login: ^1.1.0
 #  i18n_extension: ^1.4.2
 #  easy_localization: ^2.2.3
-  infinite_scroll_pagination: ^2.2.3
+  infinite_scroll_pagination: ^3.2.0
 #  pretty_dio_logger: ^1.1.1
 #  copy_with_extension_gen: ^1.4.0
-  faker: ^1.3.0
+  faker: ^2.0.0
 #  flutter_swiper: ^1.1.6
-  native_device_orientation: ^0.4.3
-  mime: ^0.9.7
+  native_device_orientation: ^1.1.4
+  mime: ^1.0.2
   velocity_x: ^1.3.1
-  timelines: ^0.0.2+1
+  timelines: ^0.1.0
   url_launcher: ^5.7.10
-  animations: ^1.1.2
+  animations: ^2.0.7
   smart_select: ^4.3.2
-  html_unescape: ^1.0.2
-  flutter_linkify: 4.0.0
+  html_unescape: ^2.0.0
+  flutter_linkify: ^5.0.2
 #  social_share: ^2.0.5
   share: any
-  webview_flutter: ^1.0.7
+  webview_flutter: ^2.0.14
   shared_preferences: ^0.5.12+4
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
-  material_floating_search_bar: ^0.2.6
-  pull_to_refresh: ^1.6.4
+  material_floating_search_bar: ^0.3.7
+  pull_to_refresh: ^2.0.0
   flutter_apns: ^1.4.1
-  flutter_local_notifications: 3.0.0
+  flutter_local_notifications: ^4.0.1+2
   image_cropper: ^1.3.1
   expandable_page_view: ^1.0.1
-  flutter_image_compress: ^0.7.0
-  file_utils: 0.1.4
+  flutter_image_compress: ^1.1.3
+  file_utils: ^1.0.1
   firebase_messaging: ^7.0.3
-  keyboard_actions: ^3.3.1+1
+  keyboard_actions: ^4.1.0
   clipboard_manager: ^0.0.4
 
   firebase_auth: ^0.18.3
@@ -137,10 +137,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  auto_route_generator: 0.6.10
+  # auto_route_generator: ^1.0.2
   build_runner:
   injectable_generator: ^1.0.5
-  copy_with_extension_gen: ^1.4.0
+  copy_with_extension_gen: ^2.0.2
   flutter_keyboard_visibility: ^4.0.0
 
 # For information on the generic Dart part of this file, see the

@@ -29,7 +29,7 @@ openMediaPicker(
     context.showAlertDialog(widgets: [
       "Camera"
           .toSubTitle2(color: AppColors.colorPrimary)
-          .toFlatButton(() async {
+          .toTextButton(() async {
         // Navigator.of(context).pop();
         ExtendedNavigator.root.pop();
         if (mediaType == MediaTypeEnum.IMAGE) {
@@ -46,17 +46,18 @@ openMediaPicker(
           pickedFile = await ImagePicker().getVideo(
             source: ImageSource.camera,
           );
-          /// no need to compress video for ios
-          if(Platform.isAndroid){
-            var videoFile =   await pickedFile?.path?.compressVideo;
-        onMediaSelected(videoFile?.path);
-          }else onMediaSelected(pickedFile.path);
 
+          /// no need to compress video for ios
+          if (Platform.isAndroid) {
+            var videoFile = await pickedFile?.path?.compressVideo;
+            onMediaSelected(videoFile?.path);
+          } else
+            onMediaSelected(pickedFile.path);
         }
       }),
       "Gallery"
           .toSubTitle2(color: AppColors.colorPrimary)
-          .toFlatButton(() async {
+          .toTextButton(() async {
         // Navigator.of(context).pop();
         ExtendedNavigator.root.pop();
         if (mediaType == MediaTypeEnum.IMAGE) {
@@ -74,10 +75,11 @@ openMediaPicker(
           pickedFile = await ImagePicker().getVideo(
             source: ImageSource.gallery,
           );
-          if(Platform.isAndroid){
-            var videoFile =   await pickedFile?.path?.compressVideo;
+          if (Platform.isAndroid) {
+            var videoFile = await pickedFile?.path?.compressVideo;
             onMediaSelected(videoFile?.path);
-          }else onMediaSelected(pickedFile.path);
+          } else
+            onMediaSelected(pickedFile.path);
         }
       }),
     ], title: "Choose media type");
@@ -102,10 +104,9 @@ _requestPermission(BuildContext context, Permission permission) async {
 }
 
 Future<File> _cropImage(String path) async {
-  File croppedFile = await ImageCropper.cropImage(
+  File croppedFile = await ImageCropper().cropImage(
       sourcePath: path,
       aspectRatio: const CropAspectRatio(ratioX: 3, ratioY: 1),
-
       androidUiSettings: const AndroidUiSettings(
           toolbarTitle: 'Cropper',
           toolbarColor: AppColors.colorPrimary,

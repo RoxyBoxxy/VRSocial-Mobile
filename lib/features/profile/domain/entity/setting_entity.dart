@@ -1,16 +1,12 @@
 import 'dart:collection';
 
-import 'package:auto_route/auto_route.dart';
 
-import 'package:auto_route/auto_route.dart';
 
-import 'package:auto_route/auto_route.dart';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:colibri/core/theme/strings.dart';
-import 'package:colibri/features/authentication/data/models/login_response.dart';
 import 'package:colibri/features/profile/data/models/response/privacy_response.dart';
 import 'package:colibri/features/profile/domain/entity/profile_entity.dart';
+import 'package:flutter/foundation.dart';
 
 class SettingEntity {
   final String userName;
@@ -27,52 +23,66 @@ class SettingEntity {
   final bool socialLogin;
   final AccountPrivacyEntity accountPrivacyEntity;
 
-  SettingEntity._({
-    @required this.userName,
-    @required this.email,
-    @required this.website,
-    @required this.about,
-    @required this.gender,
-    @required this.displayLanguage,
-    @required this.country,
-    @required this.accountPrivacyEntity,
-    @required this.name,
-    @required this.firstName,
-    @required this.lastName,
-    @required this.isVerified,
-    this.socialLogin=false
-  });
+  SettingEntity._(
+      {@required this.userName,
+      @required this.email,
+      @required this.website,
+      @required this.about,
+      @required this.gender,
+      @required this.displayLanguage,
+      @required this.country,
+      @required this.accountPrivacyEntity,
+      @required this.name,
+      @required this.firstName,
+      @required this.lastName,
+      @required this.isVerified,
+      this.socialLogin = false});
 
   factory SettingEntity.fromSettingResponse(
-      ProfileEntity user, AccountPrivacyEntity accountPrivacyEntity) => SettingEntity._(
-        userName: user.userName,
-        email: user.email,
-        website: user.website!=null&&user.website.isNotEmpty?user.website:Strings.emptyWebsite,
-        about: user.about!=null&&user.about.isNotEmpty?user.about:Strings.emptyAbout,
-        gender: user.gender,
-        displayLanguage: user.language,
-        country: user.country,
-        name: user.fullName,
-        accountPrivacyEntity: accountPrivacyEntity,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        isVerified: user.isVerified);
+          ProfileEntity user, AccountPrivacyEntity accountPrivacyEntity) =>
+      SettingEntity._(
+          userName: user.userName,
+          email: user.email,
+          website: user.website != null && user.website.isNotEmpty
+              ? user.website
+              : Strings.emptyWebsite,
+          about: user.about != null && user.about.isNotEmpty
+              ? user.about
+              : Strings.emptyAbout,
+          gender: user.gender,
+          displayLanguage: user.language,
+          country: user.country,
+          name: user.fullName,
+          accountPrivacyEntity: accountPrivacyEntity,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          isVerified: user.isVerified);
 
-  SettingEntity copyWith({bool didSocialLogin,String updatedGender,String country,
-    AccountPrivacyEntity accountPrivacyEntity,String displayLang})=> SettingEntity._(
-        userName: userName,
-        email: email,
-        website: website!=null&&website.isNotEmpty?website:"You have not yet determined the URL of your site",
-        about: about!=null&&about.isNotEmpty?about:"The field with information about you is still empty",
-        gender: updatedGender??gender,
-        displayLanguage: displayLang??this.displayLanguage,
-        country: country??this.country,
-        accountPrivacyEntity: accountPrivacyEntity??this.accountPrivacyEntity,
-        name: name,
-        firstName: firstName,
-        lastName: lastName,
-        socialLogin: didSocialLogin,
-        isVerified: isVerified);
+  SettingEntity copyWith(
+          {bool didSocialLogin,
+          String updatedGender,
+          String country,
+          AccountPrivacyEntity accountPrivacyEntity,
+          String displayLang}) =>
+      SettingEntity._(
+          userName: userName,
+          email: email,
+          website: website != null && website.isNotEmpty
+              ? website
+              : "You have not yet determined the URL of your site",
+          about: about != null && about.isNotEmpty
+              ? about
+              : "The field with information about you is still empty",
+          gender: updatedGender ?? gender,
+          displayLanguage: displayLang ?? this.displayLanguage,
+          country: country ?? this.country,
+          accountPrivacyEntity:
+              accountPrivacyEntity ?? this.accountPrivacyEntity,
+          name: name,
+          firstName: firstName,
+          lastName: lastName,
+          socialLogin: didSocialLogin,
+          isVerified: isVerified);
 }
 
 class AccountPrivacyEntity {
@@ -87,26 +97,36 @@ class AccountPrivacyEntity {
       @required this.canDMMe,
       @required this.showProfileInSearchEngine});
 
-  factory AccountPrivacyEntity.fromResponse(PrivacyModel model) => AccountPrivacyEntity._(
-        canSeeMyPosts: model.profileVisibility == "followers"
-            ? Strings.privacyMyFollowers
-            : Strings.privacyEveryOne,
-        canFollowMe: null,
-        canDMMe: model.contactPrivacy == "followed"
-            ? Strings.privacyPeopleIFollow
-            : Strings.privacyEveryOne,
-        showProfileInSearchEngine:
-            model.searchVisibility ? Strings.privacyYes : Strings.privacyNo);
-  HashMap<String,String> toModelJson()=> HashMap.from({
-    "profile_visibility":canSeeMyPosts==Strings.privacyMyFollowers?"followers":"everyone",
-    "contact_privacy":canDMMe==Strings.privacyEveryOne?"everyone":"followed",
-    "follow_privacy":"everyone",
-    "search_visibility":showProfileInSearchEngine==Strings.privacyYes?"Y":"N",
-  });
+  factory AccountPrivacyEntity.fromResponse(PrivacyModel model) =>
+      AccountPrivacyEntity._(
+          canSeeMyPosts: model.profileVisibility == "followers"
+              ? Strings.privacyMyFollowers
+              : Strings.privacyEveryOne,
+          canFollowMe: null,
+          canDMMe: model.contactPrivacy == "followed"
+              ? Strings.privacyPeopleIFollow
+              : Strings.privacyEveryOne,
+          showProfileInSearchEngine:
+              model.searchVisibility ? Strings.privacyYes : Strings.privacyNo);
+  HashMap<String, String> toModelJson() => HashMap.from({
+        "profile_visibility": canSeeMyPosts == Strings.privacyMyFollowers
+            ? "followers"
+            : "everyone",
+        "contact_privacy":
+            canDMMe == Strings.privacyEveryOne ? "everyone" : "followed",
+        "follow_privacy": "everyone",
+        "search_visibility":
+            showProfileInSearchEngine == Strings.privacyYes ? "Y" : "N",
+      });
 
-  AccountPrivacyEntity copyWith({String canSeeMyPosts,String canFollowMe,String showProfileInSearchEngine})=> AccountPrivacyEntity._(
-        canSeeMyPosts: canSeeMyPosts??this.canSeeMyPosts,
-        canFollowMe: null,
-        canDMMe: canFollowMe??this.canFollowMe,
-        showProfileInSearchEngine: showProfileInSearchEngine??this.showProfileInSearchEngine);
+  AccountPrivacyEntity copyWith(
+          {String canSeeMyPosts,
+          String canFollowMe,
+          String showProfileInSearchEngine}) =>
+      AccountPrivacyEntity._(
+          canSeeMyPosts: canSeeMyPosts ?? this.canSeeMyPosts,
+          canFollowMe: null,
+          canDMMe: canFollowMe ?? this.canFollowMe,
+          showProfileInSearchEngine:
+              showProfileInSearchEngine ?? this.showProfileInSearchEngine);
 }

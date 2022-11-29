@@ -1,26 +1,24 @@
-
 import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 @module
 abstract class RegisterModule {
   @lazySingleton
   Dio get dio => Dio();
 
   @preResolve
-  Future<SharedPreferences> get storage async=>  await SharedPreferences.getInstance();
+  Future<SharedPreferences> get storage async =>
+      await SharedPreferences.getInstance();
 
   @lazySingleton
-  GoogleSignIn get googleLogin=> GoogleSignIn(
-    scopes: <String>[
-      'email',
-
-    ],
-  );
-
+  GoogleSignIn get googleLogin => GoogleSignIn(
+        scopes: <String>[
+          'email',
+        ],
+      );
 
   // @lazySingletoncr
   // TwitterLogin get twitterLogin=>TwitterLogin(

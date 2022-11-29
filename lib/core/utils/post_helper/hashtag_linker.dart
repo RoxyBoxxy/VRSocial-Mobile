@@ -9,7 +9,6 @@ class HashTagLinker extends Linkifier {
     // var newElement="Hey there testing the hashtag issue, \n I hope this gets fixed soon. #bug #mobileapp #dukhiKarDitta #FixHoJaHun".split("").map((e) => TextElement(e));
     // get all items
     elements.forEach((element) {
-
       // check if it's contains hashtags
       if (element.text.contains("#")) {
         // helps to keep the index of current iteration

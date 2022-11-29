@@ -13,14 +13,11 @@ import 'package:colibri/features/profile/presentation/bloc/profile_cubit.dart';
 import 'package:colibri/features/profile/presentation/pages/followers_following_screen.dart';
 import 'package:colibri/features/profile/presentation/pages/profile_screen.dart';
 import 'package:colibri/features/profile/presentation/widgets/numberk.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:colibri/extensions.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 
 class SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   SliverAppBarDelegate(this._tabBar);
@@ -34,9 +31,9 @@ class SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => _tabBar.preferredSize.height;
 
   @override
-  Widget build (
+  Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return new Container (
+    return new Container(
       child: _tabBar,
     );
   }
@@ -83,13 +80,14 @@ class _GetStatusBarState extends State<GetStatusBar> {
     String userId,
   }) {
     return [
-      Numeral(num.parse(profileEntity.postCounts)).value().toSubTitle1 (
+      Numeral(num.parse(profileEntity.postCounts)).value().toSubTitle1(
           color: AppColors.colorPrimary, fontWeight: FontWeight.bold),
       4.toSizedBoxHorizontal,
       "Posts".toCaption(),
       15.toSizedBoxHorizontal,
       [
-        Numeral(num.parse(profileEntity.followingCount)).value().toSubTitle1(color: AppColors.colorPrimary, fontWeight: FontWeight.bold),
+        Numeral(num.parse(profileEntity.followingCount)).value().toSubTitle1(
+            color: AppColors.colorPrimary, fontWeight: FontWeight.bold),
         4.toSizedBoxHorizontal,
         "Followings".toSubTitle2(),
       ].toRow(crossAxisAlignment: CrossAxisAlignment.center).onTapWidget(() {
@@ -106,7 +104,7 @@ class _GetStatusBarState extends State<GetStatusBar> {
       }),
       15.toSizedBoxHorizontal,
       [
-        Numeral(num.parse(profileEntity.followerCount)).value().toSubTitle1 (
+        Numeral(num.parse(profileEntity.followerCount)).value().toSubTitle1(
             color: AppColors.colorPrimary, fontWeight: FontWeight.bold),
         4.toSizedBoxHorizontal,
         "Followers".toSubTitle2()
@@ -216,7 +214,7 @@ class _TopAppBarState extends State<TopAppBar> {
 
   Widget getTopAppBar({otherUser = false}) {
     return Stack(
-      overflow: Overflow.visible,
+      clipBehavior: Clip.none,
       children: [
         [
           AspectRatio(
@@ -303,7 +301,7 @@ class _TopAppBarState extends State<TopAppBar> {
                                 color: AppColors.colorPrimary,
                               ),
                               5.toSizedBox,
-                              Container (
+                              Container(
                                 height: 6,
                                 width: 6,
                                 color: AppColors.colorPrimary,
@@ -311,7 +309,7 @@ class _TopAppBarState extends State<TopAppBar> {
                             ],
                           ),
                           5.toSizedBox,
-                          Row (
+                          Row(
                             children: [
                               Container(
                                 height: 6,
@@ -373,7 +371,7 @@ class _TopAppBarState extends State<TopAppBar> {
                 widget.profileEntity.fullName
                     .toHeadLine6(fontWeight: FontWeight.bold)
                     .toEllipsis
-                      .toFlexible(),
+                    .toFlexible(),
                 4.toSizedBoxHorizontal,
                 AppIcons.verifiedIcons
                     .toVisibility(widget.profileEntity.isVerified)
@@ -381,21 +379,31 @@ class _TopAppBarState extends State<TopAppBar> {
               widget.profileEntity.userName.toSubTitle2(
                   fontWeight: FontWeight.w600, color: Colors.black54),
               10.toSizedBox.toVisibility(widget.profileEntity.about.isNotEmpty),
-             [
-               widget.profileEntity.about.toSubTitle2 (
-                 fontWeight: FontWeight.w600,
-                color: widget.profileEntity.about=="About not available"?
-                AppColors.textColor.withOpacity(.4):AppColors.textColor,
-                 maxLines: 1,
-             ).toEllipsis.toFlexible(),
-               "more".toCaption(color: AppColors.colorPrimary).toPadding(4).onTapWidget(() {
-                 context.showOkAlertDialog(desc: widget.profileEntity.about, title: "About you");
-               }).toVisibility( widget.profileEntity.about!="About not available")].toRow(crossAxisAlignment: CrossAxisAlignment.center)
-                 .toVisibility(widget.profileEntity.about.isNotEmpty),
+              [
+                widget.profileEntity.about
+                    .toSubTitle2(
+                      fontWeight: FontWeight.w600,
+                      color: widget.profileEntity.about == "About not available"
+                          ? AppColors.textColor.withOpacity(.4)
+                          : AppColors.textColor,
+                      maxLines: 1,
+                    )
+                    .toEllipsis
+                    .toFlexible(),
+                "more"
+                    .toCaption(color: AppColors.colorPrimary)
+                    .toPadding(4)
+                    .onTapWidget(() {
+                  context.showOkAlertDialog(
+                      desc: widget.profileEntity.about, title: "About you");
+                }).toVisibility(
+                        widget.profileEntity.about != "About not available")
+              ]
+                  .toRow(crossAxisAlignment: CrossAxisAlignment.center)
+                  .toVisibility(widget.profileEntity.about.isNotEmpty),
               13.toSizedBox,
 
               [
-
                 const Icon(
                   FontAwesomeIcons.link,
                   size: 10,
@@ -407,7 +415,7 @@ class _TopAppBarState extends State<TopAppBar> {
               ].toRow(),
               // 8.toSizedBox,
               [
-                const Icon (
+                const Icon(
                   Icons.language,
                   size: 15,
                   color: Colors.black54,
@@ -463,7 +471,7 @@ class _TopAppBarState extends State<TopAppBar> {
                 shape: BoxShape.circle),
             child:
                 widget.profileEntity.profileUrl.toRoundNetworkImage(radius: 17),
-          ).onTapWidget(() async{
+          ).onTapWidget(() async {
             if (!widget.otherUser)
               await openMediaPicker(context, (media) async {
                 profileCubit.changeProfileEntity(

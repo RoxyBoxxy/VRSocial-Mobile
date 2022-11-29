@@ -1,6 +1,6 @@
-import 'package:auto_route/auto_route.dart';
 
 import 'package:colibri/features/search/data/models/hashtags_response.dart';
+import 'package:flutter/foundation.dart';
 
 class HashTagEntity {
   final String id;
@@ -10,7 +10,8 @@ class HashTagEntity {
   HashTagEntity._(
       {@required this.id, @required this.name, @required this.totalPosts});
 
-  factory HashTagEntity.fromHashTag(HashTag item ){
-    return HashTagEntity._(id: item.id.toString(), name: item.hashtag, totalPosts: item.total);
+  factory HashTagEntity.fromHashTag(HashTag item) {
+    return HashTagEntity._(
+        id: item.id.toString(), name: item.hashtag, totalPosts: item.total);
   }
 }

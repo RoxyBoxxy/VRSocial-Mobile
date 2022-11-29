@@ -6,11 +6,11 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class DeleteMediaUseCase extends UseCase<dynamic,MediaEntity>{
+class DeleteMediaUseCase extends UseCase<dynamic, MediaEntity> {
   final PostRepo postRepo;
 
   DeleteMediaUseCase(this.postRepo);
   @override
-  Future<Either<Failure, dynamic>> call(MediaEntity params) => postRepo.deleteMedia(params);
-
+  Future<Either<Failure, dynamic>> call(MediaEntity params) =>
+      postRepo.deleteMedia(params);
 }

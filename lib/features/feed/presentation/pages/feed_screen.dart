@@ -2,11 +2,7 @@ import 'dart:async';
 
 import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:colibri/core/common/pagination/pagination_helper.dart';
-import 'package:colibri/core/common/push_notification/push_notification_helper.dart';
 import 'package:colibri/core/common/uistate/common_ui_state.dart';
-import 'package:colibri/core/common/widget/common_divider.dart';
-import 'package:colibri/core/common/widget/promoted_widget.dart';
 import 'package:colibri/core/constants/appconstants.dart';
 import 'package:colibri/core/di/injection.dart';
 import 'package:colibri/core/routes/routes.gr.dart';
@@ -14,20 +10,13 @@ import 'package:colibri/core/theme/app_icons.dart';
 import 'package:colibri/core/theme/colors.dart';
 import 'package:colibri/extensions.dart';
 import 'package:colibri/features/authentication/data/models/login_response.dart';
-import 'package:colibri/features/feed/data/models/feeds_response.dart';
-import 'package:colibri/features/feed/domain/entity/post_entity.dart';
-import 'package:colibri/features/feed/domain/entity/drawer_entity.dart';
 import 'package:colibri/features/feed/presentation/bloc/feed_cubit.dart';
 import 'package:colibri/features/feed/presentation/widgets/all_home_screens.dart';
 import 'package:colibri/features/feed/presentation/widgets/create_post_card.dart';
 import 'package:colibri/features/feed/presentation/widgets/feed_widgets.dart';
-import 'package:colibri/features/feed/presentation/widgets/no_data_found_screen.dart';
 import 'package:colibri/features/messages/presentation/pages/message_screen.dart';
-import 'package:colibri/features/notifications/presentation/pages/notification_page.dart';
 import 'package:colibri/features/notifications/presentation/pages/notification_screen.dart';
 import 'package:colibri/features/posts/presentation/bloc/createpost_cubit.dart';
-import 'package:colibri/features/posts/presentation/pages/create_post.dart';
-import 'package:colibri/features/posts/presentation/pages/view_post_screen.dart';
 import 'package:colibri/features/posts/presentation/widgets/post_pagination_widget.dart';
 import 'package:colibri/features/profile/domain/entity/profile_entity.dart';
 import 'package:colibri/features/profile/presentation/pages/profile_screen.dart';
@@ -36,13 +25,11 @@ import 'package:colibri/features/search/presentation/pages/searh_screen.dart';
 import 'package:colibri/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/screenutil.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 import '../../../profile/presentation/pages/bookmark_screen.dart';
-
 
 // StreamController<double> controller = StreamController<double>();
 StreamController<double> controller = StreamController<double>.broadcast();
@@ -54,7 +41,6 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
-
   final scaffoldKey = GlobalKey<ScaffoldState>();
   FeedCubit feedCubit;
   CreatePostCubit createPostCubit;
@@ -66,12 +52,13 @@ class _FeedScreenState extends State<FeedScreen> {
 
   bool _isVisible = true;
   // final ScrollController scrollController = ScrollController();
-  ScrollController _hideButtonController = ScrollController(keepScrollOffset: true);
+  ScrollController _hideButtonController =
+      ScrollController(keepScrollOffset: true);
   // final ValueNotifier<bool> visible = ValueNotifier<bool>(true);
 
   bool isKeyBoardShow = false;
 
-  SearchScreen searScreen=const SearchScreen();
+  SearchScreen searScreen = const SearchScreen();
 
   bool isMessageShow = false;
   bool isNotificationShow = false;
@@ -80,8 +67,10 @@ class _FeedScreenState extends State<FeedScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    feedCubit = getIt<FeedCubit>()..getUserData()..saveNotificationToken();
-    createPostCubit=getIt<CreatePostCubit>();
+    feedCubit = getIt<FeedCubit>()
+      ..getUserData()
+      ..saveNotificationToken();
+    createPostCubit = getIt<CreatePostCubit>();
 
     _hideButtonController = ScrollController(keepScrollOffset: true);
 
@@ -91,15 +80,12 @@ class _FeedScreenState extends State<FeedScreen> {
     blurDotDataGet();
     updateData();
     checkIsKeyBoardShow();
-
   }
 
   static loginData() {
-
     Future.delayed(Duration(seconds: 1), () async {
       AC.loginResponse = await localDataSource.getUserAuth();
     });
-
   }
 
   loginUserData() async {
@@ -108,21 +94,18 @@ class _FeedScreenState extends State<FeedScreen> {
   }
 
   blurDotDataGet() {
-
-    if(AC.prefs.containsKey("message")) {
+    if (AC.prefs.containsKey("message")) {
       isMessageShow = AC.prefs.getBool("message");
     } else {
       AC.prefs.setBool("message", false);
     }
 
-
-    if(AC.prefs.containsKey("notification")) {
+    if (AC.prefs.containsKey("notification")) {
       isNotificationShow = AC.prefs.getBool("notification");
     } else {
       AC.prefs.setBool("notification", false);
     }
     updateWidget();
-
   }
 
   updateData() {
@@ -139,11 +122,11 @@ class _FeedScreenState extends State<FeedScreen> {
   }
 
   updateWidget() {
-    setState(() { });
+    setState(() {});
   }
 
   checkIsKeyBoardShow() {
-    KeyboardVisibilityNotification().addNewListener (
+    KeyboardVisibilityNotification().addNewListener(
       onChange: (bool visible) {
         print(visible);
         isKeyBoardShow = visible;
@@ -151,84 +134,86 @@ class _FeedScreenState extends State<FeedScreen> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     context.initScreenUtil();
 
     print(context.getScreenWidth.toString());
-    return KeyboardActions (
-      config: KeyboardActionsConfig (
-        keyboardActionsPlatform:KeyboardActionsPlatform.IOS,
-        actions: [
-          KeyboardActionsItem (
-            focusNode: createPostCubit.postTextValidator.focusNode,
-          ),
-        ]),
-      child: SizedBox (
+    return KeyboardActions(
+      config: KeyboardActionsConfig(
+          keyboardActionsPlatform: KeyboardActionsPlatform.IOS,
+          actions: [
+            KeyboardActionsItem(
+              focusNode: createPostCubit.postTextValidator.focusNode,
+            ),
+          ]),
+      child: SizedBox(
         height: context.getScreenHeight,
-        child: MultiBlocProvider (
-
-          providers: [BlocProvider<FeedCubit>(create:(c)=> feedCubit),BlocProvider<CreatePostCubit>(create:(c)=>createPostCubit)],
-          child: BlocListener<FeedCubit, CommonUIState> (
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider<FeedCubit>(create: (c) => feedCubit),
+            BlocProvider<CreatePostCubit>(create: (c) => createPostCubit)
+          ],
+          child: BlocListener<FeedCubit, CommonUIState>(
             listener: (_, state) {
-              state.maybeWhen (
+              state.maybeWhen(
                   orElse: () {},
                   error: (e) => context.showSnackBar(message: e, isError: true),
                   success: (s) {
-                    if(s is String) {
-                      if(s.toLowerCase().contains("log out")) {
-                        ExtendedNavigator.root.pushAndRemoveUntil(Routes.loginScreen, (route) => false);
+                    if (s is String) {
+                      if (s.toLowerCase().contains("log out")) {
+                        ExtendedNavigator.root.pushAndRemoveUntil(
+                            Routes.loginScreen, (route) => false);
                       }
                       context.showSnackBar(message: s, isError: false);
                     }
                   });
             },
-            child: StreamBuilder<ScreenType> (
+            child: StreamBuilder<ScreenType>(
                 stream: feedCubit.currentPage,
                 initialData: const ScreenType.home(),
                 builder: (context, snapshot) {
-                  return Scaffold (
-
+                  return Scaffold(
                     key: scaffoldKey,
                     extendBody: true,
 
-                    drawer: InkWell (
+                    drawer: InkWell(
                       onTap: () {
                         Navigator.pop(context);
                       },
-                      child: Container (
-                        color: scaffoldKey?.currentState?.isDrawerOpen != null && scaffoldKey.currentState.isDrawerOpen ? Color(0xFF1D88F0).withOpacity(0.6) : Colors.transparent,
+                      child: Container(
+                        color:
+                            scaffoldKey?.currentState?.isDrawerOpen != null &&
+                                    scaffoldKey.currentState.isDrawerOpen
+                                ? Color(0xFF1D88F0).withOpacity(0.6)
+                                : Colors.transparent,
                         height: MediaQuery.of(context).size.height,
                         width: MediaQuery.of(context).size.width,
-                        child: Stack (
+                        child: Stack(
                           children: [
-
-
-                            Container (
+                            Container(
                               color: Colors.white,
                               height: MediaQuery.of(context).size.height,
                               width: MediaQuery.of(context).size.width / 1.3,
-                              child: StreamBuilder<ProfileEntity> (
+                              child: StreamBuilder<ProfileEntity>(
                                   stream: feedCubit.drawerEntity,
                                   builder: (context, snapshot) {
                                     if (snapshot.data == null)
-                                      return Container (
+                                      return Container(
                                         color: Colors.white,
-                                        child: Column (
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             const CircularProgressIndicator(),
                                           ],
                                         ),
                                       );
-                                    return GetDrawerMenu (
+                                    return GetDrawerMenu(
                                       profileEntity: snapshot.data,
                                     );
                                   }),
                             )
-
                           ],
                         ),
                       ),
@@ -236,322 +221,379 @@ class _FeedScreenState extends State<FeedScreen> {
 
                     appBar: appBarShow(snapshot.data),
 
-                    body: Stack (
+                    body: Stack(
                       alignment: Alignment.topCenter,
                       children: [
-
-
-                       SafeArea (
-                           bottom: false,
-                           child: PageTransitionSwitcher (
-                         reverse:  doReverse(),
-                         child: getSelectedHomeScreen(snapshot.data),
-                         transitionBuilder: (Widget child,
-                             Animation<double> primaryAnimation,
-                             Animation<double> secondaryAnimation) =>
-                             SharedAxisTransition (
-                               animation: primaryAnimation,
-                               secondaryAnimation: secondaryAnimation,
-                               transitionType: SharedAxisTransitionType.horizontal,
-                               child: child,
-                             ),
-                       )),
-
-
-                        currentIndex == 2 ? Container (
-                          height: MediaQuery.of(context).size.height,
-                          color: AppColors.alertBg.withOpacity(0.5),
-                        ) : Container(),
-
+                        SafeArea(
+                            bottom: false,
+                            child: PageTransitionSwitcher(
+                              reverse: doReverse(),
+                              child: getSelectedHomeScreen(snapshot.data),
+                              transitionBuilder: (Widget child,
+                                      Animation<double> primaryAnimation,
+                                      Animation<double> secondaryAnimation) =>
+                                  SharedAxisTransition(
+                                animation: primaryAnimation,
+                                secondaryAnimation: secondaryAnimation,
+                                transitionType:
+                                    SharedAxisTransitionType.horizontal,
+                                child: child,
+                              ),
+                            )),
+                        currentIndex == 2
+                            ? Container(
+                                height: MediaQuery.of(context).size.height,
+                                color: AppColors.alertBg.withOpacity(0.5),
+                              )
+                            : Container(),
                       ],
                     ),
-
 
                     // bottomNavigationBar: BottomNavigationView(),
 
                     // bottomNavigationBar: _isVisible ? Transform.translate(offset: Offset(0, -10), child: Container (
                     //   height: _isVisible ? 51 : 0,
 
-                    bottomNavigationBar: Transform.translate (
-                      offset: const Offset(0, -13),
-                      child: AnimatedBuilder (
-                          animation: _hideButtonController,
-                          builder: (context, child) {
+                    bottomNavigationBar: Transform.translate(
+                        offset: const Offset(0, -13),
+                        child: AnimatedBuilder(
+                            animation: _hideButtonController,
+                            builder: (context, child) {
+                              // if(_hideButtonController.positions == null || _hideButtonController.positions.isEmpty) {
+                              //
+                              //   if (_hideButtonController.hasClients)
+                              //     _hideButtonController.jumpTo(50.0);
+                              //
+                              //   Future.delayed(Duration(seconds: 1), () {
+                              //     if (_hideButtonController.hasClients) {
+                              //        _hideButtonController.animateTo (
+                              //         0.0,
+                              //         curve: Curves.easeOut,
+                              //         duration: const Duration(milliseconds: 300),
+                              //       );
+                              //     }
+                              //       setState(() {});
+                              //   });
+                              //   return Container();
+                              // }
 
-                            // if(_hideButtonController.positions == null || _hideButtonController.positions.isEmpty) {
-                            //
-                            //   if (_hideButtonController.hasClients)
-                            //     _hideButtonController.jumpTo(50.0);
-                            //
-                            //   Future.delayed(Duration(seconds: 1), () {
-                            //     if (_hideButtonController.hasClients) {
-                            //        _hideButtonController.animateTo (
-                            //         0.0,
-                            //         curve: Curves.easeOut,
-                            //         duration: const Duration(milliseconds: 300),
-                            //       );
-                            //     }
-                            //       setState(() {});
-                            //   });
-                            //   return Container();
-                            // }
-
-                            return AnimatedContainer (
-                              curve: Curves.bounceOut,
-                              duration: Duration(microseconds: 1),
-
-                              height: (_hideButtonController?.positions.isNotEmpty && _hideButtonController.position.userScrollDirection == ScrollDirection.reverse) ||
-                                  (_hideButtonController?.positions.isNotEmpty && _hideButtonController.position.userScrollDirection == ScrollDirection.forward)
-                                  ? 0 : MediaQuery.of(context).size.width / 7.5,
-
-                              child: Container (
-                                height: _isVisible ? 51 : 0,
-                                margin: const EdgeInsets.symmetric(horizontal: 20),
-                                padding: const EdgeInsets.only(left: 20, right: 20, top: 5),
-                                // height: _containerMaxHeight,
-                                decoration: ShapeDecoration (
-                                  color: Colors.white,
-                                  shape: MyBorderShape(),
-                                  shadows: [BoxShadow(color: Colors.grey.withOpacity(0.5), blurRadius: 2.0, offset: Offset(1, 1))],
-                                ),
-                                child: Row (
-                                  // mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-
-                                    InkWell (
-                                      onTap: () {
-
-                                        prevIndex=currentIndex;
-                                        currentIndex=0;
-                                        feedCubit.onRefresh();
-                                        feedCubit.changeCurrentPage(const ScreenType.home());
-
-                                      },
-
-                                      child: Container (
-                                        width: 24,
-                                        height: 27,
-                                        margin: EdgeInsets.only(left: 10),
-                                        child: Image.asset(snapshot.data == const ScreenType.home() ? 'images/png_image/select_home.png' : 'images/png_image/deselect_home.png'),
+                              return AnimatedContainer(
+                                curve: Curves.bounceOut,
+                                duration: Duration(microseconds: 1),
+                                height: (_hideButtonController
+                                                ?.positions.isNotEmpty &&
+                                            _hideButtonController.position
+                                                    .userScrollDirection ==
+                                                ScrollDirection.reverse) ||
+                                        (_hideButtonController
+                                                ?.positions.isNotEmpty &&
+                                            _hideButtonController.position
+                                                    .userScrollDirection ==
+                                                ScrollDirection.forward)
+                                    ? 0
+                                    : MediaQuery.of(context).size.width / 7.5,
+                                child: Container(
+                                  height: _isVisible ? 51 : 0,
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  padding: const EdgeInsets.only(
+                                      left: 20, right: 20, top: 5),
+                                  // height: _containerMaxHeight,
+                                  decoration: ShapeDecoration(
+                                    color: Colors.white,
+                                    shape: MyBorderShape(),
+                                    shadows: [
+                                      BoxShadow(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          blurRadius: 2.0,
+                                          offset: Offset(1, 1))
+                                    ],
+                                  ),
+                                  child: Row(
+                                    // mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      InkWell(
+                                        onTap: () {
+                                          prevIndex = currentIndex;
+                                          currentIndex = 0;
+                                          feedCubit.onRefresh();
+                                          feedCubit.changeCurrentPage(
+                                              const ScreenType.home());
+                                        },
+                                        child: Container(
+                                          width: 24,
+                                          height: 27,
+                                          margin: EdgeInsets.only(left: 10),
+                                          child: Image.asset(snapshot.data ==
+                                                  const ScreenType.home()
+                                              ? 'images/png_image/select_home.png'
+                                              : 'images/png_image/deselect_home.png'),
+                                        ),
                                       ),
-                                    ),
 
-                                    // AppIcons.homeIcon(screenType: snapshot.data).toIconButton(
-                                    //     onTap: () {
-                                    //       prevIndex=currentIndex;
-                                    //       currentIndex=0;
-                                    //   feedCubit.onRefresh();
-                                    //   feedCubit.changeCurrentPage(const ScreenType.home());
-                                    // }),
+                                      // AppIcons.homeIcon(screenType: snapshot.data).toIconButton(
+                                      //     onTap: () {
+                                      //       prevIndex=currentIndex;
+                                      //       currentIndex=0;
+                                      //   feedCubit.onRefresh();
+                                      //   feedCubit.changeCurrentPage(const ScreenType.home());
+                                      // }),
 
+                                      // Padding (
+                                      //   padding: EdgeInsets.only(right: 0),
+                                      //   child: InkWell (
+                                      //     onTap: () {
+                                      //
+                                      //     },
+                                      //     child: ,
+                                      //   ),
+                                      // ),
 
-                                    // Padding (
-                                    //   padding: EdgeInsets.only(right: 0),
-                                    //   child: InkWell (
-                                    //     onTap: () {
-                                    //
-                                    //     },
-                                    //     child: ,
-                                    //   ),
-                                    // ),
-
-                                    Padding (
-                                      padding: const EdgeInsets.only(left: 0, right: 5),
-                                      child: SizedBox (
-                                        height: 26,
-                                        width: 26,
-                                        child: InkWell (
-                                          onTap: () {
-
-                                            // PushNotificationHelper.isMessageShow = false;
-                                            isMessageShow = false;
-                                            AC.prefs.setBool("message", false);
-                                            prevIndex=currentIndex;
-                                            currentIndex=1;
-                                            feedCubit.changeCurrentPage(const ScreenType.message());
-                                            setState(() {});
-
-                                          },
-                                          child: Padding (
-                                            padding: EdgeInsets.only(top: 1),
-                                            child: Stack (
-                                              children: [
-                                                SizedBox (
-                                                  width: 24,
-                                                  height: 24,
-                                                  child: Image.asset(snapshot.data == const ScreenType.message() ? 'images/png_image/select_mail.png' : 'images/png_image/deselect_mail.png'),
-                                                ),
-                                                Positioned (
-                                                    right: 0,
-                                                    top: 0,
-                                                    child: Container (
-                                                      height: 5,
-                                                      width: 5,
-                                                      child: isMessageShow ? Container (
-                                                        decoration: const BoxDecoration (
-                                                            color: AppColors.bottomMenu,
-                                                            shape: BoxShape.circle
-                                                        ),
-                                                      ) : Container(),
-                                                    ))
-                                              ],
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 0, right: 5),
+                                        child: SizedBox(
+                                          height: 26,
+                                          width: 26,
+                                          child: InkWell(
+                                            onTap: () {
+                                              // PushNotificationHelper.isMessageShow = false;
+                                              isMessageShow = false;
+                                              AC.prefs
+                                                  .setBool("message", false);
+                                              prevIndex = currentIndex;
+                                              currentIndex = 1;
+                                              feedCubit.changeCurrentPage(
+                                                  const ScreenType.message());
+                                              setState(() {});
+                                            },
+                                            child: Padding(
+                                              padding: EdgeInsets.only(top: 1),
+                                              child: Stack(
+                                                children: [
+                                                  SizedBox(
+                                                    width: 24,
+                                                    height: 24,
+                                                    child: Image.asset(snapshot
+                                                                .data ==
+                                                            const ScreenType
+                                                                .message()
+                                                        ? 'images/png_image/select_mail.png'
+                                                        : 'images/png_image/deselect_mail.png'),
+                                                  ),
+                                                  Positioned(
+                                                      right: 0,
+                                                      top: 0,
+                                                      child: Container(
+                                                        height: 5,
+                                                        width: 5,
+                                                        child: isMessageShow
+                                                            ? Container(
+                                                                decoration: const BoxDecoration(
+                                                                    color: AppColors
+                                                                        .bottomMenu,
+                                                                    shape: BoxShape
+                                                                        .circle),
+                                                              )
+                                                            : Container(),
+                                                      ))
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
 
-                                    // AppIcons.messageIcon(screenType: snapshot.data)
-                                    //       .toIconButton(onTap: () {
-                                    //     prevIndex=currentIndex;
-                                    //     currentIndex=1;
-                                    //     feedCubit.changeCurrentPage(const ScreenType.message());
-                                    //   }),
+                                      // AppIcons.messageIcon(screenType: snapshot.data)
+                                      //       .toIconButton(onTap: () {
+                                      //     prevIndex=currentIndex;
+                                      //     currentIndex=1;
+                                      //     feedCubit.changeCurrentPage(const ScreenType.message());
+                                      //   }),
 
-                                    // _buildMiddleTabItem(),
-                                    // const SizedBox(height: 30, width: 0),
+                                      // _buildMiddleTabItem(),
+                                      // const SizedBox(height: 30, width: 0),
 
-
-                                    Padding (
-                                      padding: const EdgeInsets.only(left: 40),
-                                      child: SizedBox (
-                                        height: 26,
-                                        width: 26,
-                                        child: InkWell (
-                                          onTap: () {
-
-                                            isNotificationShow = false;
-                                            AC.prefs.setBool("notification", false);
-                                            prevIndex=currentIndex;
-                                            currentIndex=3;
-                                            feedCubit.changeCurrentPage(const ScreenType.notification());
-                                            setState(() {});
-
-                                          },
-                                          child: Padding(
-                                            padding: EdgeInsets.only(top: 1),
-                                            child: Stack (
-                                              children: [
-                                                SizedBox (
-                                                  width: 24,
-                                                  height: 24,
-                                                  child: Image.asset( snapshot.data == const ScreenType.notification() ? 'images/png_image/select_notification.png' : 'images/png_image/deselect_notification.png'),
-                                                ),
-                                                Positioned (
-                                                    right: 3,
-                                                    top: 0,
-                                                    child: Container (
-                                                      height: 5,
-                                                      width: 5,
-                                                      child: isNotificationShow ? Container (
-                                                        decoration: const BoxDecoration (
-                                                            color: Colors.blue,
-                                                            shape: BoxShape.circle
-                                                        ),
-                                                      ) : Container(),
-                                                    ))
-                                              ],
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 40),
+                                        child: SizedBox(
+                                          height: 26,
+                                          width: 26,
+                                          child: InkWell(
+                                            onTap: () {
+                                              isNotificationShow = false;
+                                              AC.prefs.setBool(
+                                                  "notification", false);
+                                              prevIndex = currentIndex;
+                                              currentIndex = 3;
+                                              feedCubit.changeCurrentPage(
+                                                  const ScreenType
+                                                      .notification());
+                                              setState(() {});
+                                            },
+                                            child: Padding(
+                                              padding: EdgeInsets.only(top: 1),
+                                              child: Stack(
+                                                children: [
+                                                  SizedBox(
+                                                    width: 24,
+                                                    height: 24,
+                                                    child: Image.asset(snapshot
+                                                                .data ==
+                                                            const ScreenType
+                                                                .notification()
+                                                        ? 'images/png_image/select_notification.png'
+                                                        : 'images/png_image/deselect_notification.png'),
+                                                  ),
+                                                  Positioned(
+                                                      right: 3,
+                                                      top: 0,
+                                                      child: Container(
+                                                        height: 5,
+                                                        width: 5,
+                                                        child:
+                                                            isNotificationShow
+                                                                ? Container(
+                                                                    decoration: const BoxDecoration(
+                                                                        color: Colors
+                                                                            .blue,
+                                                                        shape: BoxShape
+                                                                            .circle),
+                                                                  )
+                                                                : Container(),
+                                                      ))
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
 
-                                    // AppIcons.notificationIcon(screenType: snapshot.data)
-                                    //       .toIconButton(onTap: () {
-                                    //     prevIndex=currentIndex;
-                                    //     currentIndex=3;
-                                    //     feedCubit.changeCurrentPage(const ScreenType.notification());
-                                    //   }),
+                                      // AppIcons.notificationIcon(screenType: snapshot.data)
+                                      //       .toIconButton(onTap: () {
+                                      //     prevIndex=currentIndex;
+                                      //     currentIndex=3;
+                                      //     feedCubit.changeCurrentPage(const ScreenType.notification());
+                                      //   }),
 
-
-                                    InkWell (
-                                      onTap: () {
-
-                                        prevIndex=currentIndex;
-                                        currentIndex=4;
-                                        feedCubit.changeCurrentPage(const ScreenType.search());
-
-                                      },
-                                      child: Container (
-                                        width: 24,
-                                        height: 24,
-                                        margin: EdgeInsets.only(right: 10),
-                                        child: Image.asset(snapshot.data == const ScreenType.search() ? 'images/png_image/select_search.png' : 'images/png_image/deselect_search.png'),
+                                      InkWell(
+                                        onTap: () {
+                                          prevIndex = currentIndex;
+                                          currentIndex = 4;
+                                          feedCubit.changeCurrentPage(
+                                              const ScreenType.search());
+                                        },
+                                        child: Container(
+                                          width: 24,
+                                          height: 24,
+                                          margin: EdgeInsets.only(right: 10),
+                                          child: Image.asset(snapshot.data ==
+                                                  const ScreenType.search()
+                                              ? 'images/png_image/select_search.png'
+                                              : 'images/png_image/deselect_search.png'),
+                                        ),
                                       ),
-                                    ),
 
-                                    // AppIcons.searchIcon(screenType: snapshot.data)
-                                    //       .toIconButton(onTap: () {
-                                    //     prevIndex=currentIndex;
-                                    //     currentIndex=4;
-                                    //     feedCubit.changeCurrentPage(const ScreenType.search());
-                                    //   })
-
-                                  ],
+                                      // AppIcons.searchIcon(screenType: snapshot.data)
+                                      //       .toIconButton(onTap: () {
+                                      //     prevIndex=currentIndex;
+                                      //     currentIndex=4;
+                                      //     feedCubit.changeCurrentPage(const ScreenType.search());
+                                      //   })
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            );
+                              );
 
+                              // try {
+                              // } catch(e) {
+                              //   print("this error $e");
+                              //   return Container();
+                              // }
+                            })),
 
-                            // try {
-                            // } catch(e) {
-                            //   print("this error $e");
-                            //   return Container();
-                            // }
+                    floatingActionButton: isKeyBoardShow
+                        ? Container()
+                        : Transform.translate(
+                            offset: const Offset(0, -22),
+                            child: AnimatedBuilder(
+                              animation: _hideButtonController,
+                              builder: (context, child) {
+                                return AnimatedContainer(
+                                    curve: Curves.bounceOut,
+                                    duration: Duration(microseconds: 1),
+                                    height: (_hideButtonController
+                                                    ?.positions.isNotEmpty &&
+                                                _hideButtonController.position
+                                                        .userScrollDirection ==
+                                                    ScrollDirection.reverse) ||
+                                            (_hideButtonController
+                                                    ?.positions.isNotEmpty &&
+                                                _hideButtonController.position
+                                                        .userScrollDirection ==
+                                                    ScrollDirection.forward)
+                                        ? 0
+                                        : 65,
+                                    child: Container(
+                                      // height: 65,
+                                      padding: EdgeInsets.all(7),
+                                      decoration: BoxDecoration(
+                                          color: Colors.blue.withOpacity(0.3),
+                                          shape: BoxShape.circle),
+                                      child: FloatingActionButton(
+                                        backgroundColor: AppColors.bottomMenu,
+                                        onPressed: () {
+                                          Navigator.of(context).push(
+                                              PageRouteBuilder(
+                                                  opaque: false,
+                                                  pageBuilder: (BuildContext
+                                                              context,
+                                                          _,
+                                                          __) =>
+                                                      RedeemConfirmationScreen(
+                                                          backRefresh: () {
+                                                        // prevIndex=currentIndex;
+                                                        // currentIndex = index;
+                                                        feedCubit.onRefresh();
+                                                        // widget.backRefresh();
+                                                        setState(() {});
+                                                      })));
 
+                                          setState(() {});
+                                        },
+                                        child: Icon(
+                                            currentIndex == 2
+                                                ? Icons.close
+                                                : Icons.add,
+                                            size: (_hideButtonController
+                                                            ?.positions
+                                                            .isNotEmpty &&
+                                                        _hideButtonController
+                                                                .position
+                                                                .userScrollDirection ==
+                                                            ScrollDirection
+                                                                .reverse) ||
+                                                    (_hideButtonController
+                                                            ?.positions
+                                                            .isNotEmpty &&
+                                                        _hideButtonController
+                                                                .position
+                                                                .userScrollDirection ==
+                                                            ScrollDirection
+                                                                .forward)
+                                                ? 1
+                                                : 30),
+                                        elevation: 2.0,
+                                      ),
+                                    ));
+                              },
+                            )),
 
-                      })
-                    ),
-
-                    floatingActionButton: isKeyBoardShow ? Container() : Transform.translate (
-                        offset: const Offset(0, -22),
-                        child: AnimatedBuilder (
-                      animation: _hideButtonController,
-                      builder: (context, child) {
-                      return AnimatedContainer (
-                          curve: Curves.bounceOut,
-                          duration: Duration(microseconds: 1),
-                          height: (_hideButtonController?.positions.isNotEmpty && _hideButtonController.position.userScrollDirection == ScrollDirection.reverse) ||
-                              (_hideButtonController?.positions.isNotEmpty && _hideButtonController.position.userScrollDirection == ScrollDirection.forward)
-                              ? 0 : 65,
-                          child: Container (
-                          // height: 65,
-                          padding: EdgeInsets.all(7),
-                          decoration: BoxDecoration (
-                            color: Colors.blue.withOpacity(0.3),
-                            shape: BoxShape.circle
-                          ),
-                          child: FloatingActionButton (
-                            backgroundColor: AppColors.bottomMenu,
-                            onPressed: () {
-
-                              Navigator.of(context).push( PageRouteBuilder (
-                                  opaque: false,
-                                  pageBuilder: (BuildContext context, _, __) => RedeemConfirmationScreen(backRefresh: () {
-                                    // prevIndex=currentIndex;
-                                    // currentIndex = index;
-                                    feedCubit.onRefresh();
-                                    // widget.backRefresh();
-                                    setState(() {});
-                                  })));
-
-                              setState(() { });
-
-                          },
-                          child: Icon(currentIndex == 2 ? Icons.close : Icons.add, size: (_hideButtonController?.positions.isNotEmpty && _hideButtonController.position.userScrollDirection == ScrollDirection.reverse) ||
-                              (_hideButtonController?.positions.isNotEmpty && _hideButtonController.position.userScrollDirection == ScrollDirection.forward)
-                              ? 1 : 30),
-                          elevation: 2.0,
-                        ),
-                      ));
-                    },)
-                    ),
-
-                    floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
-
+                    floatingActionButtonLocation:
+                        FloatingActionButtonLocation.centerDocked,
                   );
                 }),
           ),
@@ -568,14 +610,12 @@ class _FeedScreenState extends State<FeedScreen> {
         return Future.value();
       },
       // Scrollbar
-      child: Scrollbar (
-
-        child: CustomScrollView (
+      child: Scrollbar(
+          child: CustomScrollView(
         controller: _hideButtonController,
         // physics: NeverScrollableScrollPhysics(),
         // shrinkWrap: true,
         slivers: [
-
           /*SliverToBoxAdapter (
             child: Container (
               height: 80,
@@ -632,7 +672,6 @@ class _FeedScreenState extends State<FeedScreen> {
             ),
           ),*/
 
-
           /*SliverToBoxAdapter (
             child: CreatePostCard(refreshHomeScreen: (){
               feedCubit.onRefresh();
@@ -641,7 +680,7 @@ class _FeedScreenState extends State<FeedScreen> {
 
           PostPaginationWidget(
               isComeHome: true,
-              pagingController: feedCubit.pagingController ,
+              pagingController: feedCubit.pagingController,
               onTapLike: feedCubit.likeUnlikePost,
               onTapRepost: feedCubit.repost,
               onOptionItemTap: feedCubit.onOptionItemSelected)
@@ -663,89 +702,85 @@ class _FeedScreenState extends State<FeedScreen> {
   }
 
   Widget getSelectedHomeScreen(ScreenType data) {
-
-    return data.when (
+    return data.when(
         home: getHomeWidget,
         message: () => MessageScreen(),
         notification: () => NotificationScreen(),
         search: () => searScreen,
-        profile: (args) => ProfileScreen (
-              otherUserId:  args.otherUserId,
-          profileUrl: args.profileUrl,
-          coverUrl: args.coverUrl,
-          profileNavigationEnum: args.profileNavigationEnum),
-        settings: (args) => SettingsScreen (
+        profile: (args) => ProfileScreen(
+            otherUserId: args.otherUserId,
+            profileUrl: args.profileUrl,
+            coverUrl: args.coverUrl,
+            profileNavigationEnum: args.profileNavigationEnum),
+        settings: (args) => SettingsScreen(
               fromProfile: args,
             ),
-        bookmarks: () => BlocProvider.value (
-            value: feedCubit,
-            child: BookMarkScreen()));
+        bookmarks: () =>
+            BlocProvider.value(value: feedCubit, child: BookMarkScreen()));
   }
 
   bool doReverse() {
-   if(prevIndex==currentIndex)return false;
-   return currentIndex<prevIndex;
+    if (prevIndex == currentIndex) return false;
+    return currentIndex < prevIndex;
   }
 
   Widget _buildMiddleTabItem() {
-    return const SizedBox (
+    return const SizedBox(
       height: 60,
       width: 70,
     );
   }
 
   appBarShow(ScreenType data) {
-
     // && currentIndex != 2
     return data == const ScreenType.home()
-        ? AppBar (
-      elevation: 0.0,
-      brightness: Brightness.light,
-      actions: [
-
-        currentIndex == 2 ? IconButton(icon: Icon(Icons.close, color: AppColors.alertBg, size: 30), onPressed: () {
-          print("hello");
-        }) : Container()
-
-      ],
-      leading: [
-
-        currentIndex == 2 ? Container() : Container (
-          height: 3,
-          width: 25,
-          margin: EdgeInsets.only(bottom: 2, left: 13),
-          decoration: BoxDecoration(
-              color: AppColors.sideMenu,
-              borderRadius: BorderRadius.circular(3)
-          ),
-        ),
-
-        3.toSizedBox,
-        currentIndex == 2 ? Container() : Container (
-          height: 3,
-          width: 14,
-          margin: EdgeInsets.only(bottom: 2, left: 13),
-          decoration: BoxDecoration(
-              color: AppColors.sideMenu,
-              borderRadius: BorderRadius.circular(3)
-          ),
-        ),
-      ]
-          .toColumn(mainAxisAlignment: MainAxisAlignment.center)
-          .toPadding(0)
-          .onTapWidget(() {
-        scaffoldKey.currentState.openDrawer();
-      }).toPadding(4),
-      backgroundColor: Colors.white,
-      title: AppIcons.appLogo.toContainer(height: 35, width: 35),
-      centerTitle: true,
-    ) : null;
-
+        ? AppBar(
+            elevation: 0.0,
+            actions: [
+              currentIndex == 2
+                  ? IconButton(
+                      icon:
+                          Icon(Icons.close, color: AppColors.alertBg, size: 30),
+                      onPressed: () {
+                        print("hello");
+                      })
+                  : Container()
+            ],
+            leading: [
+              currentIndex == 2
+                  ? Container()
+                  : Container(
+                      height: 3,
+                      width: 25,
+                      margin: EdgeInsets.only(bottom: 2, left: 13),
+                      decoration: BoxDecoration(
+                          color: AppColors.sideMenu,
+                          borderRadius: BorderRadius.circular(3)),
+                    ),
+              3.toSizedBox,
+              currentIndex == 2
+                  ? Container()
+                  : Container(
+                      height: 3,
+                      width: 14,
+                      margin: EdgeInsets.only(bottom: 2, left: 13),
+                      decoration: BoxDecoration(
+                          color: AppColors.sideMenu,
+                          borderRadius: BorderRadius.circular(3)),
+                    ),
+            ]
+                .toColumn(mainAxisAlignment: MainAxisAlignment.center)
+                .toPadding(0)
+                .onTapWidget(() {
+              scaffoldKey.currentState.openDrawer();
+            }).toPadding(4),
+            backgroundColor: Colors.white,
+            title: AppIcons.appLogo.toContainer(height: 35, width: 35),
+            centerTitle: true, systemOverlayStyle: SystemUiOverlayStyle.dark,
+          )
+        : null;
   }
-
 }
-
-
 
 class MyBorderShape extends ShapeBorder {
   MyBorderShape();
@@ -783,7 +818,6 @@ class MyBorderShape extends ShapeBorder {
   ShapeBorder scale(double t) => this;
 }
 
-
 class TutorialOverlay extends ModalRoute<void> {
   @override
   Duration get transitionDuration => Duration(milliseconds: 500);
@@ -805,10 +839,10 @@ class TutorialOverlay extends ModalRoute<void> {
 
   @override
   Widget buildPage(
-      BuildContext context,
-      Animation<double> animation,
-      Animation<double> secondaryAnimation,
-      ) {
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+  ) {
     // This makes sure that text and other content follows the material style
     return Material(
       type: MaterialType.transparency,
@@ -816,14 +850,13 @@ class TutorialOverlay extends ModalRoute<void> {
       child: SafeArea(
         child: Container(
           color: AppColors.alertBg.withOpacity(0.5),
-          child: CreatePostCard ( refreshHomeScreen: () {
+          child: CreatePostCard(refreshHomeScreen: () {
             // currentIndex = 0;
             // feedCubit.onRefresh();
 
             Future.delayed(Duration(seconds: 1), () {
               setState(() {});
             });
-
           }),
         ),
       ),
@@ -839,7 +872,7 @@ class TutorialOverlay extends ModalRoute<void> {
             'This is a nice overlay',
             style: TextStyle(color: Colors.white, fontSize: 30.0),
           ),
-          RaisedButton(
+          ElevatedButton(
             onPressed: () => Navigator.pop(context),
             child: Text('Dismiss'),
           )
@@ -849,8 +882,8 @@ class TutorialOverlay extends ModalRoute<void> {
   }
 
   @override
-  Widget buildTransitions(
-      BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+  Widget buildTransitions(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
     // You can add your own animations for the overlay content
     return FadeTransition(
       opacity: animation,
@@ -862,19 +895,16 @@ class TutorialOverlay extends ModalRoute<void> {
   }
 }
 
-
 class RedeemConfirmationScreen extends StatefulWidget {
-
   final Function backRefresh;
   const RedeemConfirmationScreen({Key key, this.backRefresh}) : super(key: key);
 
   @override
-  _RedeemConfirmationScreenState createState() => _RedeemConfirmationScreenState();
-
+  _RedeemConfirmationScreenState createState() =>
+      _RedeemConfirmationScreenState();
 }
 
 class _RedeemConfirmationScreenState extends State<RedeemConfirmationScreen> {
-
   // bool isAnimation = false;
 
   @override
@@ -886,7 +916,6 @@ class _RedeemConfirmationScreenState extends State<RedeemConfirmationScreen> {
     //   isAnimation = true;
     //   setState(() { });
     // });
-
   }
 
   @override
@@ -899,14 +928,14 @@ class _RedeemConfirmationScreenState extends State<RedeemConfirmationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea (
-      child: Scaffold (
+    return SafeArea(
+        child: Scaffold(
       backgroundColor: AppColors.alertBg.withOpacity(0.5),
-      body: AnimatedContainer (
+      body: AnimatedContainer(
         // Use the properties stored in the State class.
         width: MediaQuery.of(context).size.width,
         height: 320,
-        decoration: BoxDecoration (
+        decoration: BoxDecoration(
           color: AppColors.alertBg.withOpacity(0.5),
           // borderRadius: _borderRadius,
         ),
@@ -915,21 +944,19 @@ class _RedeemConfirmationScreenState extends State<RedeemConfirmationScreen> {
 
         // Provide an optional curve to make the animation feel smoother.
         curve: Curves.easeInCirc,
-        child: Container (
+        child: Container(
           color: Colors.white,
           // height: MediaQuery.of(context).size.height / 2,
-          child: CreatePostCard ( backData: (index) {
-
+          child: CreatePostCard(backData: (index) {
             print("hello TExt123 $index");
 
             Future.delayed(Duration(microseconds: 300), () {
               // prevIndex=currentIndex;
               // currentIndex = index;
               // feedCubit.onRefresh();
-               widget.backRefresh();
+              widget.backRefresh();
               // setState(() {});
             });
-
           }),
         ),
       ),

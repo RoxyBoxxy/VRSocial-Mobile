@@ -28,7 +28,7 @@ abstract class StreamValidators<T> {
 
   bool get isPasswordField;
 
-  get clear=> onChange('');
+  get clear => onChange('');
 }
 
 class FieldValidators extends StreamValidators {
@@ -42,15 +42,18 @@ class FieldValidators extends StreamValidators {
 
   final bool passwordField;
 
-  TextEditingController _textController=TextEditingController();
+  TextEditingController _textController = TextEditingController();
 
   Function(String) get changeData => _controller.sink.add;
 
-  Stream<String> get data => transformer!=null?_controller.stream.transform(transformer):_controller.stream;
+  Stream<String> get data => transformer != null
+      ? _controller.stream.transform(transformer)
+      : _controller.stream;
 
-  FocusNode _focusNode=FocusNode();
+  FocusNode _focusNode = FocusNode();
 
-  FieldValidators(this.transformer, this._nextFocusNode,{this.obsecureTextBool=false,this.passwordField=false});
+  FieldValidators(this.transformer, this._nextFocusNode,
+      {this.obsecureTextBool = false, this.passwordField = false});
 
   @override
   onDispose() {
@@ -65,17 +68,17 @@ class FieldValidators extends StreamValidators {
   }
 
   @override
-  Stream<String> get stream =>data.asBroadcastStream();
+  Stream<String> get stream => data.asBroadcastStream();
 
   @override
-  TextEditingController get textController =>_textController;
+  TextEditingController get textController => _textController;
 
   @override
   bool get isEmpty => _textController.text.isEmpty;
 
   void addError(String error) => _controller.sink.addError(error);
 
-  void drain()  => _controller.sink.done;
+  void drain() => _controller.sink.done;
 
   @override
   String get text => textController.text;
@@ -91,7 +94,7 @@ class FieldValidators extends StreamValidators {
 
   @override
   changeObsecure(bool value) {
-    obsecureTextBool=value;
+    obsecureTextBool = value;
   }
 
   @override
@@ -99,13 +102,12 @@ class FieldValidators extends StreamValidators {
   bool get isPasswordField => passwordField;
 }
 
-class BoolStreamValidator{
+class BoolStreamValidator {
+  final boolController = BehaviorSubject<bool>();
+  Function(bool) get changeBool => boolController.sink.add;
+  Stream<bool> get stream => boolController.stream;
 
-  final boolController=BehaviorSubject<bool>();
-  Function(bool) get changeBool=>boolController.sink.add;
-  Stream<bool> get stream=>boolController.stream;
-
-  void dispose(){
+  void dispose() {
     boolController.close();
   }
 }

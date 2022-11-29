@@ -5,7 +5,6 @@ import 'package:colibri/core/theme/app_icons.dart';
 import 'package:colibri/core/theme/colors.dart';
 import 'package:colibri/core/theme/images.dart';
 import 'package:colibri/core/widgets/animations/fade_widget.dart';
-import 'package:colibri/core/widgets/loading_bar.dart';
 import 'package:colibri/features/feed/presentation/bloc/feed_cubit.dart';
 import 'package:colibri/features/feed/presentation/widgets/no_data_found_screen.dart';
 import 'package:colibri/features/profile/domain/entity/follower_entity.dart';
@@ -14,6 +13,7 @@ import 'package:colibri/features/profile/presentation/bloc/followers_following_c
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:colibri/extensions.dart';
+import 'package:flutter/services.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class FollowingFollowersScreen extends StatefulWidget {
@@ -41,7 +41,8 @@ class _FollowingFollowersScreenState extends State<FollowingFollowersScreen>
   void initState() {
     // TODO: implement initState
     super.initState();
-    followersFollowingCubit = getIt<FollowersFollowingCubit>()..getProfile(widget.userId)
+    followersFollowingCubit = getIt<FollowersFollowingCubit>()
+      ..getProfile(widget.userId)
       ..followerPagination.userId = widget.userId
       ..followingPagination.userId = widget.userId;
     // feedCubit=BlocProvider.of<FeedCubit>(context);
@@ -49,15 +50,18 @@ class _FollowingFollowersScreenState extends State<FollowingFollowersScreen>
     switch (widget.followScreenEnum) {
       case FollowUnFollowScreenEnum.FOLLOWERS:
         tabController.animateTo(0,
-            duration: const Duration(milliseconds: 500), curve: Curves.easeInBack);
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInBack);
         break;
       case FollowUnFollowScreenEnum.FOLLOWING:
         tabController.animateTo(1,
-            duration: const Duration(milliseconds: 500), curve: Curves.easeInBack);
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInBack);
         break;
       case FollowUnFollowScreenEnum.PEOPLE:
         tabController.animateTo(2,
-            duration: const Duration(milliseconds: 500), curve: Curves.easeInBack);
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInBack);
         break;
     }
   }
@@ -78,7 +82,6 @@ class _FollowingFollowersScreenState extends State<FollowingFollowersScreen>
                 leading: const BackButton(
                   color: AppColors.colorPrimary,
                 ),
-                brightness: Brightness.light,
                 elevation: 0.0,
                 // expandedHeight: context.getScreenWidth>320?480.toHeight:520.toHeight,
                 floating: true,
@@ -99,61 +102,64 @@ class _FollowingFollowersScreenState extends State<FollowingFollowersScreen>
                   child: StreamBuilder<ProfileEntity>(
                       stream: followersFollowingCubit.profileEntity,
                       builder: (context, snapshot) {
-                        return snapshot.data==null?const SizedBox():Stack(
-                          children: [
-                            Positioned.fill(
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    border: Border(
-                                        bottom: BorderSide(
-                                            color: Colors.grey, width: 0.2))),
-                              ),
-                            ),
-                            TabBar(
-                              controller: tabController,
-                              indicatorWeight: 1,
-                              indicatorSize: TabBarIndicatorSize.label,
-                              labelPadding: const EdgeInsets.all(0),
-                              tabs: [
-
-                                Tab (
-                                  text: "Followers (${snapshot.data.followerCount})",
-                                ).toContainer (
-                                    alignment: Alignment.center,
-                                    decoration: const BoxDecoration(
-                                        color: Colors.white,
-                                        border: Border(
-                                            top: BorderSide(
-                                                color: Colors.grey,
-                                                width: 0.2)))),
-                                Tab(
-                                  text:
-                                      "Following (${snapshot.data.followingCount})",
-                                ).toContainer(
-                                    alignment: Alignment.center,
-                                    decoration: const BoxDecoration(
-                                        color: Colors.white,
-                                        border: Border(
-                                            top: BorderSide(
-                                                color: Colors.grey,
-                                                width: 0.2))))
-                                // Tab(
-                                //   text: "Requests",
-                                // ).toContainer(
-                                //     alignment: Alignment.center,
-                                //     decoration: BoxDecoration(
-                                //         color: Colors.white,
-                                //         border: Border(
-                                //             top: BorderSide(
-                                //                 color: Colors.grey, width: 0.2)))),
-                              ],
-                            )
-                          ],
-                        );
+                        return snapshot.data == null
+                            ? const SizedBox()
+                            : Stack(
+                                children: [
+                                  Positioned.fill(
+                                    child: Container(
+                                      decoration: const BoxDecoration(
+                                          color: Colors.white,
+                                          border: Border(
+                                              bottom: BorderSide(
+                                                  color: Colors.grey,
+                                                  width: 0.2))),
+                                    ),
+                                  ),
+                                  TabBar(
+                                    controller: tabController,
+                                    indicatorWeight: 1,
+                                    indicatorSize: TabBarIndicatorSize.label,
+                                    labelPadding: const EdgeInsets.all(0),
+                                    tabs: [
+                                      Tab(
+                                        text:
+                                            "Followers (${snapshot.data.followerCount})",
+                                      ).toContainer(
+                                          alignment: Alignment.center,
+                                          decoration: const BoxDecoration(
+                                              color: Colors.white,
+                                              border: Border(
+                                                  top: BorderSide(
+                                                      color: Colors.grey,
+                                                      width: 0.2)))),
+                                      Tab(
+                                        text:
+                                            "Following (${snapshot.data.followingCount})",
+                                      ).toContainer(
+                                          alignment: Alignment.center,
+                                          decoration: const BoxDecoration(
+                                              color: Colors.white,
+                                              border: Border(
+                                                  top: BorderSide(
+                                                      color: Colors.grey,
+                                                      width: 0.2))))
+                                      // Tab(
+                                      //   text: "Requests",
+                                      // ).toContainer(
+                                      //     alignment: Alignment.center,
+                                      //     decoration: BoxDecoration(
+                                      //         color: Colors.white,
+                                      //         border: Border(
+                                      //             top: BorderSide(
+                                      //                 color: Colors.grey, width: 0.2)))),
+                                    ],
+                                  )
+                                ],
+                              );
                       }),
                   preferredSize: const Size(500, 56),
-                ),
+                ), systemOverlayStyle: SystemUiOverlayStyle.dark,
               ),
             ];
           },
@@ -188,7 +194,8 @@ class _FollowingFollowersScreenState extends State<FollowingFollowersScreen>
                       itemBuilder: (BuildContext context, item, int index) =>
                           CustomAnimatedWidget(
                             child: Padding(
-                              padding: EdgeInsets.only(top: index == 0 ? 8 : 0.0),
+                              padding:
+                                  EdgeInsets.only(top: index == 0 ? 8 : 0.0),
                               child: followerTile(item, () {
                                 followersFollowingCubit.followUnFollow(
                                     index, FollowUnFollowEnums.FOLLOWERS);
@@ -235,7 +242,8 @@ class _FollowingFollowersScreenState extends State<FollowingFollowersScreen>
                       itemBuilder: (BuildContext context, item, int index) =>
                           CustomAnimatedWidget(
                             child: Padding(
-                              padding: EdgeInsets.only(top: index == 0 ? 8 : 0.0),
+                              padding:
+                                  EdgeInsets.only(top: index == 0 ? 8 : 0.0),
                               child: followerTile(item, () {
                                 followersFollowingCubit.followUnFollow(
                                     index, FollowUnFollowEnums.FOLLOWING);
@@ -286,8 +294,8 @@ class _FollowingFollowersScreenState extends State<FollowingFollowersScreen>
             .toCaption()
             .toVisibility(followerEntity.about.isNotEmpty)
       ].toColumn().toHorizontalPadding(8).toExpanded(),
-      getFollowUnFollowButton(followerEntity,voidCallback).toVisibility(!followerEntity.isCurrentLoggedInUser),
-
+      getFollowUnFollowButton(followerEntity, voidCallback)
+          .toVisibility(!followerEntity.isCurrentLoggedInUser),
     ]
         .toRow(crossAxisAlignment: CrossAxisAlignment.start)
         .toHorizontalPadding(8)
@@ -295,7 +303,9 @@ class _FollowingFollowersScreenState extends State<FollowingFollowersScreen>
       // context.showSnackBar(message: followerEntity.id.toString());
       ExtendedNavigator.root.push(Routes.profileScreen,
           arguments: ProfileScreenArguments(
-              otherUserId: followerEntity.isCurrentLoggedInUser?null:followerEntity.id.toString()));
+              otherUserId: followerEntity.isCurrentLoggedInUser
+                  ? null
+                  : followerEntity.id.toString()));
     }).toHorizontalPadding(8);
   }
 
@@ -305,16 +315,16 @@ class _FollowingFollowersScreenState extends State<FollowingFollowersScreen>
     super.dispose();
   }
 
-  Widget getFollowUnFollowButton(FollowerEntity followerEntity,VoidCallback voidCallback) {
-    if(followerEntity.buttonText == "Unfollow")
+  Widget getFollowUnFollowButton(
+      FollowerEntity followerEntity, VoidCallback voidCallback) {
+    if (followerEntity.buttonText == "Unfollow")
       return followerEntity.buttonText
-          .toSubTitle2(
-          color: Colors.white, fontWeight: FontWeight.w600)
+          .toSubTitle2(color: Colors.white, fontWeight: FontWeight.w600)
           .toVerticalPadding(2)
           .toMaterialButton(() {
         context.showOkCancelAlertDialog(
             desc:
-            "Please note that, if you unsubscribe then this user's posts will no longer appear in the feed on your main page.",
+                "Please note that, if you unsubscribe then this user's posts will no longer appear in the feed on your main page.",
             title: "Please confirm your actions!",
             onTapOk: () {
               ExtendedNavigator.root.pop();
@@ -325,7 +335,7 @@ class _FollowingFollowersScreenState extends State<FollowingFollowersScreen>
     else
       return followerEntity.buttonText
           .toSubTitle2(
-          color:AppColors.colorPrimary, fontWeight: FontWeight.w600)
+              color: AppColors.colorPrimary, fontWeight: FontWeight.w600)
           .toVerticalPadding(2)
           .toOutlinedBorder(() {
         voidCallback.call();

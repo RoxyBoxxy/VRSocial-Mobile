@@ -9,11 +9,11 @@ import 'package:rxdart/rxdart.dart';
 
 import '../failure.dart';
 
-
- abstract class CustomPagination<T> {
+abstract class CustomPagination<T> {
   bool isLoading = false;
 
-  final PagingController<int, T> pagingController = PagingController<int, T>(firstPageKey: 0);
+  final PagingController<int, T> pagingController =
+      PagingController<int, T>(firstPageKey: 0);
 
   final _itemControllerController = BehaviorSubject<int>.seeded(0);
 
@@ -78,12 +78,12 @@ import '../failure.dart';
   // Future<void> repost();
   // Future<void> deletePost();
 
-  onClose(){
+  onClose() {
     _itemControllerController.close();
   }
 
-  bool commonLastPage(List<T> items){
-    if(items.length<ApiConstants.pageSize)return true;
+  bool commonLastPage(List<T> items) {
+    if (items.length < ApiConstants.pageSize) return true;
     return false;
   }
 

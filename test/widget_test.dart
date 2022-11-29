@@ -11,32 +11,31 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
 
 void main() {
- setUp((){
-   configureDependencies();
- });
- // testWidgets("testing login", (widget)async{
- //   await widget.pumpWidget(LoginScreen());
- //   expect(findsNWidgets(), matcher)
- // });
- // test("testing validation", ()async{
- //  
- //   var emailValidator=FieldValidators(validatePassword,null);
- //   emailValidator.stream.listen(expectAsync1((value){
- //     expect(value, "s2achin@gmail.com");
- //   }));
- //   emailValidator.onChange("s2achin@gmail.com");
- //
- //  //  await expectLater(emailValidator.stream, "sachin");
- // });
-  test("date", (){
+  setUp(() {
+    configureDependencies();
+  });
+  // testWidgets("testing login", (widget)async{
+  //   await widget.pumpWidget(LoginScreen());
+  //   expect(findsNWidgets(), matcher)
+  // });
+  // test("testing validation", ()async{
+  //
+  //   var emailValidator=FieldValidators(validatePassword,null);
+  //   emailValidator.stream.listen(expectAsync1((value){
+  //     expect(value, "s2achin@gmail.com");
+  //   }));
+  //   emailValidator.onChange("s2achin@gmail.com");
+  //
+  //  //  await expectLater(emailValidator.stream, "sachin");
+  // });
+  test("date", () {
     final DateTime now = DateTime.now();
     final DateFormat formatter = DateFormat('{}');
     final String formatted = formatter.format(now);
     print(formatted);
   });
 
-  test("check data", (){
-
+  test("check data", () {
     // print(text);
     // int timeInMili=1610762371000;
     // final DateFormat formatter = DateFormat.jms().add_MMMd().add_y();

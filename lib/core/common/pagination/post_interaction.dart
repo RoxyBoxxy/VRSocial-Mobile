@@ -1,4 +1,1 @@
-abstract class PostInteraction {
-
-
-}
+abstract class PostInteraction {}

@@ -18,7 +18,8 @@ class PeoplePagination extends CustomPagination<PeopleEntity>
 
   @override
   Future<Either<Failure, List<PeopleEntity>>> getItems(int pageKey) async {
-    return await searchPeopleUseCase(TextModelWithOffset(queryText: queryText,offset: pageKey.toString()));
+    return await searchPeopleUseCase(
+        TextModelWithOffset(queryText: queryText, offset: pageKey.toString()));
   }
 
   @override

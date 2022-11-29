@@ -3,16 +3,17 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class ModifiedLengthLimitingTextInputFormatter extends LengthLimitingTextInputFormatter {
+class ModifiedLengthLimitingTextInputFormatter
+    extends LengthLimitingTextInputFormatter {
   final int _maxLength;
 
   ModifiedLengthLimitingTextInputFormatter(this._maxLength) : super(_maxLength);
 
   @override
   TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue,
-      TextEditingValue newValue,
-      ) {
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
     // Return the new value when the old value has not reached the max
     // limit or the old value is composing too.
     if (newValue.composing.isValid) {
@@ -28,7 +29,9 @@ class ModifiedLengthLimitingTextInputFormatter extends LengthLimitingTextInputFo
       //END OF FIX
       return newValue;
     }
-    if (maxLength != null && maxLength > 0 && newValue.text.characters.length > maxLength) {
+    if (maxLength != null &&
+        maxLength > 0 &&
+        newValue.text.characters.length > maxLength) {
       // If already at the maximum and tried to enter even more, keep the old
       // value.
       if (oldValue.text.characters.length == maxLength) {

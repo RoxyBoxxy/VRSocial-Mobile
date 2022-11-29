@@ -1,8 +1,8 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:colibri/features/notifications/data/models/response/notification_response.dart';
 import 'package:colibri/extensions.dart';
 import 'package:colibri/features/posts/presentation/pages/view_post_screen.dart';
 import 'package:colibri/features/profile/presentation/pages/profile_screen.dart';
+import 'package:flutter/foundation.dart';
 
 class NotificationEntity {
   final String name;
@@ -17,6 +17,7 @@ class NotificationEntity {
   /// below are the two types where use can navigate on tap of notification
   /// if the notification is type of post then we will open post detail screen [ViewPostScreen] using post id
   final String postId;
+
   /// if the notification is type of a specific to a user then we will open user profile[ProfileScreen] using user id
   final String userID;
 
@@ -29,9 +30,8 @@ class NotificationEntity {
       @required this.verifiedUser,
       @required this.notificationType,
       @required this.notificationId,
-       this.userID,
-       this.postId
-      });
+      this.userID,
+      this.postId});
 
   factory NotificationEntity.fromResponse({@required NotificationModel model}) {
     return NotificationEntity._(
@@ -42,7 +42,9 @@ class NotificationEntity {
         offsetId: model.id.toString(),
         name: model.name,
         notificationType: getNotificationType(model.subject),
-        verifiedUser: model.verified.isVerifiedUser,postId: model.postId.toString(),userID: model.userId.toString());
+        verifiedUser: model.verified.isVerifiedUser,
+        postId: model.postId.toString(),
+        userID: model.userId.toString());
   }
 
   static NotificationType getNotificationType(String subject) {
@@ -60,8 +62,10 @@ class NotificationEntity {
       return NotificationType.LIKED;
     else if (subject == "subscribe_request")
       return NotificationType.SUBSCRIBE_REQUEST;
-    else if (subject == "mention") return NotificationType.MENTIONED;
-    else if (subject == "chat_message"||subject=="chat-message") return NotificationType.MESSAGE_RECEIVED;
+    else if (subject == "mention")
+      return NotificationType.MENTIONED;
+    else if (subject == "chat_message" || subject == "chat-message")
+      return NotificationType.MESSAGE_RECEIVED;
     return NotificationType.UNDEFINED_YET;
   }
 

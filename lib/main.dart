@@ -2,13 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:colibri/core/common/push_notification/push_notification_helper.dart';
 import 'package:colibri/core/constants/appconstants.dart';
 import 'package:colibri/core/datasource/local_data_source.dart';
-import 'package:colibri/features/authentication/data/models/login_response.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_screenutil/screenutil.dart';
 import 'package:native_device_orientation/native_device_orientation.dart';
 import 'package:rxdart/rxdart.dart';
 import 'core/di/injection.dart';
@@ -26,7 +23,6 @@ LocalDataSource localDataSource;
 var isUserLoggedIn = false;
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
 
   AC.getInstance();
@@ -53,10 +49,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   void initState() {
-
     PushNotificationHelper.configurePush(context);
 
     // TODO: implement initState
@@ -80,14 +74,12 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-
-    return LayoutBuilder (
+    return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-
         if (constraints.maxWidth != 0) {
           print(constraints);
-          var size=Size(constraints.maxWidth, constraints.maxHeight);
-          ScreenUtil.init(designSize: size,allowFontScaling: true);
+          var size = Size(constraints.maxWidth, constraints.maxHeight);
+          ScreenUtil.init(context, designSize: size, minTextAdapt: true);
           // ScreenUtil.init(
           //   constraints,
           //   designSize: const Size(360, 690),
@@ -95,34 +87,33 @@ class _MyAppState extends State<MyApp> {
           // );
         }
 
-        return MaterialApp (
+        return MaterialApp(
           title: 'Colibri',
           debugShowCheckedModeBanner: false,
-          theme: ThemeData (
+          theme: ThemeData(
               scaffoldBackgroundColor: Colors.white,
               textTheme: appTextTheme,
               primaryColor: AppColors.colorPrimary,
               visualDensity: VisualDensity.adaptivePlatformDensity,
-              tabBarTheme: TabBarTheme (
-                  unselectedLabelStyle: context.subTitle2.copyWith(fontWeight: FontWeight.bold),
-                  labelStyle: context.subTitle2.copyWith(fontWeight: FontWeight.bold),
+              tabBarTheme: TabBarTheme(
+                  unselectedLabelStyle:
+                      context.subTitle2.copyWith(fontWeight: FontWeight.bold),
+                  labelStyle:
+                      context.subTitle2.copyWith(fontWeight: FontWeight.bold),
                   labelColor: AppColors.colorPrimary,
-                  unselectedLabelColor: Colors.grey)
-          ),
+                  unselectedLabelColor: Colors.grey)),
           onGenerateRoute: MyRouter(),
           builder: ExtendedNavigator.builder(
-          // builder: ExtendedNavigator.builder<MyRouter>(
+              // builder: ExtendedNavigator.builder<MyRouter>(
               // router: Router(),
               router: MyRouter(),
               initialRoute:
-              isUserLoggedIn ? Routes.feedScreen : Routes.welcomeScreen,
+                  isUserLoggedIn ? Routes.feedScreen : Routes.welcomeScreen,
               builder: (context, child) {
-                return FlutterEasyLoading(
-                    child: child);
+                return FlutterEasyLoading(child: child);
               }),
         );
       },
-
     );
   }
 }

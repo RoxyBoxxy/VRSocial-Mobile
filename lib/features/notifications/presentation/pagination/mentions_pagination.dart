@@ -7,29 +7,31 @@ import 'package:colibri/features/notifications/domain/usecase/get_notification_u
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
+
 @injectable
-class MentionsPagination extends CustomPagination<NotificationEntity>{
+class MentionsPagination extends CustomPagination<NotificationEntity> {
   final GetNotificationUseCase getNotificationUseCase;
   final DeleteNotificationUseCase deleteNotificationUseCase;
 
-  final _deletedItemsController=BehaviorSubject<Set<int>>.seeded(Set());
-  addDeletedItem(int index){
+  final _deletedItemsController = BehaviorSubject<Set<int>>.seeded(Set());
+  addDeletedItem(int index) {
     _deletedItemsController.sink.add(_deletedItemsController.value..add(index));
   }
 
-  deleteSelectedItem(int index){
-
-    _deletedItemsController.sink.add( _deletedItemsController.value..remove(index));
+  deleteSelectedItem(int index) {
+    _deletedItemsController.sink
+        .add(_deletedItemsController.value..remove(index));
   }
 
-  Stream<Set<int>> get deletedItems=>_deletedItemsController.stream;
+  Stream<Set<int>> get deletedItems => _deletedItemsController.stream;
 
-  MentionsPagination(this.getNotificationUseCase, this.deleteNotificationUseCase);
+  MentionsPagination(
+      this.getNotificationUseCase, this.deleteNotificationUseCase);
   @override
   Future<Either<Failure, List<NotificationEntity>>> getItems(int pageKey) {
-    return getNotificationUseCase(NotificationOrMentionRequestModel(offsetId: pageKey.toString(),
-      notificationOrMentionEnum: NotificationOrMentionEnum.MENTIONS
-    ));
+    return getNotificationUseCase(NotificationOrMentionRequestModel(
+        offsetId: pageKey.toString(),
+        notificationOrMentionEnum: NotificationOrMentionEnum.MENTIONS));
   }
 
   @override
@@ -46,13 +48,15 @@ class MentionsPagination extends CustomPagination<NotificationEntity>{
   bool isLastPage(List<NotificationEntity> item) {
     return commonLastPage(item);
   }
+
   @override
   onClose() {
     _deletedItemsController.close();
     return super.onClose();
   }
+
   deleteNotification() async {
-    List<String> _notificationId=[];
+    List<String> _notificationId = [];
     _deletedItemsController.value.forEach((element) {
       _notificationId.add(pagingController.itemList[element].notificationId);
     });
@@ -63,8 +67,6 @@ class MentionsPagination extends CustomPagination<NotificationEntity>{
       onRefresh();
       // _deletedItemsController.sink.add(Set());
       // pagingController..itemList.removeWhere((element) => _notificationId.contains(element.notificationId))..notifyListeners();
-
     });
   }
-
 }

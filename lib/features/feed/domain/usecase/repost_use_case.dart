@@ -5,8 +5,7 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class RepostUseCase extends UseCase<dynamic,String> {
-
+class RepostUseCase extends UseCase<dynamic, String> {
   final PostRepo postRepo;
 
   RepostUseCase(this.postRepo);
@@ -14,5 +13,4 @@ class RepostUseCase extends UseCase<dynamic,String> {
   Future<Either<Failure, dynamic>> call(String params) {
     return postRepo.repost(params);
   }
-
 }

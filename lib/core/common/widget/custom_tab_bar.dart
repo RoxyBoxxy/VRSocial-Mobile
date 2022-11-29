@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomTabBarMenu extends StatefulWidget {
@@ -7,8 +6,7 @@ class CustomTabBarMenu extends StatefulWidget {
 }
 
 class _CustomTabBarMenuState extends State<CustomTabBarMenu>
-    with SingleTickerProviderStateMixin{
-
+    with SingleTickerProviderStateMixin {
   TabController _controller;
 
   @override
@@ -19,30 +17,22 @@ class _CustomTabBarMenuState extends State<CustomTabBarMenu>
   }
 
   @override
-  Widget build(BuildContext context) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
+  Widget build(BuildContext context) =>
+      Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Container(
             //This is responsible for the background of the tabbar, does the magic
-              decoration: BoxDecoration(
+            decoration: BoxDecoration(
                 //This is for background color
-                  color: Colors.white.withOpacity(0.0),
-                  //This is for bottom border that is needed
-                  border: const Border(bottom: BorderSide(color: Colors.grey, width: 0.8))),
-              child: TabBar(
-                  controller: _controller,
-                  tabs: [
-
-                  ]
-              )
-          ),
-          Container(
-              height: MediaQuery.of(context).size.height/2.3,
-              child: new TabBarView(
-                controller: _controller,
-                children: <Widget>[],
-              )
-          )
-        ]
-    );
+                color: Colors.white.withOpacity(0.0),
+                //This is for bottom border that is needed
+                border: const Border(
+                    bottom: BorderSide(color: Colors.grey, width: 0.8))),
+            child: TabBar(controller: _controller, tabs: [])),
+        Container(
+            height: MediaQuery.of(context).size.height / 2.3,
+            child: new TabBarView(
+              controller: _controller,
+              children: <Widget>[],
+            ))
+      ]);
 }

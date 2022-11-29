@@ -5,7 +5,7 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class UpdateProfileCoverUseCase extends UseCase<String,String>{
+class UpdateProfileCoverUseCase extends UseCase<String, String> {
   final ProfileRepo profileRepo;
 
   UpdateProfileCoverUseCase(this.profileRepo);
@@ -13,5 +13,4 @@ class UpdateProfileCoverUseCase extends UseCase<String,String>{
   Future<Either<Failure, String>> call(String params) {
     return profileRepo.updateCover(params);
   }
-  
 }

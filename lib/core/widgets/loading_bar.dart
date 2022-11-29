@@ -7,7 +7,8 @@ class LoadingBar extends StatelessWidget {
     return Container(
       color: Colors.white.withAlpha(1),
       child: const Center(
-        child: CircularProgressIndicator(),),
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 }

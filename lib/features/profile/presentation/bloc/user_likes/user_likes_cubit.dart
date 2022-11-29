@@ -1,11 +1,9 @@
-import 'package:bloc/bloc.dart';
 import 'package:colibri/core/common/failure.dart';
 import 'package:colibri/features/feed/domain/entity/post_entity.dart';
 import 'package:colibri/features/feed/domain/usecase/like_unlike_use_case.dart';
 import 'package:colibri/features/feed/domain/usecase/repost_use_case.dart';
 import 'package:colibri/features/posts/domain/usecases/add_remove_bookmark_use_case.dart';
 import 'package:colibri/features/posts/domain/usecases/delete_post_use_case.dart';
-import 'package:colibri/features/posts/domain/usecases/get_likes_use_case.dart';
 import 'package:colibri/features/posts/presentation/bloc/post_cubit.dart';
 import 'package:colibri/features/posts/presentation/pagination/show_likes_pagination.dart';
 import 'package:colibri/features/profile/data/models/request/profile_posts_model.dart';
@@ -19,22 +17,23 @@ part 'user_likes_state.dart';
 
 @injectable
 class UserLikesCubit extends PostCubit {
-
   final GetProfileLikedPostsUseCase getProfileLikedPostsUseCase;
   String userId;
 
-  UserLikesCubit(AddOrRemoveBookmarkUseCase addOrRemoveBookmarkUseCase,
+  UserLikesCubit(
+      AddOrRemoveBookmarkUseCase addOrRemoveBookmarkUseCase,
       LikeUnlikeUseCase likeUnlikeUseCase,
       RepostUseCase repostUseCase,
       DeletePostUseCase deletePostUseCase,
       SearchPostUseCase searchPostUseCase,
-      this.getProfileLikedPostsUseCase,ShowLikesPagination showLikesPagination) : super(addOrRemoveBookmarkUseCase,
-    likeUnlikeUseCase, repostUseCase, deletePostUseCase, searchPostUseCase,showLikesPagination);
+      this.getProfileLikedPostsUseCase,
+      ShowLikesPagination showLikesPagination)
+      : super(addOrRemoveBookmarkUseCase, likeUnlikeUseCase, repostUseCase,
+            deletePostUseCase, searchPostUseCase, showLikesPagination);
 
   @override
-  Future<Either<Failure, List<PostEntity>>> getItems(int pageKey) async{
-    return await getProfileLikedPostsUseCase(PostCategoryModel(pageKey.toString(), PostCategory.LIKED,userId));
+  Future<Either<Failure, List<PostEntity>>> getItems(int pageKey) async {
+    return await getProfileLikedPostsUseCase(
+        PostCategoryModel(pageKey.toString(), PostCategory.LIKED, userId));
   }
-
-
 }

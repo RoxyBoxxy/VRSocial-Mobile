@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:colibri/core/common/stream_validators.dart';
-import 'package:colibri/core/common/textfield_limitter.dart';
 import 'package:colibri/core/extensions/string_extensions.dart';
 import 'package:colibri/core/extensions/widget_extensions.dart';
 import 'package:colibri/features/feed/domain/entity/post_entity.dart';
@@ -15,7 +14,6 @@ import 'package:video_compress/video_compress.dart';
 import 'core/common/api/api_constants.dart';
 import 'core/common/widget/menu_item_widget.dart';
 import 'core/theme/app_theme.dart';
-import 'core/utils/lengthlimitingtextfieldformatterfixed.dart';
 
 export 'package:colibri/core/extensions/context_exrensions.dart';
 export 'package:colibri/core/extensions/string_extensions.dart';
@@ -57,7 +55,7 @@ extension DioExtension on DioError {
 }
 
 extension ScreenUtilExtension on num {
-  num get toSp => ScreenUtil().setSp(this, allowFontScalingSelf: true);
+  num get toSp => ScreenUtil().setSp(this);
 
   num get toWidth => ScreenUtil().setWidth(this);
 
@@ -83,8 +81,8 @@ extension ScreenUtilExtension on num {
         width: width.w,
         height: height.h,
       );
-  RoundedRectangleBorder get toRoundRectTop=>RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(this)));
-
+  RoundedRectangleBorder get toRoundRectTop => RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(this)));
 }
 
 extension ExtensionContainer on Container {
@@ -107,17 +105,17 @@ extension ListWidgetExtension on List<Widget> {
       );
 
   ListView toListView(
-      {MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
-        CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.start,
-        MainAxisSize mainAxisSize = MainAxisSize.min}) =>
-       ListView(
+          {MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
+          CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.start,
+          MainAxisSize mainAxisSize = MainAxisSize.min}) =>
+      ListView(
         children: this,
       );
 
-  ListView toListViewSeparated({@required int itemCount,Widget child}) =>
+  ListView toListViewSeparated({@required int itemCount, Widget child}) =>
       ListView.separated(
-        itemBuilder: (BuildContext context, int index)=>child,
-        separatorBuilder: (BuildContext context, int index) =>const Divider(),
+        itemBuilder: (BuildContext context, int index) => child,
+        separatorBuilder: (BuildContext context, int index) => const Divider(),
         itemCount: itemCount,
       );
 
@@ -135,8 +133,8 @@ extension ListWidgetExtension on List<Widget> {
   Wrap toWrap() => Wrap(
         children: this,
         spacing: 3,
-    // textDirection: TextDirection.rtl,
-    //     runAlignment: WrapAlignment.ce,
+        // textDirection: TextDirection.rtl,
+        //     runAlignment: WrapAlignment.ce,
         crossAxisAlignment: WrapCrossAlignment.center,
         // alignment: WrapAlignment.end,
       );
@@ -146,30 +144,32 @@ extension ListWidgetExtension on List<Widget> {
         icon: icon != null
             ? icon
             : const Icon(
-          FontAwesomeIcons.ellipsisV,
-          size: 20,
-          color: Colors.grey,
-        ),
-        onSelected: (value){
+                FontAwesomeIcons.ellipsisV,
+                size: 20,
+                color: Colors.grey,
+              ),
+        onSelected: (value) {
           fun.call(value.text);
         },
         padding: EdgeInsets.zero,
         itemBuilder: (context) {
           return this
               .map((choice) => PopupMenuItem<MenuItemWidget>(
-            height: 25.toHeight,
-            value: choice,
-            child: choice,
-          ))
+                    height: 25.toHeight,
+                    value: choice,
+                    child: choice,
+                  ))
               .toList();
         },
       ).toContainer();
 }
 
 extension ColmnExtension on Column {
-  Widget makeScrollable({bool disableScroll=false}) => !disableScroll?SingleChildScrollView(
-        child: this,
-      ):this;
+  Widget makeScrollable({bool disableScroll = false}) => !disableScroll
+      ? SingleChildScrollView(
+          child: this,
+        )
+      : this;
 }
 
 extension TextFieldExtension on TextField {
@@ -177,7 +177,6 @@ extension TextFieldExtension on TextField {
       StreamBuilder<T>(
         stream: validators.stream,
         builder: (context, snapshot) => TextField(
-
           keyboardType: TextInputType.multiline,
           maxLength: this.maxLength,
           maxLines: this.maxLines,
@@ -188,7 +187,9 @@ extension TextFieldExtension on TextField {
               ? TextInputAction.done
               : TextInputAction.next,
           controller: validators.textController,
-          decoration: this.decoration.copyWith(errorText: snapshot?.error,),
+          decoration: this.decoration.copyWith(
+                errorText: snapshot?.error,
+              ),
           onChanged: validators.onChange,
           inputFormatters: [LengthLimitingTextInputFormatter(this.maxLength)],
           onSubmitted: (value) {
@@ -201,12 +202,12 @@ extension TextFieldExtension on TextField {
   Widget toPostBuilder<T>({@required StreamValidators<T> validators}) =>
       StreamBuilder<T>(
         stream: validators.stream,
-        builder: (context, snapshot) =>TextField(
+        builder: (context, snapshot) => TextField(
           keyboardType: TextInputType.multiline,
           textInputAction: TextInputAction.newline,
           maxLength: 600,
           autofocus: false,
-          maxLengthEnforced: true,
+          maxLengthEnforcement: MaxLengthEnforcement.enforced,
           maxLines: this.maxLines,
           style: AppTheme.button.copyWith(fontWeight: FontWeight.w500),
           obscureText: validators.obsecureTextBool,
@@ -214,13 +215,11 @@ extension TextFieldExtension on TextField {
           controller: validators.textController,
           inputFormatters: [LengthLimitingTextInputFormatter(this.maxLength)],
           decoration: this.decoration.copyWith(errorText: snapshot?.error),
-          onChanged: (value){
-            if(validators.text.length<601)
-            {
+          onChanged: (value) {
+            if (validators.text.length < 601) {
               validators.onChange(value);
-            }
-            else{
-              validators.onChange(value.substring(0,599)[0]);
+            } else {
+              validators.onChange(value.substring(0, 599)[0]);
             }
           },
           onSubmitted: (value) {
@@ -267,32 +266,34 @@ extension ListStringExtension on List<String> {
 typedef StringToVoidFunc = void Function(String);
 typedef IntToVoidFunc = void Function(int);
 
-extension FileExtension on File{
-  Future<MediaInfo> get compressVideo async => await VideoCompress.compressVideo(
-    this.path,
-    quality: VideoQuality.LowQuality,
-    deleteOrigin: false, // It's false by default
-  );
+extension FileExtension on File {
+  Future<MediaInfo> get compressVideo async =>
+      await VideoCompress.compressVideo(
+        this.path,
+        quality: VideoQuality.LowQuality,
+        deleteOrigin: false, // It's false by default
+      );
 
-  Future<File> get getThumbnail async => await   VideoCompress.getFileThumbnail(
-  this.path,
-  quality: 50, // default(100)
-  position: -1 // default(-1)
-  );
+  Future<File> get getThumbnail async =>
+      await VideoCompress.getFileThumbnail(this.path,
+          quality: 50, // default(100)
+          position: -1 // default(-1)
+          );
 }
 
-extension PostListExtensions on List<PostEntity>{
-  bool get isLastPage  {
-    if(this.last.isAdvertisement&&this.length==ApiConstants.pageSize+1)return false;
-    return !this.last.isAdvertisement&&this.length<ApiConstants.pageSize;
+extension PostListExtensions on List<PostEntity> {
+  bool get isLastPage {
+    if (this.last.isAdvertisement && this.length == ApiConstants.pageSize + 1)
+      return false;
+    return !this.last.isAdvertisement && this.length < ApiConstants.pageSize;
     // else if(!this.last.isAdvertisement&&this.length==ApiConstants.pageSize) {
     //   return false;
     // }
     // return true;
-}
+  }
 
-PostEntity get getItemWithoutAd{
-  if(this.last.isAdvertisement)return this[this.length-2];
-  return this.last;
-}
+  PostEntity get getItemWithoutAd {
+    if (this.last.isAdvertisement) return this[this.length - 2];
+    return this.last;
+  }
 }

@@ -6,7 +6,7 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class VerifyUserAccountUseCase extends UseCase<dynamic,VerifyRequestModel>{
+class VerifyUserAccountUseCase extends UseCase<dynamic, VerifyRequestModel> {
   final ProfileRepo profileRepo;
 
   VerifyUserAccountUseCase(this.profileRepo);
@@ -14,5 +14,4 @@ class VerifyUserAccountUseCase extends UseCase<dynamic,VerifyRequestModel>{
   Future<Either<Failure, dynamic>> call(VerifyRequestModel params) {
     return profileRepo.verifyUserAccount(params);
   }
-
 }

@@ -4,7 +4,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:colibri/core/common/validators.dart';
 import 'package:colibri/core/common/widget/searc_bar.dart';
-import 'package:colibri/core/constants/appconstants.dart';
 import 'package:colibri/core/routes/routes.gr.dart';
 import 'package:colibri/core/theme/app_theme.dart';
 import 'package:colibri/core/theme/colors.dart';
@@ -26,17 +25,19 @@ import 'package:mime/mime.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_compress/video_compress.dart';
-import 'package:velocity_x/velocity_x.dart';
 import 'package:http_parser/src/media_type.dart';
+
 // import 'package:i18n_extension/default.i18n.dart';
 // ignore: avoid_web_libraries_in_flutter
 extension StringExtensions on String {
-
-  Future<MultipartFile> toMultiPart()async{
-    final mimeTypeData = lookupMimeType(this, headerBytes: [0xFF, 0xD8]).split('/');
-    final multipartFile =  await MultipartFile.fromFile(this,contentType: MediaType(mimeTypeData[0], mimeTypeData[1]));
+  Future<MultipartFile> toMultiPart() async {
+    final mimeTypeData =
+        lookupMimeType(this, headerBytes: [0xFF, 0xD8]).split('/');
+    final multipartFile = await MultipartFile.fromFile(this,
+        contentType: MediaType(mimeTypeData[0], mimeTypeData[1]));
     return multipartFile;
   }
+
   bool get isValidEmail {
     final emailRegExp = RegExp(r"^[a-zA-Z0-9.-_]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
     if (this == null && this.isEmpty)
@@ -45,8 +46,8 @@ extension StringExtensions on String {
       return emailRegExp.hasMatch(this);
   }
 
-  bool get isValidUrl{
-    return this!=null&&urlPattern.hasMatch(this);
+  bool get isValidUrl {
+    return this != null && urlPattern.hasMatch(this);
   }
 
   Future<MediaInfo> get compressVideo async =>
@@ -61,12 +62,10 @@ extension StringExtensions on String {
     final file = File(this);
     print("file is ${file.path}");
     // unsupported compressed file
-    if(getFormatType(file.path)==null)return file;
-    final result = await FlutterImageCompress.compressAndGetFile(file.path,
-        File(tempDir.path+FileUtils.basename(this)).path,
-      quality: 60,
-      format: getFormatType(file.path)
-    );
+    if (getFormatType(file.path) == null) return file;
+    final result = await FlutterImageCompress.compressAndGetFile(
+        file.path, File(tempDir.path + FileUtils.basename(this)).path,
+        quality: 60, format: getFormatType(file.path));
 
     print(file.lengthSync());
     print(result.lengthSync());
@@ -75,11 +74,14 @@ extension StringExtensions on String {
   }
 
   CompressFormat getFormatType(String name) {
-    if(name.endsWith(".jpg") || name.endsWith(".jpeg"))return CompressFormat.jpeg;
-      else if(name.endsWith(".png"))return CompressFormat.png;
-        else if(name.endsWith(".heic"))return CompressFormat.heic;
-          else if(name.endsWith(".webp"))return CompressFormat.webp;
-          return null;
+    if (name.endsWith(".jpg") || name.endsWith(".jpeg"))
+      return CompressFormat.jpeg;
+    else if (name.endsWith(".png"))
+      return CompressFormat.png;
+    else if (name.endsWith(".heic"))
+      return CompressFormat.heic;
+    else if (name.endsWith(".webp")) return CompressFormat.webp;
+    return null;
   }
 }
 
@@ -161,72 +163,68 @@ extension StringExtension on String {
             AppTheme.bodyText1.copyWith(fontSize: fontSize.toSp, color: color),
       );
 
-  Text toBody2(
-          {int maxLines,
-          num fontSize = AppFontSize.bodyText2,
-          FontWeight fontWeight = FontWeight.w400,
-          Color color = AppColors.textColor,
-          String fontFamily1 = "",
-          }) =>
+  Text toBody2({
+    int maxLines,
+    num fontSize = AppFontSize.bodyText2,
+    FontWeight fontWeight = FontWeight.w400,
+    Color color = AppColors.textColor,
+    String fontFamily1 = "",
+  }) =>
       Text(
         parseHtmlString(this),
         maxLines: maxLines,
         style: AppTheme.bodyText2.copyWith(
-            fontSize: fontSize.toSp, color: color, fontWeight: fontWeight, fontFamily: fontFamily1),
+            fontSize: fontSize.toSp,
+            color: color,
+            fontWeight: fontWeight,
+            fontFamily: fontFamily1),
       );
 
-
-  Widget toSubTitle1 (
-          {num fontSize = AppFontSize.subTitle1,
-          FontWeight fontWeight = FontWeight.w400,
-            TextAlign align=TextAlign.left,
-            ValueChanged<String> onTapHashtag,
-            ValueChanged<String> onTapMention,
-            Color color = AppColors.textColor,
-            String fontFamily1 = "",
-          }) =>
-
+  Widget toSubTitle1({
+    num fontSize = AppFontSize.subTitle1,
+    FontWeight fontWeight = FontWeight.w400,
+    TextAlign align = TextAlign.left,
+    ValueChanged<String> onTapHashtag,
+    ValueChanged<String> onTapMention,
+    Color color = AppColors.textColor,
+    String fontFamily1 = "",
+  }) =>
       Linkify(
-
-        strutStyle: const StrutStyle(height: 1.0,forceStrutHeight: false,),
+        strutStyle: const StrutStyle(
+          height: 1.0,
+          forceStrutHeight: false,
+        ),
         onOpen: (link) async {
           // closing keyboard
           FocusManager.instance.primaryFocus.unfocus();
           SystemChannels.textInput.invokeMethod('TextInput.hide');
-           if (await canLaunch(link.url)) {
-             ExtendedNavigator.root.push(Routes.webViewScreen,arguments: WebViewScreenArguments(url: link.url));
+          if (await canLaunch(link.url)) {
+            ExtendedNavigator.root.push(Routes.webViewScreen,
+                arguments: WebViewScreenArguments(url: link.url));
             // await launch(link.url);
-          }
-           else if(link.url.contains("#")){
-             onTapHashtag.call(link.text.replaceAll("#", ""));
-           }
-           else if(link.url.contains('@'))
-             onTapMention.call(link.text.split("@")[1]);
-           else {
+          } else if (link.url.contains("#")) {
+            onTapHashtag.call(link.text.replaceAll("#", ""));
+          } else if (link.url.contains('@'))
+            onTapMention.call(link.text.split("@")[1]);
+          else {
             throw 'Could not launch $link';
           }
         },
-
         linkifiers: [
-
           const HashTagLinker(),
-
-           const UrlLinkifier(),
-
+          const UrlLinkifier(),
           const EmailLinkifier(),
-
           const MentionLinker()
         ],
         text: parseHtmlString(this),
         style: AppTheme.subTitle1.copyWith(
-          fontSize: fontSize.toSp,
-          // fontSize: fontSize.toSp,
-          color: color,
-          fontWeight: fontWeight,
-          fontFamily: fontFamily1
-        ),
+            fontSize: fontSize.toSp,
+            // fontSize: fontSize.toSp,
+            color: color,
+            fontWeight: fontWeight,
+            fontFamily: fontFamily1),
         linkStyle: const TextStyle(
-          color: AppColors.colorPrimary,decoration: TextDecoration.none),
+            color: AppColors.colorPrimary, decoration: TextDecoration.none),
       );
 
   // Text(
@@ -235,23 +233,25 @@ extension StringExtension on String {
   //       fontSize: fontSize.toSp, color: color, fontWeight: fontWeight,),
   // );
 
-  Text toSubTitle2(
-          {num fontSize = AppFontSize.subTitle2,
-          FontWeight fontWeight = FontWeight.w500,
-          TextAlign align,
-            int maxLines,
-          Color color = AppColors.textColor,
-            String fontFamily1 = "",
-          }) =>
-       Text(
+  Text toSubTitle2({
+    num fontSize = AppFontSize.subTitle2,
+    FontWeight fontWeight = FontWeight.w500,
+    TextAlign align,
+    int maxLines,
+    Color color = AppColors.textColor,
+    String fontFamily1 = "",
+  }) =>
+      Text(
         parseHtmlString(this),
         textAlign: align,
         maxLines: maxLines,
         // overflow: TextOverflow.ellipsis,
         style: AppTheme.subTitle2.copyWith(
-            fontSize: fontSize.toSp, color: color, fontWeight: fontWeight, fontFamily: fontFamily1),
+            fontSize: fontSize.toSp,
+            color: color,
+            fontWeight: fontWeight,
+            fontFamily: fontFamily1),
       );
-
 
   Text toButton(
           {num fontSize = AppFontSize.button,
@@ -282,9 +282,12 @@ extension StringExtension on String {
         text: parseHtmlString(this),
         maxLines: maxLines,
         style: AppTheme.caption.copyWith(
-
-            fontSize: fontSize.toSp, color: color, fontWeight: fontWeight, fontFamily: "CeraPro"),
-        linkStyle: const TextStyle(color: AppColors.colorPrimary, fontFamily: "CeraPro"),
+            fontSize: fontSize.toSp,
+            color: color,
+            fontWeight: fontWeight,
+            fontFamily: "CeraPro"),
+        linkStyle: const TextStyle(
+            color: AppColors.colorPrimary, fontFamily: "CeraPro"),
       );
 
   // Text(
@@ -332,24 +335,27 @@ extension StringExtension on String {
                 .copyWith(color: Colors.red, fontWeight: FontWeight.w600)),
       );
 
-  Widget toSearchBarField (
+  Widget toSearchBarField(
           {StringToVoidFunc onTextChange,
           FocusNode focusNode,
           TextEditingController textEditingController}) =>
       SearchBar(onTextChange, this, focusNode, textEditingController);
 
-  TextField toNoBorderTextField({Color colors}) => TextField (
-
+  TextField toNoBorderTextField({Color colors}) => TextField(
         style: AppTheme.button.copyWith(fontWeight: FontWeight.w500),
         maxLines: 3,
         minLines: 3,
         maxLength: 600,
-        decoration: InputDecoration (
+        decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(8),
             counter: const Offstage(),
             border: InputBorder.none,
             hintText: this,
-            hintStyle: AppTheme.caption.copyWith(fontWeight: FontWeight.w600, color: colors, fontSize: 16, fontFamily: "CeraPro" )),
+            hintStyle: AppTheme.caption.copyWith(
+                fontWeight: FontWeight.w600,
+                color: colors,
+                fontSize: 16,
+                fontFamily: "CeraPro")),
       );
 
   SvgPicture toSvg({num height = 15, num width = 15, Color color}) =>
@@ -362,39 +368,53 @@ extension StringExtension on String {
   Image toAssetImage({double height = 50, double width = 50}) =>
       Image.asset(this, height: height.toHeight, width: width.toWidth);
 
-  Widget toRoundNetworkImage({num radius = 10, num borderRadius = 60.0}) =>this.isValidUrl?
-
-      ClipRRect(
-        borderRadius: BorderRadius.circular(borderRadius.toDouble()),
-        child: CircleAvatar(
-          radius: radius.toHeight + radius.toWidth,
-          // backgroundImage:Image(),
-          child: CachedNetworkImage(
-            imageUrl: this,
-          ),
-          backgroundColor: Colors.transparent,
-        ),
-      ):ClipRRect(
-    borderRadius: BorderRadius.circular(borderRadius.toDouble()),
-    child: CircleAvatar(
-      radius: radius.toHeight + radius.toWidth,
-      // backgroundImage:Image(),
-      child: Image.file(File(this,),fit: BoxFit.cover,width: 100,),
-      backgroundColor: Colors.transparent,
-    ),
-  );
+  Widget toRoundNetworkImage({num radius = 10, num borderRadius = 60.0}) =>
+      this.isValidUrl
+          ? ClipRRect(
+              borderRadius: BorderRadius.circular(borderRadius.toDouble()),
+              child: CircleAvatar(
+                radius: radius.toHeight + radius.toWidth,
+                // backgroundImage:Image(),
+                child: CachedNetworkImage(
+                  imageUrl: this,
+                ),
+                backgroundColor: Colors.transparent,
+              ),
+            )
+          : ClipRRect(
+              borderRadius: BorderRadius.circular(borderRadius.toDouble()),
+              child: CircleAvatar(
+                radius: radius.toHeight + radius.toWidth,
+                // backgroundImage:Image(),
+                child: Image.file(
+                  File(
+                    this,
+                  ),
+                  fit: BoxFit.cover,
+                  width: 100,
+                ),
+                backgroundColor: Colors.transparent,
+              ),
+            );
 
   Widget toNetWorkOrLocalImage(
-          {num height = 50, num width = 50, num borderRadius = 20}) => this.isValidUrl?
-      ClipRRect(
-        borderRadius: BorderRadius.circular(borderRadius.toDouble()),
-        child: CachedNetworkImage(
-          imageUrl: this,
-          height: height.toHeight,
-          width: width.toWidth,
-          fit: BoxFit.cover,
-        ),
-      ):Image.file(File(this),fit: BoxFit.cover,width: width.toWidth,height: height.toHeight,);
+          {num height = 50, num width = 50, num borderRadius = 20}) =>
+      this.isValidUrl
+          ? ClipRRect(
+              borderRadius: BorderRadius.circular(borderRadius.toDouble()),
+              child: CachedNetworkImage(
+                imageUrl: this,
+                height: height.toHeight,
+                width: width.toWidth,
+                fit: BoxFit.cover,
+              ),
+            )
+          : Image.file(
+              File(this),
+              fit: BoxFit.cover,
+              width: width.toWidth,
+              height: height.toHeight,
+            );
 
   Widget toTab() => Tab(
         text: this,
@@ -412,7 +432,7 @@ extension StringExtension on String {
 
   String get parseHtml => parseHtmlString(this);
 
-  bool get isVerifiedUser=>this=="1"?true:false;
+  bool get isVerifiedUser => this == "1" ? true : false;
 }
 
 extension StringExtensionNumber on String {
@@ -422,7 +442,9 @@ extension StringExtensionNumber on String {
 
   String get inc => (int.tryParse(this) + 1).toString();
 
-  String get dec => (int.tryParse(this) - 1)>0?(int.tryParse(this) - 1).toString():0.toString();
+  String get dec => (int.tryParse(this) - 1) > 0
+      ? (int.tryParse(this) - 1).toString()
+      : 0.toString();
 
   MediaTypeEnum get getMediaType {
     if (this == null)
@@ -469,7 +491,7 @@ extension StringExtensionNumber on String {
     //   return PostOptionsEnum.SHOW_THREAD;
     // else if (this == "Share")
     //   return PostOptionsEnum.SHARE;
-     if (this == "Show likes")
+    if (this == "Show likes")
       return PostOptionsEnum.SHOW_LIKES;
     // else if (this == "Show repost")
     //   return PostOptionsEnum.SHOW_REPOST;
@@ -480,10 +502,10 @@ extension StringExtensionNumber on String {
 }
 
 String parseHtmlString(String htmlString) {
-  if(htmlString==null)return '';
+  if (htmlString == null) return '';
   final unescape = HtmlUnescape();
-  final text = unescape.convert(htmlString).replaceAll(
-      RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true), "");
+  final text = unescape
+      .convert(htmlString)
+      .replaceAll(RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true), "");
   return text;
 }
-
