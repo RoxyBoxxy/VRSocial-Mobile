@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <g id="person" transform="translate(1 1)" opacity="0.78">
+    <path id="Path" d="M0,18c0-3.375,4.5-3.375,6.75-5.625C7.875,11.25,4.5,11.25,4.5,5.625Q4.5,0,9,0t4.5,5.625c0,5.625-3.375,5.625-2.25,6.75C13.5,14.625,18,14.625,18,18" fill="none" stroke="#808799" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"/>
+  </g>
+</svg>
