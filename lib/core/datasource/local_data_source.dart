@@ -53,7 +53,7 @@ class LocalDataSourceImpl extends LocalDataSource {
   @override
   Future<LoginResponse?> getUserData() async {
     if (!await isUserLoggedIn()) return null;
-    return LoginResponse.fromJson(jsonDecode(await storage!.getString('user')));
+    return LoginResponse.fromJson(jsonDecode(await storage!.getString('user')!));
   }
 
   @override
@@ -62,14 +62,14 @@ class LocalDataSourceImpl extends LocalDataSource {
   }
 
   @override
-  Future<String> getPushToken() async => await storage!.getString("push_token");
+  Future<String> getPushToken() async => await storage!.getString("push_token")!;
 
   @override
   Future<UserAuth?> getUserAuth() async {
     if (storage!.containsKey('auth'))
-      return await UserAuth.fromJson(jsonDecode(storage!.getString("auth")));
+      return await UserAuth.fromJson(jsonDecode(storage!.getString("auth")!));
     else if (storage!.containsKey('user'))
-      return LoginResponse.fromJson(jsonDecode(storage!.getString('user')))
+      return LoginResponse.fromJson(jsonDecode(storage!.getString('user')!))
           .auth;
     return null;
   }
@@ -85,5 +85,5 @@ class LocalDataSourceImpl extends LocalDataSource {
   }
 
   @override
-  Future<bool> didSocialLoggedIn() async => await storage!.getBool("social");
+  Future<bool> didSocialLoggedIn() async => await storage!.getBool("social")!;
 }

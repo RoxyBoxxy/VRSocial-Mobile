@@ -28,13 +28,13 @@ import 'package:colibri/features/search/domain/entity/people_entity.dart';
 import 'package:colibri/features/search/presentation/bloc/search_cubit.dart';
 import 'package:colibri/main.dart';
 import 'package:collection/collection.dart' show IterableExtension;
-import 'package:emoji_picker/emoji_picker.dart';
 // import 'package:emoji_picker/emoji_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:colibri/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:giphy_picker/giphy_picker.dart';
@@ -42,7 +42,6 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:timelines/timelines.dart';
 import 'package:video_compress/video_compress.dart';
 import 'package:string_validator/string_validator.dart';
-import 'package:flutter_cache_store/flutter_cache_store.dart';
 import 'package:html/parser.dart';
 import 'package:html/dom.dart' as htmlDom;
 
@@ -536,25 +535,6 @@ class _CreatePostCardState extends State<CreatePostCard> {
     }
   }
 
-  void showModelSheet(BuildContext context) {
-    context.showModelBottomSheet(EmojiPicker(
-      rows: 3,
-      columns: 7,
-      buttonMode: ButtonMode.CUPERTINO,
-      numRecommended: 10,
-      onEmojiSelected: (emoji, category) {
-        print(emoji.emoji);
-        // print(emoji.emoji);
-        createPostCubit!.postTextValidator
-          ..textController.text =
-              createPostCubit!.postTextValidator.text + emoji.emoji
-          ..changeData(createPostCubit!.postTextValidator.text);
-      },
-    ).toContainer(
-        height: context.getScreenWidth > 600 ? 400 : 250,
-        color: Colors.transparent));
-  }
-
   @override
   void dispose() {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
@@ -627,8 +607,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
       return;
     }
 
-    final store = await CacheStore.getInstance();
-    var response = await store.getFile(url).catchError((error) {
+    var response = await DefaultCacheManager().getSingleFile(url).catchError((error) {
       return null;
     });
     if (response == null) {
@@ -679,7 +658,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
   void _extractOGData(htmlDom.Document document, Map data, String parameter) {
     var titleMetaTag = document
         .getElementsByTagName("meta")
-        ?.firstWhereOrNull((meta) => meta.attributes['property'] == parameter);
+        .firstWhereOrNull((meta) => meta.attributes['property'] == parameter);
 
     // print("Hello Test  ${titleMetaTag.attributes['content']}");
 
@@ -901,9 +880,6 @@ class _CreatePostCardState extends State<CreatePostCard> {
                 }),
 
             20.toSizedBoxHorizontal,
-            AppIcons.smileIcon.onTapWidget(() {
-              showModelSheet(context);
-            }),
 
             /*      20.toSizedBoxHorizontal,
             StreamBuilder<bool> (
@@ -955,8 +931,8 @@ class _CreatePostCardState extends State<CreatePostCard> {
                     if (snapshot.data!) {
                       final gif = await GiphyPicker.pickGif(
                           context: context, apiKey: Strings.giphyApiKey);
-                      if (gif.images?.original?.url != null)
-                        createPostCubit!.addGif(gif.images.original.url);
+                      if (gif!.images.original?.url != null)
+                        createPostCubit!.addGif(gif.images.original!.url!);
                     }
 
                     // context.showModelBottomSheet(GiphyImage.original(gif: gif));

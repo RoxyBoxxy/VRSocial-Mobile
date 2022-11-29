@@ -3,7 +3,6 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:clipboard_manager/clipboard_manager.dart';
 import 'package:colibri/core/common/api/response_models/chat_notification_response.dart';
 import 'package:colibri/core/constants/appconstants.dart';
 import 'package:colibri/core/datasource/local_data_source.dart';
@@ -15,7 +14,6 @@ import 'package:colibri/features/messages/domain/entity/chat_entity.dart';
 import 'package:colibri/features/messages/presentation/bloc/chat_cubit.dart';
 import 'package:colibri/features/notifications/domain/entity/notification_entity.dart';
 import 'package:dartz/dartz.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,25 +34,23 @@ class PushNotificationHelper {
   static String? currentUserId;
   Random random = new Random();
   static configurePush(BuildContext context) {
-    FirebaseMessaging()
-      ..configure(
-          onBackgroundMessage: Platform.isIOS ? null : _onMyBackground,
-          onMessage: _onMessage,
-          onLaunch: _onLaunch,
-          onResume: _onResume)
-      ..requestNotificationPermissions()
-      ..getToken().then((value) {
-        print("firebase token $value");
-        ClipboardManager.copyToClipBoard(value).then((value) {
-          // context.showSnackBar(message: "Firebase token copied to clipboard");
-        });
-        localDataSource!.savePushToken(value);
-        _savePushNotificationTokenToServer();
-      })
-      ..onTokenRefresh.listen((event) {
-        localDataSource!.savePushToken(event);
-        _savePushNotificationTokenToServer();
-      });
+    // TODO: Fix push notifications
+    // FirebaseMessaging.instance
+    //   ..configure(
+    //       onBackgroundMessage: Platform.isIOS ? null : _onMyBackground,
+    //       onMessage: _onMessage,
+    //       onLaunch: _onLaunch,
+    //       onResume: _onResume)
+    //   ..requestNotificationPermissions()
+    //   ..getToken().then((value) {
+    //     print("firebase token $value");
+    //     localDataSource!.savePushToken(value);
+    //     _savePushNotificationTokenToServer();
+    //   })
+    //   ..onTokenRefresh.listen((event) {
+    //     localDataSource!.savePushToken(event);
+    //     _savePushNotificationTokenToServer();
+    //   });
 
     //
     // _connector.configure(
@@ -202,15 +198,16 @@ class PushNotificationHelper {
   static void _initLocalNotification() {
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('app_icon_n');
-    final IOSInitializationSettings initializationSettingsIOS =
-        const IOSInitializationSettings(
+    final DarwinInitializationSettings initializationSettingsIOS =
+        const DarwinInitializationSettings(
             onDidReceiveLocalNotification: _onDidReceiveLocalNotification);
     final InitializationSettings initializationSettings =
         InitializationSettings(
             android: initializationSettingsAndroid,
             iOS: initializationSettingsIOS);
     _flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: _navigateToScreen);
+        onDidReceiveNotificationResponse: (response) =>
+            _navigateToScreen(response.payload!));
   }
 
   // Future onDidReceiveLocalNotification(
@@ -241,8 +238,8 @@ class PushNotificationHelper {
   // }
 
   static Future _onDidReceiveLocalNotification(
-      int id, String title, String body, String payload) async {
-    _showLocationNotification(jsonDecode(payload));
+      int id, String? title, String? body, String? payload) async {
+    _showLocationNotification(jsonDecode(payload!));
   }
 
   static Future _navigateToScreen(String payload) async {
@@ -319,14 +316,13 @@ class PushNotificationHelper {
         Platform.isAndroid ? map['data']['type'] : map["gcm.notification.type"];
     // var body="subscribe";
     final AndroidNotificationDetails androidPlatformChannelSpecifics =
-        const AndroidNotificationDetails(
-            '0', 'colibri', 'your channel description',
+        const AndroidNotificationDetails('0', 'colibri',
             importance: Importance.max,
             priority: Priority.high,
             showWhen: true);
     final NotificationDetails platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics,
-        iOS: const IOSNotificationDetails());
+        iOS: const DarwinNotificationDetails());
     await _flutterLocalNotificationsPlugin.show(
         Random().nextInt(100),
         title,

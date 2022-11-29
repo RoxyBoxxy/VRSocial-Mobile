@@ -9,7 +9,6 @@ import 'package:colibri/features/authentication/data/models/login_response.dart'
 import 'package:colibri/features/authentication/domain/repo/auth_repo.dart';
 
 import 'package:dartz/dartz.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 // import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
@@ -56,42 +55,14 @@ class AuthRepoImpl extends AuthRepo {
 
   @override
   Future<Either<Failure, String>> fbLogin() async {
-    final facebookLogin = FacebookLogin();
-    final result = await facebookLogin.logIn(['email']);
-    if (result.status == FacebookLoginStatus.loggedIn) {
-      var r = await apiHelper!.post(
-          ApiConstants.oauth,
-          HashMap.from({
-            "access_token": result.accessToken.token,
-            "type": "facebook",
-            "device_type": Platform.isAndroid ? "android" : "ios"
-          }));
-      return r.fold((l) {
-        return left(ServerFailure("Something went wrong. Please try again"));
-      }, (r) async {
-        var loginResponse = LoginResponse.fromJson(r.data);
-        await localDataSource!.saveUserData(loginResponse);
-        localDataSource!.setSocialLogin(true);
-        final pushToken = await localDataSource!.getPushToken();
-        await apiHelper!.post(
-            ApiConstants.saveNotificationToken,
-            HashMap.from({
-              "token": pushToken,
-              "type": Platform.isAndroid ? "android" : "ios"
-            }));
-        return const Right("Successfully login");
-      });
-    } else if (result.status == FacebookLoginStatus.cancelledByUser)
-      return Left(ServerFailure(""));
-    else
-      return Left(ServerFailure(result.errorMessage));
+    throw UnimplementedError();
   }
 
   @override
   Future<Either<Failure, String>> googleLogin() async {
     try {
       var response = await _googleSignIn!.signIn();
-      var auth = await response.authentication;
+      var auth = await response!.authentication;
       // var token=await refreshToken();
       var r = await apiHelper!.post(
           ApiConstants.oauth,

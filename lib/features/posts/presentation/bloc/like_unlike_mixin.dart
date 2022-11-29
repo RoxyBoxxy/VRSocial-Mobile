@@ -251,7 +251,7 @@ mixin PostInteractionMixin on PostPaginatonCubit<PostEntity, CommonUIState> {
     // emit(const CommonUIState.loading());
 
     try {
-      http.Response response = await http.post(uri, body: requestBody);
+      http.Response response = await http.post(Uri.parse(uri), body: requestBody);
       print("Repost data $response");
       // postCubit.onRefresh();
       return response;

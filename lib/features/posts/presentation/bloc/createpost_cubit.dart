@@ -196,7 +196,7 @@ class CreatePostCubit extends Cubit<CommonUIState> {
 
     try {
       http.Response response = await http.post(
-        uri,
+        Uri.parse(uri),
         body: requestBody,
       );
       print("OG data Response $response");

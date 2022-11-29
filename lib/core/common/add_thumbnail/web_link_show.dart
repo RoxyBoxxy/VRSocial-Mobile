@@ -5,7 +5,7 @@ import 'package:colibri/core/routes/routes.gr.dart';
 import 'package:colibri/core/theme/colors.dart';
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_store/flutter_cache_store.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:html/dom.dart' as htmlDom;
 import 'package:html/parser.dart';
 import 'package:simple_url_preview/widgets/preview_description.dart';
@@ -132,8 +132,9 @@ class _SimpleUrlPreviewWebState extends State<SimpleUrlPreviewWeb> {
       return;
     }
 
-    final store = await CacheStore.getInstance();
-    var response = await store.getFile(widget.url).catchError((error) {
+    var response = await DefaultCacheManager()
+        .getSingleFile(widget.url)
+        .catchError((error) {
       return null;
     });
     if (response == null) {
@@ -168,7 +169,7 @@ class _SimpleUrlPreviewWebState extends State<SimpleUrlPreviewWeb> {
   void _extractOGData(htmlDom.Document document, Map data, String parameter) {
     var titleMetaTag = document
         .getElementsByTagName("meta")
-        ?.firstWhereOrNull((meta) => meta.attributes['property'] == parameter);
+        .firstWhereOrNull((meta) => meta.attributes['property'] == parameter);
     if (titleMetaTag != null) {
       data[parameter] = titleMetaTag.attributes['content'];
     }

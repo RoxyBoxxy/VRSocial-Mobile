@@ -15,11 +15,11 @@ class ApiHelper {
   ApiHelper(this.localDataSource) {
     dio!.options.baseUrl = ApiConstants.baseUrl;
     final interceptor = InterceptorsWrapper(
-      onError: (e) {
+      onError: (e, e2) {
         if (e.response?.data != null)
           print("error in response ${e.response?.data["message"]}");
       },
-      onResponse: (res) async {
+      onResponse: (res, res2) async {
         // if(res.data["code"]==401){
         //   dio.interceptors.requestLock.lock();
         //   dio.interceptors.responseLock.lock();
@@ -37,7 +37,7 @@ class ApiHelper {
         // }
         // print("success response ${res.data.toString()}");
       },
-      onRequest: (req) async {
+      onRequest: (req, req2) async {
         // adding auth token
         var loginResponse = await localDataSource!.getUserAuth();
         if (loginResponse != null) {
@@ -50,7 +50,7 @@ class ApiHelper {
             req.data = updatedReq;
           }
         }
-        (req.data as FormData?)?.fields?.forEach((element) {
+        (req.data as FormData?)?.fields.forEach((element) {
           print(element);
         });
       },
@@ -101,24 +101,24 @@ class ApiHelper {
     if (error is DioError) {
       DioError dioError = error;
       switch (dioError.type) {
-        case DioErrorType.CANCEL:
+        case DioErrorType.cancel:
           errorDescription = "Request to API server was cancelled";
           break;
-        case DioErrorType.CONNECT_TIMEOUT:
+        case DioErrorType.connectTimeout:
           errorDescription = "Connection timeout with API server";
           break;
-        case DioErrorType.DEFAULT:
+        case DioErrorType.other:
           errorDescription =
               "Connection to API server failed due to internet connection";
           break;
-        case DioErrorType.RECEIVE_TIMEOUT:
+        case DioErrorType.receiveTimeout:
           errorDescription = "Receive timeout in connection with API server";
           break;
-        case DioErrorType.RESPONSE:
+        case DioErrorType.response:
           errorDescription =
-              "Received invalid status code: ${dioError.response.statusCode}";
+              "Received invalid status code: ${dioError.response!.statusCode}";
           break;
-        case DioErrorType.SEND_TIMEOUT:
+        case DioErrorType.sendTimeout:
           errorDescription = "Send timeout in connection with API server";
           break;
       }

@@ -17,7 +17,7 @@ openMediaPicker(
   MediaTypeEnum mediaType = MediaTypeEnum.IMAGE,
   bool allowCropping = false,
 }) async {
-  PickedFile pickedFile;
+  PickedFile? pickedFile;
   Permission permission;
   if (Platform.isIOS) {
     permission = Permission.photos;
@@ -35,7 +35,7 @@ openMediaPicker(
         ExtendedNavigator.root.pop();
         if (mediaType == MediaTypeEnum.IMAGE) {
           pickedFile = await ImagePicker().getImage(source: ImageSource.camera);
-          final media = await pickedFile.path.compressImage();
+          final media = await pickedFile!.path.compressImage();
           if (allowCropping) {
             final file = await (_cropImage(media.path) as FutureOr<File>);
             onMediaSelected(file.path);
@@ -48,10 +48,10 @@ openMediaPicker(
 
           /// no need to compress video for ios
           if (Platform.isAndroid) {
-            var videoFile = await pickedFile.path?.compressVideo;
+            var videoFile = await pickedFile!.path.compressVideo;
             onMediaSelected(videoFile?.path);
           } else
-            onMediaSelected(pickedFile.path);
+            onMediaSelected(pickedFile!.path);
         }
       }),
       "Gallery"
@@ -62,23 +62,21 @@ openMediaPicker(
         if (mediaType == MediaTypeEnum.IMAGE) {
           pickedFile =
               await ImagePicker().getImage(source: ImageSource.gallery);
-          final media = await pickedFile.path?.compressImage();
-          if (media != null) {
-            if (allowCropping) {
-              final file = await (_cropImage(media.path) as FutureOr<File>);
-              onMediaSelected(file.path);
-            } else
-              onMediaSelected(pickedFile.path);
-          }
+          final media = await pickedFile!.path.compressImage();
+          if (allowCropping) {
+            final file = await (_cropImage(media.path) as FutureOr<File>);
+            onMediaSelected(file.path);
+          } else
+            onMediaSelected(pickedFile!.path);
         } else {
           pickedFile = await ImagePicker().getVideo(
             source: ImageSource.gallery,
           );
           if (Platform.isAndroid) {
-            var videoFile = await pickedFile.path?.compressVideo;
+            var videoFile = await pickedFile!.path.compressVideo;
             onMediaSelected(videoFile?.path);
           } else
-            onMediaSelected(pickedFile.path);
+            onMediaSelected(pickedFile!.path);
         }
       }),
     ], title: "Choose media type");
@@ -102,19 +100,22 @@ _requestPermission(BuildContext context, Permission permission) async {
 // await openAppSettings();
 }
 
-Future<File?> _cropImage(String path) async {
-  File? croppedFile = await ImageCropper().cropImage(
-      sourcePath: path,
-      aspectRatio: const CropAspectRatio(ratioX: 3, ratioY: 1),
-      androidUiSettings: const AndroidUiSettings(
+Future<CroppedFile?> _cropImage(String path) async {
+  CroppedFile? croppedFile = await ImageCropper().cropImage(
+    sourcePath: path,
+    aspectRatio: const CropAspectRatio(ratioX: 3, ratioY: 1),
+    uiSettings: [
+      AndroidUiSettings(
           toolbarTitle: 'Cropper',
           toolbarColor: AppColors.colorPrimary,
           toolbarWidgetColor: Colors.white,
           initAspectRatio: CropAspectRatioPreset.original,
           lockAspectRatio: true),
-      iosUiSettings: const IOSUiSettings(
+      IOSUiSettings(
         title: 'Image Picker',
-      ));
+      )
+    ],
+  );
   return croppedFile;
   // if (croppedFile != null) {
   //   imageFile = croppedFile;

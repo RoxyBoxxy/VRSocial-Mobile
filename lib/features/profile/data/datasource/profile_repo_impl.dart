@@ -22,7 +22,6 @@ import 'package:colibri/features/profile/domain/entity/profile_entity.dart';
 import 'package:colibri/features/profile/domain/entity/setting_entity.dart';
 import 'package:colibri/features/profile/domain/repo/profile_repo.dart';
 import 'package:dartz/dartz.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 import 'package:colibri/extensions.dart';
@@ -195,7 +194,6 @@ class ProfileRepoImpl extends ProfileRepo {
       await localDataSource!.clearData();
       await PushNotificationHelper.unregister();
       await _googleSignIn!.signOut();
-      await FacebookLogin().logOut();
       return right(r);
     });
   }

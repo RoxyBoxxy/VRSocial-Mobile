@@ -47,7 +47,7 @@ class FieldValidators extends StreamValidators {
   Function(String?) get changeData => _controller.sink.add;
 
   Stream<String?> get data => transformer != null
-      ? _controller.stream.transform(transformer)
+      ? _controller.stream.transform(transformer!)
       : _controller.stream;
 
   FocusNode _focusNode = FocusNode();

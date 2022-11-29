@@ -27,8 +27,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
 import '../../../profile/presentation/pages/bookmark_screen.dart';
 
 // StreamController<double> controller = StreamController<double>();
@@ -95,13 +95,13 @@ class _FeedScreenState extends State<FeedScreen> {
 
   blurDotDataGet() {
     if (AC.prefs.containsKey("message")) {
-      isMessageShow = AC.prefs.getBool("message");
+      isMessageShow = AC.prefs.getBool("message")!;
     } else {
       AC.prefs.setBool("message", false);
     }
 
     if (AC.prefs.containsKey("notification")) {
-      isNotificationShow = AC.prefs.getBool("notification");
+      isNotificationShow = AC.prefs.getBool("notification")!;
     } else {
       AC.prefs.setBool("notification", false);
     }
@@ -114,8 +114,8 @@ class _FeedScreenState extends State<FeedScreen> {
       print("vishal");
       print('Value from controller: $value');
 
-      isMessageShow = AC.prefs.getBool("message");
-      isNotificationShow = AC.prefs.getBool("notification");
+      isMessageShow = AC.prefs.getBool("message")!;
+      isNotificationShow = AC.prefs.getBool("notification")!;
 
       updateWidget();
     });
@@ -126,8 +126,8 @@ class _FeedScreenState extends State<FeedScreen> {
   }
 
   checkIsKeyBoardShow() {
-    KeyboardVisibilityNotification().addNewListener(
-      onChange: (bool visible) {
+    KeyboardVisibilityController().onChange.listen(
+      (bool visible) {
         print(visible);
         isKeyBoardShow = visible;
       },

@@ -14,7 +14,7 @@ class CheckLink {
       // if(htmlString.substring(0, 7) ==  "") {
       final document = parse(htmlString);
       final String parsedString =
-          parse(document.body.text).documentElement.text;
+          parse(document.body!.text).documentElement!.text;
       print(parsedString);
       print("hgello vishal 789789");
 
@@ -36,7 +36,7 @@ class CheckLink {
 
   static removeHtmlTag(String? title) {
     final document = parse(title);
-    final String parsedString = parse(document.body.text).documentElement.text;
+    final String parsedString = parse(document.body!.text).documentElement!.text;
     return parsedString;
   }
 }

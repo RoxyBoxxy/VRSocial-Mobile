@@ -23,7 +23,7 @@ import 'package:colibri/features/profile/presentation/pages/followers_following_
 import 'package:colibri/features/profile/presentation/pages/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:remove_emoji/remove_emoji.dart';
 
@@ -99,8 +99,8 @@ class _PostItemState extends State<PostItem> {
   }
 
   checkIsKeyBoardShow() {
-    KeyboardVisibilityNotification().addNewListener(
-      onChange: (bool visible) {
+    KeyboardVisibilityController().onChange.listen(
+      (bool visible) {
         print(visible);
         if (visible) {
           scrollAnimated(1000);

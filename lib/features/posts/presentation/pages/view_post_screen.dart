@@ -17,7 +17,6 @@ import 'package:colibri/features/feed/presentation/widgets/no_data_found_screen.
 import 'package:colibri/features/posts/presentation/bloc/createpost_cubit.dart';
 import 'package:colibri/features/posts/presentation/bloc/view_post_cubit.dart';
 import 'package:colibri/features/posts/presentation/pages/show_likes_screen.dart';
-import 'package:emoji_picker/emoji_picker.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -310,9 +309,6 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                   }, mediaType: MediaTypeEnum.VIDEO);
                               })),
                       20.toSizedBoxHorizontal,
-                      AppIcons.smileIcon.onInkTap(() {
-                        showModelSheet(context);
-                      }),
                       20.toSizedBoxHorizontal,
                       StreamBuilder<bool>(
                           stream: createPostCubit!.gifButton,
@@ -324,9 +320,9 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                   final gif = await GiphyPicker.pickGif(
                                       context: context,
                                       apiKey: Strings.giphyApiKey);
-                                  if (gif.images?.original?.url != null)
+                                  if (gif!.images.original?.url != null)
                                     createPostCubit!
-                                        .addGif(gif.images.original.url);
+                                        .addGif(gif.images.original!.url!);
                                 }
                                 // context.showModelBottomSheet(GiphyImage.original(gif: gif));
                               })),
@@ -397,23 +393,6 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
             break;
         }
       });
-
-  void showModelSheet(BuildContext context) {
-    context.showModelBottomSheet(EmojiPicker(
-      rows: 3,
-      columns: 7,
-      buttonMode: ButtonMode.CUPERTINO,
-      numRecommended: 10,
-      onEmojiSelected: (emoji, category) {
-        print(emoji.emoji);
-        // print(emoji.emoji);
-        createPostCubit!.postTextValidator.textController.text =
-            createPostCubit!.postTextValidator.text + emoji.emoji;
-      },
-    ).toContainer(
-        height: context.getScreenWidth > 600 ? 400 : 250,
-        color: Colors.transparent));
-  }
 
   Widget getTimeLineView(List<PostEntity> postEntity) => Padding(
         padding: const EdgeInsets.all(8.0),

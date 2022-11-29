@@ -25,22 +25,22 @@ extension DioExtension on DioError {
     String errorDescription = "";
     try {
       switch (this.type) {
-        case DioErrorType.CANCEL:
+        case DioErrorType.cancel:
           errorDescription = "Request to API server was cancelled";
           break;
-        case DioErrorType.CONNECT_TIMEOUT:
+        case DioErrorType.connectTimeout:
           errorDescription = "Connection timeout with API server";
           break;
-        case DioErrorType.DEFAULT:
+        case DioErrorType.other:
           errorDescription = "Request failed due to internet connection";
           break;
-        case DioErrorType.RECEIVE_TIMEOUT:
+        case DioErrorType.receiveTimeout:
           errorDescription = "Receive timeout";
           break;
-        case DioErrorType.RESPONSE:
-          errorDescription = "${response.data["error"]["error"][0]}";
+        case DioErrorType.response:
+          errorDescription = "${response!.data["error"]["error"][0]}";
           break;
-        case DioErrorType.SEND_TIMEOUT:
+        case DioErrorType.sendTimeout:
           errorDescription = "Send timeout";
           break;
       }

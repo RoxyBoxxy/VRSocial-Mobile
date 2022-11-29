@@ -108,7 +108,7 @@ mixin SearchingMixin<T> on CustomPagination<T> {
   Stream<String> get search => _searchControllerController.stream
           .debounce((_) => TimerStream(true, const Duration(milliseconds: 500)))
           .switchMap((query) async* {
-        yield query;
+        yield query!;
       }).distinct();
 
   TextEditingController textEditingController = TextEditingController();
@@ -148,7 +148,7 @@ mixin PostSearchingMixin<T> on PostPaginatonCubit<PostEntity, CommonUIState> {
   Stream<String> get search => _searchControllerController.stream
           .debounce((_) => TimerStream(true, const Duration(milliseconds: 500)))
           .switchMap((query) async* {
-        yield query;
+        yield query!;
       });
 
   TextEditingController textEditingController = TextEditingController();
