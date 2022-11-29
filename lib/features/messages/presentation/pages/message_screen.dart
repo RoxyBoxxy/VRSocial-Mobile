@@ -42,7 +42,7 @@ class _MessageScreenState extends State<MessageScreen> {
     context.initScreenUtil();
     return Scaffold(
       body: BlocBuilder<MessageCubit, MessageState>(
-        cubit: messageCubit,
+        bloc: messageCubit,
         builder: (_, state) {
           return state.when(
               initial: () => const LoadingBar(),
@@ -155,7 +155,7 @@ class _MessageScreenState extends State<MessageScreen> {
                                 background: Container(
                                   color: AppColors.colorPrimary,
                                   child: [
-                                    FlatButton.icon(
+                                    TextButton.icon(
                                       icon: SvgPicture.asset(
                                         Images.delete,
                                         color: Colors.white,

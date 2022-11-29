@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 
 import 'package:colibri/features/search/data/models/hashtags_response.dart';
+import 'package:flutter/foundation.dart';
 
 class HashTagEntity {
   final String id;

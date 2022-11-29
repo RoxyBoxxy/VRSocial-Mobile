@@ -3,6 +3,7 @@ import 'package:colibri/features/notifications/data/models/response/notification
 import 'package:colibri/extensions.dart';
 import 'package:colibri/features/posts/presentation/pages/view_post_screen.dart';
 import 'package:colibri/features/profile/presentation/pages/profile_screen.dart';
+import 'package:flutter/foundation.dart';
 
 class NotificationEntity {
   final String name;

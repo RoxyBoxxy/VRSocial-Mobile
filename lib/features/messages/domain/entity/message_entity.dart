@@ -11,6 +11,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:colibri/features/messages/data/models/response/messages_response.dart';
 import 'package:colibri/extensions.dart';
+import 'package:flutter/foundation.dart';
 
 class MessageEntity {
   final String fullName;

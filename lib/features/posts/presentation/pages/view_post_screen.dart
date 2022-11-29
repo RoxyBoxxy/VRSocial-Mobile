@@ -82,7 +82,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
               .toSubTitle1(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         body: BlocListener<ViewPostCubit, CommonUIState>(
-          cubit: viewPostCubit,
+          bloc: viewPostCubit,
           listener: (_, state) {
             state.maybeWhen(
                 orElse: () {},
@@ -95,7 +95,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                 });
           },
           child: BlocListener<CreatePostCubit, CommonUIState>(
-            cubit: createPostCubit,
+            bloc: createPostCubit,
             listener: (_, state) {
               state.maybeWhen(
                   orElse: () {},
@@ -108,7 +108,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                   });
             },
             child: BlocBuilder<CreatePostCubit, CommonUIState>(
-              cubit: createPostCubit,
+              bloc: createPostCubit,
               builder: (_, state) => state.when(
                   initial: buildHomeWithStream,
                   success: (s) => buildHomeWithStream(),
@@ -124,7 +124,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
   }
 
   Widget buildHomeWithStream() => BlocBuilder<ViewPostCubit, CommonUIState>(
-        cubit: viewPostCubit,
+        bloc: viewPostCubit,
         builder: (_, state) => state.when(
             initial: () => StreamBuilder<List<PostEntity>>(
                 stream: viewPostCubit.parentPostEntity,
@@ -153,7 +153,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
   Widget buildHomeScreen(List<PostEntity> postItems, int size) {
     if (postItems == null) return LoadingBar();
     return Stack(
-      overflow: Overflow.visible,
+      clipBehavior: Clip.none,
       children: [
         // if there are replies and next or prev
         if (postItems.length > 1)

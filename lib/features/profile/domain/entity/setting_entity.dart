@@ -11,6 +11,7 @@ import 'package:colibri/core/theme/strings.dart';
 import 'package:colibri/features/authentication/data/models/login_response.dart';
 import 'package:colibri/features/profile/data/models/response/privacy_response.dart';
 import 'package:colibri/features/profile/domain/entity/profile_entity.dart';
+import 'package:flutter/foundation.dart';
 
 class SettingEntity {
   final String userName;

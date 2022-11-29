@@ -19,7 +19,6 @@ import 'package:colibri/features/profile/presentation/bloc/user_likes/user_likes
 import 'package:colibri/features/profile/presentation/bloc/user_media/user_media_cubit.dart';
 import 'package:colibri/features/profile/presentation/bloc/user_posts/user_post_cubit.dart';
 import 'package:colibri/features/profile/presentation/widgets/profile_widgets.dart';
-import 'package:expandable_page_view/size_reporting_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -85,7 +84,7 @@ class _ProfileScreenState extends State<ProfileScreen>
       body: BlocProvider(
         create: (c) => _profileCubit,
         child: BlocBuilder<ProfileCubit, CommonUIState>(
-          cubit: _profileCubit,
+          bloc: _profileCubit,
           builder: (_, state) {
             return state.when(
                 initial: () => LoadingBar(),

@@ -54,7 +54,7 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
           return Future.value(true);
         },
         child: BlocBuilder<UserSettingCubit, CommonUIState>(
-            cubit: userSettingCubit,
+            bloc: userSettingCubit,
             builder: (context, state) => state.maybeWhen(
                 orElse: () => SingleChildScrollView(
                       child: Container(

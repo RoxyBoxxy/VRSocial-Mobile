@@ -216,7 +216,7 @@ class _TopAppBarState extends State<TopAppBar> {
 
   Widget getTopAppBar({otherUser = false}) {
     return Stack(
-      overflow: Overflow.visible,
+      clipBehavior: Clip.none,
       children: [
         [
           AspectRatio(

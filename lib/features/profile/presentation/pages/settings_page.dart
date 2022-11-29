@@ -80,7 +80,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           return Future.value();
         },
         child: BlocListener<UserSettingCubit, CommonUIState>(
-          cubit: userSettingCubit,
+          bloc: userSettingCubit,
           listener: (c, state) {
             state.maybeWhen(
                 orElse: () {},
@@ -98,7 +98,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               success: (s) => s is String,
               error: (e) => true),
           child: BlocBuilder<UserSettingCubit, CommonUIState>(
-            cubit: userSettingCubit,
+            bloc: userSettingCubit,
             builder: (_, state) {
               return state.when(
                   initial: () => LoadingBar(),

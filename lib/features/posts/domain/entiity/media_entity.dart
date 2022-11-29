@@ -3,6 +3,7 @@ import 'package:colibri/core/common/media/media_data.dart';
 import 'package:colibri/features/feed/presentation/widgets/create_post_card.dart';
 import 'package:colibri/features/posts/data/model/response/media_upload_response.dart';
 import 'package:colibri/extensions.dart';
+import 'package:flutter/foundation.dart';
 
 class MediaEntity {
   final String mediaId;

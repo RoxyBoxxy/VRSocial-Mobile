@@ -90,7 +90,7 @@ class _ChatScreenState extends State<ChatScreen>
               bottom: 70,
               // height: context.getScreenHeight,
               child: BlocListener<ChatCubit, CommonUIState>(
-                cubit: chatCubit,
+                bloc: chatCubit,
                 listener: (BuildContext context, state) {
                   state.maybeWhen(
                       orElse: () {},
@@ -109,7 +109,7 @@ class _ChatScreenState extends State<ChatScreen>
                           context.showSnackBar(isError: true, message: e));
                 },
                 child: BlocBuilder<ChatCubit, CommonUIState>(
-                  cubit: chatCubit,
+                  bloc: chatCubit,
                   builder: (c, state) => state.maybeWhen(
                       orElse: () => const LoadingBar(),
                       success: (s) => buildRefreshIndicator(),
@@ -291,7 +291,7 @@ class _ChatScreenState extends State<ChatScreen>
         )
       ],
       openAxisAlignment: 0.0,
-      maxWidth: isPortrait ? 600 : 500,
+      openWidth: isPortrait ? 600 : 500,
       // elevation: isPortrait?2.0:10,
       debounceDelay: const Duration(milliseconds: 500),
       onQueryChanged: (query) {

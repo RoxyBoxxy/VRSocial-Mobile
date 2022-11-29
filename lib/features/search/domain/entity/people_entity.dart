@@ -6,6 +6,7 @@ import 'package:colibri/features/posts/data/model/response/likes_response.dart';
 import 'package:colibri/features/search/data/models/people_response.dart';
 import 'package:colibri/extensions.dart';
 import 'package:faker/faker.dart';
+import 'package:flutter/foundation.dart';
 
 class PeopleEntity {
   final String id;

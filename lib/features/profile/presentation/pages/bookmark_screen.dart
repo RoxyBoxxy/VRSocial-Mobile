@@ -34,7 +34,7 @@ class _BookMarkScreenState extends State<BookMarkScreen> {
         // return Future.value(true);
       },
       child: BlocListener<BookmarkCubit, CommonUIState>(
-        cubit: bookmarkCubit,
+        bloc: bookmarkCubit,
         listener: (_, state) {
           state.maybeWhen(
               orElse: () {},
