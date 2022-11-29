@@ -97,7 +97,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 "SIGN IN"
                     .toButton(color: AppColors.colorPrimary)
                     .toUnderLine()
-                    .toFlatButton(() =>
+                    .toTextButton(() =>
                         ExtendedNavigator.root.replace(Routes.loginScreen)),
               ]
                   .toColumn(

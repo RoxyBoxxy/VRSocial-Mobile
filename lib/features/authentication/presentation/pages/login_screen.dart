@@ -219,7 +219,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Strings.signUpCaps
           .toButton(color: AppColors.colorPrimary)
           .toUnderLine()
-          .toFlatButton(
+          .toTextButton(
               () => ExtendedNavigator.root.replace(Routes.signUpScreen)
               // ()=>loginCubit.loginUser()
               ),

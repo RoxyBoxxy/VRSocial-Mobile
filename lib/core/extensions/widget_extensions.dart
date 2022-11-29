@@ -9,13 +9,15 @@ import 'package:intl/intl.dart';
 
 extension PaddingExtension on Widget {
   Widget toOutlinedBorder(VoidCallback callback, {double borderRadius = 20}) =>
-      OutlineButton(
-        padding: EdgeInsets.zero,
+      OutlinedButton(
         child: this.toPadding(6),
         onPressed: callback,
-        borderSide: const BorderSide(color: AppColors.colorPrimary, width: 1),
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadius)),
+        style: OutlinedButton.styleFrom(
+          padding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+              side: const BorderSide(color: AppColors.colorPrimary, width: 1),
+              borderRadius: BorderRadius.circular(borderRadius)),
+        ),
       );
 
   Widget toVisibility(bool visibility) => Visibility(
@@ -33,7 +35,7 @@ extension PaddingExtension on Widget {
         background: Container(
           color: AppColors.colorPrimary,
           child: [
-            FlatButton.icon(
+            TextButton.icon(
               icon: SvgPicture.asset(
                 Images.delete,
                 color: Colors.white,
@@ -104,9 +106,9 @@ extension PaddingExtension on Widget {
         flex: flex,
       );
 
-  FlatButton toFlatButton(VoidCallback callback, {Color color}) => FlatButton(
+  TextButton toFlatButton(VoidCallback callback, {Color color}) => TextButton(
         child: this,
-        color: color,
+        style: TextButton.styleFrom(foregroundColor: color),
         onPressed: callback,
       );
 
@@ -169,20 +171,22 @@ extension PaddingExtension on Widget {
       );
 
   Widget toMaterialButton(VoidCallback callback, {bool enabled = true}) =>
-      FlatButton(
-        padding: const EdgeInsets.all(6),
+      TextButton(
         child: this,
-        color: enabled
-            ? AppColors.colorPrimary
-            : AppColors.colorPrimary.withOpacity(.5),
         onPressed: () {
           if (enabled) {
             FocusManager.instance.primaryFocus.unfocus();
             callback.call();
           }
         },
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0)),
+        style: TextButton.styleFrom(
+          padding: const EdgeInsets.all(6),
+          foregroundColor: enabled
+              ? AppColors.colorPrimary
+              : AppColors.colorPrimary.withOpacity(.5),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0)),
+        ),
       );
 
   Widget toSteamVisibility(Stream<bool> stream) => StreamBuilder<bool>(

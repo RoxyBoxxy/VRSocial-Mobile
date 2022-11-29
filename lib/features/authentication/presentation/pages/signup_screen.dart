@@ -217,7 +217,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       Strings.signIn
           .toButton(color: AppColors.colorPrimary)
           .toUnderLine()
-          .toFlatButton(
+          .toTextButton(
               () => {ExtendedNavigator.root.replace(Routes.loginScreen)}),
     ].toColumn(
         crossAxisAlignment: CrossAxisAlignment.center,

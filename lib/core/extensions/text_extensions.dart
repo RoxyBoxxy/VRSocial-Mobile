@@ -33,12 +33,14 @@ extension TextExtension on Text {
         ),
       );
 
-  FlatButton toFlatButton(VoidCallback callback,
+  TextButton toTextButton(VoidCallback callback,
           {Color color, RoundedRectangleBorder border}) =>
-      FlatButton(
+      TextButton(
         child: this,
-        shape: border,
-        color: color,
+        style: TextButton.styleFrom(
+          foregroundColor: color,
+          shape: border,
+        ),
         onPressed: () {
           FocusManager.instance.primaryFocus.unfocus();
           callback.call();
@@ -93,12 +95,14 @@ extension TextExtension on Text {
       text: TextSpan(text: this.data, style: this.style));
 
   Widget toOutlinedBorder(VoidCallback callback, {double borderRadius = 20}) =>
-      OutlineButton(
-        padding: EdgeInsets.zero,
+      OutlinedButton(
         child: this,
         onPressed: callback,
-        borderSide: const BorderSide(color: AppColors.colorPrimary, width: 1),
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadius)),
+        style: OutlinedButton.styleFrom(
+          padding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+              side: const BorderSide(color: AppColors.colorPrimary, width: 1),
+              borderRadius: BorderRadius.circular(borderRadius)),
+        ),
       );
 }

@@ -219,7 +219,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             .toCenter()
             .onTapWidget(() {
           context.showAlertDialog(widgets: [
-            "Yes".toButton().toFlatButton(() async {
+            "Yes".toButton().toTextButton(() async {
               var localDataSource = getIt<LocalDataSource>();
               await localDataSource.clearData();
               // Fix the issue
@@ -231,7 +231,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ExtendedNavigator.root
                   .pushAndRemoveUntil(Routes.loginScreen, (c) => false);
             }),
-            "No".toButton().toFlatButton(() {
+            "No".toButton().toTextButton(() {
               ExtendedNavigator.root.pop();
             }),
           ], title: "Are you sure want to Logout?");

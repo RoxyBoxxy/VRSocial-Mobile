@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:colibri/extensions.dart';
-import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 extension ContextExtension on BuildContext {
   TextStyle get headLine6 => AppTheme.headline6;
@@ -91,7 +91,7 @@ extension ContextExtension on BuildContext {
       content: desc.toSubTitle2(fontWeight: FontWeight.w600),
       title: title.toSubTitle1(fontWeight: FontWeight.bold),
       actions: [
-        "OK".toButton().toFlatButton(() {
+        "OK".toButton().toTextButton(() {
           // Fix the issue
           if (onTapOk == null)
             ExtendedNavigator.root.pop();
@@ -121,7 +121,7 @@ extension ContextExtension on BuildContext {
       content: desc.toSubTitle2(),
       title: title.toSubTitle1(fontWeight: FontWeight.bold),
       actions: [
-        okButtonTitle.toButton().toFlatButton(() {
+        okButtonTitle.toButton().toTextButton(() {
           // Fix the issue
           if (!isRedundentClick(DateTime.now())) {
             // ExtendedNavigator.root.pop();
@@ -130,7 +130,7 @@ extension ContextExtension on BuildContext {
             }
           }
         }),
-        "Cancel".toButton().toFlatButton(() {
+        "Cancel".toButton().toTextButton(() {
           ExtendedNavigator.root.pop();
         })
       ],
@@ -158,7 +158,7 @@ extension ContextExtension on BuildContext {
   }
 
   initScreenUtil() =>
-      ScreenUtil.init(designSize: getScreenSize, allowFontScaling: true);
+      ScreenUtil.init(this, designSize: getScreenSize, minTextAdapt: true);
 }
 
 snackBar(BuildContext context, String text, bool isError) {

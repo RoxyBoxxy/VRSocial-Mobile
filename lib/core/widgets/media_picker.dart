@@ -29,7 +29,7 @@ openMediaPicker(
     context.showAlertDialog(widgets: [
       "Camera"
           .toSubTitle2(color: AppColors.colorPrimary)
-          .toFlatButton(() async {
+          .toTextButton(() async {
         // Navigator.of(context).pop();
         ExtendedNavigator.root.pop();
         if (mediaType == MediaTypeEnum.IMAGE) {
@@ -57,7 +57,7 @@ openMediaPicker(
       }),
       "Gallery"
           .toSubTitle2(color: AppColors.colorPrimary)
-          .toFlatButton(() async {
+          .toTextButton(() async {
         // Navigator.of(context).pop();
         ExtendedNavigator.root.pop();
         if (mediaType == MediaTypeEnum.IMAGE) {
