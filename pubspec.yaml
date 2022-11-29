@@ -31,7 +31,7 @@ dependencies:
   # Goolge fonts
   google_fonts: ^3.0.1
   flutter_hooks: ^0.18.5+1
-  auto_route: 0.6.9
+  auto_route: ^5.0.4
   # auto_route: ^5.0.4
   flutter_screenutil: ^5.6.0
   rxdart: ^0.27.7
@@ -44,7 +44,6 @@ dependencies:
   equatable: ^2.0.5
   injectable: ^2.0.1
   get_it: ^7.2.0
-  flushbar: ^1.10.4
   font_awesome_flutter: ^10.2.1
   cached_network_image: ^3.2.3
   image_picker: ^0.8.6
@@ -131,7 +130,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  # auto_route_generator: ^1.0.2
+  auto_route_generator: ^5.0.3
   build_runner:
   injectable_generator: ^2.0.1
   copy_with_extension_gen: ^4.0.4

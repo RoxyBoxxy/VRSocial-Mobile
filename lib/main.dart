@@ -72,6 +72,8 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  final _appRouter = AppRouter();
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -87,28 +89,31 @@ class _MyAppState extends State<MyApp> {
           // );
         }
 
-        return MaterialApp(
+        return MaterialApp.router(
+          routerDelegate: _appRouter.delegate(initialRoutes: [isUserLoggedIn ? FeedScreenRoute.name : WelcomeScreenRoute.name,]),
+          routeInformationParser: _appRouter.defaultRouteParser(),
           title: 'Colibri',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-              scaffoldBackgroundColor: Colors.white,
-              textTheme: appTextTheme,
-              primaryColor: AppColors.colorPrimary,
-              visualDensity: VisualDensity.adaptivePlatformDensity,
-              tabBarTheme: TabBarTheme(
-                  unselectedLabelStyle:
-                      context.subTitle2.copyWith(fontWeight: FontWeight.bold),
-                  labelStyle:
-                      context.subTitle2.copyWith(fontWeight: FontWeight.bold),
-                  labelColor: AppColors.colorPrimary,
-                  unselectedLabelColor: Colors.grey)),
-          onGenerateRoute: MyRouter(),
-          builder: ExtendedNavigator.builder(
+            scaffoldBackgroundColor: Colors.white,
+            textTheme: appTextTheme,
+            primaryColor: AppColors.colorPrimary,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+            tabBarTheme: TabBarTheme(
+              unselectedLabelStyle:
+                  context.subTitle2.copyWith(fontWeight: FontWeight.bold),
+              labelStyle:
+                  context.subTitle2.copyWith(fontWeight: FontWeight.bold),
+              labelColor: AppColors.colorPrimary,
+              unselectedLabelColor: Colors.grey,
+            ),
+          ),
+          builder: Navigator.builder(
               // builder: ExtendedNavigator.builder<MyRouter>(
               // router: Router(),
               router: MyRouter(),
               initialRoute:
-                  isUserLoggedIn ? Routes.feedScreen : Routes.welcomeScreen,
+                  
               builder: (context, child) {
                 return FlutterEasyLoading(child: child);
               }) as Widget Function(BuildContext, Widget?)?,

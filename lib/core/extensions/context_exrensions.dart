@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:colibri/core/theme/app_theme.dart';
 import 'package:colibri/core/theme/colors.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:colibri/extensions.dart';
@@ -161,16 +160,23 @@ extension ContextExtension on BuildContext {
 }
 
 snackBar(BuildContext context, String? text, bool isError) {
-  Flushbar(
-    backgroundColor: isError ? Colors.red : AppColors.colorPrimary,
-    flushbarStyle: FlushbarStyle.GROUNDED,
-    icon: Icon(
-      isError ? Icons.error : Icons.done,
-      color: Colors.white,
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      backgroundColor: isError ? Colors.red : AppColors.colorPrimary,
+      content: Row(
+        children: [
+          Icon(
+            isError ? Icons.error : Icons.done,
+            color: Colors.white,
+          ),
+          Text(
+            text ?? "Null value passed",
+          ),
+        ],
+      ),
+      duration: const Duration(seconds: 3),
     ),
-    message: text ?? "Null value passed",
-    duration: const Duration(seconds: 3),
-  )..show(context);
+  );
 }
 
 DateTime? loginClickTime;

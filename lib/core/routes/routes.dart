@@ -1,4 +1,4 @@
-import 'package:auto_route/auto_route_annotations.dart';
+import 'package:auto_route/annotations.dart';
 import 'package:colibri/core/common/error_screen.dart';
 import 'package:colibri/core/common/widget/web_view_screen.dart';
 import 'package:colibri/features/authentication/presentation/pages/login_screen.dart';
@@ -57,4 +57,4 @@ import 'package:colibri/features/welcome/presentation/pages/welcome_screen.dart'
     ),
   ],
 )
-class $MyRouter {}
+class $AppRouter {}  

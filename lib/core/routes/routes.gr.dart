@@ -1,330 +1,670 @@
+// **************************************************************************
+// AutoRouteGenerator
+// **************************************************************************
+
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 // **************************************************************************
 // AutoRouteGenerator
 // **************************************************************************
+//
+// ignore_for_file: type=lint
 
-// ignore_for_file: public_member_api_docs
+// ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:auto_route/auto_route.dart' as _i15;
+import 'package:flutter/material.dart' as _i16;
 
-import 'package:auto_route/auto_route.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import '../../features/authentication/presentation/pages/login_screen.dart'
+    as _i3;
+import '../../features/authentication/presentation/pages/reset_password_screen.dart'
+    as _i4;
+import '../../features/authentication/presentation/pages/signup_screen.dart'
+    as _i2;
+import '../../features/feed/domain/entity/post_entity.dart' as _i18;
+import '../../features/feed/presentation/pages/feed_screen.dart' as _i7;
+import '../../features/messages/presentation/pages/chat_screen.dart' as _i10;
+import '../../features/posts/domain/entiity/reply_entity.dart' as _i17;
+import '../../features/posts/presentation/pages/create_post.dart' as _i9;
+import '../../features/posts/presentation/pages/view_post_screen.dart' as _i11;
+import '../../features/profile/presentation/pages/followers_following_screen.dart'
+    as _i12;
+import '../../features/profile/presentation/pages/profile_screen.dart' as _i8;
+import '../../features/profile/presentation/pages/settings_page.dart' as _i14;
+import '../../features/search/presentation/pages/searh_screen.dart' as _i13;
+import '../../features/welcome/presentation/pages/welcome_screen.dart' as _i1;
+import '../common/error_screen.dart' as _i6;
+import '../common/widget/web_view_screen.dart' as _i5;
 
-import '../../features/authentication/presentation/pages/login_screen.dart';
-import '../../features/authentication/presentation/pages/reset_password_screen.dart';
-import '../../features/authentication/presentation/pages/signup_screen.dart';
-import '../../features/feed/domain/entity/post_entity.dart';
-import '../../features/feed/presentation/pages/feed_screen.dart';
-import '../../features/messages/presentation/pages/chat_screen.dart';
-import '../../features/posts/domain/entiity/reply_entity.dart';
-import '../../features/posts/presentation/pages/create_post.dart';
-import '../../features/posts/presentation/pages/view_post_screen.dart';
-import '../../features/profile/presentation/pages/followers_following_screen.dart';
-import '../../features/profile/presentation/pages/profile_screen.dart';
-import '../../features/profile/presentation/pages/settings_page.dart';
-import '../../features/search/presentation/pages/searh_screen.dart';
-import '../../features/welcome/presentation/pages/welcome_screen.dart';
-import '../common/error_screen.dart';
-import '../common/widget/web_view_screen.dart';
+class AppRouter extends _i15.RootStackRouter {
+  AppRouter([_i16.GlobalKey<_i16.NavigatorState>? navigatorKey])
+      : super(navigatorKey);
 
-class Routes {
-  static const String welcomeScreen = '/welcome-screen';
-  static const String signUpScreen = '/sign-up-screen';
-  static const String loginScreen = '/login-screen';
-  static const String resetPasswordScreen = '/reset-password-screen';
-  static const String webViewScreen = '/web-view-screen';
-  static const String errorScreen = '/error-screen';
-  static const String feedScreen = '/feed-screen';
-  static const String profileScreen = '/profile-screen';
-  static const String createPost = '/create-post';
-  static const String chatScreen = '/chat-screen';
-  static const String viewPostScreen = '/view-post-screen';
-  static const String followingFollowersScreen = '/following-followers-screen';
-  static const String searchScreen = '/search-screen';
-  static const String settingsScreen = '/settings-screen';
-  static const all = <String>{
-    welcomeScreen,
-    signUpScreen,
-    loginScreen,
-    resetPasswordScreen,
-    webViewScreen,
-    errorScreen,
-    feedScreen,
-    profileScreen,
-    createPost,
-    chatScreen,
-    viewPostScreen,
-    followingFollowersScreen,
-    searchScreen,
-    settingsScreen,
-  };
-}
-
-class MyRouter extends RouterBase {
   @override
-  List<RouteDef> get routes => _routes;
-  final _routes = <RouteDef>[
-    RouteDef(Routes.welcomeScreen, page: WelcomeScreen),
-    RouteDef(Routes.signUpScreen, page: SignUpScreen),
-    RouteDef(Routes.loginScreen, page: LoginScreen),
-    RouteDef(Routes.resetPasswordScreen, page: ResetPasswordScreen),
-    RouteDef(Routes.webViewScreen, page: WebViewScreen),
-    RouteDef(Routes.errorScreen, page: ErrorScreen),
-    RouteDef(Routes.feedScreen, page: FeedScreen),
-    RouteDef(Routes.profileScreen, page: ProfileScreen),
-    RouteDef(Routes.createPost, page: CreatePost),
-    RouteDef(Routes.chatScreen, page: ChatScreen),
-    RouteDef(Routes.viewPostScreen, page: ViewPostScreen),
-    RouteDef(Routes.followingFollowersScreen, page: FollowingFollowersScreen),
-    RouteDef(Routes.searchScreen, page: SearchScreen),
-    RouteDef(Routes.settingsScreen, page: SettingsScreen),
-  ];
-  @override
-  Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
-  final _pagesMap = <Type, AutoRouteFactory>{
-    WelcomeScreen: (data) {
-      return CupertinoPageRoute<dynamic>(
-        builder: (context) => WelcomeScreen(),
-        settings: data,
+  final Map<String, _i15.PageFactory> pagesMap = {
+    WelcomeScreenRoute.name: (routeData) {
+      return _i15.CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: _i1.WelcomeScreen(),
       );
     },
-    SignUpScreen: (data) {
-      return CupertinoPageRoute<dynamic>(
-        builder: (context) => SignUpScreen(),
-        settings: data,
+    SignUpScreenRoute.name: (routeData) {
+      return _i15.CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: _i2.SignUpScreen(),
       );
     },
-    LoginScreen: (data) {
-      return CupertinoPageRoute<dynamic>(
-        builder: (context) => LoginScreen(),
-        settings: data,
+    LoginScreenRoute.name: (routeData) {
+      return _i15.CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: _i3.LoginScreen(),
       );
     },
-    ResetPasswordScreen: (data) {
-      return CupertinoPageRoute<dynamic>(
-        builder: (context) => ResetPasswordScreen(),
-        settings: data,
+    ResetPasswordScreenRoute.name: (routeData) {
+      return _i15.CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: _i4.ResetPasswordScreen(),
       );
     },
-    WebViewScreen: (data) {
-      final args = data.getArgs<WebViewScreenArguments>(
-        orElse: () => WebViewScreenArguments(),
-      );
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => WebViewScreen(
+    WebViewScreenRoute.name: (routeData) {
+      final args = routeData.argsAs<WebViewScreenRouteArgs>(
+          orElse: () => const WebViewScreenRouteArgs());
+      return _i15.MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: _i5.WebViewScreen(
           key: args.key,
           url: args.url,
           name: args.name,
         ),
-        settings: data,
       );
     },
-    ErrorScreen: (data) {
-      final args = data.getArgs<ErrorScreenArguments>(
-        orElse: () => ErrorScreenArguments(),
-      );
-      return CupertinoPageRoute<dynamic>(
-        builder: (context) => ErrorScreen(
+    ErrorScreenRoute.name: (routeData) {
+      final args = routeData.argsAs<ErrorScreenRouteArgs>(
+          orElse: () => const ErrorScreenRouteArgs());
+      return _i15.CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: _i6.ErrorScreen(
           key: args.key,
           error: args.error,
         ),
-        settings: data,
       );
     },
-    FeedScreen: (data) {
-      return CupertinoPageRoute<dynamic>(
-        builder: (context) => FeedScreen(),
-        settings: data,
+    FeedScreenRoute.name: (routeData) {
+      return _i15.CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: _i7.FeedScreen(),
       );
     },
-    ProfileScreen: (data) {
-      final args = data.getArgs<ProfileScreenArguments>(
-        orElse: () => ProfileScreenArguments(),
-      );
-      return CupertinoPageRoute<dynamic>(
-        builder: (context) => ProfileScreen(
+    ProfileScreenRoute.name: (routeData) {
+      final args = routeData.argsAs<ProfileScreenRouteArgs>(
+          orElse: () => const ProfileScreenRouteArgs());
+      return _i15.CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: _i8.ProfileScreen(
           key: args.key,
           otherUserId: args.otherUserId,
           profileUrl: args.profileUrl,
           coverUrl: args.coverUrl,
           profileNavigationEnum: args.profileNavigationEnum,
         ),
-        settings: data,
       );
     },
-    CreatePost: (data) {
-      final args = data.getArgs<CreatePostArguments>(
-        orElse: () => CreatePostArguments(),
-      );
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => CreatePost(
+    CreatePostRoute.name: (routeData) {
+      final args = routeData.argsAs<CreatePostRouteArgs>(
+          orElse: () => const CreatePostRouteArgs());
+      return _i15.MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: _i9.CreatePost(
           key: args.key,
           title: args.title,
           replyTo: args.replyTo,
           threadId: args.threadId,
           replyEntity: args.replyEntity,
         ),
-        settings: data,
         fullscreenDialog: true,
       );
     },
-    ChatScreen: (data) {
-      final args = data.getArgs<ChatScreenArguments>(
-        orElse: () => ChatScreenArguments(),
-      );
-      return CupertinoPageRoute<dynamic>(
-        builder: (context) => ChatScreen(
+    ChatScreenRoute.name: (routeData) {
+      final args = routeData.argsAs<ChatScreenRouteArgs>(
+          orElse: () => const ChatScreenRouteArgs());
+      return _i15.CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: _i10.ChatScreen(
           key: args.key,
           otherPersonUserId: args.otherPersonUserId,
           otherUserFullName: args.otherUserFullName,
           otherPersonProfileUrl: args.otherPersonProfileUrl,
         ),
-        settings: data,
       );
     },
-    ViewPostScreen: (data) {
-      final args = data.getArgs<ViewPostScreenArguments>(nullOk: false);
-      return CupertinoPageRoute<dynamic>(
-        builder: (context) => ViewPostScreen(
+    ViewPostScreenRoute.name: (routeData) {
+      final args = routeData.argsAs<ViewPostScreenRouteArgs>();
+      return _i15.CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: _i11.ViewPostScreen(
           key: args.key,
           threadID: args.threadID,
           postEntity: args.postEntity,
         ),
-        settings: data,
       );
     },
-    FollowingFollowersScreen: (data) {
-      final args = data.getArgs<FollowingFollowersScreenArguments>(
-        orElse: () => FollowingFollowersScreenArguments(),
-      );
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => FollowingFollowersScreen(
+    FollowingFollowersScreenRoute.name: (routeData) {
+      final args = routeData.argsAs<FollowingFollowersScreenRouteArgs>(
+          orElse: () => const FollowingFollowersScreenRouteArgs());
+      return _i15.MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: _i12.FollowingFollowersScreen(
           key: args.key,
           followScreenEnum: args.followScreenEnum,
           userId: args.userId,
         ),
-        settings: data,
         fullscreenDialog: true,
       );
     },
-    SearchScreen: (data) {
-      final args = data.getArgs<SearchScreenArguments>(
-        orElse: () => SearchScreenArguments(),
-      );
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => SearchScreen(
+    SearchScreenRoute.name: (routeData) {
+      final args = routeData.argsAs<SearchScreenRouteArgs>(
+          orElse: () => const SearchScreenRouteArgs());
+      return _i15.MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: _i13.SearchScreen(
           key: args.key,
           searchedText: args.searchedText,
         ),
-        settings: data,
       );
     },
-    SettingsScreen: (data) {
-      final args = data.getArgs<SettingsScreenArguments>(
-        orElse: () => SettingsScreenArguments(),
-      );
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => SettingsScreen(
+    SettingsScreenRoute.name: (routeData) {
+      final args = routeData.argsAs<SettingsScreenRouteArgs>(
+          orElse: () => const SettingsScreenRouteArgs());
+      return _i15.MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: _i14.SettingsScreen(
           key: args.key,
           fromProfile: args.fromProfile,
         ),
-        settings: data,
       );
     },
   };
+
+  @override
+  List<_i15.RouteConfig> get routes => [
+        _i15.RouteConfig(
+          WelcomeScreenRoute.name,
+          path: '/welcome-screen',
+        ),
+        _i15.RouteConfig(
+          SignUpScreenRoute.name,
+          path: '/sign-up-screen',
+        ),
+        _i15.RouteConfig(
+          LoginScreenRoute.name,
+          path: '/login-screen',
+        ),
+        _i15.RouteConfig(
+          ResetPasswordScreenRoute.name,
+          path: '/reset-password-screen',
+        ),
+        _i15.RouteConfig(
+          WebViewScreenRoute.name,
+          path: '/web-view-screen',
+        ),
+        _i15.RouteConfig(
+          ErrorScreenRoute.name,
+          path: '/error-screen',
+        ),
+        _i15.RouteConfig(
+          FeedScreenRoute.name,
+          path: '/feed-screen',
+        ),
+        _i15.RouteConfig(
+          ProfileScreenRoute.name,
+          path: '/profile-screen',
+        ),
+        _i15.RouteConfig(
+          CreatePostRoute.name,
+          path: '/create-post',
+        ),
+        _i15.RouteConfig(
+          ChatScreenRoute.name,
+          path: '/chat-screen',
+        ),
+        _i15.RouteConfig(
+          ViewPostScreenRoute.name,
+          path: '/view-post-screen',
+        ),
+        _i15.RouteConfig(
+          FollowingFollowersScreenRoute.name,
+          path: '/following-followers-screen',
+        ),
+        _i15.RouteConfig(
+          SearchScreenRoute.name,
+          path: '/search-screen',
+        ),
+        _i15.RouteConfig(
+          SettingsScreenRoute.name,
+          path: '/settings-screen',
+        ),
+      ];
 }
 
-/// ************************************************************************
-/// Arguments holder classes
-/// *************************************************************************
+/// generated route for
+/// [_i1.WelcomeScreen]
+class WelcomeScreenRoute extends _i15.PageRouteInfo<void> {
+  const WelcomeScreenRoute()
+      : super(
+          WelcomeScreenRoute.name,
+          path: '/welcome-screen',
+        );
 
-/// WebViewScreen arguments holder class
-class WebViewScreenArguments {
-  final Key? key;
+  static const String name = 'WelcomeScreenRoute';
+}
+
+/// generated route for
+/// [_i2.SignUpScreen]
+class SignUpScreenRoute extends _i15.PageRouteInfo<void> {
+  const SignUpScreenRoute()
+      : super(
+          SignUpScreenRoute.name,
+          path: '/sign-up-screen',
+        );
+
+  static const String name = 'SignUpScreenRoute';
+}
+
+/// generated route for
+/// [_i3.LoginScreen]
+class LoginScreenRoute extends _i15.PageRouteInfo<void> {
+  const LoginScreenRoute()
+      : super(
+          LoginScreenRoute.name,
+          path: '/login-screen',
+        );
+
+  static const String name = 'LoginScreenRoute';
+}
+
+/// generated route for
+/// [_i4.ResetPasswordScreen]
+class ResetPasswordScreenRoute extends _i15.PageRouteInfo<void> {
+  const ResetPasswordScreenRoute()
+      : super(
+          ResetPasswordScreenRoute.name,
+          path: '/reset-password-screen',
+        );
+
+  static const String name = 'ResetPasswordScreenRoute';
+}
+
+/// generated route for
+/// [_i5.WebViewScreen]
+class WebViewScreenRoute extends _i15.PageRouteInfo<WebViewScreenRouteArgs> {
+  WebViewScreenRoute({
+    _i16.Key? key,
+    String? url,
+    String? name,
+  }) : super(
+          WebViewScreenRoute.name,
+          path: '/web-view-screen',
+          args: WebViewScreenRouteArgs(
+            key: key,
+            url: url,
+            name: name,
+          ),
+        );
+
+  static const String name = 'WebViewScreenRoute';
+}
+
+class WebViewScreenRouteArgs {
+  const WebViewScreenRouteArgs({
+    this.key,
+    this.url,
+    this.name,
+  });
+
+  final _i16.Key? key;
+
   final String? url;
+
   final String? name;
-  WebViewScreenArguments({this.key, this.url, this.name});
+
+  @override
+  String toString() {
+    return 'WebViewScreenRouteArgs{key: $key, url: $url, name: $name}';
+  }
 }
 
-/// ErrorScreen arguments holder class
-class ErrorScreenArguments {
-  final Key? key;
+/// generated route for
+/// [_i6.ErrorScreen]
+class ErrorScreenRoute extends _i15.PageRouteInfo<ErrorScreenRouteArgs> {
+  ErrorScreenRoute({
+    _i16.Key? key,
+    String? error,
+  }) : super(
+          ErrorScreenRoute.name,
+          path: '/error-screen',
+          args: ErrorScreenRouteArgs(
+            key: key,
+            error: error,
+          ),
+        );
+
+  static const String name = 'ErrorScreenRoute';
+}
+
+class ErrorScreenRouteArgs {
+  const ErrorScreenRouteArgs({
+    this.key,
+    this.error,
+  });
+
+  final _i16.Key? key;
+
   final String? error;
-  ErrorScreenArguments({this.key, this.error});
+
+  @override
+  String toString() {
+    return 'ErrorScreenRouteArgs{key: $key, error: $error}';
+  }
 }
 
-/// ProfileScreen arguments holder class
-class ProfileScreenArguments {
-  final Key? key;
+/// generated route for
+/// [_i7.FeedScreen]
+class FeedScreenRoute extends _i15.PageRouteInfo<void> {
+  const FeedScreenRoute()
+      : super(
+          FeedScreenRoute.name,
+          path: '/feed-screen',
+        );
+
+  static const String name = 'FeedScreenRoute';
+}
+
+/// generated route for
+/// [_i8.ProfileScreen]
+class ProfileScreenRoute extends _i15.PageRouteInfo<ProfileScreenRouteArgs> {
+  ProfileScreenRoute({
+    _i16.Key? key,
+    String? otherUserId,
+    String? profileUrl,
+    String? coverUrl,
+    _i8.ProfileNavigationEnum profileNavigationEnum =
+        _i8.ProfileNavigationEnum.FROM_FEED,
+  }) : super(
+          ProfileScreenRoute.name,
+          path: '/profile-screen',
+          args: ProfileScreenRouteArgs(
+            key: key,
+            otherUserId: otherUserId,
+            profileUrl: profileUrl,
+            coverUrl: coverUrl,
+            profileNavigationEnum: profileNavigationEnum,
+          ),
+        );
+
+  static const String name = 'ProfileScreenRoute';
+}
+
+class ProfileScreenRouteArgs {
+  const ProfileScreenRouteArgs({
+    this.key,
+    this.otherUserId,
+    this.profileUrl,
+    this.coverUrl,
+    this.profileNavigationEnum = _i8.ProfileNavigationEnum.FROM_FEED,
+  });
+
+  final _i16.Key? key;
+
   final String? otherUserId;
+
   final String? profileUrl;
+
   final String? coverUrl;
-  final ProfileNavigationEnum profileNavigationEnum;
-  ProfileScreenArguments(
-      {this.key,
-      this.otherUserId,
-      this.profileUrl,
-      this.coverUrl,
-      this.profileNavigationEnum = ProfileNavigationEnum.FROM_FEED});
+
+  final _i8.ProfileNavigationEnum profileNavigationEnum;
+
+  @override
+  String toString() {
+    return 'ProfileScreenRouteArgs{key: $key, otherUserId: $otherUserId, profileUrl: $profileUrl, coverUrl: $coverUrl, profileNavigationEnum: $profileNavigationEnum}';
+  }
 }
 
-/// CreatePost arguments holder class
-class CreatePostArguments {
-  final Key? key;
+/// generated route for
+/// [_i9.CreatePost]
+class CreatePostRoute extends _i15.PageRouteInfo<CreatePostRouteArgs> {
+  CreatePostRoute({
+    _i16.Key? key,
+    String title = "Create Post",
+    String? replyTo = "",
+    String? threadId,
+    _i17.ReplyEntity? replyEntity,
+  }) : super(
+          CreatePostRoute.name,
+          path: '/create-post',
+          args: CreatePostRouteArgs(
+            key: key,
+            title: title,
+            replyTo: replyTo,
+            threadId: threadId,
+            replyEntity: replyEntity,
+          ),
+        );
+
+  static const String name = 'CreatePostRoute';
+}
+
+class CreatePostRouteArgs {
+  const CreatePostRouteArgs({
+    this.key,
+    this.title = "Create Post",
+    this.replyTo = "",
+    this.threadId,
+    this.replyEntity,
+  });
+
+  final _i16.Key? key;
+
   final String title;
-  final String replyTo;
+
+  final String? replyTo;
+
   final String? threadId;
-  final ReplyEntity? replyEntity;
-  CreatePostArguments(
-      {this.key,
-      this.title = "Create Post",
-      this.replyTo = "",
-      this.threadId,
-      this.replyEntity});
+
+  final _i17.ReplyEntity? replyEntity;
+
+  @override
+  String toString() {
+    return 'CreatePostRouteArgs{key: $key, title: $title, replyTo: $replyTo, threadId: $threadId, replyEntity: $replyEntity}';
+  }
 }
 
-/// ChatScreen arguments holder class
-class ChatScreenArguments {
-  final Key? key;
+/// generated route for
+/// [_i10.ChatScreen]
+class ChatScreenRoute extends _i15.PageRouteInfo<ChatScreenRouteArgs> {
+  ChatScreenRoute({
+    _i16.Key? key,
+    String? otherPersonUserId,
+    String? otherUserFullName,
+    String? otherPersonProfileUrl,
+  }) : super(
+          ChatScreenRoute.name,
+          path: '/chat-screen',
+          args: ChatScreenRouteArgs(
+            key: key,
+            otherPersonUserId: otherPersonUserId,
+            otherUserFullName: otherUserFullName,
+            otherPersonProfileUrl: otherPersonProfileUrl,
+          ),
+        );
+
+  static const String name = 'ChatScreenRoute';
+}
+
+class ChatScreenRouteArgs {
+  const ChatScreenRouteArgs({
+    this.key,
+    this.otherPersonUserId,
+    this.otherUserFullName,
+    this.otherPersonProfileUrl,
+  });
+
+  final _i16.Key? key;
+
   final String? otherPersonUserId;
+
   final String? otherUserFullName;
+
   final String? otherPersonProfileUrl;
-  ChatScreenArguments(
-      {this.key,
-      this.otherPersonUserId,
-      this.otherUserFullName,
-      this.otherPersonProfileUrl});
+
+  @override
+  String toString() {
+    return 'ChatScreenRouteArgs{key: $key, otherPersonUserId: $otherPersonUserId, otherUserFullName: $otherUserFullName, otherPersonProfileUrl: $otherPersonProfileUrl}';
+  }
 }
 
-/// ViewPostScreen arguments holder class
-class ViewPostScreenArguments {
-  final Key? key;
+/// generated route for
+/// [_i11.ViewPostScreen]
+class ViewPostScreenRoute extends _i15.PageRouteInfo<ViewPostScreenRouteArgs> {
+  ViewPostScreenRoute({
+    _i16.Key? key,
+    int? threadID,
+    required _i18.PostEntity? postEntity,
+  }) : super(
+          ViewPostScreenRoute.name,
+          path: '/view-post-screen',
+          args: ViewPostScreenRouteArgs(
+            key: key,
+            threadID: threadID,
+            postEntity: postEntity,
+          ),
+        );
+
+  static const String name = 'ViewPostScreenRoute';
+}
+
+class ViewPostScreenRouteArgs {
+  const ViewPostScreenRouteArgs({
+    this.key,
+    this.threadID,
+    required this.postEntity,
+  });
+
+  final _i16.Key? key;
+
   final int? threadID;
-  final PostEntity? postEntity;
-  ViewPostScreenArguments({this.key, this.threadID, required this.postEntity});
+
+  final _i18.PostEntity? postEntity;
+
+  @override
+  String toString() {
+    return 'ViewPostScreenRouteArgs{key: $key, threadID: $threadID, postEntity: $postEntity}';
+  }
 }
 
-/// FollowingFollowersScreen arguments holder class
-class FollowingFollowersScreenArguments {
-  final Key? key;
-  final FollowUnFollowScreenEnum followScreenEnum;
+/// generated route for
+/// [_i12.FollowingFollowersScreen]
+class FollowingFollowersScreenRoute
+    extends _i15.PageRouteInfo<FollowingFollowersScreenRouteArgs> {
+  FollowingFollowersScreenRoute({
+    _i16.Key? key,
+    _i12.FollowUnFollowScreenEnum followScreenEnum =
+        _i12.FollowUnFollowScreenEnum.FOLLOWERS,
+    String? userId,
+  }) : super(
+          FollowingFollowersScreenRoute.name,
+          path: '/following-followers-screen',
+          args: FollowingFollowersScreenRouteArgs(
+            key: key,
+            followScreenEnum: followScreenEnum,
+            userId: userId,
+          ),
+        );
+
+  static const String name = 'FollowingFollowersScreenRoute';
+}
+
+class FollowingFollowersScreenRouteArgs {
+  const FollowingFollowersScreenRouteArgs({
+    this.key,
+    this.followScreenEnum = _i12.FollowUnFollowScreenEnum.FOLLOWERS,
+    this.userId,
+  });
+
+  final _i16.Key? key;
+
+  final _i12.FollowUnFollowScreenEnum followScreenEnum;
+
   final String? userId;
-  FollowingFollowersScreenArguments(
-      {this.key,
-      this.followScreenEnum = FollowUnFollowScreenEnum.FOLLOWERS,
-      this.userId});
+
+  @override
+  String toString() {
+    return 'FollowingFollowersScreenRouteArgs{key: $key, followScreenEnum: $followScreenEnum, userId: $userId}';
+  }
 }
 
-/// SearchScreen arguments holder class
-class SearchScreenArguments {
-  final Key? key;
+/// generated route for
+/// [_i13.SearchScreen]
+class SearchScreenRoute extends _i15.PageRouteInfo<SearchScreenRouteArgs> {
+  SearchScreenRoute({
+    _i16.Key? key,
+    String? searchedText,
+  }) : super(
+          SearchScreenRoute.name,
+          path: '/search-screen',
+          args: SearchScreenRouteArgs(
+            key: key,
+            searchedText: searchedText,
+          ),
+        );
+
+  static const String name = 'SearchScreenRoute';
+}
+
+class SearchScreenRouteArgs {
+  const SearchScreenRouteArgs({
+    this.key,
+    this.searchedText,
+  });
+
+  final _i16.Key? key;
+
   final String? searchedText;
-  SearchScreenArguments({this.key, this.searchedText});
+
+  @override
+  String toString() {
+    return 'SearchScreenRouteArgs{key: $key, searchedText: $searchedText}';
+  }
 }
 
-/// SettingsScreen arguments holder class
-class SettingsScreenArguments {
-  final Key? key;
+/// generated route for
+/// [_i14.SettingsScreen]
+class SettingsScreenRoute extends _i15.PageRouteInfo<SettingsScreenRouteArgs> {
+  SettingsScreenRoute({
+    _i16.Key? key,
+    bool fromProfile = false,
+  }) : super(
+          SettingsScreenRoute.name,
+          path: '/settings-screen',
+          args: SettingsScreenRouteArgs(
+            key: key,
+            fromProfile: fromProfile,
+          ),
+        );
+
+  static const String name = 'SettingsScreenRoute';
+}
+
+class SettingsScreenRouteArgs {
+  const SettingsScreenRouteArgs({
+    this.key,
+    this.fromProfile = false,
+  });
+
+  final _i16.Key? key;
+
   final bool fromProfile;
-  SettingsScreenArguments({this.key, this.fromProfile = false});
+
+  @override
+  String toString() {
+    return 'SettingsScreenRouteArgs{key: $key, fromProfile: $fromProfile}';
+  }
 }
