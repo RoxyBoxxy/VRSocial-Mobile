@@ -104,7 +104,7 @@ _requestPermission(BuildContext context, Permission permission) async {
 }
 
 Future<File> _cropImage(String path) async {
-  File croppedFile = await ImageCropper.cropImage(
+  File croppedFile = await ImageCropper().cropImage(
       sourcePath: path,
       aspectRatio: const CropAspectRatio(ratioX: 3, ratioY: 1),
       androidUiSettings: const AndroidUiSettings(

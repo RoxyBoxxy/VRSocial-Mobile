@@ -132,7 +132,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<CreatePostCubit, CommonUIState>(
-      cubit: createPostCubit,
+      bloc: createPostCubit,
       listener: (_, state) {
         state.maybeWhen(
             orElse: () {},
@@ -160,7 +160,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
             });
       },
       child: BlocBuilder<CreatePostCubit, CommonUIState>(
-        cubit: createPostCubit,
+        bloc: createPostCubit,
         builder: (_, state) {
           return state.when(
               initial: () => Stack(

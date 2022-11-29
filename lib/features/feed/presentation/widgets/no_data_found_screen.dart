@@ -44,13 +44,14 @@ class NoDataFoundScreen extends StatelessWidget {
           //     .toText
           //     .toCustomButton(() {}, fullWidth: false)
           //     .toHorizontalPadding(64),
-          OutlineButton(
+          OutlinedButton(
                   child: buttonText.toButton(color: AppColors.colorPrimary),
                   onPressed: onTapButton,
-                  borderSide: const BorderSide(color: AppColors.colorPrimary),
-                  shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(30.0),
-                      side: const BorderSide(color: Colors.red, width: 10)))
+                  style: OutlinedButton.styleFrom(
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30.0),
+                          side:
+                              const BorderSide(color: Colors.red, width: 10))))
               .toVisibility(buttonVisibility)
         ],
       ),

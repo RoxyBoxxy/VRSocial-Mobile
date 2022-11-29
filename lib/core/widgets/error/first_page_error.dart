@@ -58,7 +58,7 @@ class FirstPageExceptionIndicator extends StatelessWidget {
                 SizedBox(
                   height: 50,
                   width: double.infinity,
-                  child: RaisedButton.icon(
+                  child: ElevatedButton.icon(
                     onPressed: onTryAgain,
                     icon: const Icon(
                       Icons.refresh,

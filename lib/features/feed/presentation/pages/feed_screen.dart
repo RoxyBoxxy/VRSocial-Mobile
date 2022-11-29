@@ -38,7 +38,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/screenutil.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 import '../../../profile/presentation/pages/bookmark_screen.dart';
@@ -885,7 +884,7 @@ class TutorialOverlay extends ModalRoute<void> {
             'This is a nice overlay',
             style: TextStyle(color: Colors.white, fontSize: 30.0),
           ),
-          RaisedButton(
+          ElevatedButton(
             onPressed: () => Navigator.pop(context),
             child: Text('Dismiss'),
           )

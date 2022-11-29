@@ -12,6 +12,7 @@ import 'package:colibri/features/profile/data/models/response/profile_posts_resp
 import 'package:equatable/equatable.dart';
 import 'package:faker/faker.dart';
 import 'package:colibri/extensions.dart';
+import 'package:flutter/foundation.dart';
 
 class PostEntity extends Equatable {
   final String postId;
