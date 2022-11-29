@@ -51,7 +51,7 @@ packages:
     source: hosted
     version: "2.9.0"
   auto_route:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: auto_route
       url: "https://pub.dartlang.org"
