@@ -8,7 +8,6 @@ import 'package:colibri/features/feed/domain/entity/post_entity.dart';
 import 'package:colibri/features/feed/domain/usecase/create_post_use_case.dart';
 import 'package:colibri/features/feed/domain/usecase/like_unlike_use_case.dart';
 import 'package:colibri/features/feed/domain/usecase/repost_use_case.dart';
-import 'package:colibri/features/feed/presentation/widgets/feed_widgets.dart';
 import 'package:colibri/features/posts/data/model/response/post_detail_response.dart';
 import 'package:colibri/features/posts/domain/usecases/add_remove_bookmark_use_case.dart';
 import 'package:colibri/features/posts/domain/usecases/delete_post_use_case.dart';

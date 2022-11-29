@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:colibri/core/theme/app_theme.dart';
 import 'package:colibri/core/theme/colors.dart';
 import 'package:flushbar/flushbar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:colibri/extensions.dart';

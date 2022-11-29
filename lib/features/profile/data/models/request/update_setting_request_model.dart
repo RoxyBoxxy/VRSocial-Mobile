@@ -1,20 +1,11 @@
-import 'dart:collection';
 
-import 'package:auto_route/auto_route.dart';
 
-import 'package:auto_route/auto_route.dart';
 
-import 'package:auto_route/auto_route.dart';
 
-import 'package:auto_route/auto_route.dart';
 
-import 'package:auto_route/auto_route.dart';
 
-import 'package:auto_route/auto_route.dart';
 
-import 'package:auto_route/auto_route.dart';
 
-import 'package:auto_route/auto_route.dart';
 
 class UpdateSettingsRequestModel {
   final String firstName;

@@ -1,24 +1,20 @@
 import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:colibri/core/common/uistate/common_ui_state.dart';
 import 'package:colibri/core/di/injection.dart';
-import 'package:colibri/core/routes/routes.gr.dart';
 import 'package:colibri/core/theme/app_icons.dart';
 import 'package:colibri/core/theme/colors.dart';
 import 'package:colibri/core/theme/images.dart';
 import 'package:colibri/core/widgets/animations/fade_widget.dart';
 import 'package:colibri/core/widgets/loading_bar.dart';
 import 'package:colibri/extensions.dart';
-import 'package:colibri/features/feed/data/models/feeds_response.dart';
 import 'package:colibri/features/feed/presentation/bloc/feed_cubit.dart';
-import 'package:colibri/features/feed/presentation/pages/feed_screen.dart';
 import 'package:colibri/features/feed/presentation/widgets/all_home_screens.dart';
 import 'package:colibri/features/feed/presentation/widgets/no_data_found_screen.dart';
-import 'package:colibri/features/messages/domain/entity/chat_entity.dart';
 import 'package:colibri/features/messages/domain/entity/message_entity.dart';
 import 'package:colibri/features/messages/presentation/bloc/message_cubit.dart';
 import 'package:colibri/features/messages/presentation/pages/chat_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -54,7 +50,6 @@ class _MessageScreenState extends State<MessageScreen> {
                     child: CustomScrollView(
                       slivers: [
                         SliverAppBar(
-                          brightness: Brightness.light,
                           automaticallyImplyLeading: false,
                           leading: null,
                           elevation: 10.0,
@@ -76,7 +71,7 @@ class _MessageScreenState extends State<MessageScreen> {
                                   .toContainer(height: 65)
                             ].toColumn(
                                 mainAxisAlignment: MainAxisAlignment.end),
-                          ),
+                          ), systemOverlayStyle: SystemUiOverlayStyle.dark,
                           // title:
                         ),
                         buildHome()

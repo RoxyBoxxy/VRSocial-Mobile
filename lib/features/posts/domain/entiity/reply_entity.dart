@@ -1,7 +1,5 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:colibri/features/feed/domain/entity/post_entity.dart';
 import 'package:colibri/features/feed/domain/entity/post_media.dart';
-import 'package:colibri/features/posts/domain/entiity/media_entity.dart';
 import 'package:flutter/foundation.dart';
 
 class ReplyEntity {

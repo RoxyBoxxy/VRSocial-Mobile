@@ -1,14 +1,9 @@
 import 'dart:collection';
 
-import 'package:auto_route/auto_route.dart';
 
-import 'package:auto_route/auto_route.dart';
 
-import 'package:auto_route/auto_route.dart';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:colibri/core/theme/strings.dart';
-import 'package:colibri/features/authentication/data/models/login_response.dart';
 import 'package:colibri/features/profile/data/models/response/privacy_response.dart';
 import 'package:colibri/features/profile/domain/entity/profile_entity.dart';
 import 'package:flutter/foundation.dart';

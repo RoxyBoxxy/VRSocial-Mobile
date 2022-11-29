@@ -4,12 +4,11 @@ import 'package:awsome_video_player/awsome_video_player.dart';
 import 'package:better_player/better_player.dart';
 import 'package:colibri/core/common/media/media_data.dart';
 import 'package:colibri/core/theme/colors.dart';
-import 'package:colibri/features/feed/presentation/bloc/feed_cubit.dart';
 import 'package:colibri/features/feed/presentation/widgets/create_post_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:photo_view/photo_view.dart';
-import 'package:video_player/video_player.dart';
 import 'package:colibri/extensions.dart';
 
 class MediaOpener extends StatefulWidget {
@@ -124,8 +123,7 @@ class MyVideoPlayerState extends State<MyVideoPlayer> {
         ),
         title: "Video Player".toSubTitle1(
             color: AppColors.textColor, fontWeight: FontWeight.bold),
-        backgroundColor: Colors.white,
-        brightness: Brightness.light,
+        backgroundColor: Colors.white, systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
       body: SafeArea(
         child: BetterPlayer(
@@ -286,8 +284,7 @@ class OpenImage extends StatelessWidget {
         ),
         title: "Gallery".toSubTitle1(
             color: AppColors.textColor, fontWeight: FontWeight.bold),
-        backgroundColor: Colors.white,
-        brightness: Brightness.light,
+        backgroundColor: Colors.white, systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
       body: Container(
           child: PhotoView(

@@ -2,7 +2,6 @@ import 'package:colibri/core/common/widget/common_divider.dart';
 import 'package:colibri/core/di/injection.dart';
 import 'package:colibri/core/theme/app_icons.dart';
 import 'package:colibri/core/theme/colors.dart';
-import 'package:colibri/core/widgets/animations/fade_widget.dart';
 import 'package:colibri/core/widgets/loading_bar.dart';
 import 'package:colibri/extensions.dart';
 import 'package:colibri/features/feed/presentation/bloc/feed_cubit.dart';
@@ -18,7 +17,6 @@ import 'package:colibri/features/search/presentation/widgets/people_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:colibri/extensions.dart';
 
 class SearchScreen extends StatefulWidget {
   final String searchedText;

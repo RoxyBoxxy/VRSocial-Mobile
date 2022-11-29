@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:colibri/core/common/stream_validators.dart';
-import 'package:colibri/core/common/textfield_limitter.dart';
 import 'package:colibri/core/extensions/string_extensions.dart';
 import 'package:colibri/core/extensions/widget_extensions.dart';
 import 'package:colibri/features/feed/domain/entity/post_entity.dart';
@@ -15,7 +14,6 @@ import 'package:video_compress/video_compress.dart';
 import 'core/common/api/api_constants.dart';
 import 'core/common/widget/menu_item_widget.dart';
 import 'core/theme/app_theme.dart';
-import 'core/utils/lengthlimitingtextfieldformatterfixed.dart';
 
 export 'package:colibri/core/extensions/context_exrensions.dart';
 export 'package:colibri/core/extensions/string_extensions.dart';

@@ -1,16 +1,13 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:colibri/core/common/api/api_constants.dart';
 import 'package:colibri/core/common/media/media_data.dart';
 import 'package:colibri/core/common/stream_validators.dart';
 import 'package:colibri/core/common/uistate/common_ui_state.dart';
-import 'package:colibri/features/feed/data/models/feeds_response.dart';
 import 'package:colibri/features/feed/data/models/request/post_request_model.dart';
 import 'package:colibri/features/feed/domain/usecase/create_post_use_case.dart';
 import 'package:colibri/features/feed/domain/usecase/get_drawer_data_use_case.dart';
 import 'package:colibri/features/feed/domain/usecase/upload_media_use_case.dart';
-import 'package:colibri/features/feed/presentation/bloc/feed_cubit.dart';
 import 'package:colibri/features/feed/presentation/widgets/create_post_card.dart';
 import 'package:colibri/features/posts/domain/entiity/media_entity.dart';
 import 'package:colibri/features/posts/domain/usecases/delete_media_use_case.dart';

@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:colibri/core/common/api/api_constants.dart';
 import 'package:colibri/core/common/buttons/custom_button.dart';
 import 'package:colibri/core/common/static_data/all_countries.dart';
 import 'package:colibri/core/common/uistate/common_ui_state.dart';
@@ -10,7 +9,6 @@ import 'package:colibri/core/widgets/media_picker.dart';
 import 'package:colibri/features/feed/presentation/widgets/create_post_card.dart';
 import 'package:colibri/features/profile/domain/entity/setting_entity.dart';
 import 'package:colibri/features/profile/presentation/bloc/settings/user_setting_cubit.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:colibri/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

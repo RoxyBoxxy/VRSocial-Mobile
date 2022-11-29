@@ -1,27 +1,20 @@
-import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:colibri/core/common/add_thumbnail/check_link.dart';
 import 'package:colibri/core/common/social_share/social_share.dart';
 import 'package:colibri/core/common/widget/menu_item_widget.dart';
 import 'package:colibri/core/constants/appconstants.dart';
-import 'package:colibri/core/datasource/local_data_source.dart';
 import 'package:colibri/core/di/injection.dart';
 import 'package:colibri/core/routes/routes.gr.dart';
 import 'package:colibri/core/theme/app_icons.dart';
 import 'package:colibri/core/theme/colors.dart';
-import 'package:colibri/core/theme/images.dart';
 import 'package:colibri/core/theme/strings.dart';
 import 'package:colibri/core/widgets/slider.dart';
 import 'package:colibri/extensions.dart';
 import 'package:colibri/features/feed/domain/entity/post_entity.dart';
-import 'package:colibri/features/feed/domain/entity/drawer_entity.dart';
 import 'package:colibri/features/feed/presentation/bloc/feed_cubit.dart';
 import 'package:colibri/features/feed/presentation/pages/feed_screen.dart';
 import 'package:colibri/features/feed/presentation/widgets/all_home_screens.dart';
-import 'package:colibri/features/feed/presentation/widgets/create_post_card.dart';
 import 'package:colibri/features/posts/domain/entiity/reply_entity.dart';
 import 'package:colibri/features/posts/presentation/bloc/post_cubit.dart';
 import 'package:colibri/features/posts/presentation/pages/create_post.dart';
@@ -30,12 +23,9 @@ import 'package:colibri/features/profile/presentation/pages/followers_following_
 import 'package:colibri/features/profile/presentation/pages/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:html/parser.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:remove_emoji/remove_emoji.dart';
-import 'package:timelines/timelines.dart';
 
 class PostItem extends StatefulWidget {
   final bool isComeHome;
@@ -126,7 +116,7 @@ class _PostItemState extends State<PostItem> {
   }
 
   Widget _postItem(
-      {showThread = true, showArrowIcon = true, otherUser = false}) {
+      {otherUser = false}) {
     return Container(
       child: Column(children: [
         // 15.toSizedBox.toVisibility(widget?.postEntity?.showRepostedText ?? false),

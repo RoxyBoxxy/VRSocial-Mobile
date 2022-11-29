@@ -1,6 +1,5 @@
 import 'dart:collection';
 
-import 'package:colibri/features/feed/data/models/feeds_response.dart';
 
 class PostRequestModel {
   final String postText;

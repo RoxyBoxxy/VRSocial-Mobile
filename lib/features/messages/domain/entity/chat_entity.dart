@@ -1,7 +1,5 @@
 import 'package:colibri/core/common/api/response_models/chat_notification_response.dart';
-import 'package:colibri/features/feed/presentation/widgets/create_post_card.dart';
 import 'package:colibri/features/messages/data/models/response/chats_response.dart';
-import 'package:colibri/features/notifications/data/models/response/notification_response.dart';
 import 'package:flutter/material.dart';
 import 'package:colibri/extensions.dart';
 

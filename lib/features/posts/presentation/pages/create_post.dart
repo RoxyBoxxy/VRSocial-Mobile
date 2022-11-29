@@ -3,8 +3,8 @@ import 'package:colibri/core/theme/colors.dart';
 import 'package:colibri/features/feed/presentation/bloc/feed_cubit.dart';
 import 'package:colibri/features/feed/presentation/widgets/create_post_card.dart';
 import 'package:colibri/features/posts/domain/entiity/reply_entity.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:colibri/extensions.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -65,8 +65,7 @@ class _CreatePostState extends State<CreatePost> {
             ),
             title: widget.title.toSubTitle1(
                 color: AppColors.textColor, fontWeight: FontWeight.bold),
-            backgroundColor: Colors.white,
-            brightness: Brightness.light,
+            backgroundColor: Colors.white, systemOverlayStyle: SystemUiOverlayStyle.dark,
           ),
           body: BlocProvider(
               create: (c) => getIt<FeedCubit>(),

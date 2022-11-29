@@ -3,7 +3,6 @@ import 'package:colibri/core/common/failure.dart';
 import 'package:colibri/core/common/pagination/custom_pagination.dart';
 import 'package:colibri/features/feed/domain/entity/post_entity.dart';
 import 'package:colibri/features/posts/presentation/bloc/like_unlike_mixin.dart';
-import 'package:colibri/features/profile/data/models/request/profile_posts_model.dart';
 import 'package:colibri/features/profile/domain/usecase/get_profile_posts.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';

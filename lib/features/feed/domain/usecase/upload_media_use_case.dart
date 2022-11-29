@@ -1,8 +1,6 @@
 import 'package:colibri/core/common/failure.dart';
 import 'package:colibri/core/common/media/media_data.dart';
 import 'package:colibri/core/common/usecase.dart';
-import 'package:colibri/features/feed/domain/repo/feed_repo.dart';
-import 'package:colibri/features/feed/presentation/bloc/feed_cubit.dart';
 import 'package:colibri/features/posts/domain/entiity/media_entity.dart';
 import 'package:colibri/features/posts/domain/post_repo.dart';
 import 'package:dartz/dartz.dart';

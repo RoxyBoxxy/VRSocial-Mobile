@@ -4,7 +4,6 @@ import 'package:colibri/core/common/api/api_constants.dart';
 import 'package:colibri/core/common/failure.dart';
 import 'package:colibri/core/datasource/local_data_source.dart';
 import 'package:colibri/core/di/injection.dart';
-import 'package:colibri/features/authentication/data/models/login_response.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';

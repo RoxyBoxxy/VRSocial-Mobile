@@ -1,6 +1,5 @@
 import 'dart:collection';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:colibri/extensions.dart';
 import 'package:flutter/foundation.dart';
 

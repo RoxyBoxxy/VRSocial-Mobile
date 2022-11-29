@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:colibri/core/common/media/media_data.dart';
@@ -7,7 +6,6 @@ import 'package:colibri/core/di/injection.dart';
 import 'package:colibri/core/routes/routes.gr.dart';
 import 'package:colibri/core/theme/app_icons.dart';
 import 'package:colibri/core/theme/colors.dart';
-import 'package:colibri/core/theme/images.dart';
 import 'package:colibri/core/theme/strings.dart';
 import 'package:colibri/core/widgets/MediaOpener.dart';
 import 'package:colibri/core/widgets/loading_bar.dart';
@@ -20,10 +18,8 @@ import 'package:colibri/features/feed/presentation/widgets/no_data_found_screen.
 import 'package:colibri/features/posts/presentation/bloc/createpost_cubit.dart';
 import 'package:colibri/features/posts/presentation/bloc/view_post_cubit.dart';
 import 'package:colibri/features/posts/presentation/pages/show_likes_screen.dart';
-import 'package:colibri/features/search/presentation/widgets/ThreadedPostItem.dart';
 import 'package:emoji_picker/emoji_picker.dart';
 import 'package:equatable/equatable.dart';
-import 'package:faker/faker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:colibri/extensions.dart';

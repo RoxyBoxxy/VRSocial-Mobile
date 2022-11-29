@@ -14,10 +14,7 @@ import 'package:colibri/features/messages/domain/entity/chat_entity.dart';
 import 'package:colibri/features/messages/domain/entity/message_entity.dart';
 import 'package:colibri/features/messages/domain/repo/message_repo.dart';
 import 'package:dartz/dartz.dart';
-import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:mime/mime.dart';
-import 'package:http_parser/src/media_type.dart';
 
 @Injectable(as: MessageRepo)
 class MessageRepoImpl extends MessageRepo {

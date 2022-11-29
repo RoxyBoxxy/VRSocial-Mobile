@@ -5,7 +5,6 @@ import 'package:colibri/core/theme/app_icons.dart';
 import 'package:colibri/core/theme/colors.dart';
 import 'package:colibri/core/theme/images.dart';
 import 'package:colibri/core/widgets/animations/fade_widget.dart';
-import 'package:colibri/core/widgets/loading_bar.dart';
 import 'package:colibri/features/feed/presentation/bloc/feed_cubit.dart';
 import 'package:colibri/features/feed/presentation/widgets/no_data_found_screen.dart';
 import 'package:colibri/features/profile/domain/entity/follower_entity.dart';
@@ -14,6 +13,7 @@ import 'package:colibri/features/profile/presentation/bloc/followers_following_c
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:colibri/extensions.dart';
+import 'package:flutter/services.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class FollowingFollowersScreen extends StatefulWidget {
@@ -82,7 +82,6 @@ class _FollowingFollowersScreenState extends State<FollowingFollowersScreen>
                 leading: const BackButton(
                   color: AppColors.colorPrimary,
                 ),
-                brightness: Brightness.light,
                 elevation: 0.0,
                 // expandedHeight: context.getScreenWidth>320?480.toHeight:520.toHeight,
                 floating: true,
@@ -160,7 +159,7 @@ class _FollowingFollowersScreenState extends State<FollowingFollowersScreen>
                               );
                       }),
                   preferredSize: const Size(500, 56),
-                ),
+                ), systemOverlayStyle: SystemUiOverlayStyle.dark,
               ),
             ];
           },

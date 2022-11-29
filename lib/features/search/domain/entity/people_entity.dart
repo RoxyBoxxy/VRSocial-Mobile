@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:colibri/features/posts/data/model/response/likes_response.dart';
 
 import 'package:colibri/features/search/data/models/people_response.dart';

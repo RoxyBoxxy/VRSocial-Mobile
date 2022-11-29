@@ -3,12 +3,9 @@ import 'package:colibri/core/common/uistate/common_ui_state.dart';
 import 'package:colibri/core/di/injection.dart';
 import 'package:colibri/core/theme/app_icons.dart';
 import 'package:colibri/core/theme/colors.dart';
-import 'package:colibri/core/widgets/expandable_page_view.dart';
 import 'package:colibri/core/widgets/loading_bar.dart';
 import 'package:colibri/core/widgets/media_picker.dart';
 import 'package:colibri/extensions.dart';
-import 'package:colibri/features/feed/presentation/bloc/feed_cubit.dart';
-import 'package:colibri/features/feed/presentation/widgets/all_home_screens.dart';
 import 'package:colibri/features/feed/presentation/widgets/create_post_card.dart';
 import 'package:colibri/features/feed/presentation/widgets/feed_widgets.dart';
 import 'package:colibri/features/feed/presentation/widgets/no_data_found_screen.dart';
@@ -19,9 +16,8 @@ import 'package:colibri/features/profile/presentation/bloc/user_likes/user_likes
 import 'package:colibri/features/profile/presentation/bloc/user_media/user_media_cubit.dart';
 import 'package:colibri/features/profile/presentation/bloc/user_posts/user_post_cubit.dart';
 import 'package:colibri/features/profile/presentation/widgets/profile_widgets.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -121,7 +117,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                     return SliverAppBar(
                       automaticallyImplyLeading: false,
                       leading: null,
-                      brightness: Brightness.light,
                       elevation: 0.0,
                       expandedHeight: calculateHeight(snapshot.data),
                       floating: true,
@@ -204,7 +199,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                           ],
                         ),
                         preferredSize: const Size(500, 56),
-                      ),
+                      ), systemOverlayStyle: SystemUiOverlayStyle.dark,
                     );
                   }),
             ];

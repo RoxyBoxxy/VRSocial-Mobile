@@ -9,7 +9,6 @@ import 'package:colibri/features/profile/presentation/bloc/bookmark_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:colibri/extensions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:colibri/extensions.dart';
 
 class BookMarkScreen extends StatefulWidget {
   @override

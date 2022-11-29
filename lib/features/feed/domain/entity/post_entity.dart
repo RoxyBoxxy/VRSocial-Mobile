@@ -1,7 +1,4 @@
-import 'dart:convert' as utf8;
 
-import 'package:auto_route/auto_route.dart';
-import 'package:colibri/features/authentication/data/models/login_response.dart';
 
 import 'package:colibri/features/feed/data/models/feeds_response.dart';
 import 'package:colibri/features/feed/domain/entity/post_media.dart';

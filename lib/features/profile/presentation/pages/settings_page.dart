@@ -8,16 +8,14 @@ import 'package:colibri/core/theme/colors.dart';
 import 'package:colibri/core/theme/strings.dart';
 import 'package:colibri/core/widgets/loading_bar.dart';
 import 'package:colibri/extensions.dart';
-import 'package:colibri/features/feed/presentation/bloc/feed_cubit.dart';
 import 'package:colibri/features/profile/domain/entity/setting_entity.dart';
 import 'package:colibri/features/profile/presentation/bloc/settings/user_setting_cubit.dart';
 import 'package:colibri/features/profile/presentation/pages/settings/update_user_settings.dart';
 import 'package:colibri/features/profile/presentation/pagination/privacy_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:video_compress/video_compress.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -53,7 +51,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     context.initScreenUtil();
     return Scaffold(
       appBar: AppBar(
-        brightness: Brightness.light,
         backgroundColor: Colors.white,
         title: "Profile Settings".toSubTitle1(
             color: AppColors.textColor, fontWeight: FontWeight.bold),
@@ -72,7 +69,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 },
               )
             : null,
-        automaticallyImplyLeading: true,
+        automaticallyImplyLeading: true, systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
       body: RefreshIndicator(
         onRefresh: () async {

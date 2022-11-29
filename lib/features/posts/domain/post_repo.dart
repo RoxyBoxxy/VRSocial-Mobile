@@ -1,10 +1,8 @@
 import 'package:colibri/core/common/failure.dart';
 import 'package:colibri/core/common/media/media_data.dart';
 import 'package:colibri/features/feed/data/models/request/post_request_model.dart';
-import 'package:colibri/features/feed/presentation/bloc/feed_cubit.dart';
 import 'package:colibri/features/posts/data/model/response/post_detail_response.dart';
 import 'package:colibri/features/posts/data/model/request/like_request_model.dart';
-import 'package:colibri/features/profile/data/models/request/profile_posts_model.dart';
 import 'package:colibri/features/search/domain/entity/people_entity.dart';
 import 'package:dartz/dartz.dart';
 

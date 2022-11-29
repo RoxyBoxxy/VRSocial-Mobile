@@ -8,7 +8,6 @@ import 'package:colibri/core/datasource/local_data_source.dart';
 import 'package:colibri/features/authentication/domain/usecase/login_use_case.dart';
 import 'package:colibri/features/authentication/domain/usecase/social_login_use_case.dart';
 import 'package:equatable/equatable.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 

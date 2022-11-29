@@ -2,11 +2,7 @@ import 'dart:async';
 
 import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:colibri/core/common/pagination/pagination_helper.dart';
-import 'package:colibri/core/common/push_notification/push_notification_helper.dart';
 import 'package:colibri/core/common/uistate/common_ui_state.dart';
-import 'package:colibri/core/common/widget/common_divider.dart';
-import 'package:colibri/core/common/widget/promoted_widget.dart';
 import 'package:colibri/core/constants/appconstants.dart';
 import 'package:colibri/core/di/injection.dart';
 import 'package:colibri/core/routes/routes.gr.dart';
@@ -14,20 +10,13 @@ import 'package:colibri/core/theme/app_icons.dart';
 import 'package:colibri/core/theme/colors.dart';
 import 'package:colibri/extensions.dart';
 import 'package:colibri/features/authentication/data/models/login_response.dart';
-import 'package:colibri/features/feed/data/models/feeds_response.dart';
-import 'package:colibri/features/feed/domain/entity/post_entity.dart';
-import 'package:colibri/features/feed/domain/entity/drawer_entity.dart';
 import 'package:colibri/features/feed/presentation/bloc/feed_cubit.dart';
 import 'package:colibri/features/feed/presentation/widgets/all_home_screens.dart';
 import 'package:colibri/features/feed/presentation/widgets/create_post_card.dart';
 import 'package:colibri/features/feed/presentation/widgets/feed_widgets.dart';
-import 'package:colibri/features/feed/presentation/widgets/no_data_found_screen.dart';
 import 'package:colibri/features/messages/presentation/pages/message_screen.dart';
-import 'package:colibri/features/notifications/presentation/pages/notification_page.dart';
 import 'package:colibri/features/notifications/presentation/pages/notification_screen.dart';
 import 'package:colibri/features/posts/presentation/bloc/createpost_cubit.dart';
-import 'package:colibri/features/posts/presentation/pages/create_post.dart';
-import 'package:colibri/features/posts/presentation/pages/view_post_screen.dart';
 import 'package:colibri/features/posts/presentation/widgets/post_pagination_widget.dart';
 import 'package:colibri/features/profile/domain/entity/profile_entity.dart';
 import 'package:colibri/features/profile/presentation/pages/profile_screen.dart';
@@ -36,7 +25,7 @@ import 'package:colibri/features/search/presentation/pages/searh_screen.dart';
 import 'package:colibri/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
@@ -747,7 +736,6 @@ class _FeedScreenState extends State<FeedScreen> {
     return data == const ScreenType.home()
         ? AppBar(
             elevation: 0.0,
-            brightness: Brightness.light,
             actions: [
               currentIndex == 2
                   ? IconButton(
@@ -788,7 +776,7 @@ class _FeedScreenState extends State<FeedScreen> {
             }).toPadding(4),
             backgroundColor: Colors.white,
             title: AppIcons.appLogo.toContainer(height: 35, width: 35),
-            centerTitle: true,
+            centerTitle: true, systemOverlayStyle: SystemUiOverlayStyle.dark,
           )
         : null;
   }

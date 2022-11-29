@@ -1,17 +1,10 @@
 import 'package:colibri/core/di/injection.dart';
-import 'package:colibri/core/theme/images.dart';
 import 'package:colibri/extensions.dart';
-import 'package:colibri/features/feed/presentation/bloc/feed_cubit.dart';
-import 'package:colibri/features/feed/presentation/widgets/all_home_screens.dart';
-import 'package:colibri/features/notifications/domain/entity/notification_entity.dart';
 import 'package:colibri/features/notifications/presentation/bloc/notification_cubit.dart';
 import 'package:colibri/features/notifications/presentation/pages/mentions_page.dart';
 import 'package:colibri/features/notifications/presentation/pages/notification_page.dart';
-import 'package:colibri/features/notifications/presentation/widgets/notification_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class NotificationScreen extends StatefulWidget {
   @override

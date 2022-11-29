@@ -1,10 +1,8 @@
 import 'package:colibri/core/theme/app_icons.dart';
-import 'package:colibri/core/theme/colors.dart';
 import 'package:colibri/core/widgets/slider.dart';
 import 'package:colibri/extensions.dart';
 import 'package:colibri/features/feed/domain/entity/post_entity.dart';
 import 'package:colibri/features/feed/presentation/widgets/feed_widgets.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:timelines/timelines.dart';
 

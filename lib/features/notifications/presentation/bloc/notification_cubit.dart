@@ -1,13 +1,9 @@
 import 'package:bloc/bloc.dart';
-import 'package:colibri/features/notifications/data/models/request/notification_or_mention_request_model.dart';
-import 'package:colibri/features/notifications/domain/usecase/get_notification_use_case.dart';
 import 'package:colibri/features/notifications/presentation/pagination/mentions_pagination.dart';
 import 'package:colibri/features/notifications/presentation/pagination/notification_pagination.dart';
-import 'package:colibri/features/notifications/presentation/widgets/notification_item.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:rxdart/rxdart.dart';
 
 part 'notification_state.dart';
 

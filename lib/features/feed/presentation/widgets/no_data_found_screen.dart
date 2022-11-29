@@ -1,8 +1,6 @@
 import 'package:colibri/core/theme/colors.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:colibri/extensions.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class NoDataFoundScreen extends StatelessWidget {
   final VoidCallback onTapButton;

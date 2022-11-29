@@ -4,7 +4,6 @@ import 'package:colibri/core/theme/colors.dart';
 import 'package:colibri/features/profile/domain/entity/setting_entity.dart';
 import 'package:colibri/features/profile/presentation/bloc/settings/user_setting_cubit.dart';
 import 'package:colibri/features/profile/presentation/pages/settings_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_select/smart_select.dart';

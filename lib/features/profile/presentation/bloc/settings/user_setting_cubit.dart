@@ -25,7 +25,6 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:colibri/extensions.dart';
 
 part 'user_setting_state.dart';
 

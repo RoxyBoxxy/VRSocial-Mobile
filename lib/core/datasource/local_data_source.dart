@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:colibri/features/authentication/data/models/login_response.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

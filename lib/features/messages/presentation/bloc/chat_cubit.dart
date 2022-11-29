@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:colibri/core/common/push_notification/push_notification_helper.dart';
 import 'package:colibri/core/common/stream_validators.dart';
 import 'package:colibri/core/common/uistate/common_ui_state.dart';
 import 'package:colibri/features/messages/data/models/request/messages_request_model.dart';
@@ -8,16 +7,13 @@ import 'package:colibri/features/messages/domain/entity/chat_entity.dart';
 import 'package:colibri/features/messages/domain/usecase/delete_all_messages_use_case.dart';
 import 'package:colibri/features/messages/domain/usecase/delete_messag_use_case.dart';
 import 'package:colibri/features/messages/domain/usecase/get_chats_use_case.dart';
-import 'package:colibri/features/messages/domain/usecase/search_chats_use_case.dart';
 import 'package:colibri/features/messages/domain/usecase/send_chat_message_use_case.dart';
 import 'package:colibri/features/messages/presentation/chat_pagination.dart';
 import 'package:colibri/features/search/presentation/pagination/hashtag_pagination.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
-import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:colibri/extensions.dart';
 part 'chat_state.dart';
 
 @injectable

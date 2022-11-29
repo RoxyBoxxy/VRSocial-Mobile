@@ -1,34 +1,18 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:better_player/better_player.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:colibri/core/common/add_thumbnail/check_link.dart';
 import 'package:colibri/core/common/add_thumbnail/web_link_show.dart';
 import 'package:colibri/core/common/add_thumbnail/youtube_thumbnil.dart';
-import 'package:colibri/core/common/custome_indiactor.dart';
-import 'package:colibri/core/theme/app_icons.dart';
 import 'package:colibri/core/theme/colors.dart';
 import 'package:colibri/core/widgets/MediaOpener.dart';
-import 'package:colibri/core/widgets/loading_bar.dart';
 import 'package:colibri/core/widgets/thumbnail_widget.dart';
-import 'package:colibri/features/feed/data/models/feeds_response.dart';
 import 'package:colibri/features/feed/domain/entity/post_entity.dart';
 import 'package:colibri/features/feed/domain/entity/post_media.dart';
-import 'package:colibri/features/feed/presentation/bloc/feed_cubit.dart';
 import 'package:colibri/features/feed/presentation/widgets/create_post_card.dart';
-import 'package:colibri/features/feed/presentation/widgets/feed_widgets.dart';
-import 'package:colibri/features/posts/data/model/response/post_detail_response.dart';
-import 'package:colibri/features/posts/domain/entiity/reply_entity.dart';
-import 'package:colibri/features/posts/presentation/pages/create_post.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:colibri/extensions.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
-import 'package:flutter_link_preview/flutter_link_preview.dart';
-import 'package:html/parser.dart';
-import 'package:page_view_indicators/circle_page_indicator.dart';
-import 'package:photo_view/photo_view.dart';
-import 'package:colibri/extensions.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class CustomSlider extends StatefulWidget {
@@ -1930,7 +1914,7 @@ class _CustomSliderState extends State<CustomSlider> {
                 fontWeight: FontWeight.w500,
                 fontSize: 15,
                 fontFamily: "CeraPro",
-                color: Theme.of(context).accentColor,
+                color: Theme.of(context).colorScheme.secondary,
               ),
               maxLines: 2),
         ],

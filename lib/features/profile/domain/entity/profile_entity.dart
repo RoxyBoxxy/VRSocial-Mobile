@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 
 import 'package:colibri/features/authentication/data/models/login_response.dart';
 import 'package:colibri/features/profile/data/models/response/profile_response.dart';

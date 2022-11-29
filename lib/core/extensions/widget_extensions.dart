@@ -1,10 +1,8 @@
-import 'package:colibri/core/common/widget/menu_item_widget.dart';
 import 'package:colibri/core/theme/colors.dart';
 import 'package:colibri/core/theme/images.dart';
 import 'package:colibri/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
 extension PaddingExtension on Widget {

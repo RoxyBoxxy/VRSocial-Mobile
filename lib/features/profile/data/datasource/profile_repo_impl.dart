@@ -7,7 +7,6 @@ import 'package:colibri/core/common/failure.dart';
 import 'package:colibri/core/common/push_notification/push_notification_helper.dart';
 import 'package:colibri/core/datasource/local_data_source.dart';
 import 'package:colibri/core/routes/routes.gr.dart';
-import 'package:colibri/features/feed/data/models/feeds_response.dart';
 import 'package:colibri/features/feed/domain/entity/post_entity.dart';
 import 'package:colibri/features/posts/data/model/response/follwers_response.dart';
 import 'package:colibri/features/profile/data/models/request/profile_posts_model.dart';

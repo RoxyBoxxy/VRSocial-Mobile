@@ -1,5 +1,3 @@
-import 'package:colibri/core/common/animations.dart';
-import 'package:colibri/core/di/injection.dart';
 import 'package:colibri/core/theme/app_icons.dart';
 import 'package:colibri/core/theme/colors.dart';
 import 'package:colibri/core/widgets/animations/fade_widget.dart';
@@ -10,10 +8,8 @@ import 'package:colibri/features/feed/presentation/widgets/no_data_found_screen.
 import 'package:colibri/features/notifications/domain/entity/notification_entity.dart';
 import 'package:colibri/features/notifications/presentation/bloc/notification_cubit.dart';
 import 'package:colibri/features/notifications/presentation/widgets/notification_item.dart';
-import 'package:colibri/features/profile/domain/entity/follower_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:colibri/extensions.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';

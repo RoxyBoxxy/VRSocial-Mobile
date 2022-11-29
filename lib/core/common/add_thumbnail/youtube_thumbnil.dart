@@ -2,9 +2,7 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:colibri/core/theme/colors.dart';
-import 'package:colibri/core/widgets/MediaOpener.dart';
 import 'package:colibri/features/feed/domain/entity/post_entity.dart';
-import 'package:colibri/features/posts/data/model/response/post_detail_response.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:flutter_cache_store/flutter_cache_store.dart';
@@ -15,8 +13,6 @@ import 'package:simple_url_preview/widgets/preview_description.dart';
 // import 'package:simple_url_preview/widgets/preview_site_name.dart';
 import 'package:simple_url_preview/widgets/preview_title.dart';
 import 'package:string_validator/string_validator.dart';
-import 'package:timelines/timelines.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -469,7 +465,7 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
     _isClosable = widget.isClosable ?? false;
     _bgColor = widget.bgColor ?? Theme.of(context).primaryColor;
     _imageLoaderColor =
-        widget.imageLoaderColor ?? Theme.of(context).accentColor;
+        widget.imageLoaderColor ?? Theme.of(context).colorScheme.secondary;
     _initialize();
 
     if (_urlPreviewData == null || !_isVisible) {
@@ -620,7 +616,7 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
                   _siteNameStyle == null
                       ? TextStyle(
                           fontSize: 10,
-                          color: Theme.of(context).accentColor,
+                          color: Theme.of(context).colorScheme.secondary,
                         )
                       : _siteNameStyle,
                 ),

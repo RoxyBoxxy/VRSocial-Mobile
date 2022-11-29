@@ -2,8 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:colibri/core/common/push_notification/push_notification_helper.dart';
 import 'package:colibri/core/constants/appconstants.dart';
 import 'package:colibri/core/datasource/local_data_source.dart';
-import 'package:colibri/features/authentication/data/models/login_response.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';

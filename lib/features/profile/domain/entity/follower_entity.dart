@@ -1,12 +1,7 @@
-import 'package:auto_route/auto_route.dart';
 
-import 'package:auto_route/auto_route.dart';
 
-import 'package:auto_route/auto_route.dart';
 
-import 'package:auto_route/auto_route.dart';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:colibri/features/posts/data/model/response/follwers_response.dart';
 import 'package:flutter/foundation.dart';
 

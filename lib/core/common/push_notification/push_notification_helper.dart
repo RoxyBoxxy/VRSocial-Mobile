@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
@@ -10,9 +9,7 @@ import 'package:colibri/core/constants/appconstants.dart';
 import 'package:colibri/core/datasource/local_data_source.dart';
 import 'package:colibri/core/di/injection.dart';
 import 'package:colibri/core/routes/routes.gr.dart';
-import 'package:colibri/features/feed/domain/entity/post_entity.dart';
 import 'package:colibri/features/feed/domain/usecase/save_notification_token_use_case.dart';
-import 'package:colibri/features/feed/presentation/bloc/feed_cubit.dart';
 import 'package:colibri/features/feed/presentation/pages/feed_screen.dart';
 import 'package:colibri/features/messages/domain/entity/chat_entity.dart';
 import 'package:colibri/features/messages/presentation/bloc/chat_cubit.dart';
@@ -21,8 +18,6 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:colibri/extensions.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PushNotificationHelper {

@@ -5,7 +5,6 @@ import 'package:colibri/features/profile/domain/usecase/follow_unfollow_use_case
 import 'package:colibri/features/profile/domain/usecase/get_profile_data_use_case.dart';
 import 'package:colibri/features/profile/presentation/pagination/followers/follower_pagination.dart';
 import 'package:colibri/features/profile/presentation/pagination/following/following_pagination.dart';
-import 'package:dartz/dartz.dart';
 // import 'package:colibri/features/profile/presentation/bloc/follower_following/follower_pagination.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';

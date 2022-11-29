@@ -1,17 +1,11 @@
 import 'package:bloc/bloc.dart';
-import 'package:colibri/core/common/failure.dart';
-import 'package:colibri/core/common/pagination/pagination_helper.dart';
 import 'package:colibri/core/common/uistate/common_ui_state.dart';
-import 'package:colibri/features/feed/domain/entity/post_entity.dart';
 import 'package:colibri/features/posts/domain/usecases/log_out_use_case.dart';
 import 'package:colibri/features/profile/domain/entity/profile_entity.dart';
 import 'package:colibri/features/profile/domain/usecase/follow_unfollow_use_case.dart';
 import 'package:colibri/features/profile/domain/usecase/get_profile_data_use_case.dart';
 import 'package:colibri/features/profile/domain/usecase/update_profile_cover_use_case.dart';
 import 'package:colibri/features/profile/domain/usecase/uppdate_profile_avatar_use_case.dart';
-import 'package:colibri/features/profile/presentation/pagination/likes/likes_pagination.dart';
-import 'package:colibri/features/profile/presentation/pagination/media/media_pagination.dart';
-import 'package:colibri/features/profile/presentation/pagination/posts/post_pagination.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';

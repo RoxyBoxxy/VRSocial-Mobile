@@ -1,8 +1,6 @@
 import 'dart:io';
 
 import 'package:colibri/core/common/media/media_data.dart';
-import 'package:colibri/core/theme/colors.dart';
-import 'package:colibri/features/feed/presentation/bloc/feed_cubit.dart';
 import 'package:colibri/features/feed/presentation/widgets/create_post_card.dart';
 import 'package:flutter/material.dart';
 import 'package:colibri/extensions.dart';

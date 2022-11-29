@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:colibri/core/theme/colors.dart';
 import 'package:colibri/features/messages/domain/entity/chat_entity.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:colibri/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';

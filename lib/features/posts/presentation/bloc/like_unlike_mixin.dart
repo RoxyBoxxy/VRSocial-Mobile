@@ -4,7 +4,6 @@ import 'package:colibri/core/common/pagination/custom_pagination.dart';
 import 'package:colibri/core/common/pagination/pagination_helper.dart';
 import 'package:colibri/core/common/uistate/common_ui_state.dart';
 import 'package:colibri/core/constants/appconstants.dart';
-import 'package:colibri/core/di/injection.dart';
 import 'package:colibri/core/theme/strings.dart';
 import 'package:colibri/features/feed/domain/entity/post_entity.dart';
 import 'package:colibri/features/feed/domain/usecase/like_unlike_use_case.dart';
@@ -14,8 +13,6 @@ import 'package:colibri/features/posts/domain/usecases/delete_post_use_case.dart
 import 'package:colibri/features/posts/presentation/bloc/post_cubit.dart';
 import 'package:colibri/main.dart';
 import 'package:dartz/dartz.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:injectable/injectable.dart';
 import 'package:colibri/extensions.dart';
 import 'package:http/http.dart' as http;
 

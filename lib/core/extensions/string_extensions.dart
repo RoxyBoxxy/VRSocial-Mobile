@@ -4,7 +4,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:colibri/core/common/validators.dart';
 import 'package:colibri/core/common/widget/searc_bar.dart';
-import 'package:colibri/core/constants/appconstants.dart';
 import 'package:colibri/core/routes/routes.gr.dart';
 import 'package:colibri/core/theme/app_theme.dart';
 import 'package:colibri/core/theme/colors.dart';
@@ -26,7 +25,6 @@ import 'package:mime/mime.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_compress/video_compress.dart';
-import 'package:velocity_x/velocity_x.dart';
 import 'package:http_parser/src/media_type.dart';
 
 // import 'package:i18n_extension/default.i18n.dart';

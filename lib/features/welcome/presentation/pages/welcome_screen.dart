@@ -4,9 +4,7 @@ import 'package:colibri/core/theme/app_icons.dart';
 import 'package:colibri/core/theme/colors.dart';
 import 'package:colibri/core/theme/strings.dart';
 import 'package:colibri/extensions.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override

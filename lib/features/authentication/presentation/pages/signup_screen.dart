@@ -9,9 +9,7 @@ import 'package:colibri/core/theme/strings.dart';
 import 'package:colibri/core/widgets/loading_bar.dart';
 import 'package:colibri/extensions.dart';
 import 'package:colibri/features/authentication/presentation/bloc/sign_up_cubit.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 

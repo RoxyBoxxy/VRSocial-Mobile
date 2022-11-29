@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:colibri/core/common/media/media_data.dart';
 import 'package:colibri/features/feed/presentation/widgets/create_post_card.dart';
 import 'package:colibri/features/posts/data/model/response/media_upload_response.dart';

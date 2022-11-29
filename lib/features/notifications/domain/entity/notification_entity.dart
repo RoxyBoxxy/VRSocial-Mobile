@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:colibri/features/notifications/data/models/response/notification_response.dart';
 import 'package:colibri/extensions.dart';
 import 'package:colibri/features/posts/presentation/pages/view_post_screen.dart';

@@ -3,7 +3,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:colibri/core/common/widget/promoted_widget.dart';
 import 'package:colibri/core/routes/routes.gr.dart';
 import 'package:colibri/core/theme/colors.dart';
-import 'package:colibri/core/widgets/animations/fade_widget.dart';
 import 'package:colibri/core/widgets/error/first_page_error.dart';
 import 'package:colibri/features/feed/domain/entity/post_entity.dart';
 import 'package:colibri/features/feed/presentation/widgets/feed_widgets.dart';
@@ -11,13 +10,8 @@ import 'package:colibri/features/feed/presentation/widgets/no_data_found_screen.
 import 'package:colibri/features/posts/presentation/pages/show_likes_screen.dart';
 import 'package:colibri/features/posts/presentation/pages/view_post_screen.dart';
 import 'package:colibri/features/profile/presentation/pages/profile_screen.dart';
-import 'package:colibri/features/search/domain/entity/people_entity.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:colibri/extensions.dart';
 import 'package:colibri/extensions.dart';
 
 typedef ValueChangedWithTwoParam<T, R> = void Function(T value, R secondValue);

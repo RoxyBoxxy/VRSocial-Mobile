@@ -1,4 +1,3 @@
-import 'package:colibri/core/common/api/api_constants.dart';
 import 'package:colibri/core/common/failure.dart';
 import 'package:colibri/core/common/pagination/custom_pagination.dart';
 import 'package:colibri/features/profile/data/models/request/profile_posts_model.dart';
