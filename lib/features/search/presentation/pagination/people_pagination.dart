@@ -10,15 +10,15 @@ import 'package:injectable/injectable.dart';
 @injectable
 class PeoplePagination extends CustomPagination<PeopleEntity>
     with SearchingMixin<PeopleEntity> {
-  final SearchPeopleUseCase searchPeopleUseCase;
+  final SearchPeopleUseCase? searchPeopleUseCase;
 
   PeoplePagination(this.searchPeopleUseCase) {
     enableSearch();
   }
 
   @override
-  Future<Either<Failure, List<PeopleEntity>>> getItems(int pageKey) async {
-    return await searchPeopleUseCase(
+  Future<Either<Failure, List<PeopleEntity>>?> getItems(int pageKey) async {
+    return await searchPeopleUseCase!(
         TextModelWithOffset(queryText: queryText, offset: pageKey.toString()));
   }
 
@@ -28,7 +28,7 @@ class PeoplePagination extends CustomPagination<PeopleEntity>
   }
 
   @override
-  int getNextKey(PeopleEntity item) {
+  int? getNextKey(PeopleEntity item) {
     return int.tryParse(item.id);
   }
 

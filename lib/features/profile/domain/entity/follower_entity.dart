@@ -1,18 +1,13 @@
-
-
-
-
 import 'package:colibri/features/posts/data/model/response/follwers_response.dart';
-import 'package:flutter/foundation.dart';
 
 class FollowerEntity {
-  final String profileUrl;
-  final String fullName;
-  final String username;
-  final String about;
-  final bool isFollowing;
-  final int id;
-  final int offsetId;
+  final String? profileUrl;
+  final String? fullName;
+  final String? username;
+  final String? about;
+  final bool? isFollowing;
+  final int? id;
+  final int? offsetId;
   final String buttonText;
 
   // if the user if current logged in user
@@ -20,14 +15,14 @@ class FollowerEntity {
   final bool isCurrentLoggedInUser;
 
   FollowerEntity(
-      {@required this.profileUrl,
-      @required this.fullName,
-      @required this.username,
-      @required this.about,
-      @required this.isFollowing,
-      @required this.id,
-      @required this.offsetId,
-      @required this.buttonText,
+      {required this.profileUrl,
+      required this.fullName,
+      required this.username,
+      required this.about,
+      required this.isFollowing,
+      required this.id,
+      required this.offsetId,
+      required this.buttonText,
       this.isCurrentLoggedInUser = false});
 
   factory FollowerEntity.fromResponse(
@@ -40,19 +35,19 @@ class FollowerEntity {
           isFollowing: model.isFollowing,
           id: model.id,
           offsetId: model.offsetId,
-          buttonText: model.isFollowing ? "Unfollow" : "Follow",
+          buttonText: model.isFollowing! ? "Unfollow" : "Follow",
           isCurrentLoggedInUser: isCurrentLoggedInUser);
 
   FollowerEntity copyWith({
-    String buttonText,
-    bool isFollowed,
+    String? buttonText,
+    required bool isFollowed,
   }) =>
       FollowerEntity(
           profileUrl: this.profileUrl,
           fullName: this.fullName,
           username: this.username,
           about: this.about,
-          isFollowing: isFollowed ?? this.isFollowing,
+          isFollowing: isFollowed,
           id: this.id,
           offsetId: this.offsetId,
           buttonText: isFollowed ? "Unfollow" : "Follow",

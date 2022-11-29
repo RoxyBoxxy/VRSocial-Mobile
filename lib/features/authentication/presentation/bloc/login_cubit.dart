@@ -17,8 +17,8 @@ part 'login_state.dart';
 class LoginCubit extends Cubit<CommonUIState> {
   FieldValidators passwordValidator =
       FieldValidators(null, null, obsecureTextBool: true);
-  FieldValidators emailValidators;
-  Stream<bool> get validForm => Rx.combineLatest2<String, String, bool>(
+  late FieldValidators emailValidators;
+  Stream<bool> get validForm => Rx.combineLatest2<String?, String?, bool>(
           emailValidators.stream, passwordValidator.stream, (a, b) {
         return a != null && b != null && a.isNotEmpty && b.isNotEmpty;
       }).asBroadcastStream();
@@ -26,9 +26,9 @@ class LoginCubit extends Cubit<CommonUIState> {
   final errorTextStream = BoolStreamValidator();
 
   // use cases
-  final LocalDataSource localDataSource;
-  final LoginUseCase loginUseCase;
-  final SocialLoginUseCase socialLoginUseCase;
+  final LocalDataSource? localDataSource;
+  final LoginUseCase? loginUseCase;
+  final SocialLoginUseCase? socialLoginUseCase;
 
   // constructor
   LoginCubit(this.localDataSource, this.loginUseCase, this.socialLoginUseCase)
@@ -47,7 +47,7 @@ class LoginCubit extends Cubit<CommonUIState> {
     //
     else {
       emit(const CommonUIState.loading());
-      var response = await loginUseCase(HashMap<String, dynamic>.from(
+      var response = await loginUseCase!(HashMap<String, dynamic>.from(
           {"email": emailValidators.text, "password": passwordValidator.text}));
       response.fold((l) => emit(CommonUIState.error(l.errorMessage)),
           (r) => emit(CommonUIState.success(r)));
@@ -55,25 +55,25 @@ class LoginCubit extends Cubit<CommonUIState> {
   }
 
   void facebookLogin() async {
-    var response = await socialLoginUseCase(SocialLogin.FB);
+    var response = await socialLoginUseCase!(SocialLogin.FB);
     emit(response.fold((l) => CommonUIState.error(l.errorMessage),
         (r) => CommonUIState.success(r)));
   }
 
   void googleLogin() async {
-    var response = await socialLoginUseCase(SocialLogin.GOOGLE);
+    var response = await socialLoginUseCase!(SocialLogin.GOOGLE);
     emit(response.fold((l) => CommonUIState.error(l.errorMessage),
         (r) => CommonUIState.success(r)));
   }
 
   void twitterLogin() async {
-    var response = await socialLoginUseCase(SocialLogin.TWITTER);
+    var response = await socialLoginUseCase!(SocialLogin.TWITTER);
     emit(response.fold((l) => CommonUIState.error(l.errorMessage),
         (r) => CommonUIState.success(r)));
   }
 
   @override
-  Future<Function> close() {
+  Future<void> close() async {
     emailValidators.onDispose();
     passwordValidator.onDispose();
     errorTextStream.dispose();

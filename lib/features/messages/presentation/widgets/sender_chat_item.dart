@@ -9,9 +9,9 @@ import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 
 @immutable
 class SenderChatItem extends StatelessWidget {
-  final ChatEntity chatEntity;
+  final ChatEntity? chatEntity;
 
-  const SenderChatItem({Key key, this.chatEntity}) : super(key: key);
+  const SenderChatItem({Key? key, this.chatEntity}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return FractionallySizedBox(
@@ -24,7 +24,7 @@ class SenderChatItem extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                if (chatEntity.chatMediaType == ChatMediaType.TEXT)
+                if (chatEntity!.chatMediaType == ChatMediaType.TEXT)
                   Container(
                     decoration: const BoxDecoration(
                         color: Color(0xFF737880),
@@ -32,14 +32,14 @@ class SenderChatItem extends StatelessWidget {
                             topLeft: Radius.circular(20),
                             bottomLeft: Radius.circular(20),
                             bottomRight: Radius.circular(20))),
-                    child: chatEntity.message
+                    child: chatEntity!.message!
                         .toSubTitle2(color: Colors.white)
                         .toPadding(16),
                   )
-                else if (chatEntity.profileUrl.isValidUrl)
+                else if (chatEntity!.profileUrl!.isValidUrl)
                   CachedNetworkImage(
                     placeholder: (c, i) => const CircularProgressIndicator(),
-                    imageUrl: chatEntity.profileUrl,
+                    imageUrl: chatEntity!.profileUrl!,
                   ).onTapWidget(() {
                     showAnimatedDialog(
                         alignment: Alignment.center,
@@ -56,7 +56,7 @@ class SenderChatItem extends StatelessWidget {
                                         child: CachedNetworkImage(
                                           placeholder: (c, i) =>
                                               const CircularProgressIndicator(),
-                                          imageUrl: chatEntity.profileUrl,
+                                          imageUrl: chatEntity!.profileUrl!,
                                         ),
                                       ),
                                       Align(
@@ -78,13 +78,13 @@ class SenderChatItem extends StatelessWidget {
                                   ),
                                 ],
                               ).toContainer(
-                                  height: context.getScreenHeight,
+                                  height: context.getScreenHeight as double,
                                   alignment: Alignment.center),
                             ),
                         barrierDismissible: true);
                   })
                 else
-                  Image.file(File(chatEntity.profileUrl)).onTapWidget(() {
+                  Image.file(File(chatEntity!.profileUrl!)).onTapWidget(() {
                     showAnimatedDialog(
                         alignment: Alignment.center,
                         context: context,
@@ -96,7 +96,7 @@ class SenderChatItem extends StatelessWidget {
                                     children: [
                                       Center(
                                           child: Image.file(
-                                              File(chatEntity.profileUrl))),
+                                              File(chatEntity!.profileUrl!))),
                                       Align(
                                         alignment: Alignment.topRight,
                                         child: Padding(
@@ -116,13 +116,13 @@ class SenderChatItem extends StatelessWidget {
                                   ),
                                 ],
                               ).toContainer(
-                                  height: context.getScreenHeight,
+                                  height: context.getScreenHeight as double,
                                   alignment: Alignment.center),
                             ),
                         barrierDismissible: true);
                   }),
                 5.toSizedBox,
-                chatEntity.time.toCaption()
+                chatEntity!.time!.toCaption()
               ],
             ),
           ],

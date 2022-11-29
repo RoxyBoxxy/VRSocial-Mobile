@@ -35,25 +35,25 @@ class AdvertisementResponse {
     this.owner,
   });
 
-  int id;
-  int userId;
-  String cover;
-  String company;
-  String targetUrl;
-  int views;
-  String description;
-  String cta;
-  String time;
-  String avatar;
-  String username;
-  String verified;
-  String name;
-  bool isConversed;
-  bool advertising;
-  bool showStats;
-  bool isOwner;
-  String domain;
-  Owner owner;
+  int? id;
+  int? userId;
+  String? cover;
+  String? company;
+  String? targetUrl;
+  int? views;
+  String? description;
+  String? cta;
+  String? time;
+  String? avatar;
+  String? username;
+  String? verified;
+  String? name;
+  bool? isConversed;
+  bool? advertising;
+  bool? showStats;
+  bool? isOwner;
+  String? domain;
+  Owner? owner;
 
   factory AdvertisementResponse.fromJson(Map<String, dynamic> json) =>
       AdvertisementResponse(
@@ -97,6 +97,6 @@ class AdvertisementResponse {
         "show_stats": showStats == null ? null : showStats,
         "is_owner": isOwner == null ? null : isOwner,
         "domain": domain == null ? null : domain,
-        "owner": owner == null ? null : owner.toJson(),
+        "owner": owner == null ? null : owner!.toJson(),
       };
 }

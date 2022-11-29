@@ -21,9 +21,9 @@ class ProfilePostResponse {
     this.data,
   });
 
-  int code;
-  String message;
-  ProfilePostItem data;
+  int? code;
+  String? message;
+  ProfilePostItem? data;
 
   factory ProfilePostResponse.fromJson(Map<String, dynamic> json) =>
       ProfilePostResponse(
@@ -37,7 +37,7 @@ class ProfilePostResponse {
   Map<String, dynamic> toJson() => {
         "code": code == null ? null : code,
         "message": message == null ? null : message,
-        "data": data == null ? null : data.toJson(),
+        "data": data == null ? null : data!.toJson(),
       };
 }
 
@@ -46,7 +46,7 @@ class ProfilePostItem {
     this.posts,
   });
 
-  List<ProfilePost> posts;
+  List<ProfilePost>? posts;
 
   factory ProfilePostItem.fromJson(Map<String, dynamic> json) =>
       ProfilePostItem(
@@ -59,7 +59,7 @@ class ProfilePostItem {
   Map<String, dynamic> toJson() => {
         "posts": posts == null
             ? null
-            : List<dynamic>.from(posts.map((x) => x.toJson())),
+            : List<dynamic>.from(posts!.map((x) => x.toJson())),
       };
 }
 
@@ -111,52 +111,52 @@ class ProfilePost {
       this.domain,
       this.advertisementResponse});
 
-  int id;
-  int userId;
-  String text;
-  String type;
-  String replysCount;
-  String repostsCount;
-  String likesCount;
-  String status;
-  int threadId;
-  String target;
+  int? id;
+  int? userId;
+  String? text;
+  String? type;
+  String? replysCount;
+  String? repostsCount;
+  String? likesCount;
+  String? status;
+  int? threadId;
+  String? target;
   var ogData;
   // OgDataClass1 ogData;
-  String time;
-  int offsetId;
-  bool isRepost;
-  bool isReposter;
-  String attrs;
-  bool advertising;
-  String timeRaw;
-  String ogText;
-  String ogImage;
-  String url;
-  bool canDelete;
-  List<ProfilePostMedia> media;
-  bool isOwner;
-  bool hasLiked;
-  bool hasSaved;
-  bool hasReposted;
-  ReplyTo replyTo;
-  Owner owner;
+  String? time;
+  int? offsetId;
+  bool? isRepost;
+  bool? isReposter;
+  String? attrs;
+  bool? advertising;
+  String? timeRaw;
+  String? ogText;
+  String? ogImage;
+  String? url;
+  bool? canDelete;
+  List<ProfilePostMedia>? media;
+  bool? isOwner;
+  bool? hasLiked;
+  bool? hasSaved;
+  bool? hasReposted;
+  ReplyTo? replyTo;
+  Owner? owner;
   dynamic gif;
-  Reposter reposter;
-  String cover;
-  String company;
-  String targetUrl;
-  int views;
-  String description;
-  String cta;
-  String avatar;
-  String username;
-  String verified;
-  String name;
-  bool isConversed;
-  bool showStats;
-  String domain;
-  AdvertisementResponse advertisementResponse;
+  Reposter? reposter;
+  String? cover;
+  String? company;
+  String? targetUrl;
+  int? views;
+  String? description;
+  String? cta;
+  String? avatar;
+  String? username;
+  String? verified;
+  String? name;
+  bool? isConversed;
+  bool? showStats;
+  String? domain;
+  AdvertisementResponse? advertisementResponse;
   factory ProfilePost.fromJson(Map<String, dynamic> json) => ProfilePost(
         id: json["id"] == null ? null : json["id"],
         userId: json["user_id"] == null ? null : json["user_id"],
@@ -244,15 +244,15 @@ class ProfilePost {
         "can_delete": canDelete == null ? null : canDelete,
         "media": media == null
             ? null
-            : List<dynamic>.from(media.map((x) => x.toJson())),
+            : List<dynamic>.from(media!.map((x) => x.toJson())),
         "is_owner": isOwner == null ? null : isOwner,
         "has_liked": hasLiked == null ? null : hasLiked,
         "has_saved": hasSaved == null ? null : hasSaved,
         "has_reposted": hasReposted == null ? null : hasReposted,
-        "reply_to": replyTo == null ? null : replyTo.toJson(),
-        "owner": owner == null ? null : owner.toJson(),
+        "reply_to": replyTo == null ? null : replyTo!.toJson(),
+        "owner": owner == null ? null : owner!.toJson(),
         "gif": gif,
-        "reposter": reposter == null ? null : reposter.toJson(),
+        "reposter": reposter == null ? null : reposter!.toJson(),
         "cover": cover == null ? null : cover,
         "company": company == null ? null : company,
         "target_url": targetUrl == null ? null : targetUrl,
@@ -280,12 +280,12 @@ class ProfilePostMedia {
     this.x,
   });
 
-  int id;
-  int pubId;
-  String type;
-  String src;
-  String jsonData;
-  String time;
+  int? id;
+  int? pubId;
+  String? type;
+  String? src;
+  String? jsonData;
+  String? time;
   dynamic x;
 
   factory ProfilePostMedia.fromJson(Map<String, dynamic> json) =>
@@ -316,8 +316,8 @@ class XClass {
     this.imageThumb,
   });
 
-  String posterThumb;
-  String imageThumb;
+  String? posterThumb;
+  String? imageThumb;
 
   factory XClass.fromJson(Map<String, dynamic> json) => XClass(
         posterThumb: json["poster_thumb"] == null ? null : json["poster_thumb"],
@@ -368,12 +368,12 @@ class Owner {
     this.verified,
   });
 
-  int id;
-  String url;
-  String avatar;
-  String username;
-  String name;
-  String verified;
+  int? id;
+  String? url;
+  String? avatar;
+  String? username;
+  String? name;
+  String? verified;
 
   factory Owner.fromJson(Map<String, dynamic> json) => Owner(
         id: json["id"] == null ? null : json["id"],

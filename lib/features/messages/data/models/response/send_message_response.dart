@@ -18,10 +18,10 @@ class SendMessageResponse {
     this.data,
   });
 
-  bool valid;
-  int code;
-  String message;
-  Data data;
+  bool? valid;
+  int? code;
+  String? message;
+  Data? data;
 
   factory SendMessageResponse.fromJson(Map<String, dynamic> json) =>
       SendMessageResponse(
@@ -35,7 +35,7 @@ class SendMessageResponse {
         "valid": valid == null ? null : valid,
         "code": code == null ? null : code,
         "message": message == null ? null : message,
-        "data": data == null ? null : data.toJson(),
+        "data": data == null ? null : data!.toJson(),
       };
 }
 
@@ -56,19 +56,19 @@ class Data {
     this.mediaName,
   });
 
-  int id;
-  int sentBy;
-  int sentTo;
-  bool owner;
-  String message;
-  String mediaFile;
-  String mediaType;
-  String seen;
-  String deletedFs1;
-  String deletedFs2;
-  String time;
-  String side;
-  String mediaName;
+  int? id;
+  int? sentBy;
+  int? sentTo;
+  bool? owner;
+  String? message;
+  String? mediaFile;
+  String? mediaType;
+  String? seen;
+  String? deletedFs1;
+  String? deletedFs2;
+  String? time;
+  String? side;
+  String? mediaName;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"] == null ? null : json["id"],

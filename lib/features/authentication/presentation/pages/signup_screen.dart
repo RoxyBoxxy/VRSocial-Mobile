@@ -19,7 +19,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  SignUpCubit signUpCubit;
+  SignUpCubit? signUpCubit;
 
   @override
   void initState() {
@@ -33,13 +33,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
     context.initScreenUtil();
     debugPrint(context.getScreenHeight.toString());
     return BlocProvider<SignUpCubit>(
-      create: (c) => signUpCubit,
+      create: (c) => signUpCubit!,
       child: BlocListener<SignUpCubit, CommonUIState>(
         listener: (_, state) {
           state.maybeWhen(
               orElse: () {},
               error: (e) {
-                if (e.isNotEmpty) {
+                if (e!.isNotEmpty) {
                   context.showOkAlertDialog(desc: e, title: "Information");
                 }
               },
@@ -81,23 +81,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
               keyboardActionsPlatform: KeyboardActionsPlatform.IOS,
               actions: [
                 KeyboardActionsItem(
-                  focusNode: signUpCubit.firstNameValidator.focusNode,
+                  focusNode: signUpCubit!.firstNameValidator.focusNode,
                 ),
                 KeyboardActionsItem(
-                  focusNode: signUpCubit.lastNameValidator.focusNode,
+                  focusNode: signUpCubit!.lastNameValidator.focusNode,
                 ),
                 KeyboardActionsItem(
-                  focusNode: signUpCubit.userNameValidator.focusNode,
+                  focusNode: signUpCubit!.userNameValidator.focusNode,
                 ),
                 KeyboardActionsItem(
-                  focusNode: signUpCubit.emailValidator.focusNode,
+                  focusNode: signUpCubit!.emailValidator.focusNode,
                 ),
                 KeyboardActionsItem(
-                  focusNode: signUpCubit.passwordValidator.focusNode,
+                  focusNode: signUpCubit!.passwordValidator.focusNode,
                 ),
                 KeyboardActionsItem(
                   displayDoneButton: true,
-                  focusNode: signUpCubit.confirmPasswordValidator.focusNode,
+                  focusNode: signUpCubit!.confirmPasswordValidator.focusNode,
                 ),
               ],
             ),
@@ -119,27 +119,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
       30.toSizedBox,
       Strings.firstName
           .toTextField()
-          .toStreamBuilder(validators: signUpCubit.firstNameValidator),
+          .toStreamBuilder(validators: signUpCubit!.firstNameValidator),
       11.toSizedBox,
       Strings.lastName
           .toTextField()
-          .toStreamBuilder(validators: signUpCubit.lastNameValidator),
+          .toStreamBuilder(validators: signUpCubit!.lastNameValidator),
       10.toSizedBox,
       Strings.userName
           .toTextField()
-          .toStreamBuilder(validators: signUpCubit.userNameValidator),
+          .toStreamBuilder(validators: signUpCubit!.userNameValidator),
       10.toSizedBox,
       Strings.emailAddress
           .toTextField()
-          .toStreamBuilder(validators: signUpCubit.emailValidator),
+          .toStreamBuilder(validators: signUpCubit!.emailValidator),
       10.toSizedBox,
       Strings.password
           .toTextField()
-          .toStreamBuilder(validators: signUpCubit.passwordValidator),
+          .toStreamBuilder(validators: signUpCubit!.passwordValidator),
       10.toSizedBox,
       Strings.confirmPassword
           .toTextField()
-          .toStreamBuilder(validators: signUpCubit.confirmPasswordValidator)
+          .toStreamBuilder(validators: signUpCubit!.confirmPasswordValidator)
     ].toColumn(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.end);
@@ -172,21 +172,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
         })
       ].toRow(mainAxisAlignment: MainAxisAlignment.center),
       25.toSizedBox,
-      Strings.signUp.toText.toStreamBuilderButton(signUpCubit.validForm, () {
-        signUpCubit.signUp();
+      Strings.signUp.toText.toStreamBuilderButton(signUpCubit!.validForm, () {
+        signUpCubit!.signUp();
       }),
       25.toSizedBox,
       [
         Images.facebook
             .toSvg()
-            .toFlatButton(() => {signUpCubit.facebookLogin()},
+            .toFlatButton(() => {signUpCubit!.facebookLogin()},
                 color: AppColors.fbBlue)
             .toSizedBox(height: 40, width: 55),
         10.toSizedBox,
         Images.google
             .toSvg()
             .toFlatButton(
-              () => {signUpCubit.googleLogin()},
+              () => {signUpCubit!.googleLogin()},
             )
             .toSizedBox(height: 40, width: 55)
             .toContainer(

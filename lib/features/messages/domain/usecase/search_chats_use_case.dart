@@ -8,11 +8,11 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class SearchChatUseCase extends UseCase<List<ChatEntity>, ChatRequestModel> {
-  final MessageRepo messageRepo;
+  final MessageRepo? messageRepo;
 
   SearchChatUseCase(this.messageRepo);
   @override
   Future<Either<Failure, List<ChatEntity>>> call(ChatRequestModel params) {
-    return messageRepo.searchMessage(params);
+    return messageRepo!.searchMessage(params);
   }
 }

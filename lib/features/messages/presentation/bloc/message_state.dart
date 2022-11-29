@@ -8,5 +8,5 @@ abstract class MessageState<T> with _$MessageState<T> {
   const factory MessageState.success(T value) = Success<T>;
   const factory MessageState.loading() = Loading<T>;
   const factory MessageState.noData() = NoDataFound<T>;
-  const factory MessageState.error([String message]) = ErrorDetails<T>;
+  const factory MessageState.error([String? message]) = ErrorDetails<T>;
 }

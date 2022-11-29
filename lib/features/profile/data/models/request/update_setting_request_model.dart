@@ -1,21 +1,12 @@
-
-
-
-
-
-
-
-
-
 class UpdateSettingsRequestModel {
-  final String firstName;
-  final String lastName;
-  final String email;
-  final String aboutYou;
-  final String website;
-  final String gender;
-  final String username;
-  final String countryId;
+  final String? firstName;
+  final String? lastName;
+  final String? email;
+  final String? aboutYou;
+  final String? website;
+  final String? gender;
+  final String? username;
+  final String? countryId;
 
   UpdateSettingsRequestModel(
       {this.firstName,

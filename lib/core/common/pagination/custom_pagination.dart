@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:colibri/core/common/api/api_constants.dart';
 import 'package:colibri/core/common/pagination/pagination_helper.dart';
 import 'package:colibri/core/common/uistate/common_ui_state.dart';
@@ -34,7 +36,8 @@ abstract class CustomPagination<T> {
   Future<void> _fetchPage(int pageKey) async {
     try {
       isLoading = true;
-      final response = await getItems(pageKey);
+      final response =
+          await (getItems(pageKey) as FutureOr<Either<Failure, List<T>>>);
       response.fold((l) {
         isLoading = false;
         if (l.errorMessage == "No data found")
@@ -61,10 +64,10 @@ abstract class CustomPagination<T> {
     }
   }
 
-  Future<Either<Failure, List<T>>> getItems(int pageKey);
+  Future<Either<Failure, List<T>>?>? getItems(int pageKey);
 
   // used for sending to sever for fetching next chunk of data
-  int getNextKey(T item);
+  int? getNextKey(T item);
 
   // to check if there is no more data available
   bool isLastPage(List<T> item);
@@ -98,9 +101,9 @@ abstract class CustomPagination<T> {
 // helps to add searching functionality to the custom pagination
 // without add another method in CustomPagination
 mixin SearchingMixin<T> on CustomPagination<T> {
-  final _searchControllerController = BehaviorSubject<String>.seeded(" ");
+  final _searchControllerController = BehaviorSubject<String?>.seeded(" ");
 
-  Function(String) get changeSearch => _searchControllerController.sink.add;
+  Function(String?) get changeSearch => _searchControllerController.sink.add;
 
   Stream<String> get search => _searchControllerController.stream
           .debounce((_) => TimerStream(true, const Duration(milliseconds: 500)))
@@ -138,9 +141,9 @@ mixin SearchingMixin<T> on CustomPagination<T> {
 }
 
 mixin PostSearchingMixin<T> on PostPaginatonCubit<PostEntity, CommonUIState> {
-  final _searchControllerController = BehaviorSubject<String>.seeded(" ");
+  final _searchControllerController = BehaviorSubject<String?>.seeded(" ");
 
-  Function(String) get changeSearch => _searchControllerController.sink.add;
+  Function(String?) get changeSearch => _searchControllerController.sink.add;
 
   Stream<String> get search => _searchControllerController.stream
           .debounce((_) => TimerStream(true, const Duration(milliseconds: 500)))

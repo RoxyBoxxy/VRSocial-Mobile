@@ -9,9 +9,9 @@ import 'package:flutter/material.dart';
 class ThreadedPostItem extends StatefulWidget {
   final bool startingThread;
   final bool lastThread;
-  final PostEntity postEntity;
+  final PostEntity? postEntity;
   const ThreadedPostItem(
-      {Key key,
+      {Key? key,
       this.startingThread = false,
       this.lastThread = false,
       this.postEntity})
@@ -38,7 +38,7 @@ class _ThreadedPostItemState extends State<ThreadedPostItem> {
             mainAxisSize: MainAxisSize.min,
             children: [
               // SolidLineConnector().toContainer(color: Colors.red,height: 10),
-              widget.postEntity.profileUrl
+              widget.postEntity!.profileUrl!
                   .toRoundNetworkImage(radius: 13)
                   .toFlexible(),
               "test".toText.toContainer(color: Colors.red)
@@ -65,7 +65,7 @@ class _ThreadedPostItemState extends State<ThreadedPostItem> {
           [
             5.toSizedBox,
             [
-              widget.postEntity.name.toSubTitle1(
+              widget.postEntity!.name!.toSubTitle1(
                   color: Colors.black, fontWeight: FontWeight.bold),
               20.toSizedBoxHorizontal,
               Container(
@@ -75,7 +75,7 @@ class _ThreadedPostItemState extends State<ThreadedPostItem> {
                     shape: BoxShape.circle, color: Colors.grey),
               ),
               5.toSizedBoxHorizontal,
-              widget.postEntity.time.toCaption(),
+              widget.postEntity!.time!.toCaption(),
               [
                 const Icon(
                   Icons.keyboard_arrow_down,
@@ -89,7 +89,7 @@ class _ThreadedPostItemState extends State<ThreadedPostItem> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                 )
                 .toContainer(alignment: Alignment.topCenter),
-            widget.postEntity.userName.toSubTitle1(),
+            widget.postEntity!.userName!.toSubTitle1(),
             5.toSizedBox,
             [
               "In response to".toCaption(fontSize: 13),
@@ -97,25 +97,25 @@ class _ThreadedPostItemState extends State<ThreadedPostItem> {
               // widget.postEntity.responseTo.toButton(fontSize: 13,color: AppColors.colorPrimary),
               5.toSizedBoxHorizontal,
               "Post".toCaption(fontSize: 13)
-            ].toRow().toVisibility(widget.postEntity.responseTo != null),
-            if (widget.postEntity.media?.isNotEmpty)
+            ].toRow().toVisibility(widget.postEntity!.responseTo != null),
+            if (widget.postEntity!.media.isNotEmpty)
               CustomSlider(
-                  mediaItems: widget?.postEntity?.media,
+                  mediaItems: widget.postEntity?.media,
                   isOnlySocialLink: false),
             // CustomSlider(mediaItems: widget?.postEntity?.media,),
             Padding(
               padding: const EdgeInsets.only(right: 12.0),
-              child: widget.postEntity.description
+              child: widget.postEntity!.description
                   .toSubTitle1(fontWeight: FontWeight.bold),
             ),
             8.toSizedBox,
             [
               [
                 buildPostButton(
-                        AppIcons.commentIcon, widget.postEntity.commentCount)
+                        AppIcons.commentIcon, widget.postEntity!.commentCount!)
                     .onTapWidget(() {}),
                 buildPostButton(
-                    AppIcons.repostIcon(), widget.postEntity.repostCount),
+                    AppIcons.repostIcon(), widget.postEntity!.repostCount!),
                 // buildPostButton(AppIcons.likeIcon, widget.postEntity.likeCount)
               ]
                   .toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween)

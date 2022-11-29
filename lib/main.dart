@@ -19,7 +19,7 @@ final appThemeConstroller = BehaviorSubject<TextTheme>.seeded(appTextTheme);
 Function(TextTheme) get changeAppTheme => appThemeConstroller.sink.add;
 
 Stream<TextTheme> get appTheme => appThemeConstroller.stream;
-LocalDataSource localDataSource;
+LocalDataSource? localDataSource;
 var isUserLoggedIn = false;
 
 void main() async {
@@ -32,7 +32,7 @@ void main() async {
   // ScreenUtil.init(BoxConstraints(minHeight: ScreenUtil.defaultSize.height,minWidth: ScreenUtil.defaultSize.width));
   // await Firebase.initializeApp();
   localDataSource = getIt<LocalDataSource>();
-  isUserLoggedIn = await localDataSource.isUserLoggedIn();
+  isUserLoggedIn = await localDataSource!.isUserLoggedIn();
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -111,7 +111,7 @@ class _MyAppState extends State<MyApp> {
                   isUserLoggedIn ? Routes.feedScreen : Routes.welcomeScreen,
               builder: (context, child) {
                 return FlutterEasyLoading(child: child);
-              }),
+              }) as Widget Function(BuildContext, Widget?)?,
         );
       },
     );

@@ -78,12 +78,12 @@ final phoneValidator =
 
 confirmPassValidator(Stream<String> password) =>
     StreamTransformer<String, String>.fromHandlers(handleData: (string, sink) {
-      String givenPassword;
+      String? givenPassword;
       password.listen((event) {
         givenPassword = event;
         print(givenPassword);
       });
-      print("actual pass" + givenPassword);
+      print("actual pass" + givenPassword!);
       print("c pass" + string);
       if (string.isNotEmpty && string == givenPassword) {
         sink.add(string);

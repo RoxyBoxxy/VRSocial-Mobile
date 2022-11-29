@@ -6,11 +6,11 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class DeleteMessageUseCase extends UseCase<dynamic, String> {
-  final MessageRepo messageRepo;
+  final MessageRepo? messageRepo;
 
   DeleteMessageUseCase(this.messageRepo);
   @override
   Future<Either<Failure, dynamic>> call(String params) {
-    return messageRepo.deleteMessage(params);
+    return messageRepo!.deleteMessage(params);
   }
 }

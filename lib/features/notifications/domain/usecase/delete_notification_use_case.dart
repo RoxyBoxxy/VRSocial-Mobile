@@ -6,11 +6,11 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class DeleteNotificationUseCase extends UseCase<dynamic, List<String>> {
-  final NotificationRepo notificationRepo;
+  final NotificationRepo? notificationRepo;
 
   DeleteNotificationUseCase(this.notificationRepo);
   @override
   Future<Either<Failure, dynamic>> call(List<String> params) {
-    return notificationRepo.deleteNotification(params);
+    return notificationRepo!.deleteNotification(params);
   }
 }

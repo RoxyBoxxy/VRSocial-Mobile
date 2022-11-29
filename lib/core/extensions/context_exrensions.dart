@@ -33,7 +33,7 @@ extension ContextExtension on BuildContext {
   TextStyle get caption => AppTheme.caption;
 
   showSnackBar({
-    String message,
+    String? message,
     bool isError = false,
   }) =>
       snackBar(this, message, isError);
@@ -63,7 +63,7 @@ extension ContextExtension on BuildContext {
   }
 
   showAlertDialog(
-      {@required List<Widget> widgets, @required String title}) async {
+      {required List<Widget> widgets, required String title}) async {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       // title: Text("AlertDialog"),
@@ -81,9 +81,9 @@ extension ContextExtension on BuildContext {
   }
 
   showOkAlertDialog(
-      {@required String desc,
-      @required String title,
-      VoidCallback onTapOk}) async {
+      {required String desc,
+      required String title,
+      VoidCallback? onTapOk}) async {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       // title: Text("AlertDialog"),
@@ -110,9 +110,9 @@ extension ContextExtension on BuildContext {
   }
 
   showOkCancelAlertDialog<T>(
-      {@required String desc,
-      @required String title,
-      VoidCallback onTapOk,
+      {required String desc,
+      required String title,
+      VoidCallback? onTapOk,
       String okButtonTitle = "OK"}) async {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
@@ -147,7 +147,7 @@ extension ContextExtension on BuildContext {
     });
   }
 
-  showDeleteDialog({@required onOkTap}) {
+  showDeleteDialog({required onOkTap}) {
     showOkCancelAlertDialog(
         desc:
             "Please note that if you delete this post, then with the removal of this post all posts related to this thread will also be permanently deleted!",
@@ -160,7 +160,7 @@ extension ContextExtension on BuildContext {
       ScreenUtil.init(this, designSize: getScreenSize, minTextAdapt: true);
 }
 
-snackBar(BuildContext context, String text, bool isError) {
+snackBar(BuildContext context, String? text, bool isError) {
   Flushbar(
     backgroundColor: isError ? Colors.red : AppColors.colorPrimary,
     flushbarStyle: FlushbarStyle.GROUNDED,
@@ -173,7 +173,7 @@ snackBar(BuildContext context, String text, bool isError) {
   )..show(context);
 }
 
-DateTime loginClickTime;
+DateTime? loginClickTime;
 
 bool isRedundentClick(DateTime currentTime) {
   if (loginClickTime == null) {
@@ -181,8 +181,8 @@ bool isRedundentClick(DateTime currentTime) {
     print("first click");
     return false;
   }
-  print('diff is ${currentTime.difference(loginClickTime).inSeconds}');
-  if (currentTime.difference(loginClickTime).inSeconds < 4) {
+  print('diff is ${currentTime.difference(loginClickTime!).inSeconds}');
+  if (currentTime.difference(loginClickTime!).inSeconds < 4) {
     //set this difference time in seconds
     return true;
   }

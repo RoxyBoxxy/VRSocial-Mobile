@@ -12,8 +12,8 @@ import 'package:photo_view/photo_view.dart';
 import 'package:colibri/extensions.dart';
 
 class MediaOpener extends StatefulWidget {
-  final MediaData data;
-  const MediaOpener({Key key, this.data}) : super(key: key);
+  final MediaData? data;
+  const MediaOpener({Key? key, this.data}) : super(key: key);
   @override
   _MediaOpenerState createState() => _MediaOpenerState();
 }
@@ -21,20 +21,20 @@ class MediaOpener extends StatefulWidget {
 class _MediaOpenerState extends State<MediaOpener> {
   @override
   Widget build(BuildContext context) {
-    switch (widget.data.type) {
+    switch (widget.data!.type) {
       case MediaTypeEnum.IMAGE:
         return OpenImage(
-          path: widget.data.path,
+          path: widget.data!.path,
         );
         break;
       case MediaTypeEnum.VIDEO:
         return MyVideoPlayer(
-          path: widget.data.path,
+          path: widget.data!.path,
         );
         break;
       case MediaTypeEnum.GIF:
         return OpenImage(
-          path: widget.data.path,
+          path: widget.data!.path,
         );
         break;
       case MediaTypeEnum.EMOJI:
@@ -49,12 +49,12 @@ class _MediaOpenerState extends State<MediaOpener> {
 /// video player code...
 
 class MyVideoPlayer extends StatefulWidget {
-  final String path;
+  final String? path;
   final bool withAppBar;
   final bool fullVideoControls;
 
   const MyVideoPlayer(
-      {Key key,
+      {Key? key,
       this.path,
       this.withAppBar = true,
       this.fullVideoControls = false})
@@ -64,7 +64,7 @@ class MyVideoPlayer extends StatefulWidget {
 }
 
 class MyVideoPlayerState extends State<MyVideoPlayer> {
-  BetterPlayerController _betterPlayerController;
+  late BetterPlayerController _betterPlayerController;
   bool isPlaying = false;
 
   @override
@@ -78,10 +78,10 @@ class MyVideoPlayerState extends State<MyVideoPlayer> {
 
   playerControllerShow() {
     BetterPlayerDataSource betterPlayerDataSource = BetterPlayerDataSource(
-        widget.path.contains("https")
+        widget.path!.contains("https")
             ? BetterPlayerDataSourceType.network
             : BetterPlayerDataSourceType.file,
-        widget.path);
+        widget.path!);
     _betterPlayerController = BetterPlayerController(
         BetterPlayerConfiguration(
             // fit: BoxFit.scaleDown,
@@ -123,7 +123,8 @@ class MyVideoPlayerState extends State<MyVideoPlayer> {
         ),
         title: "Video Player".toSubTitle1(
             color: AppColors.textColor, fontWeight: FontWeight.bold),
-        backgroundColor: Colors.white, systemOverlayStyle: SystemUiOverlayStyle.dark,
+        backgroundColor: Colors.white,
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
       body: SafeArea(
         child: BetterPlayer(
@@ -145,8 +146,8 @@ class MyVideoPlayerState extends State<MyVideoPlayer> {
               alignment: Alignment.center,
               child: Container(
                   alignment: Alignment.center,
-                  height: 45.toHeight,
-                  width: 45.toHeight,
+                  height: 45.toHeight as double?,
+                  width: 45.toHeight as double?,
                   decoration: const BoxDecoration(
                       shape: BoxShape.circle, color: Colors.black54),
                   child: const Icon(
@@ -166,8 +167,8 @@ class MyVideoPlayerState extends State<MyVideoPlayer> {
 }
 
 class ModelVideoPlayer extends StatefulWidget {
-  final String path;
-  const ModelVideoPlayer({Key key, this.path}) : super(key: key);
+  final String? path;
+  const ModelVideoPlayer({Key? key, this.path}) : super(key: key);
 
   @override
   _ModelVideoPlayerState createState() => _ModelVideoPlayerState();
@@ -272,9 +273,9 @@ class _ModelVideoPlayerState extends State<ModelVideoPlayer> {
 ///open image code ...
 
 class OpenImage extends StatelessWidget {
-  final String path;
+  final String? path;
 
-  const OpenImage({Key key, this.path}) : super(key: key);
+  const OpenImage({Key? key, this.path}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -284,13 +285,15 @@ class OpenImage extends StatelessWidget {
         ),
         title: "Gallery".toSubTitle1(
             color: AppColors.textColor, fontWeight: FontWeight.bold),
-        backgroundColor: Colors.white, systemOverlayStyle: SystemUiOverlayStyle.dark,
+        backgroundColor: Colors.white,
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
       body: Container(
           child: PhotoView(
-        imageProvider: path.isValidUrl
-            ? Image.network(path, headers: {'accept': 'image/*'})
-            : FileImage(File(path)),
+        imageProvider: path!.isValidUrl
+            ? Image.network(path!, headers: {'accept': 'image/*'})
+                as ImageProvider<Object>?
+            : FileImage(File(path!)),
       )),
     );
   }

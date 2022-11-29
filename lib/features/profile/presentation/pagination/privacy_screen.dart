@@ -10,16 +10,16 @@ import 'package:smart_select/smart_select.dart';
 import 'package:colibri/extensions.dart';
 
 class PrivacyScreen extends StatefulWidget {
-  final List<PrivacyWidgetModel> privacyModels;
+  final List<PrivacyWidgetModel>? privacyModels;
 
-  const PrivacyScreen({Key key, this.privacyModels}) : super(key: key);
+  const PrivacyScreen({Key? key, this.privacyModels}) : super(key: key);
 
   @override
   _PrivacyScreenState createState() => _PrivacyScreenState();
 }
 
 class _PrivacyScreenState extends State<PrivacyScreen> {
-  UserSettingCubit userSettingCubit;
+  late UserSettingCubit userSettingCubit;
   @override
   void initState() {
     super.initState();
@@ -38,9 +38,9 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
               tileColor: AppColors.sfBgColor,
             ),
             // generating lists with title and options
-            _generateItem(widget.privacyModels.sublist(0, 2)),
-            _generateItem(widget.privacyModels.sublist(2, 4)),
-            _generateItem(widget.privacyModels.sublist(4, 6)),
+            _generateItem(widget.privacyModels!.sublist(0, 2)),
+            _generateItem(widget.privacyModels!.sublist(2, 4)),
+            _generateItem(widget.privacyModels!.sublist(4, 6)),
             CustomButton(
                 text: "Save",
                 onTap: () {
@@ -61,7 +61,7 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
               ? const SizedBox()
               : SmartSelect.single(
                   value:
-                      items.firstWhere((element) => element.isSelected)?.value,
+                      items.firstWhere((element) => element.isSelected).value,
                   modalStyle: const S2ModalStyle(
                       clipBehavior: Clip.hardEdge,
                       shape: RoundedRectangleBorder(
@@ -93,22 +93,22 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
                     // getting item 0 enum value to update the settings accordingly
                     switch (items[0].privacyOptionEnum) {
                       case PrivacyOptionEnum.PROFILE_VISIBILITY:
-                        userSettingCubit.changeSettingEntity(
-                            settingItem.copyWith(
+                        userSettingCubit.changeSettingEntity(settingItem!
+                            .copyWith(
                                 accountPrivacyEntity: settingItem
                                     .accountPrivacyEntity
                                     .copyWith(canSeeMyPosts: s.value)));
                         break;
                       case PrivacyOptionEnum.CONTACT_PRIVACY:
-                        userSettingCubit.changeSettingEntity(
-                            settingItem.copyWith(
+                        userSettingCubit.changeSettingEntity(settingItem!
+                            .copyWith(
                                 accountPrivacyEntity: settingItem
                                     .accountPrivacyEntity
                                     .copyWith(canFollowMe: s.value)));
                         break;
                       case PrivacyOptionEnum.SEARCH_VISIBILITY:
-                        userSettingCubit.changeSettingEntity(
-                            settingItem.copyWith(
+                        userSettingCubit.changeSettingEntity(settingItem!
+                            .copyWith(
                                 accountPrivacyEntity:
                                     settingItem.accountPrivacyEntity.copyWith(
                                         showProfileInSearchEngine: s.value)));
@@ -129,8 +129,7 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
                     title: PrivacyWidgetModel.getEnumValue(
                             items[0].privacyOptionEnum)
                         .toSubTitle2(fontWeight: FontWeight.w600),
-                    subtitle: (s.value as String)
-                        .toCaption(fontWeight: FontWeight.w600),
+                    subtitle: (s.value).toCaption(fontWeight: FontWeight.w600),
                     trailing: const Icon(
                       Icons.arrow_forward_ios_outlined,
                       size: 14,

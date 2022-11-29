@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
+import 'package:colibri/core/common/failure.dart';
 import 'package:colibri/core/common/uistate/common_ui_state.dart';
 import 'package:colibri/features/posts/domain/usecases/log_out_use_case.dart';
 import 'package:colibri/features/profile/domain/entity/profile_entity.dart';
@@ -23,15 +26,15 @@ class ProfileCubit extends Cubit<CommonUIState> {
   Stream<ProfileEntity> get profileEntity => _profileEntityController.stream;
 
   // use cases
-  final GetProfileUseCase _getProfileUseCase;
+  final GetProfileUseCase? _getProfileUseCase;
 
-  final FollowUnFollowUseCase followUnFollowUseCase;
+  final FollowUnFollowUseCase? followUnFollowUseCase;
 
-  final LogOutUseCase logOutUseCase;
+  final LogOutUseCase? logOutUseCase;
 
-  final UpdateProfileCoverUseCase _updateProfileCoverUseCase;
+  final UpdateProfileCoverUseCase? _updateProfileCoverUseCase;
 
-  final UpdateAvatarProfileUseCase _updateAvatarProfileUseCase;
+  final UpdateAvatarProfileUseCase? _updateAvatarProfileUseCase;
 
   bool isPrivateUser = false;
 
@@ -45,9 +48,9 @@ class ProfileCubit extends Cubit<CommonUIState> {
       this._updateAvatarProfileUseCase)
       : super(const CommonUIState.initial());
 
-  getUserProfile(String userId, String coverUrl, String profileUrl) async {
+  getUserProfile(String? userId, String? coverUrl, String? profileUrl) async {
     emit(const CommonUIState.loading());
-    final either = await _getProfileUseCase(userId);
+    final either = await _getProfileUseCase!(userId!);
     either.fold((l) => emit(CommonUIState.error(l.errorMessage)), (r) {
       final profileEntity =
           r.copyWith(profileUrl: profileUrl, coverUrl: coverUrl);
@@ -63,7 +66,7 @@ class ProfileCubit extends Cubit<CommonUIState> {
     //     .itemList[index]=currentItem.copyWith(isFollowed: !currentItem.isFollowed,buttonText: currentItem.isFollowed?"Unfollow":"follow");
     // peoplePagination.pagingController.notifyListeners();
 
-    var either = await followUnFollowUseCase(item.id);
+    Either<Failure, dynamic>? either = await followUnFollowUseCase!(item.id);
     changeProfileEntity(item.copyWith(isFollowing: !item.isFollowing));
     // either.fold((l) {
     //   emit(CommonUIState.error(l.errorMessage));
@@ -73,22 +76,24 @@ class ProfileCubit extends Cubit<CommonUIState> {
     // }, (r) {});
   }
 
-  updateProfileCover(String imagePath) async {
+  updateProfileCover(String? imagePath) async {
     emit(const CommonUIState.loading());
-    var either = await _updateProfileCoverUseCase(imagePath);
+    var either = await (_updateProfileCoverUseCase!(imagePath!)
+        as FutureOr<Either<Failure, String>>);
     either.fold((l) => emit(CommonUIState.error(l.errorMessage)),
         (r) => emit(CommonUIState.success(r)));
   }
 
-  updateProfileAvatar(String imagePath) async {
+  updateProfileAvatar(String? imagePath) async {
     emit(const CommonUIState.loading());
-    var either = await _updateAvatarProfileUseCase(imagePath);
+    var either = await (_updateAvatarProfileUseCase!(imagePath!)
+        as FutureOr<Either<Failure, String>>);
     either.fold((l) => emit(CommonUIState.error(l.errorMessage)),
         (r) => emit(CommonUIState.success(r)));
   }
 
   logoutUser() async {
-    var either = await logOutUseCase(unit);
+    var either = await logOutUseCase!(unit);
     either.fold((l) => null, (r) => null);
   }
 }

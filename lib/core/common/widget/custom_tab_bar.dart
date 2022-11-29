@@ -7,7 +7,7 @@ class CustomTabBarMenu extends StatefulWidget {
 
 class _CustomTabBarMenuState extends State<CustomTabBarMenu>
     with SingleTickerProviderStateMixin {
-  TabController _controller;
+  TabController? _controller;
 
   @override
   void initState() {

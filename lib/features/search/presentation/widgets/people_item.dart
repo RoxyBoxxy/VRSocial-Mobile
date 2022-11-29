@@ -7,36 +7,36 @@ import 'package:flutter/material.dart';
 import 'package:colibri/core/routes/routes.gr.dart';
 
 class PeopleItem extends StatelessWidget {
-  final PeopleEntity peopleEntity;
-  final VoidCallback onFollowTap;
+  final PeopleEntity? peopleEntity;
+  final VoidCallback? onFollowTap;
 
-  const PeopleItem({Key key, this.peopleEntity, this.onFollowTap})
+  const PeopleItem({Key? key, this.peopleEntity, this.onFollowTap})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return [
       20.toSizedBoxHorizontal,
-      peopleEntity.profileUrl.toRoundNetworkImage(radius: 11),
+      peopleEntity!.profileUrl!.toRoundNetworkImage(radius: 11),
       20.toSizedBoxHorizontal,
       [
         [
-          peopleEntity.fullName
+          peopleEntity!.fullName!
               .toSubTitle2(fontWeight: FontWeight.w600)
               .toEllipsis
               .toFlexible(),
           5.toSizedBoxHorizontal,
-          AppIcons.verifiedIcons.toVisibility(peopleEntity.isVerified),
+          AppIcons.verifiedIcons.toVisibility(peopleEntity!.isVerified),
           5.toSizedBoxHorizontal
         ].toRow(crossAxisAlignment: CrossAxisAlignment.center),
-        peopleEntity.userName.toCaption(
+        peopleEntity!.userName!.toCaption(
             fontSize: 10.toSp,
             fontWeight: FontWeight.w600,
             color: Colors.black54)
       ].toColumn().toExpanded(),
       [
-        if (peopleEntity.buttonText == "Unfollow")
-          peopleEntity.buttonText
+        if (peopleEntity!.buttonText == "Unfollow")
+          peopleEntity!.buttonText!
               .toSubTitle2(color: Colors.white, fontWeight: FontWeight.w600)
               .toVerticalPadding(2)
               .toMaterialButton(() {
@@ -46,17 +46,17 @@ class PeopleItem extends StatelessWidget {
                 title: "Please confirm your actions!",
                 onTapOk: () {
                   ExtendedNavigator.root.pop();
-                  onFollowTap.call();
+                  onFollowTap!.call();
                 },
                 okButtonTitle: "UnFollow");
           })
         else
-          peopleEntity.buttonText
+          peopleEntity!.buttonText!
               .toSubTitle2(
                   color: AppColors.colorPrimary, fontWeight: FontWeight.w600)
               .toVerticalPadding(2)
               .toOutlinedBorder(() {
-            onFollowTap.call();
+            onFollowTap!.call();
           }).toContainer(height: 30, alignment: Alignment.topCenter)
         // peopleEntity.buttonText
         //     .toCaption(
@@ -75,13 +75,14 @@ class PeopleItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center)
           .toContainer(alignment: Alignment.center)
-          .toVisibility(!peopleEntity.isCurrentLoggedInUser),
+          .toVisibility(!peopleEntity!.isCurrentLoggedInUser),
       20.toSizedBoxHorizontal,
     ].toRow(crossAxisAlignment: CrossAxisAlignment.center).onTapWidget(() {
       ExtendedNavigator.root.push(Routes.profileScreen,
           arguments: ProfileScreenArguments(
-              otherUserId:
-                  peopleEntity.isCurrentLoggedInUser ? null : peopleEntity.id));
+              otherUserId: peopleEntity!.isCurrentLoggedInUser
+                  ? null
+                  : peopleEntity!.id));
       // BlocProvider.of<FeedCubit>(context)
       //     .changeCurrentPage(ScreenType.profile(ProfileScreenArguments(
       //   otherUserId: peopleEntity.id.toString(),

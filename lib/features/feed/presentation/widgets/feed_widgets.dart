@@ -33,16 +33,16 @@ class PostItem extends StatefulWidget {
   final bool showArrowIcon;
   final bool otherUser;
   final bool isLiked;
-  final PostEntity postEntity;
-  final VoidCallback onLikeTap;
-  final VoidCallback onTapRepost;
-  final StringToVoidFunc onPostOptionItem;
+  final PostEntity? postEntity;
+  final VoidCallback? onLikeTap;
+  final VoidCallback? onTapRepost;
+  final StringToVoidFunc? onPostOptionItem;
   final bool detailedPost;
-  final VoidCallback onRefresh;
-  final ValueChanged<String> onTapMention;
+  final VoidCallback? onRefresh;
+  final ValueChanged<String>? onTapMention;
 
   // helps use to increase the count of comment without fetching the data again
-  final ValueChanged<bool> replyCountIncreased;
+  final ValueChanged<bool>? replyCountIncreased;
 
   // using to check if user is already inside search screen
   // so that we don't need to navigate to search screen again
@@ -53,7 +53,7 @@ class PostItem extends StatefulWidget {
   // helps to navigate
   final ProfileNavigationEnum profileNavigationEnum;
   const PostItem(
-      {Key key,
+      {Key? key,
       this.isComeHome = true,
       this.showThread = true,
       this.showArrowIcon = false,
@@ -77,7 +77,7 @@ class PostItem extends StatefulWidget {
 
 class _PostItemState extends State<PostItem> {
   final bool otherUser;
-  MySocialShare mySocialShare;
+  MySocialShare? mySocialShare;
   _PostItemState({this.otherUser = false});
 
   int currentIndex = 0;
@@ -115,8 +115,7 @@ class _PostItemState extends State<PostItem> {
     return _postItem(otherUser: this.otherUser);
   }
 
-  Widget _postItem(
-      {otherUser = false}) {
+  Widget _postItem({otherUser = false}) {
     return Container(
       child: Column(children: [
         // 15.toSizedBox.toVisibility(widget?.postEntity?.showRepostedText ?? false),
@@ -133,7 +132,7 @@ class _PostItemState extends State<PostItem> {
         //   ].toRow().toExpanded(flex: 8)
         // ].toRow().toVisibility(widget?.postEntity?.showRepostedText ?? false),
 
-        widget?.postEntity?.showRepostedText ?? false
+        widget.postEntity?.showRepostedText ?? false
             ? Padding(
                 padding: EdgeInsets.only(
                     left: 73,
@@ -143,7 +142,7 @@ class _PostItemState extends State<PostItem> {
                   children: [
                     AppIcons.repostIcon(),
                     12.toSizedBox,
-                    "${widget.postEntity.reposterFullname.toString().toUpperCase()} REPOSTED"
+                    "${widget.postEntity!.reposterFullname.toString().toUpperCase()} REPOSTED"
                         .toSubTitle2(
                             fontSize: 10,
                             fontWeight: FontWeight.w400,
@@ -164,7 +163,7 @@ class _PostItemState extends State<PostItem> {
                       top: AC.getDeviceHeight(context) * 0.013,
                       right: 10,
                       left: 0), //top 15
-                  child: widget.postEntity.profileUrl
+                  child: widget.postEntity!.profileUrl!
                       .toRoundNetworkImage(radius: 11)
                       .toContainer(alignment: Alignment.topRight)
                       .toVerticalPadding(0)
@@ -179,7 +178,7 @@ class _PostItemState extends State<PostItem> {
 
             [
               // 12.toSizedBox.toVisibility(widget.detailedPost),
-              widget?.detailedPost ?? false
+              widget.detailedPost
                   ? SizedBox(height: AC.getDeviceHeight(context) * 0.010)
                   : Container(),
 
@@ -192,7 +191,7 @@ class _PostItemState extends State<PostItem> {
                     strutStyle: StrutStyle.disabled,
                     textWidthBasis: TextWidthBasis.longestLine,
                     text: TextSpan(
-                        text: widget.postEntity.name,
+                        text: widget.postEntity!.name,
                         style: context.subTitle1.copyWith(
                             color: Colors.black,
                             fontWeight: FontWeight.w400,
@@ -203,12 +202,12 @@ class _PostItemState extends State<PostItem> {
                   }).toFlexible(flex: 2),
                   5.toSizedBoxHorizontal,
                   AppIcons.verifiedIcons
-                      .toVisibility(widget.postEntity.postOwnerVerified),
+                      .toVisibility(widget.postEntity!.postOwnerVerified),
 
                   5.toSizedBoxHorizontal,
                   Padding(
                       padding: EdgeInsets.only(top: 2),
-                      child: Text(widget.postEntity.time,
+                      child: Text(widget.postEntity!.time!,
                           style: TextStyle(
                               color: AppColors.greyText,
                               fontSize: AC.getDeviceHeight(context) * 0.015,
@@ -240,7 +239,7 @@ class _PostItemState extends State<PostItem> {
                 },
                 child: SizedBox(
                   height: 15,
-                  child: Text(widget.postEntity.userName,
+                  child: Text(widget.postEntity!.userName!,
                       style: TextStyle(
                           color: const Color(0xFF737880),
                           fontSize: AC.getDeviceHeight(context) * 0.015,
@@ -255,7 +254,7 @@ class _PostItemState extends State<PostItem> {
               // }),
 
               ///working.
-              5.toSizedBox.toVisibility(widget.postEntity.responseTo != null),
+              5.toSizedBox.toVisibility(widget.postEntity!.responseTo != null),
               [
                 "In response to".toCaption(
                     fontSize: 13,
@@ -287,16 +286,16 @@ class _PostItemState extends State<PostItem> {
                 //         otherUserId: widget.postEntity.isOtherUser?widget.postEntity.responseToUserId:null));
                 //   }).toFlexible(),
 
-                if (widget.postEntity.responseTo != null)
+                if (widget.postEntity!.responseTo != null)
                   InkWell(
                     onTap: () {
                       ExtendedNavigator.root.push(Routes.profileScreen,
                           arguments: ProfileScreenArguments(
-                              otherUserId: widget.postEntity.isOtherUser
-                                  ? widget.postEntity.responseToUserId
+                              otherUserId: widget.postEntity!.isOtherUser
+                                  ? widget.postEntity!.responseToUserId
                                   : null));
                     },
-                    child: widget.postEntity.responseTo.toCaption(
+                    child: widget.postEntity!.responseTo!.toCaption(
                         color: AppColors.colorPrimary,
                         fontWeight: FontWeight.w600,
                         textOverflow: TextOverflow.ellipsis,
@@ -309,8 +308,8 @@ class _PostItemState extends State<PostItem> {
                     textOverflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     color: AppColors.greyText) //AC.device12(context)
-              ].toWrap().toVisibility(widget.postEntity.responseTo != null &&
-                  widget.postEntity.responseTo.isNotEmpty),
+              ].toWrap().toVisibility(widget.postEntity!.responseTo != null &&
+                  widget.postEntity!.responseTo!.isNotEmpty),
             ]
                 .toColumn(mainAxisAlignment: MainAxisAlignment.center)
                 .toExpanded(flex: 8),
@@ -355,9 +354,9 @@ class _PostItemState extends State<PostItem> {
           else
             75.toSizedBoxHorizontal,
           [
-            5.toSizedBox.toVisibility(widget.postEntity.responseTo != null),
-            if (widget.postEntity.description.isNotEmpty)
-              widget.postEntity.description.toSubTitle1(
+            5.toSizedBox.toVisibility(widget.postEntity!.responseTo != null),
+            if (widget.postEntity!.description.isNotEmpty)
+              widget.postEntity!.description.toSubTitle1(
                   fontWeight: FontWeight.w400,
                   align: TextAlign.left,
                   fontSize: 14,
@@ -377,7 +376,9 @@ class _PostItemState extends State<PostItem> {
                             ProfileScreenArguments(otherUserId: mention));
                     // context.showSnackBar(message: "$mention needs api changes");
                   }),
-            5.toSizedBox.toVisibility(widget.postEntity.description.isNotEmpty),
+            5
+                .toSizedBox
+                .toVisibility(widget.postEntity!.description.isNotEmpty),
 
             const SizedBox(height: 5),
 
@@ -387,7 +388,7 @@ class _PostItemState extends State<PostItem> {
               child: imageVideoSliderData(),
             ),
 
-            5.toSizedBox.toVisibility(widget.postEntity.media.isNotEmpty),
+            5.toSizedBox.toVisibility(widget.postEntity!.media.isNotEmpty),
             [
               [
                 // OpenContainer(
@@ -427,14 +428,14 @@ class _PostItemState extends State<PostItem> {
                                         .top),
                                 child: CreatePost(
                                     title: "Reply",
-                                    replyTo: widget.postEntity.userName,
-                                    threadId: widget.postEntity.postId,
+                                    replyTo: widget.postEntity!.userName,
+                                    threadId: widget.postEntity!.postId,
                                     replyEntity: ReplyEntity.fromPostEntity(
-                                        postEntity: widget.postEntity)),
+                                        postEntity: widget.postEntity!)),
                               ),
                             )).then((value) {
                       if (value != null && value)
-                        widget.replyCountIncreased(true);
+                        widget.replyCountIncreased!(true);
                       // setState(() {
                       //   widget.postEntity=widget.postEntity.copyWith(commentCount: widget.postEntity.commentCount.inc.toString());
                       // });
@@ -459,7 +460,7 @@ class _PostItemState extends State<PostItem> {
                               color: Color(0xFF737880))),
                       Padding(
                           padding: const EdgeInsets.only(bottom: 0, left: 5),
-                          child: Text(widget.postEntity.commentCount ?? "",
+                          child: Text(widget.postEntity!.commentCount ?? "",
                               style: const TextStyle(
                                   color: Color(0xFF737880),
                                   fontFamily: "CeraPro",
@@ -481,7 +482,7 @@ class _PostItemState extends State<PostItem> {
 
                 InkWell(
                   onTap: () {
-                    widget.onLikeTap.call();
+                    widget.onLikeTap!.call();
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -492,10 +493,10 @@ class _PostItemState extends State<PostItem> {
                           child: Image(
                               height: 20,
                               width: 20,
-                              image: AssetImage(widget.postEntity.isLiked
+                              image: AssetImage(widget.postEntity!.isLiked!
                                   ? "images/png_image/heart.png"
                                   : "images/png_image/like.png"),
-                              color: widget.postEntity.isLiked
+                              color: widget.postEntity!.isLiked!
                                   ? Colors.red
                                   : Color(0xFF737880))),
                       // ? AppIcons.heartIcon(color: Colors.red)
@@ -503,9 +504,9 @@ class _PostItemState extends State<PostItem> {
 
                       Padding(
                           padding: const EdgeInsets.only(bottom: 0, left: 5),
-                          child: Text(widget.postEntity.likeCount ?? "0",
+                          child: Text(widget.postEntity!.likeCount ?? "0",
                               style: TextStyle(
-                                  color: widget.postEntity.isLiked
+                                  color: widget.postEntity!.isLiked!
                                       ? Colors.red
                                       : Color(0xFF737880),
                                   fontFamily: "CeraPro",
@@ -524,8 +525,8 @@ class _PostItemState extends State<PostItem> {
 
                 InkWell(
                   onTap: () {
-                    widget.onTapRepost.call();
-                    if (!widget.postEntity.isReposted) {
+                    widget.onTapRepost!.call();
+                    if (!widget.postEntity!.isReposted!) {
                       context.showSnackBar(message: "Re-Post successfully");
                     }
                   },
@@ -537,19 +538,19 @@ class _PostItemState extends State<PostItem> {
                       Padding(
                           padding: EdgeInsets.only(top: 0),
                           child: Image(
-                              height: widget.postEntity.isReposted ? 17 : 20,
-                              width: widget.postEntity.isReposted ? 17 : 20,
-                              image: AssetImage(widget.postEntity.isReposted
+                              height: widget.postEntity!.isReposted! ? 17 : 20,
+                              width: widget.postEntity!.isReposted! ? 17 : 20,
+                              image: AssetImage(widget.postEntity!.isReposted!
                                   ? "images/png_image/blur_share.png"
                                   : "images/png_image/re_post.png"),
-                              color: widget.postEntity.isReposted
+                              color: widget.postEntity!.isReposted!
                                   ? AppColors.alertBg
                                   : Color(0xFF737880))),
                       Padding(
                           padding: const EdgeInsets.only(bottom: 0, left: 5),
-                          child: Text(widget.postEntity.repostCount ?? "",
+                          child: Text(widget.postEntity!.repostCount ?? "",
                               style: TextStyle(
-                                  color: widget.postEntity.isReposted
+                                  color: widget.postEntity!.isReposted!
                                       ? AppColors.alertBg
                                       : Color(0xFF737880),
                                   fontFamily: "CeraPro",
@@ -593,8 +594,8 @@ class _PostItemState extends State<PostItem> {
                         color: const Color(0xFF737880))
                     .toPadding(0)
                     .onTapWidget(() {
-                  mySocialShare.shareToOtherPlatforms(
-                      text: widget.postEntity.urlForSharing);
+                  mySocialShare!.shareToOtherPlatforms(
+                      text: widget.postEntity!.urlForSharing!);
                 })
 
                 // AppIcons.shareIcon.toPadding(8).onTapWidget(() {
@@ -641,7 +642,7 @@ class _PostItemState extends State<PostItem> {
         const Divider(
           thickness: 2,
           color: AppColors.sfBgColor,
-        ).toVisibility(widget.postEntity.isConnected),
+        ).toVisibility(widget.postEntity!.isConnected),
 
         7.toSizedBox,
       ]),
@@ -658,7 +659,7 @@ class _PostItemState extends State<PostItem> {
       // if (showThread) "Show Thread",
       // "Share",
       MenuItemWidget(
-          text: !widget.postEntity.isSaved ? "Bookmark" : "UnBookmark",
+          text: !widget.postEntity!.isSaved! ? "Bookmark" : "UnBookmark",
           icon: AppIcons.bookmarkOption(size: 16).toHorizontalPadding(2)),
       MenuItemWidget(
         icon: AppIcons.likeOption(size: 14),
@@ -666,7 +667,7 @@ class _PostItemState extends State<PostItem> {
       ),
       // "Show repost",
 
-      if (!widget.postEntity.isOtherUser)
+      if (!widget.postEntity!.isOtherUser)
         MenuItemWidget(
           text: "Delete",
           icon: AppIcons.deleteOption(size: 14).toHorizontalPadding(1),
@@ -674,7 +675,7 @@ class _PostItemState extends State<PostItem> {
     ]
         .toPopWithMenuItems((value) {
           print("hello test data $value");
-          widget.onPostOptionItem(value);
+          widget.onPostOptionItem!(value);
         },
             icon: showArrowIcon
                 ? Padding(
@@ -694,7 +695,7 @@ class _PostItemState extends State<PostItem> {
   void navigateToProfile() {
     ExtendedNavigator.root.push(Routes.profileScreen,
         arguments: ProfileScreenArguments(
-            otherUserId: widget.postEntity.userName.split("@")[1]));
+            otherUserId: widget.postEntity!.userName!.split("@")[1]));
     // ExtendedNavigator.root.push(Routes.profileScreen,arguments: ProfileScreenArguments(otherUserId: widget.postEntity.otherUserId));
     // if (widget.postEntity.isOtherUser) {
     //   BlocProvider.of<FeedCubit>(context).changeCurrentPage(
@@ -717,17 +718,17 @@ class _PostItemState extends State<PostItem> {
 
   bottomSheet() {
     print("hello 123");
-    print(widget.postEntity.isOtherUser);
-    print(widget.postEntity.otherUserId);
-    print(loginResponseFeed.data.user.userName);
+    print(widget.postEntity!.isOtherUser);
+    print(widget.postEntity!.otherUserId);
+    print(loginResponseFeed!.data!.user!.userName);
 
     return showModalBottomSheet(
         context: context,
         backgroundColor: Colors.transparent,
         builder: (context) => Container(
-              height: widget.postEntity.isOtherUser &&
-                      widget.postEntity.userName !=
-                          "@${loginResponseFeed.data.user.userName}"
+              height: widget.postEntity!.isOtherUser &&
+                      widget.postEntity!.userName !=
+                          "@${loginResponseFeed!.data!.user!.userName}"
                   ? 162
                   : 162, //207
               width: MediaQuery.of(context).size.width,
@@ -758,15 +759,15 @@ class _PostItemState extends State<PostItem> {
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                        widget.postEntity.isOtherUser &&
-                                widget.postEntity.userName !=
-                                    "@${loginResponseFeed.data.user.userName}"
+                        widget.postEntity!.isOtherUser &&
+                                widget.postEntity!.userName !=
+                                    "@${loginResponseFeed!.data!.user!.userName}"
                             ? InkWell(
                                 onTap: () {
                                   // widget.onPostOptionItem(!widget.postEntity.isSaved ? "Bookmark" : "UnBookmark");
                                   Navigator.pop(context);
 
-                                  widget.onPostOptionItem("Show likes");
+                                  widget.onPostOptionItem!("Show likes");
                                 },
                                 child: Container(
                                   height: 25,
@@ -792,9 +793,10 @@ class _PostItemState extends State<PostItem> {
 
                         InkWell(
                           onTap: () {
-                            widget.onPostOptionItem(!widget.postEntity.isSaved
-                                ? "Bookmark"
-                                : "UnBookmark");
+                            widget.onPostOptionItem!(
+                                !widget.postEntity!.isSaved!
+                                    ? "Bookmark"
+                                    : "UnBookmark");
                             Navigator.pop(context);
                           },
                           child: Container(
@@ -806,7 +808,7 @@ class _PostItemState extends State<PostItem> {
                                 Image.asset("images/png_image/book_mark.png"),
                                 const SizedBox(width: 20),
                                 Text(
-                                    !widget.postEntity.isSaved
+                                    !widget.postEntity!.isSaved!
                                         ? "Bookmark"
                                         : "UnBookmark",
                                     style: TextStyle(
@@ -821,9 +823,9 @@ class _PostItemState extends State<PostItem> {
 
                         // const SizedBox(width: 25),
 
-                        widget.postEntity.isOtherUser &&
-                                widget.postEntity.userName !=
-                                    "@${loginResponseFeed.data.user.userName}"
+                        widget.postEntity!.isOtherUser &&
+                                widget.postEntity!.userName !=
+                                    "@${loginResponseFeed!.data!.user!.userName}"
                             ?
                             /*InkWell (
                           onTap: () {
@@ -851,7 +853,7 @@ class _PostItemState extends State<PostItem> {
                                 onTap: () {
                                   print("Hel");
                                   Navigator.pop(context);
-                                  widget.onPostOptionItem("Delete");
+                                  widget.onPostOptionItem!("Delete");
                                 },
                                 child: Container(
                                   height: 25,
@@ -1274,11 +1276,11 @@ class _PostItemState extends State<PostItem> {
   checkLinkBool() {
     // CheckLink.checkYouTubeLink(widget.postEntity.description) != null || CheckLink.checkYouTubeLink(widget?.postEntity?.ogData['url'] ?? "") != null ? true : false
 
-    if (CheckLink.checkYouTubeLink(widget.postEntity.description) != null) {
+    if (CheckLink.checkYouTubeLink(widget.postEntity!.description) != null) {
       return true;
-    } else if (widget?.postEntity?.ogData != null &&
-        widget?.postEntity?.ogData != "") {
-      if (CheckLink.checkYouTubeLink(widget?.postEntity?.ogData['url'] ?? "") !=
+    } else if (widget.postEntity?.ogData != null &&
+        widget.postEntity?.ogData != "") {
+      if (CheckLink.checkYouTubeLink(widget.postEntity?.ogData['url'] ?? "") !=
           null) {
         return true;
       } else {
@@ -1290,17 +1292,17 @@ class _PostItemState extends State<PostItem> {
   }
 
   imageVideoSliderData() {
-    print(widget?.postEntity?.ogData);
+    print(widget.postEntity?.ogData);
 
-    if (widget.postEntity.media.length != 0 ||
-        (widget?.postEntity?.ogData != null &&
-            widget?.postEntity?.ogData != "" &&
-            widget?.postEntity?.ogData['url'] != null &&
-            widget.postEntity.ogData['url'] != "")) {
+    if (widget.postEntity!.media.length != 0 ||
+        (widget.postEntity?.ogData != null &&
+            widget.postEntity?.ogData != "" &&
+            widget.postEntity?.ogData['url'] != null &&
+            widget.postEntity!.ogData['url'] != "")) {
       return CustomSlider(
-        mediaItems: widget?.postEntity?.media,
-        postEntity: widget?.postEntity,
-        ogData: widget.postEntity.ogData,
+        mediaItems: widget.postEntity?.media,
+        postEntity: widget.postEntity,
+        ogData: widget.postEntity!.ogData,
         isOnlySocialLink: checkLinkBool(),
         onClickAction: (int index) {
           if (index == 0) {
@@ -1322,28 +1324,28 @@ class _PostItemState extends State<PostItem> {
                                 .top),
                         child: CreatePost(
                           title: "Reply",
-                          replyTo: widget.postEntity.userName,
-                          threadId: widget.postEntity.postId,
+                          replyTo: widget.postEntity!.userName,
+                          threadId: widget.postEntity!.postId,
                           replyEntity: ReplyEntity.fromPostEntity(
-                              postEntity: widget.postEntity),
+                              postEntity: widget.postEntity!),
                         ),
                       ),
                     )).then((value) {
-              if (value != null && value) widget.replyCountIncreased(true);
+              if (value != null && value) widget.replyCountIncreased!(true);
               // setState(() {
               //   widget.postEntity=widget.postEntity.copyWith(commentCount: widget.postEntity.commentCount.inc.toString());
               // });
             });
           } else if (index == 1) {
-            widget.onLikeTap.call();
+            widget.onLikeTap!.call();
           } else if (index == 2) {
-            widget.onTapRepost.call();
-            if (!widget.postEntity.isReposted) {
+            widget.onTapRepost!.call();
+            if (!widget.postEntity!.isReposted!) {
               context.showSnackBar(message: "Re-Post successfully");
             }
           } else if (index == 3) {
-            mySocialShare.shareToOtherPlatforms(
-                text: widget.postEntity.urlForSharing);
+            mySocialShare!
+                .shareToOtherPlatforms(text: widget.postEntity!.urlForSharing!);
           }
         },
       );
@@ -1355,9 +1357,9 @@ class _PostItemState extends State<PostItem> {
 enum PostOptionsEnum { SHOW_LIKES, BOOKMARK, DELETE }
 
 class GetDrawerMenu extends StatefulWidget {
-  final ProfileEntity profileEntity;
+  final ProfileEntity? profileEntity;
 
-  const GetDrawerMenu({Key key, this.profileEntity}) : super(key: key);
+  const GetDrawerMenu({Key? key, this.profileEntity}) : super(key: key);
 
   @override
   _GetDrawerMenuState createState() => _GetDrawerMenuState();
@@ -1722,7 +1724,7 @@ class _GetDrawerMenuState extends State<GetDrawerMenu> {
 
           [
             [
-              widget.profileEntity.profileUrl
+              widget.profileEntity!.profileUrl!
                   .toRoundNetworkImage(radius: 17)
                   .onTapWidget(() {
                 ExtendedNavigator.root.pop();
@@ -1736,7 +1738,7 @@ class _GetDrawerMenuState extends State<GetDrawerMenu> {
             SizedBox(height: AC.getDeviceHeight(context) * 0.005),
 
             [
-              widget.profileEntity.fullName
+              widget.profileEntity!.fullName
                   .toSubTitle1(
                       color: Colors.black,
                       fontWeight: FontWeight.w400,
@@ -1746,10 +1748,10 @@ class _GetDrawerMenuState extends State<GetDrawerMenu> {
               5.toSizedBoxHorizontal,
               AppIcons.verifiedIcons
                   .toContainer()
-                  .toVisibility(widget.profileEntity.isVerified)
+                  .toVisibility(widget.profileEntity!.isVerified!)
             ].toRow(crossAxisAlignment: CrossAxisAlignment.center),
             2.toSizedBox,
-            Text(widget.profileEntity.userName,
+            Text(widget.profileEntity!.userName,
                 style: TextStyle(
                     fontSize: AC.getDeviceHeight(context) * 0.02,
                     color: Color(0xFF737880),
@@ -1761,7 +1763,7 @@ class _GetDrawerMenuState extends State<GetDrawerMenu> {
             [
               [
                 [
-                  widget.profileEntity.postCounts.toSubTitle1(
+                  widget.profileEntity!.postCounts.toSubTitle1(
                       color: AppColors.colorPrimary,
                       fontWeight: FontWeight.w400,
                       fontFamily1: "CeraPro",
@@ -1781,7 +1783,7 @@ class _GetDrawerMenuState extends State<GetDrawerMenu> {
                 // 30.toSizedBox,
                 SizedBox(width: AC.getDeviceWidth(context) * 0.06),
                 [
-                  widget.profileEntity.followingCount.toSubTitle1(
+                  widget.profileEntity!.followingCount.toSubTitle1(
                       color: AppColors.colorPrimary,
                       fontWeight: FontWeight.w400,
                       fontFamily1: "CeraPro",
@@ -1805,7 +1807,7 @@ class _GetDrawerMenuState extends State<GetDrawerMenu> {
                 // 30.toSizedBox,
                 SizedBox(width: AC.getDeviceWidth(context) * 0.06),
                 [
-                  widget.profileEntity.followerCount.toSubTitle1(
+                  widget.profileEntity!.followerCount.toSubTitle1(
                       color: AppColors.colorPrimary,
                       fontWeight: FontWeight.w400,
                       fontFamily1: "CeraPro",
@@ -1917,7 +1919,7 @@ class _GetDrawerMenuState extends State<GetDrawerMenu> {
 }
 
 Widget buildPostButton(Widget icon, String count,
-    {bool isLiked = false, Color color}) {
+    {bool isLiked = false, Color? color}) {
   return [
     icon,
     5.toSizedBox,
@@ -1928,7 +1930,7 @@ Widget buildPostButton(Widget icon, String count,
 }
 
 Widget getShareOptionMenu(
-    {MySocialShare share, String text, List<String> files}) {
+    {MySocialShare? share, String? text, List<String>? files}) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 4.0),
     child: [
@@ -1939,7 +1941,7 @@ Widget getShareOptionMenu(
       "Reddit",
       "Copy Link"
     ].toPopUpMenuButton((value) {
-      share?.shareToOtherPlatforms(text: text, files: files);
+      share?.shareToOtherPlatforms(text: text!, files: files);
     }, icon: AppIcons.shareIcon).toContainer(height: 15, width: 15),
   );
 }

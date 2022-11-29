@@ -10,7 +10,7 @@ abstract class StreamValidators<T> {
 
   FocusNode get focusNode;
 
-  FocusNode get nextFocusNode;
+  FocusNode? get nextFocusNode;
 
   onDispose();
 
@@ -32,11 +32,11 @@ abstract class StreamValidators<T> {
 }
 
 class FieldValidators extends StreamValidators {
-  final StreamTransformer<String, String> transformer;
+  final StreamTransformer<String, String>? transformer;
 
-  final FocusNode _nextFocusNode;
+  final FocusNode? _nextFocusNode;
 
-  final _controller = BehaviorSubject<String>();
+  final _controller = BehaviorSubject<String?>();
 
   bool obsecureTextBool;
 
@@ -44,9 +44,9 @@ class FieldValidators extends StreamValidators {
 
   TextEditingController _textController = TextEditingController();
 
-  Function(String) get changeData => _controller.sink.add;
+  Function(String?) get changeData => _controller.sink.add;
 
-  Stream<String> get data => transformer != null
+  Stream<String?> get data => transformer != null
       ? _controller.stream.transform(transformer)
       : _controller.stream;
 
@@ -62,13 +62,13 @@ class FieldValidators extends StreamValidators {
   }
 
   @override
-  onChange(String value) {
+  onChange(String? value) {
     changeData(value);
 //    _textController.text=value;
   }
 
   @override
-  Stream<String> get stream => data.asBroadcastStream();
+  Stream<String?> get stream => data.asBroadcastStream();
 
   @override
   TextEditingController get textController => _textController;
@@ -87,7 +87,7 @@ class FieldValidators extends StreamValidators {
   FocusNode get focusNode => _focusNode;
 
   @override
-  FocusNode get nextFocusNode => _nextFocusNode;
+  FocusNode? get nextFocusNode => _nextFocusNode;
 
   @override
   bool get obsecureText => obsecureTextBool;

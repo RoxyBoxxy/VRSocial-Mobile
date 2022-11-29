@@ -10,7 +10,7 @@ import 'package:colibri/features/profile/domain/entity/setting_entity.dart';
 import 'package:dartz/dartz.dart';
 
 abstract class ProfileRepo {
-  Future<Either<Failure, ProfileEntity>> getProfileData(String userId);
+  Future<Either<Failure, ProfileEntity>> getProfileData(String? userId);
 
   Future<Either<Failure, List<PostEntity>>> getUserPostByCategory(
       PostCategoryModel model);
@@ -42,11 +42,11 @@ abstract class ProfileRepo {
 
   Future<Either<Failure, dynamic>> verifyUserAccount(VerifyRequestModel model);
 
-  Future<Either<Failure, String>> changeLanguage(String lang);
+  Future<Either<Failure, String?>> changeLanguage(String lang);
 
-  Future<Either<Failure, String>> updateAvatar(String lang);
+  Future<Either<Failure, String?>> updateAvatar(String lang);
 
-  Future<Either<Failure, String>> updateCover(String lang);
+  Future<Either<Failure, String?>> updateCover(String lang);
 
   Future<Either<Failure, bool>> getLoginMode();
 }

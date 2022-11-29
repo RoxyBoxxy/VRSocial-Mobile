@@ -7,12 +7,12 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class GetFeedPostUseCase extends UseCase<List<PostEntity>, String> {
-  final FeedRepo feedRepo;
+  final FeedRepo? feedRepo;
 
   GetFeedPostUseCase(this.feedRepo);
 
   @override
   Future<Either<Failure, List<PostEntity>>> call(String params) {
-    return feedRepo.getFeeds(params);
+    return feedRepo!.getFeeds(params);
   }
 }

@@ -10,8 +10,8 @@ import 'package:rxdart/rxdart.dart';
 
 @injectable
 class MentionsPagination extends CustomPagination<NotificationEntity> {
-  final GetNotificationUseCase getNotificationUseCase;
-  final DeleteNotificationUseCase deleteNotificationUseCase;
+  final GetNotificationUseCase? getNotificationUseCase;
+  final DeleteNotificationUseCase? deleteNotificationUseCase;
 
   final _deletedItemsController = BehaviorSubject<Set<int>>.seeded(Set());
   addDeletedItem(int index) {
@@ -28,8 +28,8 @@ class MentionsPagination extends CustomPagination<NotificationEntity> {
   MentionsPagination(
       this.getNotificationUseCase, this.deleteNotificationUseCase);
   @override
-  Future<Either<Failure, List<NotificationEntity>>> getItems(int pageKey) {
-    return getNotificationUseCase(NotificationOrMentionRequestModel(
+  Future<Either<Failure, List<NotificationEntity>>>? getItems(int pageKey) {
+    return getNotificationUseCase!(NotificationOrMentionRequestModel(
         offsetId: pageKey.toString(),
         notificationOrMentionEnum: NotificationOrMentionEnum.MENTIONS));
   }
@@ -40,7 +40,7 @@ class MentionsPagination extends CustomPagination<NotificationEntity> {
   }
 
   @override
-  int getNextKey(NotificationEntity item) {
+  int? getNextKey(NotificationEntity item) {
     return int.tryParse(item.notificationId);
   }
 
@@ -58,11 +58,11 @@ class MentionsPagination extends CustomPagination<NotificationEntity> {
   deleteNotification() async {
     List<String> _notificationId = [];
     _deletedItemsController.value.forEach((element) {
-      _notificationId.add(pagingController.itemList[element].notificationId);
+      _notificationId.add(pagingController.itemList![element].notificationId);
     });
     _deletedItemsController.sink.add(Set());
     // pagingController..itemList=pagingController.itemList..notifyListeners();
-    var either = await deleteNotificationUseCase(_notificationId);
+    var either = await deleteNotificationUseCase!(_notificationId);
     either.fold((l) => null, (r) {
       onRefresh();
       // _deletedItemsController.sink.add(Set());

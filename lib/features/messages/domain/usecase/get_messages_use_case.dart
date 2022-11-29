@@ -7,10 +7,10 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class GetMessagesUseCase extends UseCase<List<MessageEntity>, Unit> {
-  final MessageRepo messageRepo;
+  final MessageRepo? messageRepo;
   GetMessagesUseCase(this.messageRepo);
   @override
   Future<Either<Failure, List<MessageEntity>>> call(Unit params) {
-    return messageRepo.getMessages();
+    return messageRepo!.getMessages();
   }
 }

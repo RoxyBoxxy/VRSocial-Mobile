@@ -12,13 +12,13 @@ class AppIcons {
   static SvgPicture messageIcon(
           {num height = bottomBarSize,
           num width = bottomBarSize,
-          ScreenType screenType}) =>
+          required ScreenType screenType}) =>
       Images.message.toSvg(
           height: height,
           width: width,
           color: screenType.maybeWhen(
               orElse: () => null, message: () => AppColors.colorPrimary));
-  static SvgPicture notificationIcon({ScreenType screenType}) =>
+  static SvgPicture notificationIcon({required ScreenType screenType}) =>
       Images.notification.toSvg(
           height: bottomBarSize,
           width: bottomBarSize,
@@ -27,17 +27,18 @@ class AppIcons {
   static SvgPicture homeIcon(
           {num height = bottomBarSize,
           num width = bottomBarSize,
-          ScreenType screenType}) =>
+          required ScreenType screenType}) =>
       Images.home.toSvg(
           height: height,
           width: width,
           color: screenType.maybeWhen(
               orElse: () => null, home: () => AppColors.colorPrimary));
-  static SvgPicture searchIcon({ScreenType screenType}) => Images.search.toSvg(
-      height: bottomBarSize,
-      width: bottomBarSize,
-      color: screenType.maybeWhen(
-          orElse: () => null, search: () => AppColors.colorPrimary));
+  static SvgPicture searchIcon({required ScreenType screenType}) =>
+      Images.search.toSvg(
+          height: bottomBarSize,
+          width: bottomBarSize,
+          color: screenType.maybeWhen(
+              orElse: () => null, search: () => AppColors.colorPrimary));
   static SvgPicture addIcon =
       Images.add.toSvg(height: bottomBarSize, width: bottomBarSize);
 
@@ -74,18 +75,18 @@ class AppIcons {
       .toSvg(height: height.toHeight, width: width.toWidth)
       .toPadding(8);
   // static Widget likeIcon = Images.likeOption.toSvg();
-  static Widget likeIcon({Color color}) =>
+  static Widget likeIcon({Color? color}) =>
       Images.likeOption.toSvg(height: 14, width: 14, color: color);
   // static Widget heartIcon = Images.heart.toSvg();
-  static Widget heartIcon({Color color}) =>
+  static Widget heartIcon({Color? color}) =>
       Images.heart.toSvg(height: 14, width: 14, color: color);
   static Widget commentIcon = Images.comment.toSvg(height: 14, width: 14);
-  static Widget repostIcon({Color color}) =>
+  static Widget repostIcon({Color? color}) =>
       Images.repost.toSvg(height: 14, width: 14, color: color);
   static Widget shareIcon = Images.share.toSvg(height: 14, width: 14);
 
   static Widget messageIcon1 = Images.messageIcon.toSvg();
-  static Widget rePostIcon1({Color color}) =>
+  static Widget rePostIcon1({Color? color}) =>
       Images.rePostIcon.toSvg(height: 14, width: 14, color: color);
   // static Widget rePostIcon1 = Images.rePostIcon.toSvg();
   static Widget shareIcon1 = Images.shareIcon.toSvg();
@@ -125,7 +126,7 @@ class AppIcons {
   static Widget deleteOption({double size = drawerMenuSize}) =>
       Images.deleteOption
           .toSvg(height: size, width: size, color: AppColors.optionIconColor);
-  static Widget likeOption({double size = drawerMenuSize, Color color}) =>
+  static Widget likeOption({double size = drawerMenuSize, Color? color}) =>
       Images.likeOption.toSvg(height: size, width: size, color: color);
   static Widget bookmarkOption({double size = drawerMenuSize}) =>
       Images.bookmarkOption

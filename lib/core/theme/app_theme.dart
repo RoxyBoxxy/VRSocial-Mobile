@@ -13,9 +13,12 @@ var appTextTheme = TextTheme(
   headline3: GoogleFonts.poppins(fontSize: 48, fontWeight: FontWeight.w400),
   headline4: GoogleFonts.poppins(
       fontSize: 34, fontWeight: FontWeight.w400, letterSpacing: 0.25),
-  headline5: myFontStyle(fontSize: 24.0.toSp, fontWeight: FontWeight.w600),
+  headline5:
+      myFontStyle(fontSize: 24.0.toSp as double, fontWeight: FontWeight.w600),
   headline6: myFontStyle(
-      fontWeight: FontWeight.w600, fontSize: 18.0.toSp, letterSpacing: 0.15),
+      fontWeight: FontWeight.w600,
+      fontSize: 18.0.toSp as double,
+      letterSpacing: 0.15),
   subtitle1: GoogleFonts.poppins(
       fontSize: 16, fontWeight: FontWeight.w400, letterSpacing: 0.15),
   subtitle2: myFontStyle(
@@ -36,7 +39,7 @@ var appTextTheme = TextTheme(
 );
 
 TextStyle myFontStyle(
-    {FontWeight fontWeight, double fontSize, double letterSpacing}) {
+    {FontWeight? fontWeight, required double fontSize, double? letterSpacing}) {
   return TextStyle(
       fontFamily: "Campton",
       fontWeight: fontWeight,
@@ -49,7 +52,7 @@ class AppTheme {
       fontSize: AppFontSize.headLine5.sp, fontWeight: FontWeight.w600);
   static TextStyle get headline6 => myFontStyle(
       fontWeight: FontWeight.w600,
-      fontSize: AppFontSize.headLine6.toSp,
+      fontSize: AppFontSize.headLine6.toSp as double,
       letterSpacing: 0.15);
   static TextStyle get headline4 => myFontStyle(
       fontSize: AppFontSize.headLine4.sp,
@@ -58,15 +61,15 @@ class AppTheme {
   static TextStyle get headline3 => myFontStyle(
       fontSize: AppFontSize.headLine3.sp, fontWeight: FontWeight.w400);
   static TextStyle get headline2 => myFontStyle(
-      fontSize: AppFontSize.headLine2.toSp,
+      fontSize: AppFontSize.headLine2.toSp as double,
       fontWeight: FontWeight.w300,
       letterSpacing: -0.5);
   static TextStyle get headline1 => myFontStyle(
-      fontSize: AppFontSize.headLine1.toSp,
+      fontSize: AppFontSize.headLine1.toSp as double,
       fontWeight: FontWeight.w300,
       letterSpacing: -1.5);
   static TextStyle get subTitle1 => myFontStyle(
-      fontSize: AppFontSize.subTitle1.toSp,
+      fontSize: AppFontSize.subTitle1.toSp as double,
       fontWeight: FontWeight.w400,
       letterSpacing: 0.15);
   static TextStyle get subTitle2 => myFontStyle(
@@ -74,23 +77,23 @@ class AppTheme {
       fontWeight: FontWeight.w500,
       letterSpacing: 0.1);
   static TextStyle get bodyText1 => myFontStyle(
-      fontSize: AppFontSize.bodyText1.toSp,
+      fontSize: AppFontSize.bodyText1.toSp as double,
       fontWeight: FontWeight.w400,
       letterSpacing: 0.5);
   static TextStyle get bodyText2 => myFontStyle(
-      fontSize: AppFontSize.bodyText2.toSp,
+      fontSize: AppFontSize.bodyText2.toSp as double,
       fontWeight: FontWeight.w400,
       letterSpacing: 0.25);
   static TextStyle get button => myFontStyle(
-      fontSize: AppFontSize.button.toSp,
+      fontSize: AppFontSize.button.toSp as double,
       fontWeight: FontWeight.w600,
       letterSpacing: 0.1);
   static TextStyle get caption => myFontStyle(
-      fontSize: AppFontSize.caption.toSp,
+      fontSize: AppFontSize.caption.toSp as double,
       fontWeight: FontWeight.w400,
       letterSpacing: 0.4);
   static TextStyle get overLine => myFontStyle(
-      fontSize: AppFontSize.overLine.toSp,
+      fontSize: AppFontSize.overLine.toSp as double,
       fontWeight: FontWeight.w400,
       letterSpacing: 1.5);
 }

@@ -3,7 +3,7 @@ import 'dart:collection';
 class DeleteChatRequestModel {
   DeleteChatRequestModel({this.userId, this.deleteChat = false});
 
-  final String userId;
+  final String? userId;
   // ​Delete chat after clearing	E.g. One of these options (1/0)
   // 1 will will also delete user from the messages list
   // 0 will only delete chat history with the current user

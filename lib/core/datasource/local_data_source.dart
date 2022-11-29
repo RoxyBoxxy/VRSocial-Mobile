@@ -19,7 +19,7 @@ abstract class LocalDataSource {
 
   clearData();
 
-  Future<LoginResponse> getUserData();
+  Future<LoginResponse?> getUserData();
 
   savePushToken(String token);
 
@@ -27,62 +27,63 @@ abstract class LocalDataSource {
 
   saveUserAuthentication(UserAuth auth);
 
-  Future<UserAuth> getUserAuth();
+  Future<UserAuth?> getUserAuth();
 }
 
 @Injectable(as: LocalDataSource)
 class LocalDataSourceImpl extends LocalDataSource {
-  final Dio dio;
-  final SharedPreferences storage;
+  final Dio? dio;
+  final SharedPreferences? storage;
 
   LocalDataSourceImpl(this.dio, this.storage) : super();
   @override
-  Future<bool> isUserLoggedIn() async => await storage.containsKey("user");
+  Future<bool> isUserLoggedIn() async => await storage!.containsKey("user");
 
   @override
   saveUserData(LoginResponse model) async {
-    await storage.setString("user", jsonEncode(model));
+    await storage!.setString("user", jsonEncode(model));
     await saveUserAuthentication(model.auth);
   }
 
   @override
   clearData() async {
-    storage.clear();
+    storage!.clear();
   }
 
   @override
-  Future<LoginResponse> getUserData() async {
+  Future<LoginResponse?> getUserData() async {
     if (!await isUserLoggedIn()) return null;
-    return LoginResponse.fromJson(jsonDecode(await storage.getString('user')));
+    return LoginResponse.fromJson(jsonDecode(await storage!.getString('user')));
   }
 
   @override
   savePushToken(String token) async {
-    await storage.setString("push_token", token);
+    await storage!.setString("push_token", token);
   }
 
   @override
-  Future<String> getPushToken() async => await storage.getString("push_token");
+  Future<String> getPushToken() async => await storage!.getString("push_token");
 
   @override
-  Future<UserAuth> getUserAuth() async {
-    if (storage.containsKey('auth'))
-      return await UserAuth.fromJson(jsonDecode(storage.getString("auth")));
-    else if (storage.containsKey('user'))
-      return LoginResponse.fromJson(jsonDecode(storage.getString('user'))).auth;
+  Future<UserAuth?> getUserAuth() async {
+    if (storage!.containsKey('auth'))
+      return await UserAuth.fromJson(jsonDecode(storage!.getString("auth")));
+    else if (storage!.containsKey('user'))
+      return LoginResponse.fromJson(jsonDecode(storage!.getString('user')))
+          .auth;
     return null;
   }
 
   @override
-  saveUserAuthentication(UserAuth auth) async {
-    await storage.setString("auth", jsonEncode(auth));
+  saveUserAuthentication(UserAuth? auth) async {
+    await storage!.setString("auth", jsonEncode(auth));
   }
 
   @override
   setSocialLogin(bool isLoginBySocial) async {
-    await storage.setBool("social", isLoginBySocial);
+    await storage!.setBool("social", isLoginBySocial);
   }
 
   @override
-  Future<bool> didSocialLoggedIn() async => await storage.getBool("social");
+  Future<bool> didSocialLoggedIn() async => await storage!.getBool("social");
 }

@@ -8,22 +8,22 @@ mixin FollowUnFollowMixin {
   PagingController<int, PeopleEntity> get pagingControllerMixin;
 
   @protected
-  FollowUnFollowUseCase get followUnFollowUseCaseMixin;
+  FollowUnFollowUseCase? get followUnFollowUseCaseMixin;
 
   followUnFollow(int index) async {
-    var currentItem = pagingControllerMixin.itemList[index];
-    pagingControllerMixin.itemList[index] = currentItem.copyWith(
-        isFollowed: !currentItem.isFollowed,
-        buttonText: currentItem.isFollowed ? "Unfollow" : "follow");
+    var currentItem = pagingControllerMixin.itemList![index];
+    pagingControllerMixin.itemList![index] = currentItem.copyWith(
+        isFollowed: !currentItem.isFollowed!,
+        buttonText: currentItem.isFollowed! ? "Unfollow" : "follow");
     pagingControllerMixin.notifyListeners();
 
-    var either = await followUnFollowUseCaseMixin(currentItem.id);
+    var either = await followUnFollowUseCaseMixin!(currentItem.id);
     either.fold((l) {
       // emit(CommonUIState.error(l.errorMessage));
       pagingControllerMixin
-        ..itemList[index] = currentItem.copyWith(
-            isFollowed: !currentItem.isFollowed,
-            buttonText: currentItem.isFollowed ? "Unfollow" : "follow")
+        ..itemList![index] = currentItem.copyWith(
+            isFollowed: !currentItem.isFollowed!,
+            buttonText: currentItem.isFollowed! ? "Unfollow" : "follow")
         ..notifyListeners();
     }, (r) {});
   }

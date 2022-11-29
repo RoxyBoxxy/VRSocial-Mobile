@@ -1,34 +1,33 @@
 import 'package:colibri/features/feed/domain/entity/post_entity.dart';
 import 'package:colibri/features/feed/domain/entity/post_media.dart';
-import 'package:flutter/foundation.dart';
 
 class ReplyEntity {
-  final String name;
+  final String? name;
 
-  final String time;
+  final String? time;
   final String description;
   final String id;
-  final String profileUrl;
+  final String? profileUrl;
   // we can have more than one username
-  final String username1;
+  final String? username1;
   final String username2;
 
-  final String loggedUserProfileUrl;
+  final String? loggedUserProfileUrl;
 
   final List<PostMedia> items;
 
   ReplyEntity._(
-      {@required this.name,
-      @required this.time,
-      @required this.description,
-      @required this.id,
-      @required this.profileUrl,
-      @required this.username1,
-      @required this.username2,
-      @required this.loggedUserProfileUrl,
+      {required this.name,
+      required this.time,
+      required this.description,
+      required this.id,
+      required this.profileUrl,
+      required this.username1,
+      required this.username2,
+      required this.loggedUserProfileUrl,
       this.items = const []});
 
-  factory ReplyEntity.fromPostEntity({@required PostEntity postEntity}) =>
+  factory ReplyEntity.fromPostEntity({required PostEntity postEntity}) =>
       ReplyEntity._(
           time: postEntity.time,
           description: postEntity.description,

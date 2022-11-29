@@ -7,9 +7,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class SearchBar extends StatefulWidget {
   final String hintText;
-  final StringToVoidFunc onTextChange;
-  final FocusNode focusNode;
-  final TextEditingController textEditingController;
+  final StringToVoidFunc? onTextChange;
+  final FocusNode? focusNode;
+  final TextEditingController? textEditingController;
   const SearchBar(this.onTextChange, this.hintText, this.focusNode,
       this.textEditingController);
 
@@ -27,7 +27,7 @@ class _SearchBarState extends State<SearchBar> {
       color: AppColors.colorPrimary,
     )
   ];
-  Widget currentIcons;
+  late Widget currentIcons;
   // TextEditingController textEditingController;
   // FocusNode focusNode=FocusNode();
 
@@ -73,7 +73,7 @@ class _SearchBarState extends State<SearchBar> {
                 () {
                   // widget.validators.onChange(null);
                   // widget.validators.textController.clear();
-                  FocusManager.instance.primaryFocus.unfocus();
+                  FocusManager.instance.primaryFocus!.unfocus();
                 },
               ),
               duration: const Duration(milliseconds: 200),

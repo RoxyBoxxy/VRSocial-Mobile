@@ -17,9 +17,9 @@ class ProfileResponse {
     this.data,
   });
 
-  int code;
-  String message;
-  Data data;
+  int? code;
+  String? message;
+  Data? data;
 
   factory ProfileResponse.fromJson(Map<String, dynamic> json) =>
       ProfileResponse(
@@ -31,7 +31,7 @@ class ProfileResponse {
   Map<String, dynamic> toJson() => {
         "code": code == null ? null : code,
         "message": message == null ? null : message,
-        "data": data == null ? null : data.toJson(),
+        "data": data == null ? null : data!.toJson(),
       };
 }
 
@@ -63,31 +63,31 @@ class Data {
       this.user,
       this.countryFlag});
 
-  int id;
-  String avatar;
-  String cover;
-  String firstName;
-  String lastName;
-  String userName;
-  String email;
-  bool isVerified;
-  String website;
-  String aboutYou;
-  String gender;
-  String country;
-  int postCount;
-  String ipAddress;
-  int followingCount;
-  int followerCount;
-  String language;
-  String lastActive;
-  String profilePrivacy;
-  String memberSince;
-  String countryFlag;
-  bool isBlockedVisitor;
-  bool isFollowing;
-  bool canViewProfile;
-  User user;
+  int? id;
+  String? avatar;
+  String? cover;
+  String? firstName;
+  String? lastName;
+  String? userName;
+  String? email;
+  bool? isVerified;
+  String? website;
+  String? aboutYou;
+  String? gender;
+  String? country;
+  int? postCount;
+  String? ipAddress;
+  int? followingCount;
+  int? followerCount;
+  String? language;
+  String? lastActive;
+  String? profilePrivacy;
+  String? memberSince;
+  String? countryFlag;
+  bool? isBlockedVisitor;
+  bool? isFollowing;
+  bool? canViewProfile;
+  User? user;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"] == null ? null : json["id"],
@@ -148,7 +148,7 @@ class Data {
             isBlockedVisitor == null ? null : isBlockedVisitor,
         "is_following": isFollowing == null ? null : isFollowing,
         "can_view_profile": canViewProfile == null ? null : canViewProfile,
-        "user": user == null ? null : user.toJson(),
+        "user": user == null ? null : user!.toJson(),
       };
 }
 
@@ -159,9 +159,9 @@ class User {
     this.isFollowing,
   });
 
-  bool isBlockedVisitor;
-  bool isBlockedProfile;
-  bool isFollowing;
+  bool? isBlockedVisitor;
+  bool? isBlockedProfile;
+  bool? isFollowing;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         isBlockedVisitor: json["is_blocked_visitor"] == null

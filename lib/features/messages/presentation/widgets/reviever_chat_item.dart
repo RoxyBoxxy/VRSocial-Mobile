@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 
 class ReceiverChatItem extends StatelessWidget {
-  final ChatEntity chatEntity;
-  final String otherUserProfileUrl;
-  const ReceiverChatItem({Key key, this.chatEntity, this.otherUserProfileUrl})
+  final ChatEntity? chatEntity;
+  final String? otherUserProfileUrl;
+  const ReceiverChatItem({Key? key, this.chatEntity, this.otherUserProfileUrl})
       : super(key: key);
 
   @override
@@ -19,15 +19,15 @@ class ReceiverChatItem extends StatelessWidget {
       alignment: Alignment.centerLeft,
       child: [
         [
-          otherUserProfileUrl.toNetWorkOrLocalImage(
+          otherUserProfileUrl!.toNetWorkOrLocalImage(
             height: 50,
             width: 50,
             borderRadius: 10,
           ),
           10.toSizedBox,
-          if (chatEntity.chatMediaType == ChatMediaType.TEXT)
+          if (chatEntity!.chatMediaType == ChatMediaType.TEXT)
             [
-              chatEntity.message
+              chatEntity!.message!
                   .toSubTitle2(color: Colors.black)
                   .toPadding(16)
                   .toContainer(
@@ -39,7 +39,7 @@ class ReceiverChatItem extends StatelessWidget {
                               bottomRight: Radius.circular(20))))
                   .toFlexible(),
               5.toSizedBox,
-              [chatEntity.time.toCaption()]
+              [chatEntity!.time!.toCaption()]
                   .toRow(mainAxisAlignment: MainAxisAlignment.end)
             ]
                 .toColumn(crossAxisAlignment: CrossAxisAlignment.start)
@@ -48,10 +48,10 @@ class ReceiverChatItem extends StatelessWidget {
             CachedNetworkImage(
               key: ObjectKey(chatEntity),
               placeholder: (c, i) => const CircularProgressIndicator(),
-              imageUrl: chatEntity?.profileUrl ==
+              imageUrl: (chatEntity?.profileUrl ==
                       "https://www.colibri-sm.ru/upload/default/avatar.png"
-                  ? chatEntity?.message
-                  : chatEntity?.profileUrl,
+                  ? chatEntity?.message!
+                  : chatEntity?.profileUrl!)!,
             ).onTapWidget(() {
               showAnimatedDialog(
                   alignment: Alignment.center,
@@ -68,10 +68,10 @@ class ReceiverChatItem extends StatelessWidget {
                                   child: CachedNetworkImage(
                                       placeholder: (c, i) =>
                                           const CircularProgressIndicator(),
-                                      imageUrl: chatEntity?.profileUrl ==
+                                      imageUrl: (chatEntity?.profileUrl ==
                                               "https://www.colibri-sm.ru/upload/default/avatar.png"
-                                          ? chatEntity?.message
-                                          : chatEntity?.profileUrl
+                                          ? chatEntity?.message!
+                                          : chatEntity?.profileUrl!)!
                                       //chatEntity.message,
                                       ),
                                 ),
@@ -94,7 +94,7 @@ class ReceiverChatItem extends StatelessWidget {
                             ),
                           ],
                         ).toContainer(
-                            height: context.getScreenHeight,
+                            height: context.getScreenHeight as double,
                             alignment: Alignment.center),
                       ),
                   barrierDismissible: true);

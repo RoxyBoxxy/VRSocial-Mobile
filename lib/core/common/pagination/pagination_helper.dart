@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:colibri/core/common/failure.dart';
 import 'package:colibri/features/feed/presentation/widgets/feed_widgets.dart';
 import 'package:dartz/dartz.dart';
@@ -12,7 +14,7 @@ abstract class PostPaginatonCubit<T, S> extends Cubit<S> {
   final PagingController<int, T> pagingController =
       PagingController<int, T>(firstPageKey: 0);
 
-  PagingStatus pagingStatus;
+  PagingStatus? pagingStatus;
 
   PostPaginatonCubit(this.initCubitState) : super(initCubitState) {
     pagingController.addPageRequestListener((pageKey) {
@@ -28,7 +30,8 @@ abstract class PostPaginatonCubit<T, S> extends Cubit<S> {
   Future<void> _fetchPage(int pageKey) async {
     try {
       isLoading = true;
-      final response = await getItems(pageKey);
+      final response =
+          await (getItems(pageKey) as FutureOr<Either<Failure, List<T>>>);
       response.fold((l) {
         isLoading = false;
         if (l.errorMessage == "No data found")
@@ -54,7 +57,7 @@ abstract class PostPaginatonCubit<T, S> extends Cubit<S> {
     }
   }
 
-  Future<Either<Failure, List<T>>> getItems(int pageKey);
+  Future<Either<Failure, List<T>>?> getItems(int pageKey);
   // used for sending to sever for fetching next chunk of data
   int getNextKey(T item);
 
@@ -81,7 +84,7 @@ abstract class PostPaginatonCubit<T, S> extends Cubit<S> {
 
   void onRefresh() {
     if (!isLoading) {
-      pagingController?.itemList?.clear();
+      pagingController.itemList?.clear();
       pagingController.refresh();
     }
   }

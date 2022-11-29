@@ -20,7 +20,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  LoginCubit loginCubit;
+  LoginCubit? loginCubit;
   @override
   void initState() {
     // TODO: implement initState
@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
     context.initScreenUtil();
     return SafeArea(
       child: BlocProvider<LoginCubit>(
-        create: (c) => loginCubit,
+        create: (c) => loginCubit!,
         child: BlocListener<LoginCubit, CommonUIState>(
           listener: (_, state) {
             state.maybeWhen(
@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 context.showSnackBar(message: "Login Successfully");
               },
               error: (e) {
-                if (e.isNotEmpty) {
+                if (e!.isNotEmpty) {
                   context.showOkAlertDialog(desc: e, title: "Alert");
                 }
               },
@@ -76,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 keyboardActionsPlatform: KeyboardActionsPlatform.IOS,
                 actions: [
                   KeyboardActionsItem(
-                    focusNode: loginCubit.emailValidators.focusNode,
+                    focusNode: loginCubit!.emailValidators.focusNode,
                   ),
                   KeyboardActionsItem(
                     displayDoneButton: true,
@@ -91,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         );
                       }
                     ],
-                    focusNode: loginCubit.passwordValidator.focusNode,
+                    focusNode: loginCubit!.passwordValidator.focusNode,
                   ),
                 ],
               ),
@@ -122,15 +122,15 @@ class _LoginScreenState extends State<LoginScreen> {
       [
         Strings.emailAddress
             .toTextField()
-            .toStreamBuilder(validators: loginCubit.emailValidators),
+            .toStreamBuilder(validators: loginCubit!.emailValidators),
         10.toSizedBox,
         Strings.password.toTextField(onSubmit: (value) {
-          loginCubit.loginUser();
+          loginCubit!.loginUser();
           // context.showSnackBar(message:value.toString());
           // loginCubit.validForm.listen((event) {
           //   if(event)
           // });
-        }).toStreamBuilder(validators: loginCubit.passwordValidator),
+        }).toStreamBuilder(validators: loginCubit!.passwordValidator),
         Strings.forgotPassword
             .toCaption(fontWeight: FontWeight.w600)
             .toContainer(alignment: Alignment.centerRight)
@@ -174,22 +174,22 @@ class _LoginScreenState extends State<LoginScreen> {
         })
       ].toRow(mainAxisAlignment: MainAxisAlignment.center),
       35.toSizedBox,
-      Strings.login.toText.toStreamBuilderButton(loginCubit.validForm,
+      Strings.login.toText.toStreamBuilderButton(loginCubit!.validForm,
           () async {
-        await loginCubit.loginUser();
+        await loginCubit!.loginUser();
       }),
       35.toSizedBox,
       [
         Images.facebook
             .toSvg()
-            .toFlatButton(() async => loginCubit.facebookLogin(),
+            .toFlatButton(() async => loginCubit!.facebookLogin(),
                 color: AppColors.fbBlue)
             .toSizedBox(height: 40, width: 55),
         10.toSizedBox,
         Images.google
             .toSvg()
             .toFlatButton(
-              () => loginCubit.googleLogin(),
+              () => loginCubit!.googleLogin(),
             )
             .toSizedBox(height: 40, width: 55)
             .toContainer(
@@ -200,7 +200,7 @@ class _LoginScreenState extends State<LoginScreen> {
         10.toSizedBox,
         Images.twitter
             .toSvg()
-            .toFlatButton(() => loginCubit.twitterLogin(),
+            .toFlatButton(() => loginCubit!.twitterLogin(),
                 color: AppColors.twitterBlue)
             .toSizedBox(height: 40, width: 55)
             .toVisibility(false),

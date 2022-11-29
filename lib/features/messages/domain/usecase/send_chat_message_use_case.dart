@@ -9,11 +9,11 @@ import 'package:injectable/injectable.dart';
 @injectable
 class SendChatMessageUseCase
     extends UseCase<SendMessageResponse, MessagesRequestModel> {
-  final MessageRepo messageRepo;
+  final MessageRepo? messageRepo;
 
   SendChatMessageUseCase(this.messageRepo);
   @override
   Future<Either<Failure, SendMessageResponse>> call(params) {
-    return messageRepo.sendMessage(params);
+    return messageRepo!.sendMessage(params);
   }
 }

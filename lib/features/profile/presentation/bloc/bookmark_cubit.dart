@@ -11,6 +11,7 @@ import 'package:colibri/features/feed/presentation/widgets/feed_widgets.dart';
 import 'package:colibri/features/posts/domain/usecases/add_remove_bookmark_use_case.dart';
 import 'package:colibri/features/posts/domain/usecases/delete_post_use_case.dart';
 import 'package:colibri/features/profile/domain/usecase/get_bookmarks_use_case.dart';
+import 'package:collection/collection.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
@@ -21,33 +22,33 @@ part 'bookmark_state.dart';
 class BookmarkCubit extends PostPaginatonCubit<PostEntity, CommonUIState> {
   final searchQuery = FieldValidators(null, null);
 
-  final GetBookmarksUseCase getBookmarksUseCase;
-  final AddOrRemoveBookmarkUseCase addOrRemoveUseCase;
-  final LikeUnlikeUseCase likeUnlikeUseCase;
-  final RepostUseCase repostUseCase;
-  final DeletePostUseCase deletePostUseCase;
+  final GetBookmarksUseCase? getBookmarksUseCase;
+  final AddOrRemoveBookmarkUseCase? addOrRemoveUseCase;
+  final LikeUnlikeUseCase? likeUnlikeUseCase;
+  final RepostUseCase? repostUseCase;
+  final DeletePostUseCase? deletePostUseCase;
   BookmarkCubit(this.getBookmarksUseCase, this.addOrRemoveUseCase,
       this.likeUnlikeUseCase, this.repostUseCase, this.deletePostUseCase)
       : super(const CommonUIState.initial());
 
   @override
   Future<void> addOrRemoveBookmark(int index) async {
-    var item = pagingController.itemList[index];
-    pagingController.itemList[index] = item.copyWith(
-      isSaved: !item.isSaved,
+    PostEntity item = pagingController.itemList![index];
+    pagingController.itemList![index] = item.copyWith(
+      isSaved: !item.isSaved!,
     );
     pagingController.notifyListeners();
-    var either = await addOrRemoveUseCase(item.postId);
+    var either = await addOrRemoveUseCase!(item.postId);
     either.fold((l) {
-      var oldItem = pagingController.itemList[index];
-      pagingController.itemList[index] = oldItem.copyWith(
-        isSaved: !oldItem.isSaved,
+      PostEntity oldItem = pagingController.itemList![index];
+      pagingController.itemList![index] = oldItem.copyWith(
+        isSaved: !oldItem.isSaved!,
       );
       pagingController.notifyListeners();
       emit(CommonUIState.error(l.errorMessage));
       emit(const CommonUIState.initial());
     }, (r) {
-      pagingController.itemList.removeAt(index);
+      pagingController.itemList!.removeAt(index);
       pagingController.notifyListeners();
       var message = Strings.removeBookmark;
       emit(CommonUIState.success(message));
@@ -57,22 +58,22 @@ class BookmarkCubit extends PostPaginatonCubit<PostEntity, CommonUIState> {
 
   @override
   Future<void> deletePost(int index) async {
-    var either = await deletePostUseCase(
-        pagingController.itemList[index].postId.toString());
+    var either = await deletePostUseCase!(
+        pagingController.itemList![index].postId.toString());
     either.fold((l) {
       emit(const CommonUIState.initial());
       emit(CommonUIState.error(l.errorMessage));
     }, (r) {
       emit(const CommonUIState.initial());
       emit(const CommonUIState.success("Deleted Successfully"));
-      pagingController.itemList.removeAt(index);
+      pagingController.itemList!.removeAt(index);
       pagingController.notifyListeners();
     });
   }
 
   @override
-  Future<Either<Failure, List<PostEntity>>> getItems(int pageKey) async {
-    return await getBookmarksUseCase(pageKey.toString());
+  Future<Either<Failure, List<PostEntity>>?> getItems(int pageKey) async {
+    return await getBookmarksUseCase!(pageKey.toString());
   }
 
   @override
@@ -84,10 +85,10 @@ class BookmarkCubit extends PostPaginatonCubit<PostEntity, CommonUIState> {
   bool isLastPage(List<PostEntity> item) {
     // check if response has an advertisement object
     // if yes then item length will always be [ApiConstants.pageSize+1]
-    if (item.last.isAdvertisement && item.length == ApiConstants.pageSize + 1)
+    if (item.last.isAdvertisement! && item.length == ApiConstants.pageSize + 1)
       return false;
-    else if (!item.last.isAdvertisement && item.length == ApiConstants.pageSize)
-      return false;
+    else if (!item.last.isAdvertisement! &&
+        item.length == ApiConstants.pageSize) return false;
     return true;
   }
 
@@ -95,26 +96,27 @@ class BookmarkCubit extends PostPaginatonCubit<PostEntity, CommonUIState> {
   PostEntity getLastItemWithoutAd(List<PostEntity> item) {
     // if there is an ad object as last we will give
     // second last item for calculating offset value
-    if (item.last.isAdvertisement) return item[item.length - 2];
+    if (item.last.isAdvertisement!) return item[item.length - 2];
     return item.last;
   }
 
   @override
   Future<void> likeUnlikePost(int index) async {
-    var item = pagingController.itemList[index];
-    pagingController.itemList[index] = item.copyWith(
-        isLiked: !item.isLiked,
-        likeCount: (item.isLiked ? item.likeCount.dec : item.likeCount.inc)
+    PostEntity item = pagingController.itemList![index];
+    pagingController.itemList![index] = item.copyWith(
+        isLiked: !item.isLiked!,
+        likeCount: (item.isLiked! ? item.likeCount!.dec : item.likeCount!.inc)
             .toString());
     pagingController.notifyListeners();
-    var either = await likeUnlikeUseCase(item.postId);
+    var either = await likeUnlikeUseCase!(item.postId);
     either.fold((l) {
-      var oldItem = pagingController.itemList[index];
-      pagingController.itemList[index] = oldItem.copyWith(
-          isLiked: !oldItem.isLiked,
-          likeCount:
-              (oldItem.isLiked ? oldItem.likeCount.dec : oldItem.likeCount.inc)
-                  .toString());
+      PostEntity oldItem = pagingController.itemList![index];
+      pagingController.itemList![index] = oldItem.copyWith(
+          isLiked: !oldItem.isLiked!,
+          likeCount: (oldItem.isLiked!
+                  ? oldItem.likeCount!.dec
+                  : oldItem.likeCount!.inc)
+              .toString());
       pagingController.notifyListeners();
       emit(CommonUIState.error(l.errorMessage));
       emit(const CommonUIState.initial());
@@ -123,56 +125,55 @@ class BookmarkCubit extends PostPaginatonCubit<PostEntity, CommonUIState> {
 
   @override
   Future<void> repost(int index) async {
-    var item = pagingController.itemList[index];
+    PostEntity item = pagingController.itemList![index];
 
     // remove show reposted image first
-    if (item?.showRepostedText == true) {
-      pagingController.itemList.removeAt(index);
-      var firstWhere = pagingController.itemList.firstWhere(
-          (element) => element.postId == item.postId,
-          orElse: () => null);
+    if (item.showRepostedText == true) {
+      pagingController.itemList!.removeAt(index);
+      PostEntity? firstWhere = pagingController.itemList!
+          .firstWhereOrNull((element) => element.postId == item.postId);
       if (firstWhere != null) {
-        var index = pagingController.itemList.indexOf(firstWhere);
-        pagingController.itemList[index] = firstWhere.copyWith(
-            isReposted: !item.isReposted,
-            repostCount:
-                (item.isReposted ? item.repostCount.dec : item.repostCount.inc)
-                    .toString());
+        var index = pagingController.itemList!.indexOf(firstWhere);
+        pagingController.itemList![index] = firstWhere.copyWith(
+            isReposted: !item.isReposted!,
+            repostCount: (item.isReposted!
+                    ? item.repostCount!.dec
+                    : item.repostCount!.inc)
+                .toString());
       }
     } else {
-      var firstWhere = pagingController.itemList.firstWhere(
+      PostEntity? firstWhere = pagingController.itemList!.firstWhereOrNull(
           (element) =>
               element.postId == item.postId &&
-              element?.showRepostedText == true,
-          orElse: () => null);
-      if (firstWhere != null && firstWhere.showRepostedText) {
-        pagingController.itemList
-            .removeAt(pagingController.itemList.indexOf(firstWhere));
-        var firstWhere2 = pagingController.itemList.firstWhere(
-            (element) => element.postId == item.postId,
-            orElse: () => null);
-        var indexOf = pagingController.itemList.indexOf(firstWhere2);
-        pagingController.itemList[indexOf] = firstWhere2.copyWith(
-            isReposted: false, repostCount: firstWhere2.repostCount.dec);
+              element.showRepostedText == true);
+      if (firstWhere != null && firstWhere.showRepostedText!) {
+        pagingController.itemList!
+            .removeAt(pagingController.itemList!.indexOf(firstWhere));
+        PostEntity firstWhere2 = pagingController.itemList!
+            .firstWhere((element) => element.postId == item.postId);
+        var indexOf = pagingController.itemList!.indexOf(firstWhere2);
+        pagingController.itemList![indexOf] = firstWhere2.copyWith(
+            isReposted: false, repostCount: firstWhere2.repostCount!.dec);
       } else {
-        pagingController.itemList[index] = item.copyWith(
-            isReposted: !item.isReposted,
-            repostCount:
-                (item.isReposted ? item.repostCount.dec : item.repostCount.inc)
-                    .toString());
+        pagingController.itemList![index] = item.copyWith(
+            isReposted: !item.isReposted!,
+            repostCount: (item.isReposted!
+                    ? item.repostCount!.dec
+                    : item.repostCount!.inc)
+                .toString());
 
         pagingController
-          ..itemList.insert(
+          ..itemList!.insert(
               0,
               item.copyWith(
                   showRepostedText: true,
-                  repostCount: item.repostCount.inc.toString(),
+                  repostCount: item.repostCount!.inc.toString(),
                   isReposted: true))
           ..notifyListeners();
       }
     }
     pagingController.notifyListeners();
-    await repostUseCase(item.postId);
+    await repostUseCase!(item.postId);
     // await repostUseCase(item.postId);
   }
 

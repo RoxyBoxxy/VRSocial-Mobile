@@ -5,7 +5,7 @@ import 'package:colibri/extensions.dart';
 class SlideBottomWidget extends HookWidget {
   final Widget child;
   final bool doForward;
-  const SlideBottomWidget({@required this.child, @required this.doForward});
+  const SlideBottomWidget({required this.child, required this.doForward});
   @override
   Widget build(BuildContext context) {
     final controller =

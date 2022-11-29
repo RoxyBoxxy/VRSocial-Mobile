@@ -18,11 +18,11 @@ class LoginResponse {
     this.auth,
   });
 
-  int errCode;
-  int code;
-  String message;
-  Data data;
-  UserAuth auth;
+  int? errCode;
+  int? code;
+  String? message;
+  Data? data;
+  UserAuth? auth;
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) => LoginResponse(
         errCode: json["err_code"] == null ? null : json["err_code"],
@@ -36,8 +36,8 @@ class LoginResponse {
         "err_code": errCode == null ? null : errCode,
         "code": code == null ? null : code,
         "message": message == null ? null : message,
-        "data": data == null ? null : data.toJson(),
-        "auth": auth == null ? null : auth.toJson(),
+        "data": data == null ? null : data!.toJson(),
+        "auth": auth == null ? null : auth!.toJson(),
       };
 }
 
@@ -48,9 +48,9 @@ class UserAuth {
     this.authTokenExpiry,
   });
 
-  String authToken;
-  String refreshToken;
-  int authTokenExpiry;
+  String? authToken;
+  String? refreshToken;
+  int? authTokenExpiry;
 
   factory UserAuth.fromJson(Map<String, dynamic> json) => UserAuth(
         authToken: json["auth_token"] == null ? null : json["auth_token"],
@@ -73,14 +73,14 @@ class Data {
     this.user,
   });
 
-  UserModel user;
+  UserModel? user;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         user: json["user"] == null ? null : UserModel.fromJson(json["user"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "user": user == null ? null : user.toJson(),
+        "user": user == null ? null : user!.toJson(),
       };
 }
 
@@ -111,29 +111,29 @@ class UserModel {
     this.profilePrivacy,
   });
 
-  int userId;
-  String firstName;
-  String lastName;
-  String userName;
-  String profilePicture;
-  String coverPicture;
-  String email;
-  bool isVerified;
-  String website;
-  String aboutYou;
-  String gender;
-  String country;
-  int postCount;
-  int lastPost;
-  int lastAd;
-  String language;
-  int followingCount;
-  int followerCount;
-  String wallet;
-  String ipAddress;
-  String lastActive;
-  String memberSince;
-  String profilePrivacy;
+  int? userId;
+  String? firstName;
+  String? lastName;
+  String? userName;
+  String? profilePicture;
+  String? coverPicture;
+  String? email;
+  bool? isVerified;
+  String? website;
+  String? aboutYou;
+  String? gender;
+  String? country;
+  int? postCount;
+  int? lastPost;
+  int? lastAd;
+  String? language;
+  int? followingCount;
+  int? followerCount;
+  String? wallet;
+  String? ipAddress;
+  String? lastActive;
+  String? memberSince;
+  String? profilePrivacy;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         userId: json["user_id"] == null ? null : json["user_id"],

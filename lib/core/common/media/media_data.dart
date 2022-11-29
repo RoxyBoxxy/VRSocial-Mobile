@@ -5,10 +5,10 @@ part 'media_data.g.dart';
 
 @CopyWith()
 class MediaData {
-  final MediaTypeEnum type;
-  final String path;
-  final String thumbnail;
-  final String id;
+  final MediaTypeEnum? type;
+  final String? path;
+  final String? thumbnail;
+  final String? id;
   MediaData({
     this.type,
     this.path,

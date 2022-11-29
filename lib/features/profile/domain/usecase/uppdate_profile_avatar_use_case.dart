@@ -5,13 +5,13 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class UpdateAvatarProfileUseCase extends UseCase<String, String> {
-  final ProfileRepo profileRepo;
+class UpdateAvatarProfileUseCase extends UseCase<String?, String> {
+  final ProfileRepo? profileRepo;
 
   UpdateAvatarProfileUseCase(this.profileRepo);
 
   @override
-  Future<Either<Failure, String>> call(String params) {
-    return profileRepo.updateAvatar(params);
+  Future<Either<Failure, String?>> call(String params) {
+    return profileRepo!.updateAvatar(params);
   }
 }

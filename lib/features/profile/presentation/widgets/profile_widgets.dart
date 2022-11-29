@@ -45,16 +45,16 @@ class SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 }
 
 class GetStatusBar extends StatefulWidget {
-  final String otherUserId;
+  final String? otherUserId;
 
-  const GetStatusBar({Key key, this.otherUserId}) : super(key: key);
+  const GetStatusBar({Key? key, this.otherUserId}) : super(key: key);
 
   @override
   _GetStatusBarState createState() => _GetStatusBarState();
 }
 
 class _GetStatusBarState extends State<GetStatusBar> {
-  ProfileCubit profileCubit;
+  late ProfileCubit profileCubit;
 
   @override
   void initState() {
@@ -70,14 +70,15 @@ class _GetStatusBarState extends State<GetStatusBar> {
         builder: (context, snapshot) {
           if (snapshot.data == null) return const SizedBox();
           return context.getScreenWidth > 320
-              ? getUserStatsBar(snapshot.data, userId: widget.otherUserId)
-              : getUserSmallStatsBar(snapshot.data, userId: widget.otherUserId);
+              ? getUserStatsBar(snapshot.data!, userId: widget.otherUserId)
+              : getUserSmallStatsBar(snapshot.data!,
+                  userId: widget.otherUserId);
         });
   }
 
   Widget getUserSmallStatsBar(
     ProfileEntity profileEntity, {
-    String userId,
+    String? userId,
   }) {
     return [
       Numeral(num.parse(profileEntity.postCounts)).value().toSubTitle1(
@@ -125,7 +126,7 @@ class _GetStatusBarState extends State<GetStatusBar> {
 
   Widget getUserStatsBar(
     ProfileEntity profileEntity, {
-    String userId,
+    String? userId,
   }) {
     return [
       [
@@ -176,12 +177,12 @@ class _GetStatusBarState extends State<GetStatusBar> {
 
 class TopAppBar extends StatefulWidget {
   final bool otherUser;
-  final ProfileEntity profileEntity;
-  final ProfileNavigationEnum profileNavigationEnum;
-  final String otherUserId;
+  final ProfileEntity? profileEntity;
+  final ProfileNavigationEnum? profileNavigationEnum;
+  final String? otherUserId;
 
   const TopAppBar(
-      {Key key,
+      {Key? key,
       this.otherUser = false,
       this.profileEntity,
       this.profileNavigationEnum,
@@ -194,14 +195,14 @@ class TopAppBar extends StatefulWidget {
 
 class _TopAppBarState extends State<TopAppBar> {
   var buttonText = '';
-  ProfileCubit profileCubit;
+  late ProfileCubit profileCubit;
 
   @override
   void initState() {
     super.initState();
     profileCubit = BlocProvider.of<ProfileCubit>(context);
     buttonText = widget.otherUserId != null
-        ? !widget.profileEntity.isFollowing
+        ? !widget.profileEntity!.isFollowing
             ? "Follow"
             : "UnFollow"
         : "SETTINGS";
@@ -220,8 +221,9 @@ class _TopAppBarState extends State<TopAppBar> {
           AspectRatio(
             aspectRatio: 2.5,
             child: Container(
-                child: widget.profileEntity.backgroundUrl.toNetWorkOrLocalImage(
-                    width: double.infinity, borderRadius: 0)),
+                child: widget.profileEntity!.backgroundUrl!
+                    .toNetWorkOrLocalImage(
+                        width: double.infinity, borderRadius: 0)),
           ),
           [
             40.toSizedBoxHorizontal,
@@ -334,9 +336,9 @@ class _TopAppBarState extends State<TopAppBar> {
                     ExtendedNavigator.root.push(Routes.chatScreen,
                         arguments: ChatScreenArguments(
                             otherPersonProfileUrl:
-                                widget.profileEntity.profileUrl,
-                            otherPersonUserId: widget.profileEntity.id,
-                            otherUserFullName: widget.profileEntity.fullName));
+                                widget.profileEntity!.profileUrl,
+                            otherPersonUserId: widget.profileEntity!.id,
+                            otherUserFullName: widget.profileEntity!.fullName));
                   }),
                 if (otherUser) 10.toSizedBox,
                 "SETTINGS"
@@ -368,24 +370,27 @@ class _TopAppBarState extends State<TopAppBar> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center),
               [
-                widget.profileEntity.fullName
+                widget.profileEntity!.fullName
                     .toHeadLine6(fontWeight: FontWeight.bold)
                     .toEllipsis
                     .toFlexible(),
                 4.toSizedBoxHorizontal,
                 AppIcons.verifiedIcons
-                    .toVisibility(widget.profileEntity.isVerified)
+                    .toVisibility(widget.profileEntity!.isVerified!)
               ].toRow(crossAxisAlignment: CrossAxisAlignment.center),
-              widget.profileEntity.userName.toSubTitle2(
+              widget.profileEntity!.userName.toSubTitle2(
                   fontWeight: FontWeight.w600, color: Colors.black54),
-              10.toSizedBox.toVisibility(widget.profileEntity.about.isNotEmpty),
+              10
+                  .toSizedBox
+                  .toVisibility(widget.profileEntity!.about!.isNotEmpty),
               [
-                widget.profileEntity.about
+                widget.profileEntity!.about!
                     .toSubTitle2(
                       fontWeight: FontWeight.w600,
-                      color: widget.profileEntity.about == "About not available"
-                          ? AppColors.textColor.withOpacity(.4)
-                          : AppColors.textColor,
+                      color:
+                          widget.profileEntity!.about == "About not available"
+                              ? AppColors.textColor.withOpacity(.4)
+                              : AppColors.textColor,
                       maxLines: 1,
                     )
                     .toEllipsis
@@ -395,12 +400,12 @@ class _TopAppBarState extends State<TopAppBar> {
                     .toPadding(4)
                     .onTapWidget(() {
                   context.showOkAlertDialog(
-                      desc: widget.profileEntity.about, title: "About you");
+                      desc: widget.profileEntity!.about!, title: "About you");
                 }).toVisibility(
-                        widget.profileEntity.about != "About not available")
+                        widget.profileEntity!.about != "About not available")
               ]
                   .toRow(crossAxisAlignment: CrossAxisAlignment.center)
-                  .toVisibility(widget.profileEntity.about.isNotEmpty),
+                  .toVisibility(widget.profileEntity!.about!.isNotEmpty),
               13.toSizedBox,
 
               [
@@ -410,7 +415,7 @@ class _TopAppBarState extends State<TopAppBar> {
                   color: Colors.black54,
                 ),
                 5.toSizedBoxHorizontal,
-                widget.profileEntity.website
+                widget.profileEntity!.website!
                     .toCaption(textOverflow: TextOverflow.ellipsis),
               ].toRow(),
               // 8.toSizedBox,
@@ -421,7 +426,7 @@ class _TopAppBarState extends State<TopAppBar> {
                   color: Colors.black54,
                 ),
                 5.toSizedBoxHorizontal,
-                "Living in - ${widget.profileEntity.country}".toCaption(),
+                "Living in - ${widget.profileEntity!.country}".toCaption(),
                 5.toSizedBoxHorizontal,
                 FutureBuilder<DrawableRoot>(
                   builder: (_, item) => CustomPaint(
@@ -429,8 +434,8 @@ class _TopAppBarState extends State<TopAppBar> {
                     // isComplex: true,
                     size: const Size(20, 20),
                   ),
-                  future: svg.fromSvgString(widget.profileEntity.countryFlag,
-                      widget.profileEntity.countryFlag),
+                  future: svg.fromSvgString(widget.profileEntity!.countryFlag!,
+                      widget.profileEntity!.countryFlag!),
                 ),
                 5.toSizedBoxHorizontal,
                 2.toSizedBoxHorizontal,
@@ -451,7 +456,8 @@ class _TopAppBarState extends State<TopAppBar> {
                 2.toSizedBoxHorizontal,
                 AppIcons.folderIcon,
                 5.toSizedBoxHorizontal,
-                "Member since - ${widget.profileEntity.memberSince}".toCaption()
+                "Member since - ${widget.profileEntity!.memberSince}"
+                    .toCaption()
               ].toRow(crossAxisAlignment: CrossAxisAlignment.center),
               13.toSizedBox,
               GetStatusBar(
@@ -463,19 +469,19 @@ class _TopAppBarState extends State<TopAppBar> {
           ].toRow().toExpanded(flex: 3),
         ].toColumn().toContainer(),
         Positioned(
-          top: calculateHeightForImage(widget.profileEntity),
-          left: 30.toWidth,
+          top: calculateHeightForImage(widget.profileEntity!) as double?,
+          left: 30.toWidth as double?,
           child: Container(
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.white, width: 3.0),
                 shape: BoxShape.circle),
-            child:
-                widget.profileEntity.profileUrl.toRoundNetworkImage(radius: 17),
+            child: widget.profileEntity!.profileUrl!
+                .toRoundNetworkImage(radius: 17),
           ).onTapWidget(() async {
             if (!widget.otherUser)
               await openMediaPicker(context, (media) async {
                 profileCubit.changeProfileEntity(
-                    widget.profileEntity.copyWith(profileImage: media));
+                    widget.profileEntity!.copyWith(profileImage: media));
                 await profileCubit.updateProfileAvatar(media);
               });
           }),
@@ -486,7 +492,7 @@ class _TopAppBarState extends State<TopAppBar> {
         //   child: ,
         // ),
         Positioned(
-          top: 10.toHeight,
+          top: 10.toHeight as double?,
           child: IconButton(
             icon: const Icon(
               Icons.arrow_back_ios,
@@ -524,6 +530,8 @@ class _TopAppBarState extends State<TopAppBar> {
                   BlocProvider.of<FeedCubit>(context)
                       .changeCurrentPage(const ScreenType.notification());
                   break;
+                default:
+                  throw ArgumentError();
               }
             },
           ),
@@ -533,9 +541,9 @@ class _TopAppBarState extends State<TopAppBar> {
   }
 
   num calculateHeightForName(ProfileEntity profileEntity) {
-    if (profileEntity.about.isNotEmpty)
+    if (profileEntity.about!.isNotEmpty)
       return context.getScreenWidth > 320
-          ? profileEntity.about.length > 40
+          ? profileEntity.about!.length > 40
               ? 155.toHeight
               : 165.toHeight
           : 160.toHeight;
@@ -543,10 +551,10 @@ class _TopAppBarState extends State<TopAppBar> {
   }
 
   num calculateHeightForImage(ProfileEntity profileEntity) {
-    if (profileEntity.about.isEmpty)
+    if (profileEntity.about!.isEmpty)
       return context.getScreenWidth > 320 ? 120.toHeight : 85.toHeight;
     return context.getScreenWidth > 320
-        ? profileEntity.about.length > 40
+        ? profileEntity.about!.length > 40
             ? 115.toHeight
             : 120.toHeight
         : 90.toHeight;

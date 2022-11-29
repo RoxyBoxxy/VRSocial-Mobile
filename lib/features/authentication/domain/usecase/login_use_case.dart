@@ -8,11 +8,11 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class LoginUseCase extends UseCase<dynamic, HashMap<String, dynamic>> {
-  final AuthRepo authRepo;
+  final AuthRepo? authRepo;
 
   LoginUseCase(this.authRepo);
   @override
   Future<Either<Failure, dynamic>> call(HashMap<String, dynamic> params) {
-    return authRepo.signIn(params);
+    return authRepo!.signIn(params);
   }
 }

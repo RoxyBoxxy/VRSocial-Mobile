@@ -7,10 +7,10 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class GetBookmarksUseCase extends UseCase<List<PostEntity>, String> {
-  final ProfileRepo profileRepo;
+  final ProfileRepo? profileRepo;
 
   GetBookmarksUseCase(this.profileRepo);
   @override
   Future<Either<Failure, List<PostEntity>>> call(String params) =>
-      profileRepo.getBookmarks(params);
+      profileRepo!.getBookmarks(params);
 }

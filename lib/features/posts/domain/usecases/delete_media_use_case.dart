@@ -7,10 +7,10 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class DeleteMediaUseCase extends UseCase<dynamic, MediaEntity> {
-  final PostRepo postRepo;
+  final PostRepo? postRepo;
 
   DeleteMediaUseCase(this.postRepo);
   @override
   Future<Either<Failure, dynamic>> call(MediaEntity params) =>
-      postRepo.deleteMedia(params);
+      postRepo!.deleteMedia(params);
 }

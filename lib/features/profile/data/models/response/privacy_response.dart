@@ -18,10 +18,10 @@ class PrivacyResponse {
     this.data,
   });
 
-  int code;
-  bool valid;
-  String message;
-  PrivacyModel data;
+  int? code;
+  bool? valid;
+  String? message;
+  PrivacyModel? data;
 
   factory PrivacyResponse.fromJson(Map<String, dynamic> json) =>
       PrivacyResponse(
@@ -35,7 +35,7 @@ class PrivacyResponse {
         "code": code == null ? null : code,
         "valid": valid == null ? null : valid,
         "message": message == null ? null : message,
-        "data": data == null ? null : data.toJson(),
+        "data": data == null ? null : data!.toJson(),
       };
 }
 
@@ -46,9 +46,9 @@ class PrivacyModel {
     this.searchVisibility,
   });
 
-  String profileVisibility;
-  String contactPrivacy;
-  bool searchVisibility;
+  String? profileVisibility;
+  String? contactPrivacy;
+  bool? searchVisibility;
 
   factory PrivacyModel.fromJson(Map<String, dynamic> json) => PrivacyModel(
         profileVisibility: json["profile_visibility"] == null

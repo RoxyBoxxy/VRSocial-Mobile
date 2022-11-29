@@ -22,14 +22,14 @@ part 'post_state.dart';
 class PostCubit extends PostPaginatonCubit<PostEntity, CommonUIState>
     with PostSearchingMixin, PostInteractionMixin {
   // use cases
-  final AddOrRemoveBookmarkUseCase addOrRemoveBookmarkUseCase;
-  final LikeUnlikeUseCase likeUnlikeUseCase;
-  final RepostUseCase repostUseCase;
-  final DeletePostUseCase deletePostUseCase;
-  final SearchPostUseCase searchPostUseCase;
+  final AddOrRemoveBookmarkUseCase? addOrRemoveBookmarkUseCase;
+  final LikeUnlikeUseCase? likeUnlikeUseCase;
+  final RepostUseCase? repostUseCase;
+  final DeletePostUseCase? deletePostUseCase;
+  final SearchPostUseCase? searchPostUseCase;
 
   // pagination
-  final ShowLikesPagination showLikesPagination;
+  final ShowLikesPagination? showLikesPagination;
 
   PostCubit(
       this.addOrRemoveBookmarkUseCase,
@@ -44,8 +44,8 @@ class PostCubit extends PostPaginatonCubit<PostEntity, CommonUIState>
   }
 
   @override
-  Future<Either<Failure, List<PostEntity>>> getItems(int pageKey) async =>
-      searchPostUseCase(TextModelWithOffset(
+  Future<Either<Failure, List<PostEntity>>?> getItems(int pageKey) async =>
+      searchPostUseCase!(TextModelWithOffset(
           queryText: searchedText, offset: pageKey.toString()));
 
   @override
@@ -60,7 +60,7 @@ class PostCubit extends PostPaginatonCubit<PostEntity, CommonUIState>
 
   @override
   Future<void> likeUnlikePost(int index) async {
-    var either = await mLikeUnlike(index, likeUnlikeUseCase);
+    var either = await mLikeUnlike(index, likeUnlikeUseCase!);
     either.fold((l) {
       emit(CommonUIState.error(l.errorMessage));
       emit(const CommonUIState.initial());
@@ -69,17 +69,17 @@ class PostCubit extends PostPaginatonCubit<PostEntity, CommonUIState>
 
   @override
   Future<void> repost(int index) async {
-    await mRepost(index, repostUseCase);
+    await mRepost(index, repostUseCase!);
   }
 
   @override
   Future<void> addOrRemoveBookmark(int index) async {
-    await mAddRemoveBookmark(index, addOrRemoveBookmarkUseCase);
+    await mAddRemoveBookmark(index, addOrRemoveBookmarkUseCase!);
   }
 
   @override
   Future<void> deletePost(int index) async {
-    await mDeletePost(index, deletePostUseCase);
+    await mDeletePost(index, deletePostUseCase!);
   }
 
   @override

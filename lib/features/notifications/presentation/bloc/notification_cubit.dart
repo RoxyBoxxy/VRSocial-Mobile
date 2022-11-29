@@ -15,8 +15,8 @@ class NotificationCubit extends Cubit<NotificationState> {
   final removedItemsIndex = <int>[];
 
   // pagination
-  final NotificationPagination notificationPagination;
-  final MentionsPagination mentionsPagination;
+  final NotificationPagination? notificationPagination;
+  final MentionsPagination? mentionsPagination;
 
   NotificationCubit(this.notificationPagination, this.mentionsPagination)
       : super(NotificationInitial());
@@ -54,8 +54,8 @@ class NotificationCubit extends Cubit<NotificationState> {
 
   @override
   Future<void> close() {
-    notificationPagination.onClose();
-    mentionsPagination.onClose();
+    notificationPagination!.onClose();
+    mentionsPagination!.onClose();
     return super.close();
   }
 }

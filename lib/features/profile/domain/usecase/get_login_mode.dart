@@ -6,11 +6,11 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class GetLoginMode extends UseCase<bool, Unit> {
-  final ProfileRepo profileRepo;
+  final ProfileRepo? profileRepo;
 
   GetLoginMode(this.profileRepo);
   @override
   Future<Either<Failure, bool>> call(Unit params) {
-    return profileRepo.getLoginMode();
+    return profileRepo!.getLoginMode();
   }
 }

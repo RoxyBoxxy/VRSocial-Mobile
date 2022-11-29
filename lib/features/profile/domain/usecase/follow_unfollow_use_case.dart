@@ -6,10 +6,10 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class FollowUnFollowUseCase extends UseCase<dynamic, String> {
-  final ProfileRepo profileRepo;
+  final ProfileRepo? profileRepo;
 
   FollowUnFollowUseCase(this.profileRepo);
   @override
   Future<Either<Failure, dynamic>> call(String params) =>
-      profileRepo.followUnFollow(params);
+      profileRepo!.followUnFollow(params);
 }

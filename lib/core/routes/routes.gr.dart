@@ -240,25 +240,25 @@ class MyRouter extends RouterBase {
 
 /// WebViewScreen arguments holder class
 class WebViewScreenArguments {
-  final Key key;
-  final String url;
-  final String name;
+  final Key? key;
+  final String? url;
+  final String? name;
   WebViewScreenArguments({this.key, this.url, this.name});
 }
 
 /// ErrorScreen arguments holder class
 class ErrorScreenArguments {
-  final Key key;
-  final String error;
+  final Key? key;
+  final String? error;
   ErrorScreenArguments({this.key, this.error});
 }
 
 /// ProfileScreen arguments holder class
 class ProfileScreenArguments {
-  final Key key;
-  final String otherUserId;
-  final String profileUrl;
-  final String coverUrl;
+  final Key? key;
+  final String? otherUserId;
+  final String? profileUrl;
+  final String? coverUrl;
   final ProfileNavigationEnum profileNavigationEnum;
   ProfileScreenArguments(
       {this.key,
@@ -270,11 +270,11 @@ class ProfileScreenArguments {
 
 /// CreatePost arguments holder class
 class CreatePostArguments {
-  final Key key;
+  final Key? key;
   final String title;
   final String replyTo;
-  final String threadId;
-  final ReplyEntity replyEntity;
+  final String? threadId;
+  final ReplyEntity? replyEntity;
   CreatePostArguments(
       {this.key,
       this.title = "Create Post",
@@ -285,10 +285,10 @@ class CreatePostArguments {
 
 /// ChatScreen arguments holder class
 class ChatScreenArguments {
-  final Key key;
-  final String otherPersonUserId;
-  final String otherUserFullName;
-  final String otherPersonProfileUrl;
+  final Key? key;
+  final String? otherPersonUserId;
+  final String? otherUserFullName;
+  final String? otherPersonProfileUrl;
   ChatScreenArguments(
       {this.key,
       this.otherPersonUserId,
@@ -298,17 +298,17 @@ class ChatScreenArguments {
 
 /// ViewPostScreen arguments holder class
 class ViewPostScreenArguments {
-  final Key key;
-  final int threadID;
-  final PostEntity postEntity;
-  ViewPostScreenArguments({this.key, this.threadID, @required this.postEntity});
+  final Key? key;
+  final int? threadID;
+  final PostEntity? postEntity;
+  ViewPostScreenArguments({this.key, this.threadID, required this.postEntity});
 }
 
 /// FollowingFollowersScreen arguments holder class
 class FollowingFollowersScreenArguments {
-  final Key key;
+  final Key? key;
   final FollowUnFollowScreenEnum followScreenEnum;
-  final String userId;
+  final String? userId;
   FollowingFollowersScreenArguments(
       {this.key,
       this.followScreenEnum = FollowUnFollowScreenEnum.FOLLOWERS,
@@ -317,14 +317,14 @@ class FollowingFollowersScreenArguments {
 
 /// SearchScreen arguments holder class
 class SearchScreenArguments {
-  final Key key;
-  final String searchedText;
+  final Key? key;
+  final String? searchedText;
   SearchScreenArguments({this.key, this.searchedText});
 }
 
 /// SettingsScreen arguments holder class
 class SettingsScreenArguments {
-  final Key key;
+  final Key? key;
   final bool fromProfile;
   SettingsScreenArguments({this.key, this.fromProfile = false});
 }

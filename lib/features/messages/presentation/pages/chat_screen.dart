@@ -24,11 +24,11 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 
 class ChatScreen extends StatefulWidget {
-  final String otherPersonUserId;
-  final String otherUserFullName;
-  final String otherPersonProfileUrl;
+  final String? otherPersonUserId;
+  final String? otherUserFullName;
+  final String? otherPersonProfileUrl;
   const ChatScreen(
-      {Key key,
+      {Key? key,
       this.otherPersonUserId,
       this.otherUserFullName,
       this.otherPersonProfileUrl})
@@ -39,7 +39,7 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen>
     with AutomaticKeepAliveClientMixin {
-  ChatCubit chatCubit;
+  ChatCubit? chatCubit;
   ScrollController controller = ScrollController();
   bool chatCleared = false;
   bool chatDeleted = false;
@@ -49,13 +49,13 @@ class _ChatScreenState extends State<ChatScreen>
     // TODO: implement initState
     super.initState();
     chatCubit = getIt<ChatCubit>()
-      ..chatPagination.userId = widget.otherPersonUserId;
-    chatCubit.chatPagination.searchChat = false;
+      ..chatPagination!.userId = widget.otherPersonUserId;
+    chatCubit!.chatPagination!.searchChat = false;
     PushNotificationHelper.listenNotificationOnChatScreen = (notificationItem) {
-      chatCubit.changeMessageList(
-          chatCubit.chatPagination.pagingController.itemList
+      chatCubit!.changeMessageList(
+          chatCubit!.chatPagination!.pagingController.itemList!
             ..insert(0, notificationItem));
-      chatCubit.chatPagination.pagingController.notifyListeners();
+      chatCubit!.chatPagination!.pagingController.notifyListeners();
       // chatCubit.animatedKey?.currentState?.insertItem(0);
     };
   }
@@ -77,7 +77,7 @@ class _ChatScreenState extends State<ChatScreen>
           children: [
             Positioned(
               top: 120,
-              width: context.getScreenWidth,
+              width: context.getScreenWidth as double?,
               // left: 0,
               bottom: 70,
               // height: context.getScreenHeight,
@@ -111,13 +111,13 @@ class _ChatScreenState extends State<ChatScreen>
             ),
             Positioned(
                 bottom: 0,
-                width: context.getScreenWidth,
+                width: context.getScreenWidth as double?,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     TextField(
-                      onChanged: chatCubit.message.onChange,
-                      controller: chatCubit.message.textController,
+                      onChanged: chatCubit!.message.onChange,
+                      controller: chatCubit!.message.textController,
                       // style: AppTheme.button.copyWith(fontWeight: FontWeight.w500),
                       decoration: InputDecoration(
                         hintText: "Send a Message",
@@ -132,8 +132,8 @@ class _ChatScreenState extends State<ChatScreen>
                           width: 10,
                         ).toPadding(14).onTapWidget(() async {
                           await openMediaPicker(context, (image) async {
-                            chatCubit.sendImage(
-                                image, widget.otherPersonUserId);
+                            chatCubit!
+                                .sendImage(image, widget.otherPersonUserId);
                           }, mediaType: MediaTypeEnum.IMAGE);
                         }),
                       ),
@@ -167,9 +167,9 @@ class _ChatScreenState extends State<ChatScreen>
                       Images.sendIcon,
                       height: 24,
                     ).toHorizontalPadding(12).onTapWidget(() async {
-                      if (chatCubit.message.text.trim().isNotEmpty) {
-                        chatCubit.sendMessage(widget.otherPersonUserId);
-                        chatCubit.message.textController.clear();
+                      if (chatCubit!.message.text.trim().isNotEmpty) {
+                        chatCubit!.sendMessage(widget.otherPersonUserId);
+                        chatCubit!.message.textController.clear();
                       } else {
                         context.showSnackBar(
                             message: "Please enter a valid text",
@@ -189,13 +189,13 @@ class _ChatScreenState extends State<ChatScreen>
   RefreshIndicator buildRefreshIndicator() {
     return RefreshIndicator(
       onRefresh: () {
-        chatCubit.chatPagination.searchChat = false;
-        chatCubit.chatPagination.onRefresh();
+        chatCubit!.chatPagination!.searchChat = false;
+        chatCubit!.chatPagination!.onRefresh();
         return Future.value();
       },
       child: PagedListView(
         reverse: true,
-        pagingController: chatCubit.chatPagination.pagingController,
+        pagingController: chatCubit!.chatPagination!.pagingController,
         builderDelegate: PagedChildBuilderDelegate<ChatEntity>(
             noItemsFoundIndicatorBuilder: (i) => NoDataFoundScreen(
                   onTapButton: () {
@@ -207,7 +207,7 @@ class _ChatScreenState extends State<ChatScreen>
                   buttonVisibility: false,
                 ),
             itemBuilder: (BuildContext context, item, int index) => Container(
-                    width: context.getScreenWidth,
+                    width: context.getScreenWidth as double?,
                     child: item.isSender
                         ? SenderChatItem(chatEntity: item)
                         : ReceiverChatItem(
@@ -216,7 +216,7 @@ class _ChatScreenState extends State<ChatScreen>
                 .toSwipeToDelete(
                     key: UniqueKey(),
                     onDismissed: () {
-                      chatCubit.deleteMessage(index);
+                      chatCubit!.deleteMessage(index);
                       // context.showSnackBar(;
                     })),
       ),
@@ -229,13 +229,13 @@ class _ChatScreenState extends State<ChatScreen>
 
     return AnimatedList(
       physics: const AlwaysScrollableScrollPhysics(),
-      key: chatCubit.animatedKey,
+      key: chatCubit!.animatedKey,
       reverse: true,
       itemBuilder: (c, index, animation) => SizeTransition(
         key: ValueKey(index),
         sizeFactor: animation,
         child: Container(
-          width: context.getScreenWidth,
+          width: context.getScreenWidth as double?,
           child: chat[index].isSender
               ? SenderChatItem(chatEntity: chat[index])
               : ReceiverChatItem(
@@ -244,11 +244,11 @@ class _ChatScreenState extends State<ChatScreen>
         ).toSwipeToDelete(
             key: ValueKey(index),
             onDismissed: () {
-              chatCubit.deleteMessage(index);
+              chatCubit!.deleteMessage(index);
               // context.showSnackBar(;
             }),
       ),
-      initialItemCount: snapshot.data.length,
+      initialItemCount: snapshot.data!.length,
     );
   }
 
@@ -287,8 +287,8 @@ class _ChatScreenState extends State<ChatScreen>
       // elevation: isPortrait?2.0:10,
       debounceDelay: const Duration(milliseconds: 500),
       onQueryChanged: (query) {
-        chatCubit.chatPagination.searchChat = true;
-        chatCubit.chatPagination.queryText = query;
+        chatCubit!.chatPagination!.searchChat = true;
+        chatCubit!.chatPagination!.queryText = query;
         // Call your model, bloc, controller here.
       },
       // Specify a custom transition to be used for
@@ -307,7 +307,7 @@ class _ChatScreenState extends State<ChatScreen>
     );
   }
 
-  onTapOptions(String value) async {
+  onTapOptions(String? value) async {
     if (value == "Delete Chat") {
       return await context.showOkCancelAlertDialog<bool>(
           title: "Please confirm your actions!",
@@ -317,7 +317,7 @@ class _ChatScreenState extends State<ChatScreen>
           onTapOk: () async {
             // var result=await messageCubit.deleteMessage(index);
             Navigator.of(context).pop();
-            chatCubit.deleteAllMessages(DeleteChatRequestModel(
+            chatCubit!.deleteAllMessages(DeleteChatRequestModel(
                 userId: widget.otherPersonUserId, deleteChat: true));
           });
       // context.showOkCancelAlertDialog(desc: null, title: null);
@@ -332,7 +332,7 @@ class _ChatScreenState extends State<ChatScreen>
           onTapOk: () async {
             // var result=await messageCubit.deleteMessage(index);
             Navigator.of(context).pop();
-            chatCubit.deleteAllMessages(DeleteChatRequestModel(
+            chatCubit!.deleteAllMessages(DeleteChatRequestModel(
                 userId: widget.otherPersonUserId, deleteChat: false));
           });
     }
@@ -344,7 +344,7 @@ class _ChatScreenState extends State<ChatScreen>
     } else if (chatCleared) {
       ExtendedNavigator.root.pop("cleared");
     } else
-      ExtendedNavigator.root.pop(chatCubit.getLastMessage());
+      ExtendedNavigator.root.pop(chatCubit!.getLastMessage());
   }
 
   @override

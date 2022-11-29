@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:colibri/extensions.dart';
 
 class ThumbnailWidget extends StatefulWidget {
-  final MediaData data;
-  final VoidCallback onCloseTap;
-  const ThumbnailWidget({Key key, this.data, this.onCloseTap})
+  final MediaData? data;
+  final VoidCallback? onCloseTap;
+  const ThumbnailWidget({Key? key, this.data, this.onCloseTap})
       : super(key: key);
   @override
   _ThumbnailWidgetState createState() => _ThumbnailWidgetState();
@@ -23,12 +23,13 @@ class _ThumbnailWidgetState extends State<ThumbnailWidget> {
         ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: Image.file(
-            File(widget.data.thumbnail),
-            height:
-                widget.data.type == MediaTypeEnum.IMAGE ? 120 : 200.toHeight,
-            width: widget.data.type == MediaTypeEnum.IMAGE
+            File(widget.data!.thumbnail!),
+            height: widget.data!.type == MediaTypeEnum.IMAGE
+                ? 120
+                : 200.toHeight as double?,
+            width: widget.data!.type == MediaTypeEnum.IMAGE
                 ? context.getScreenWidth * .40
-                : context.getScreenWidth,
+                : context.getScreenWidth as double?,
             fit: BoxFit.cover,
           ),
         ),
@@ -46,7 +47,7 @@ class _ThumbnailWidgetState extends State<ThumbnailWidget> {
                       shape: BoxShape.circle,
                       color: Colors.white))
               .onTapWidget(() {
-            widget.onCloseTap.call();
+            widget.onCloseTap!.call();
           }),
         ),
       ],
@@ -55,14 +56,14 @@ class _ThumbnailWidgetState extends State<ThumbnailWidget> {
 }
 
 class GiphyWidget extends StatefulWidget {
-  final int itemIndex;
-  final int length;
+  final int? itemIndex;
+  final int? length;
 
-  final String path;
-  final VoidCallback fun;
+  final String? path;
+  final VoidCallback? fun;
   final bool enableClose;
   const GiphyWidget(
-      {Key key,
+      {Key? key,
       this.path,
       this.fun,
       this.enableClose = true,
@@ -81,8 +82,8 @@ class _GiphyWidgetState extends State<GiphyWidget> {
       children: [
         ClipRRect(
             borderRadius:
-                boarderRadiusCheck(widget?.itemIndex ?? 0, widget?.length ?? 0),
-            child: Image.network(widget.path, headers: {'accept': 'image/*'})),
+                boarderRadiusCheck(widget.itemIndex ?? 0, widget.length ?? 0),
+            child: Image.network(widget.path!, headers: {'accept': 'image/*'})),
         Visibility(
           visible: widget.enableClose,
           child: Positioned(
@@ -99,7 +100,7 @@ class _GiphyWidgetState extends State<GiphyWidget> {
                         shape: BoxShape.circle,
                         color: Colors.white))
                 .onTapWidget(() {
-              widget.fun.call();
+              widget.fun!.call();
             }),
           ),
         ),

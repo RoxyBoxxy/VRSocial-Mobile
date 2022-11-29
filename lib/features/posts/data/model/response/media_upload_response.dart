@@ -18,10 +18,10 @@ class MediaUploadResponse {
     this.data,
   });
 
-  int errCode;
-  String message;
-  int code;
-  MediaItem data;
+  int? errCode;
+  String? message;
+  int? code;
+  MediaItem? data;
 
   factory MediaUploadResponse.fromJson(Map<String, dynamic> json) =>
       MediaUploadResponse(
@@ -35,7 +35,7 @@ class MediaUploadResponse {
         "err_code": errCode == null ? null : errCode,
         "message": message == null ? null : message,
         "code": code == null ? null : code,
-        "data": data == null ? null : data.toJson(),
+        "data": data == null ? null : data!.toJson(),
       };
 }
 
@@ -46,9 +46,9 @@ class MediaItem {
     this.type,
   });
 
-  int mediaId;
-  String url;
-  String type;
+  int? mediaId;
+  String? url;
+  String? type;
 
   factory MediaItem.fromJson(Map<String, dynamic> json) => MediaItem(
         mediaId: json["media_id"] == null ? null : json["media_id"],

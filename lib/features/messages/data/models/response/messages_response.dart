@@ -18,10 +18,10 @@ class MessagesResponse {
     this.data,
   });
 
-  int code;
-  bool valid;
-  String message;
-  List<MessageResponseModel> data;
+  int? code;
+  bool? valid;
+  String? message;
+  List<MessageResponseModel>? data;
 
   factory MessagesResponse.fromJson(Map<String, dynamic> json) =>
       MessagesResponse(
@@ -40,7 +40,7 @@ class MessagesResponse {
         "message": message == null ? null : message,
         "data": data == null
             ? null
-            : List<dynamic>.from(data.map((x) => x.toJson())),
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
@@ -58,16 +58,16 @@ class MessageResponseModel {
     this.chatUrl,
   });
 
-  int userId;
-  String username;
-  String name;
-  String avatar;
-  String verified;
-  int chatId;
-  String time;
-  String lastMessage;
-  String newMessages;
-  String chatUrl;
+  int? userId;
+  String? username;
+  String? name;
+  String? avatar;
+  String? verified;
+  int? chatId;
+  String? time;
+  String? lastMessage;
+  String? newMessages;
+  String? chatUrl;
 
   factory MessageResponseModel.fromJson(Map<String, dynamic> json) =>
       MessageResponseModel(

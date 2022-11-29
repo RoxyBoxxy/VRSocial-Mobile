@@ -3,6 +3,7 @@ import 'dart:collection';
 
 import 'package:bloc/bloc.dart';
 import 'package:colibri/core/common/api/api_constants.dart';
+import 'package:colibri/core/common/failure.dart';
 import 'package:colibri/core/common/static_data/all_countries.dart';
 import 'package:colibri/core/common/stream_validators.dart';
 import 'package:colibri/core/common/uistate/common_ui_state.dart';
@@ -40,10 +41,10 @@ class UserSettingCubit extends Cubit<CommonUIState> {
 
   // all countries
   final _countriesListController =
-      BehaviorSubject<List<String>>.seeded(ApiConstants.allCountries);
+      BehaviorSubject<List<String?>>.seeded(ApiConstants.allCountries);
   Function(List<String>) get changeCountries =>
       _countriesListController.sink.add;
-  Stream<List<String>> get countries => _countriesListController.stream;
+  Stream<List<String?>> get countries => _countriesListController.stream;
 
   final _allLanguagesController =
       BehaviorSubject<List<String>>.seeded(ApiConstants.allLanguages);
@@ -51,40 +52,40 @@ class UserSettingCubit extends Cubit<CommonUIState> {
   Stream<List<String>> get languages => _allLanguagesController.stream;
 
   // update user name and name
-  FieldValidators firstNameValidator;
-  FieldValidators userNameValidator;
-  FieldValidators lastNameValidator;
+  late FieldValidators firstNameValidator;
+  late FieldValidators userNameValidator;
+  late FieldValidators lastNameValidator;
 
   // update email
-  FieldValidators emailValidator;
+  late FieldValidators emailValidator;
 
   // update website
-  FieldValidators websiteValidators;
+  late FieldValidators websiteValidators;
 
   // update about you
-  FieldValidators aboutYouValidators;
+  late FieldValidators aboutYouValidators;
 
   String gender = "M";
 
-  FieldValidators fullNameValidators;
+  FieldValidators? fullNameValidators;
 
-  FieldValidators messageToReceiverValidators;
+  FieldValidators? messageToReceiverValidators;
 
-  FieldValidators oldPasswordValidator;
+  FieldValidators? oldPasswordValidator;
 
-  FieldValidators newPasswordValidator;
+  FieldValidators? newPasswordValidator;
 
-  FieldValidators confirmPasswordValidator;
+  FieldValidators? confirmPasswordValidator;
 
-  FieldValidators deleteAccountValidator;
+  late FieldValidators deleteAccountValidator;
 
-  final _selectedLangController = BehaviorSubject<String>();
-  Function(String) get changeSelectedLang => _selectedLangController.sink.add;
-  Stream<String> get selectedLang => _selectedLangController.stream;
+  final _selectedLangController = BehaviorSubject<String?>();
+  Function(String?) get changeSelectedLang => _selectedLangController.sink.add;
+  Stream<String?> get selectedLang => _selectedLangController.stream;
 
   // verify Account
-  FieldValidators verifyFullNameValidator;
-  FieldValidators verifyMessageValidator;
+  late FieldValidators verifyFullNameValidator;
+  late FieldValidators verifyMessageValidator;
 
   final _videoPathController = BehaviorSubject<String>();
 
@@ -93,21 +94,21 @@ class UserSettingCubit extends Cubit<CommonUIState> {
   Stream<String> get videoPath => _videoPathController.stream;
 
   // use cases
-  final UpdateUserSettingsUseCase updateUserSettingsUseCase;
+  final UpdateUserSettingsUseCase? updateUserSettingsUseCase;
 
-  final UpdatePasswordUseCase updatePasswordUseCase;
+  final UpdatePasswordUseCase? updatePasswordUseCase;
 
-  final UpdatePrivacyUseCase updatePrivacyUseCase;
+  final UpdatePrivacyUseCase? updatePrivacyUseCase;
 
-  final GetUserSettingsUseCase getUserSettingsUseCase;
+  final GetUserSettingsUseCase? getUserSettingsUseCase;
 
-  final DeleteAccountUseCase deleteAccountUseCase;
+  final DeleteAccountUseCase? deleteAccountUseCase;
 
-  final VerifyUserAccountUseCase verifyUserAccountUseCase;
+  final VerifyUserAccountUseCase? verifyUserAccountUseCase;
 
-  final ChangeLanguageUseCase changeLanguageUseCase;
+  final ChangeLanguageUseCase? changeLanguageUseCase;
 
-  final GetLoginMode loginMode;
+  final GetLoginMode? loginMode;
 
   UserSettingCubit(
       this.getUserSettingsUseCase,
@@ -124,7 +125,7 @@ class UserSettingCubit extends Cubit<CommonUIState> {
 
   getUserSettings() async {
     emit(const CommonUIState.loading());
-    var either = await getUserSettingsUseCase(unit);
+    var either = await getUserSettingsUseCase!(unit);
     either.fold((l) => emit(CommonUIState.error(l.errorMessage)), (r) async {
       var mode = await getLoginMode();
       emit(CommonUIState.success(r.copyWith(didSocialLogin: mode)));
@@ -133,7 +134,7 @@ class UserSettingCubit extends Cubit<CommonUIState> {
   }
 
   Future<bool> getLoginMode() async {
-    var mode = await loginMode(unit);
+    var mode = await loginMode!(unit);
     var m = false;
     mode.fold((l) {
       m = false;
@@ -147,9 +148,9 @@ class UserSettingCubit extends Cubit<CommonUIState> {
     // print(updateSettingEnum.toString());
     emit(const CommonUIState.loading());
     if (updateSettingEnum == UpdateSettingEnum.PASSWORD) {
-      final either = await updatePasswordUseCase(UpdatePasswordRequest(
-          newPassword: newPasswordValidator.text,
-          oldPassword: oldPasswordValidator.text));
+      final either = await updatePasswordUseCase!(UpdatePasswordRequest(
+          newPassword: newPasswordValidator!.text,
+          oldPassword: oldPasswordValidator!.text));
       either.fold((l) {
         switch (updateSettingEnum) {
           case UpdateSettingEnum.USERNAME:
@@ -167,7 +168,7 @@ class UserSettingCubit extends Cubit<CommonUIState> {
           case UpdateSettingEnum.COUNTRY:
             break;
           case UpdateSettingEnum.PASSWORD:
-            oldPasswordValidator.addError(l.errorMessage);
+            oldPasswordValidator!.addError(l.errorMessage);
             break;
           case UpdateSettingEnum.VERIFY_MY_ACCOUNT:
             break;
@@ -182,8 +183,8 @@ class UserSettingCubit extends Cubit<CommonUIState> {
               const CommonUIState.success("Password changed successfully")));
     } else {
       print(
-          "c ${ApiConstants.allCountries.indexOf(_settingEntityController.value.country).toString()}");
-      var either = await updateUserSettingsUseCase(UpdateSettingsRequestModel(
+          "c ${ApiConstants.allCountries.indexOf(_settingEntityController.value.country!).toString()}");
+      var either = await updateUserSettingsUseCase!(UpdateSettingsRequestModel(
           firstName: firstNameValidator.text,
           lastName: lastNameValidator.text,
           username: userNameValidator.text,
@@ -205,7 +206,7 @@ class UserSettingCubit extends Cubit<CommonUIState> {
 
   updateUserPrivacy() async {
     emit(const CommonUIState.loading());
-    var either = await updatePrivacyUseCase(
+    var either = await updatePrivacyUseCase!(
         _settingEntityController.value.accountPrivacyEntity);
     either.fold((l) => emit(CommonUIState.error(l.errorMessage)), (r) async {
       emit(const CommonUIState.success("Privacy updated successfully"));
@@ -229,14 +230,14 @@ class UserSettingCubit extends Cubit<CommonUIState> {
     oldPasswordValidator = FieldValidators(null, null, obsecureTextBool: true);
     confirmPasswordValidator = FieldValidators(
         StreamTransformer.fromHandlers(handleData: (string, sink) {
-      if (string == newPasswordValidator.text) {
+      if (string == newPasswordValidator!.text) {
         sink.add(string);
       } else {
         sink.addError("Please make sure password match");
       }
     }), null, obsecureTextBool: true, passwordField: true);
     newPasswordValidator = FieldValidators(
-        validatePassword(), confirmPasswordValidator.focusNode,
+        validatePassword(), confirmPasswordValidator!.focusNode,
         obsecureTextBool: true, passwordField: true);
     deleteAccountValidator = FieldValidators(
         validatePassword(errorText: "Please enter your current password!"),
@@ -252,7 +253,7 @@ class UserSettingCubit extends Cubit<CommonUIState> {
 
   deleteAccount() async {
     emit(const CommonUIState.loading());
-    var either = await deleteAccountUseCase(deleteAccountValidator.text);
+    var either = await deleteAccountUseCase!(deleteAccountValidator.text);
     either.fold(
         (l) => emit(CommonUIState.error(l.errorMessage)),
         (r) =>
@@ -268,7 +269,7 @@ class UserSettingCubit extends Cubit<CommonUIState> {
       emit(const CommonUIState.error('Please choose video file'));
     } else {
       emit(const CommonUIState.loading());
-      await verifyUserAccountUseCase(VerifyRequestModel(
+      await verifyUserAccountUseCase!(VerifyRequestModel(
           fullName: verifyFullNameValidator.text,
           message: verifyMessageValidator.text,
           video: _videoPathController.value))
@@ -285,7 +286,8 @@ class UserSettingCubit extends Cubit<CommonUIState> {
 
   changeUserLanguage() async {
     emit(const CommonUIState.loading());
-    var either = await changeLanguageUseCase(_selectedLangController.value);
+    var either = await (changeLanguageUseCase!(_selectedLangController.value!)
+        as FutureOr<Either<Failure, String>>);
     either.fold((l) => emit(CommonUIState.error(l.errorMessage)),
         (r) => emit(CommonUIState.success(r)));
   }
@@ -308,9 +310,9 @@ class UserSettingCubit extends Cubit<CommonUIState> {
     // lastNameValidator.addError(null);
     // userNameValidator.addError(null);
     // firstNameValidator..addError(null)..textController.clear();
-    newPasswordValidator.onChange("");
-    oldPasswordValidator.onChange("");
-    confirmPasswordValidator.onChange("");
+    newPasswordValidator!.onChange("");
+    oldPasswordValidator!.onChange("");
+    confirmPasswordValidator!.onChange("");
     firstNameValidator.onChange(value.firstName);
     lastNameValidator.onChange(value.lastName);
     userNameValidator.onChange(value.userName);
@@ -321,13 +323,13 @@ class UserSettingCubit extends Cubit<CommonUIState> {
 
   void setAllUserData(SettingEntity r) {
     userNameValidator.textController.text = r.userName.replaceAll("@", "");
-    firstNameValidator.textController.text = r.firstName;
-    lastNameValidator.textController.text = r.lastName;
+    firstNameValidator.textController.text = r.firstName!;
+    lastNameValidator.textController.text = r.lastName!;
     websiteValidators.textController.text =
-        r.website == Strings.emptyWebsite ? "" : r.website;
+        r.website == Strings.emptyWebsite ? "" : r.website!;
     aboutYouValidators.textController.text =
-        r.about == Strings.emptyAbout ? "" : r.about;
-    emailValidator.textController.text = r.email;
+        r.about == Strings.emptyAbout ? "" : r.about!;
+    emailValidator.textController.text = r.email!;
     gender = r.gender == "Female" ? "F" : "M";
     changeSettingEntity(r);
   }

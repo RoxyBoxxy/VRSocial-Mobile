@@ -7,11 +7,11 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class UpdatePrivacyUseCase extends UseCase<dynamic, AccountPrivacyEntity> {
-  final ProfileRepo profileRepo;
+  final ProfileRepo? profileRepo;
 
   UpdatePrivacyUseCase(this.profileRepo);
   @override
   Future<Either<Failure, dynamic>> call(AccountPrivacyEntity params) {
-    return profileRepo.updatePrivacy(params);
+    return profileRepo!.updatePrivacy(params);
   }
 }

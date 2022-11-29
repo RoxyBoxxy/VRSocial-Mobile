@@ -27,6 +27,7 @@ import 'package:colibri/features/search/domain/entity/hashtag_entity.dart';
 import 'package:colibri/features/search/domain/entity/people_entity.dart';
 import 'package:colibri/features/search/presentation/bloc/search_cubit.dart';
 import 'package:colibri/main.dart';
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:emoji_picker/emoji_picker.dart';
 // import 'package:emoji_picker/emoji_picker.dart';
 import 'package:flutter/cupertino.dart';
@@ -46,12 +47,12 @@ import 'package:html/parser.dart';
 import 'package:html/dom.dart' as htmlDom;
 
 class CreatePostCard extends StatefulWidget {
-  final String threadId;
-  final ReplyEntity replyEntity;
-  final VoidCallback refreshHomeScreen;
-  final Function backData;
+  final String? threadId;
+  final ReplyEntity? replyEntity;
+  final VoidCallback? refreshHomeScreen;
+  final Function? backData;
   const CreatePostCard(
-      {Key key,
+      {Key? key,
       this.threadId,
       this.replyEntity,
       this.refreshHomeScreen,
@@ -65,9 +66,9 @@ class CreatePostCard extends StatefulWidget {
 class _CreatePostCardState extends State<CreatePostCard> {
   String everyOneReplayTitle = "Everyone can reply";
 
-  CreatePostCubit createPostCubit;
-  CreatePostCubit createPostCubit1;
-  Subscription sub;
+  CreatePostCubit? createPostCubit;
+  CreatePostCubit? createPostCubit1;
+  late Subscription sub;
 
   var loginResponse;
 
@@ -90,7 +91,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
     } catch (e) {
       createPostCubit = getIt<CreatePostCubit>();
     }
-    createPostCubit.getUserData();
+    createPostCubit!.getUserData();
 
     loginData();
 
@@ -120,7 +121,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
   }
 
   loginData() async {
-    loginResponse = await localDataSource.getUserAuth();
+    loginResponse = await localDataSource!.getUserAuth();
   }
 
   @override
@@ -132,18 +133,18 @@ class _CreatePostCardState extends State<CreatePostCard> {
             orElse: () {},
             error: (e) => context.showSnackBar(message: e, isError: true),
             success: (s) {
-              if (s is String && s != null && s.isNotEmpty) {
+              if (s is String && s.isNotEmpty) {
                 // widget?.refreshHomeScreen?.call();
                 // widget.refreshHomeScreen(0);
 
-                createPostCubit.postTextValidator.textController.clear();
+                createPostCubit!.postTextValidator.textController.clear();
                 linkTitle = "";
                 linkDescription = "";
                 linkImage = "";
                 linkSiteName = "";
                 linkUrl = "";
 
-                widget.backData(0);
+                widget.backData!(0);
                 ExtendedNavigator.root.pop();
 
                 if (widget.replyEntity != null)
@@ -185,11 +186,12 @@ class _CreatePostCardState extends State<CreatePostCard> {
 
   Widget buildReplyView() {
     return StreamBuilder<ProfileEntity>(
-        stream: createPostCubit.drawerEntity,
+        stream: createPostCubit!.drawerEntity,
         builder: (context, snapshot) {
           if (snapshot.data == null) {
             return const LoadingBar().toContainer(
-                height: context.getScreenHeight, alignment: Alignment.center);
+                height: context.getScreenHeight as double,
+                alignment: Alignment.center);
           } else {
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -201,9 +203,9 @@ class _CreatePostCardState extends State<CreatePostCard> {
                             indicatorBuilder: (c, index) => Padding(
                                   padding: const EdgeInsets.only(left: 24.0),
                                   child: (index == 1
-                                      ? snapshot.data.profileUrl
+                                      ? snapshot.data!.profileUrl!
                                           .toRoundNetworkImage()
-                                      : widget.replyEntity.profileUrl
+                                      : widget.replyEntity!.profileUrl!
                                           .toRoundNetworkImage()),
                                 ),
                             endConnectorBuilder: (c, index) => Padding(
@@ -217,7 +219,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
                                         )),
                                 ),
                             contentsBuilder: (c, index) => index == 0
-                                ? buildReplyTopView(widget.replyEntity)
+                                ? buildReplyTopView(widget.replyEntity!)
                                 : [
                                     10.toSizedBox,
                                     // data.profileUrl
@@ -227,7 +229,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
                                         .toNoBorderTextField(
                                             colors: const Color(0xFF1D88F0))
                                         .toPostBuilder(
-                                            validators: createPostCubit
+                                            validators: createPostCubit!
                                                 .postTextValidator)
                                         .toHorizontalPadding(12)
                                         .toContainer(
@@ -246,15 +248,15 @@ class _CreatePostCardState extends State<CreatePostCard> {
 
   Widget buildHome() {
     return StreamBuilder<ProfileEntity>(
-        stream: createPostCubit.drawerEntity,
+        stream: createPostCubit!.drawerEntity,
         builder: (context, snapshot) {
           if (snapshot.data == null)
             return Container(
-              height: context.getScreenHeight,
+              height: context.getScreenHeight as double?,
               child: LoadingBar(),
               alignment: Alignment.center,
             );
-          return buildCreatePostCard(context, snapshot.data);
+          return buildCreatePostCard(context, snapshot.data!);
         });
   }
 
@@ -278,7 +280,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
                     padding: const EdgeInsets.only(right: 10),
                     child: InkWell(
                       onTap: () {
-                        createPostCubit.postTextValidator.textController
+                        createPostCubit!.postTextValidator.textController
                             .clear();
                         linkTitle = "";
                         linkDescription = "";
@@ -300,7 +302,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
                   [
                     Padding(
                         padding: EdgeInsets.only(left: 17, right: 0),
-                        child: data.profileUrl
+                        child: data.profileUrl!
                             .toRoundNetworkImage()
                             .toContainer(
                               alignment: Alignment.topCenter,
@@ -317,7 +319,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
                     "What's on your mind?"
                         .toNoBorderTextField(colors: const Color(0xFF1D88F0))
                         .toPostBuilder(
-                            validators: createPostCubit.postTextValidator)
+                            validators: createPostCubit!.postTextValidator)
                         .toHorizontalPadding(5)
                         .toContainer(alignment: Alignment.topCenter)
                         .toFlexible()
@@ -327,7 +329,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
                     padding: const EdgeInsets.only(
                         left: 15.0, right: 15.0, bottom: 15),
                     child: StreamBuilder<List<MediaData>>(
-                        stream: createPostCubit.images,
+                        stream: createPostCubit!.images,
                         initialData: [],
                         builder: (context, snapshot) {
                           return AnimatedSwitcher(
@@ -337,13 +339,13 @@ class _CreatePostCardState extends State<CreatePostCard> {
                                 runSpacing: 20.0,
                                 spacing: 5.0,
                                 children: List.generate(
-                                  snapshot.data.length,
+                                  snapshot.data!.length,
                                   (index) {
                                     return AnimatedSwitcher(
                                         duration:
                                             const Duration(milliseconds: 1000),
                                         child: getMediaWidget(
-                                            snapshot.data[index], index));
+                                            snapshot.data![index], index));
                                   },
                                 )).toContainer(),
                           );
@@ -353,10 +355,10 @@ class _CreatePostCardState extends State<CreatePostCard> {
                   // Text(createPostCubit.postTextValidator.textController.text),
 
                   StreamBuilder(
-                      stream: createPostCubit.postTextValidator.stream,
+                      stream: createPostCubit!.postTextValidator.stream,
                       initialData: 0,
                       builder: (context, snapshot) {
-                        return showPostWiseData(createPostCubit
+                        return showPostWiseData(createPostCubit!
                             .postTextValidator.textController.text);
                       }),
                 ],
@@ -411,7 +413,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
           padding: EdgeInsets.only(left: 7, top: 7, right: 7),
           alignment: Alignment.centerLeft,
           color: Colors.white,
-          child: entity.name
+          child: entity.name!
               .toSubTitle2(fontWeight: FontWeight.w600)
               .onTapWidget(() {
             onTap.call(entity.name);
@@ -432,7 +434,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
             borderRadius: BorderRadius.circular(15),
             child: CachedNetworkImage(
               placeholder: (c, i) => const CircularProgressIndicator(),
-              imageUrl: entity.profileUrl,
+              imageUrl: entity.profileUrl!,
             ),
           ),
         ),
@@ -445,7 +447,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
               // height: 30,
               // width: 150,
               // color: Colors.grey.shade100,
-              child: entity.fullName
+              child: entity.fullName!
                   .toSubTitle2(
                       fontWeight: FontWeight.w400,
                       fontFamily1: "CeraPro",
@@ -459,7 +461,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
               // height: 30,
               // width: 150,
               // color: Colors.grey.shade100,
-              child: entity.userName
+              child: entity.userName!
                   .toSubTitle2(
                       fontWeight: FontWeight.w400,
                       fontFamily1: "CeraPro",
@@ -481,7 +483,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
         return ThumbnailWidget(
           data: mediaData,
           onCloseTap: () async {
-            await createPostCubit.removedFile(index);
+            await createPostCubit!.removedFile(index);
           },
         ).onTapWidget(
           () {
@@ -498,7 +500,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
             ThumbnailWidget(
               data: mediaData,
               onCloseTap: () async {
-                await createPostCubit.removedFile(index);
+                await createPostCubit!.removedFile(index);
               },
             ),
             const Positioned.fill(
@@ -521,7 +523,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
           child: GiphyWidget(
             path: mediaData.path,
             fun: () async {
-              await createPostCubit.removedFile(index);
+              await createPostCubit!.removedFile(index);
             },
           ),
         );
@@ -543,10 +545,10 @@ class _CreatePostCardState extends State<CreatePostCard> {
       onEmojiSelected: (emoji, category) {
         print(emoji.emoji);
         // print(emoji.emoji);
-        createPostCubit.postTextValidator
+        createPostCubit!.postTextValidator
           ..textController.text =
-              createPostCubit.postTextValidator.text + emoji.emoji
-          ..changeData(createPostCubit.postTextValidator.text);
+              createPostCubit!.postTextValidator.text + emoji.emoji
+          ..changeData(createPostCubit!.postTextValidator.text);
       },
     ).toContainer(
         height: context.getScreenWidth > 600 ? 400 : 250,
@@ -556,23 +558,23 @@ class _CreatePostCardState extends State<CreatePostCard> {
   @override
   void dispose() {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
-    sub?.unsubscribe();
+    sub.unsubscribe();
     super.dispose();
   }
 
   Widget buildReplyTopView(ReplyEntity replyEntity) {
     return [
       [
-        replyEntity.name.toSubTitle1(fontWeight: FontWeight.bold).toFlexible(),
-        replyEntity.time.toCaption(fontWeight: FontWeight.w600).toFlexible()
+        replyEntity.name!.toSubTitle1(fontWeight: FontWeight.bold).toFlexible(),
+        replyEntity.time!.toCaption(fontWeight: FontWeight.w600).toFlexible()
       ].toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween),
-      replyEntity.username1.toCaption(fontWeight: FontWeight.w600),
+      replyEntity.username1!.toCaption(fontWeight: FontWeight.w600),
       5.toSizedBox.toVisibility(replyEntity.description.isNotEmpty),
       replyEntity.description.toSubTitle1(),
       10.toSizedBox.toVisibility(replyEntity.description.isNotEmpty),
       [
         "Replying to ".toCaption(fontWeight: FontWeight.w600),
-        widget.replyEntity.username1.toSubTitle1(
+        widget.replyEntity!.username1!.toSubTitle1(
             fontWeight: FontWeight.w600,
             color: AppColors.colorPrimary,
             fontSize: 12,
@@ -581,9 +583,9 @@ class _CreatePostCardState extends State<CreatePostCard> {
                   arguments: ProfileScreenArguments(otherUserId: mention));
             }),
         " and ".toCaption(fontWeight: FontWeight.w600).toVisibility(
-            widget.replyEntity.username2.isNotEmpty &&
-                widget.replyEntity.username2 != widget.replyEntity.username1),
-        widget.replyEntity.username2
+            widget.replyEntity!.username2.isNotEmpty &&
+                widget.replyEntity!.username2 != widget.replyEntity!.username1),
+        widget.replyEntity!.username2
             .toSubTitle1(
                 fontWeight: FontWeight.w600,
                 color: AppColors.colorPrimary,
@@ -592,20 +594,20 @@ class _CreatePostCardState extends State<CreatePostCard> {
                   ExtendedNavigator.root.push(Routes.profileScreen,
                       arguments: ProfileScreenArguments(otherUserId: mention));
                 })
-            .toVisibility(widget.replyEntity.username2.isNotEmpty &&
-                widget.replyEntity.username2 != widget.replyEntity.username1)
+            .toVisibility(widget.replyEntity!.username2.isNotEmpty &&
+                widget.replyEntity!.username2 != widget.replyEntity!.username1)
       ].toRow(),
-      10.toSizedBox.toVisibility(widget.replyEntity.items.isNotEmpty),
+      10.toSizedBox.toVisibility(widget.replyEntity!.items.isNotEmpty),
       CustomSlider(
-              mediaItems: widget.replyEntity.items, isOnlySocialLink: false)
-          .toVisibility(widget.replyEntity.items.isNotEmpty)
+              mediaItems: widget.replyEntity!.items, isOnlySocialLink: false)
+          .toVisibility(widget.replyEntity!.items.isNotEmpty)
     ].toColumn().toHorizontalPadding(20).toVerticalPadding(8);
   }
 
-  String linkTitle = "";
-  String linkDescription = "";
-  String linkImage = "";
-  String linkSiteName = "";
+  String? linkTitle = "";
+  String? linkDescription = "";
+  String? linkImage = "";
+  String? linkSiteName = "";
   String linkUrl = "";
 
   String tempLinkUrl = "";
@@ -614,7 +616,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
   // String tempLinkUrl1 = "";
 
   void _getUrlData(String url) async {
-    Map _urlPreviewData;
+    Map? _urlPreviewData;
 
     print("url $url");
 
@@ -652,15 +654,15 @@ class _CreatePostCardState extends State<CreatePostCard> {
     }
 
     // if(linkImage.isEmpty || (linkUrl.isEmpty && tempLinkUrl.isEmpty)) {
-    if (linkImage.isEmpty && linkUrl.isEmpty && tempLinkUrl.isEmpty) {
-      if (data != null && data.isNotEmpty) {
+    if (linkImage!.isEmpty && linkUrl.isEmpty && tempLinkUrl.isEmpty) {
+      if (data.isNotEmpty) {
         Future.delayed(Duration(seconds: 1), () {
           setState(() {
             _urlPreviewData = data;
-            linkTitle = _urlPreviewData['og:title'];
-            linkDescription = _urlPreviewData['og:description'];
-            linkSiteName = _urlPreviewData['og:site_name'];
-            linkImage = _urlPreviewData['og:image'];
+            linkTitle = _urlPreviewData!['og:title'];
+            linkDescription = _urlPreviewData!['og:description'];
+            linkSiteName = _urlPreviewData!['og:site_name'];
+            linkImage = _urlPreviewData!['og:image'];
             linkUrl = url;
 
             print("vishal :  ==><>  $_urlPreviewData");
@@ -675,9 +677,9 @@ class _CreatePostCardState extends State<CreatePostCard> {
   }
 
   void _extractOGData(htmlDom.Document document, Map data, String parameter) {
-    var titleMetaTag = document.getElementsByTagName("meta")?.firstWhere(
-        (meta) => meta.attributes['property'] == parameter,
-        orElse: () => null);
+    var titleMetaTag = document
+        .getElementsByTagName("meta")
+        ?.firstWhereOrNull((meta) => meta.attributes['property'] == parameter);
 
     // print("Hello Test  ${titleMetaTag.attributes['content']}");
 
@@ -761,7 +763,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
         );
       } else if (linkUrl.contains("https://") || linkUrl.contains("www.")) {
         return SimpleUrlPreviewWeb(
-          url: linkUrl ?? "",
+          url: linkUrl,
           // url: CheckLink.checkYouTubeLink(linkUrl) ?? "",
           // textColor: Colors.white,
           bgColor: Colors.red,
@@ -842,8 +844,8 @@ class _CreatePostCardState extends State<CreatePostCard> {
                 ],
               ),
               StreamBuilder<int>(
-                  stream: createPostCubit.postTextValidator.stream
-                      .map((event) => event.length),
+                  stream: createPostCubit!.postTextValidator.stream
+                      .map((event) => event!.length),
                   initialData: 0,
                   builder: (context, snapshot) {
                     return Visibility(
@@ -871,14 +873,14 @@ class _CreatePostCardState extends State<CreatePostCard> {
             if (context.getScreenWidth > 321 && enableSideWidth)
               30.toSizedBoxHorizontal,
             StreamBuilder<bool>(
-                stream: createPostCubit.imageButton,
+                stream: createPostCubit!.imageButton,
                 initialData: true,
                 builder: (context, snapshot) {
-                  return AppIcons.imageIcon(enabled: snapshot.data)
+                  return AppIcons.imageIcon(enabled: snapshot.data!)
                       .onTapWidget(() async {
-                    if (snapshot.data)
+                    if (snapshot.data!)
                       await openMediaPicker(context, (image) {
-                        createPostCubit.addImage(image);
+                        createPostCubit!.addImage(image);
                         // context.showSnackBar(message: image);
                       }, mediaType: MediaTypeEnum.IMAGE);
                   });
@@ -886,14 +888,14 @@ class _CreatePostCardState extends State<CreatePostCard> {
 
             20.toSizedBoxHorizontal,
             StreamBuilder<bool>(
-                stream: createPostCubit.videoButton,
+                stream: createPostCubit!.videoButton,
                 initialData: true,
                 builder: (context, snapshot) {
-                  return AppIcons.videoIcon(enabled: snapshot.data)
+                  return AppIcons.videoIcon(enabled: snapshot.data!)
                       .onTapWidget(() async {
-                    if (snapshot.data)
+                    if (snapshot.data!)
                       await openMediaPicker(context, (video) {
-                        createPostCubit.addVideo(video);
+                        createPostCubit!.addVideo(video!);
                       }, mediaType: MediaTypeEnum.VIDEO);
                   });
                 }),
@@ -946,15 +948,15 @@ class _CreatePostCardState extends State<CreatePostCard> {
             // 20.toSizedBoxHorizontal,
 
             StreamBuilder<bool>(
-                stream: createPostCubit.gifButton,
+                stream: createPostCubit!.gifButton,
                 initialData: true,
                 builder: (context, snapshot) {
                   return AppIcons.createSearchIcon.onTapWidget(() async {
-                    if (snapshot.data) {
+                    if (snapshot.data!) {
                       final gif = await GiphyPicker.pickGif(
                           context: context, apiKey: Strings.giphyApiKey);
-                      if (gif?.images?.original?.url != null)
-                        createPostCubit.addGif(gif?.images?.original?.url);
+                      if (gif.images?.original?.url != null)
+                        createPostCubit!.addGif(gif.images.original.url);
                     }
 
                     // context.showModelBottomSheet(GiphyImage.original(gif: gif));
@@ -975,7 +977,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
               // 10.toSizedBoxHorizontal,
 
               StreamBuilder<bool>(
-                  stream: createPostCubit.enablePublishButton,
+                  stream: createPostCubit!.enablePublishButton,
                   initialData: false,
                   builder: (context, snapshot) {
                     return "${widget.replyEntity == null ? 'Publish' : 'Reply'}"
@@ -988,52 +990,50 @@ class _CreatePostCardState extends State<CreatePostCard> {
                       // ogData.image = linkImage;
                       // ogData.type = "website";
 
-                      if (linkUrl != null && linkUrl.isNotEmpty) {
+                      if (linkUrl.isNotEmpty) {
                         if (loginResponse != null) {
                           Map<String, dynamic> mapData = {
                             "session_id": loginResponse.authToken ?? "",
                             "post_text":
-                                textFiledValue == null || textFiledValue.isEmpty
-                                    ? " "
-                                    : textFiledValue ?? " ",
+                                textFiledValue.isEmpty ? " " : textFiledValue,
                             "og_data[title]": linkTitle ?? "",
                             "og_data[description]": linkDescription ?? "",
                             "og_data[image]": linkImage ?? "",
                             "og_data[type]": "website",
-                            "og_data[url]": linkUrl ?? "",
+                            "og_data[url]": linkUrl,
                           };
 
                           print("Map og_data youtube and link data $mapData");
-                          createPostCubit
+                          createPostCubit!
                               .ogDataPassingApi(mapData)
                               .then((value) {
                             print(value);
-                            Map jsonData = jsonDecode(value.body);
+                            Map? jsonData = jsonDecode(value!.body);
                             if (jsonData != null && jsonData['code'] == 200) {
-                              createPostCubit.clearAllPostData();
+                              createPostCubit!.clearAllPostData();
                               linkTitle = "";
                               linkDescription = "";
                               linkImage = "";
                               linkUrl = "";
                               // widget?.refreshHomeScreen?.call();
-                              widget.backData(0);
+                              widget.backData!(0);
                               ExtendedNavigator.root.pop();
                             } else {
                               context.showSnackBar(
-                                  message:
-                                      jsonData['message'] ?? "Some thing wrong",
+                                  message: jsonData!['message'] ??
+                                      "Some thing wrong",
                                   isError: true);
                             }
                           });
                         }
                       } else {
-                        await createPostCubit.createPost(
-                            threadId: widget.threadId);
+                        await createPostCubit!
+                            .createPost(threadId: widget.threadId);
                       }
 
                       // ogData: linkUrl != null && linkUrl.isNotEmpty ? jsonEncode(mapData) : ""
                     },
-                            enabled: snapshot.data ||
+                            enabled: snapshot.data! ||
                                 linkUrl.isNotEmpty).toHorizontalPadding(4);
                   }),
               10.toSizedBoxHorizontal
@@ -1104,29 +1104,29 @@ class _CreatePostCardState extends State<CreatePostCard> {
 
   void doSearch(String tag, String lastLatter) {
     if (tag == "#") {
-      AC.searchCubitHash.hashTagPagination.changeSearch(lastLatter);
+      AC.searchCubitHash!.hashTagPagination!.changeSearch(lastLatter);
     } else if (tag == "@") {
       // } else if(tag == "\$") {
-      AC.searchCubitA.peoplePagination.changeSearch(lastLatter);
+      AC.searchCubitA!.peoplePagination!.changeSearch(lastLatter);
     }
   }
 
   hashTagData() {
     return StreamBuilder(
-        stream: createPostCubit.postTextValidator.stream,
+        stream: createPostCubit!.postTextValidator.stream,
         initialData: 0,
         builder: (context, snapshot) {
           //api in data pass
           textFiledValue =
-              createPostCubit.postTextValidator.textController.text;
+              createPostCubit!.postTextValidator.textController.text;
 
-          if (createPostCubit.postTextValidator.textController.text
+          if (createPostCubit!.postTextValidator.textController.text
               .trim()
               .isEmpty) {
-            textFiledData = List();
+            textFiledData = [];
           }
           String inputData =
-              createPostCubit.postTextValidator.textController.text;
+              createPostCubit!.postTextValidator.textController.text;
           // List spiltData = inputData.split(" ");
           // && spiltData.contains("#")
           String lastLatter = "";
@@ -1145,7 +1145,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
               spaceAfter = inputData.split(" ").last;
               print(spaceAfter);
               lastLatter = inputData.split("#").last;
-              AC.searchCubitHash.hashTagPagination.queryText = lastLatter;
+              AC.searchCubitHash!.hashTagPagination!.queryText = lastLatter;
               //inputData[lastIndexInt] != " "
               if (inputData.length != 0) {
                 // || spaceAfter.startsWith("#")
@@ -1214,8 +1214,8 @@ class _CreatePostCardState extends State<CreatePostCard> {
                     alignment: Alignment.center,
                     child: PagedListView.separated(
                       key: const PageStorageKey("Hashtags"),
-                      pagingController:
-                          AC.searchCubitHash.hashTagPagination.pagingController,
+                      pagingController: AC
+                          .searchCubitHash!.hashTagPagination!.pagingController,
                       builderDelegate: PagedChildBuilderDelegate<HashTagEntity>(
                           // noItemsFoundIndicatorBuilder: (_) => NoDataFoundScreen (
                           //   buttonText: "GO TO HOMEPAGE",
@@ -1235,17 +1235,17 @@ class _CreatePostCardState extends State<CreatePostCard> {
                             // postCubit.searchedText = s.replaceAll("#", "");
 
                             FocusScope.of(context).requestFocus(
-                                createPostCubit.postTextValidator.focusNode);
+                                createPostCubit!.postTextValidator.focusNode);
 
-                            createPostCubit
+                            createPostCubit!
                                     .postTextValidator.textController.text =
                                 inputData.replaceRange(
                                     startIndexOfTag, inputData.length, "$s ");
 
-                            createPostCubit.postTextValidator.textController
+                            createPostCubit!.postTextValidator.textController
                                     .selection =
                                 TextSelection.fromPosition(TextPosition(
-                                    offset: createPostCubit.postTextValidator
+                                    offset: createPostCubit!.postTextValidator
                                         .textController.text.length));
 
                             isTagShow = false;
@@ -1297,18 +1297,18 @@ class _CreatePostCardState extends State<CreatePostCard> {
     // ///start with        @     <<--------------
 
     return StreamBuilder(
-        stream: createPostCubit.postTextValidator.stream,
+        stream: createPostCubit!.postTextValidator.stream,
         initialData: 0,
         builder: (context, snapshot) {
-          if (createPostCubit.postTextValidator.textController.text
+          if (createPostCubit!.postTextValidator.textController.text
               .trim()
               .isEmpty) {
-            textFiledData = List();
+            textFiledData = [];
             startIndexOfTag = 0;
           }
 
           String inputData =
-              createPostCubit.postTextValidator.textController.text;
+              createPostCubit!.postTextValidator.textController.text;
 
           /*        words = inputData.split(' ');
           str = words.length > 0 &&
@@ -1339,7 +1339,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
               print(spaceAfter);
               print("spaceAfter");
               lastLatter = inputData.split("@").last;
-              AC.searchCubitA.peoplePagination.queryText = lastLatter;
+              AC.searchCubitA!.peoplePagination!.queryText = lastLatter;
               //inputData[lastIndexInt] != " "
               if (inputData.length != 0) {
                 // || spaceAfter.startsWith("#")
@@ -1412,7 +1412,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
                     child: PagedListView.separated(
                         key: const PageStorageKey("People"),
                         pagingController:
-                            AC.searchCubitA.peoplePagination.pagingController,
+                            AC.searchCubitA!.peoplePagination!.pagingController,
                         padding: const EdgeInsets.only(top: 10),
                         builderDelegate:
                             PagedChildBuilderDelegate<PeopleEntity>(
@@ -1434,17 +1434,17 @@ class _CreatePostCardState extends State<CreatePostCard> {
                        });*/
 
                               FocusScope.of(context).requestFocus(
-                                  createPostCubit.postTextValidator.focusNode);
+                                  createPostCubit!.postTextValidator.focusNode);
 
-                              createPostCubit
+                              createPostCubit!
                                       .postTextValidator.textController.text =
                                   inputData.replaceRange(
                                       startIndexOfTag, inputData.length, "$s ");
 
-                              createPostCubit.postTextValidator.textController
+                              createPostCubit!.postTextValidator.textController
                                       .selection =
                                   TextSelection.fromPosition(TextPosition(
-                                      offset: createPostCubit.postTextValidator
+                                      offset: createPostCubit!.postTextValidator
                                           .textController.text.length));
 
                               isTagShow = false;

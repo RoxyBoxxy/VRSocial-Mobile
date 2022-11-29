@@ -10,9 +10,9 @@ part 'reset_password_state.dart';
 @injectable
 class ResetPasswordCubit extends Cubit<CommonUIState> {
   final emailValidator = FieldValidators(null, null);
-  Stream<bool> get enableButton => Rx.combineLatest<String, bool>(
-      [emailValidator.stream], (values) => values[0].isNotEmpty);
-  final ResetPasswordUseCase resetPasswordUseCase;
+  Stream<bool> get enableButton => Rx.combineLatest<String?, bool>(
+      [emailValidator.stream], (values) => values[0]!.isNotEmpty);
+  final ResetPasswordUseCase? resetPasswordUseCase;
   ResetPasswordCubit(this.resetPasswordUseCase)
       : super(const CommonUIState.initial()) {
     enableButton.listen((event) {
@@ -25,7 +25,7 @@ class ResetPasswordCubit extends Cubit<CommonUIState> {
       emailValidator.onChange("");
     } else {
       emit(const CommonUIState.loading());
-      var response = await resetPasswordUseCase(emailValidator.text.trim());
+      var response = await resetPasswordUseCase!(emailValidator.text.trim());
       emit(response.fold(
           (l) => CommonUIState.error(l.errorMessage),
           (r) =>

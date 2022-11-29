@@ -12,11 +12,11 @@ import 'package:video_compress/video_compress.dart';
 
 class CreatePost extends StatefulWidget {
   final String title;
-  final String replyTo;
-  final String threadId;
-  final ReplyEntity replyEntity;
+  final String? replyTo;
+  final String? threadId;
+  final ReplyEntity? replyEntity;
   const CreatePost(
-      {Key key,
+      {Key? key,
       this.title = "Create Post",
       this.replyTo = "",
       this.threadId,
@@ -28,7 +28,7 @@ class CreatePost extends StatefulWidget {
 }
 
 class _CreatePostState extends State<CreatePost> {
-  ScrollController scrollController;
+  ScrollController? scrollController;
 
   @override
   void initState() {
@@ -53,7 +53,7 @@ class _CreatePostState extends State<CreatePost> {
     context.initScreenUtil();
     return WillPopScope(
       onWillPop: () {
-        FocusManager.instance.primaryFocus.unfocus();
+        FocusManager.instance.primaryFocus!.unfocus();
         return Future.value(true);
       },
       child: SafeArea(
@@ -65,7 +65,8 @@ class _CreatePostState extends State<CreatePost> {
             ),
             title: widget.title.toSubTitle1(
                 color: AppColors.textColor, fontWeight: FontWeight.bold),
-            backgroundColor: Colors.white, systemOverlayStyle: SystemUiOverlayStyle.dark,
+            backgroundColor: Colors.white,
+            systemOverlayStyle: SystemUiOverlayStyle.dark,
           ),
           body: BlocProvider(
               create: (c) => getIt<FeedCubit>(),

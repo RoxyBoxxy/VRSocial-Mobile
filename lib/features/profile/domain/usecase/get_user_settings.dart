@@ -7,11 +7,11 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class GetUserSettingsUseCase extends UseCase<SettingEntity, Unit> {
-  final ProfileRepo profileRepo;
+  final ProfileRepo? profileRepo;
 
   GetUserSettingsUseCase(this.profileRepo);
   @override
   Future<Either<Failure, SettingEntity>> call(Unit params) {
-    return profileRepo.getUserSettings();
+    return profileRepo!.getUserSettings();
   }
 }

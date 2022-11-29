@@ -16,7 +16,7 @@ class BookMarkScreen extends StatefulWidget {
 }
 
 class _BookMarkScreenState extends State<BookMarkScreen> {
-  BookmarkCubit bookmarkCubit;
+  BookmarkCubit? bookmarkCubit;
   @override
   void initState() {
     // TODO: implement initState
@@ -31,7 +31,7 @@ class _BookMarkScreenState extends State<BookMarkScreen> {
         BlocProvider.of<FeedCubit>(context)
             .changeCurrentPage(const ScreenType.home());
         // return Future.value(true);
-      },
+      } as Future<bool> Function()?,
       child: BlocListener<BookmarkCubit, CommonUIState>(
         bloc: bookmarkCubit,
         listener: (_, state) {
@@ -59,7 +59,7 @@ class _BookMarkScreenState extends State<BookMarkScreen> {
                 ],
             body: RefreshIndicator(
               onRefresh: () {
-                bookmarkCubit.onRefresh();
+                bookmarkCubit!.onRefresh();
                 return Future.value();
               },
               child: PostPaginationWidget(
@@ -81,10 +81,10 @@ class _BookMarkScreenState extends State<BookMarkScreen> {
                     size: 40,
                   ),
                 ),
-                pagingController: bookmarkCubit.pagingController,
-                onTapRepost: bookmarkCubit.repost,
-                onTapLike: bookmarkCubit.likeUnlikePost,
-                onOptionItemTap: bookmarkCubit.onOptionItemSelected,
+                pagingController: bookmarkCubit!.pagingController,
+                onTapRepost: bookmarkCubit!.repost,
+                onTapLike: bookmarkCubit!.likeUnlikePost,
+                onOptionItemTap: bookmarkCubit!.onOptionItemSelected,
               ),
             )).toSafeArea,
       ),

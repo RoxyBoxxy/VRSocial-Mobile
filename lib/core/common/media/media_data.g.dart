@@ -8,10 +8,10 @@ part of 'media_data.dart';
 
 extension MediaDataCopyWith on MediaData {
   MediaData copyWith({
-    String id,
-    String path,
-    String thumbnail,
-    MediaTypeEnum type,
+    String? id,
+    String? path,
+    String? thumbnail,
+    MediaTypeEnum? type,
   }) {
     return MediaData(
       id: id ?? this.id,

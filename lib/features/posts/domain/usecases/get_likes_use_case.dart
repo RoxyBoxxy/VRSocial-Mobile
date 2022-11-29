@@ -8,11 +8,11 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class GetLikesUseCase extends UseCase<List<PeopleEntity>, LikesRequestModel> {
-  final PostRepo postRepo;
+  final PostRepo? postRepo;
 
   GetLikesUseCase(this.postRepo);
 
   @override
   Future<Either<Failure, List<PeopleEntity>>> call(params) =>
-      postRepo.getPostLikes(params);
+      postRepo!.getPostLikes(params);
 }

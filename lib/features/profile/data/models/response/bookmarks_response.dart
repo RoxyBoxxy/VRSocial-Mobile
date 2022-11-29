@@ -21,11 +21,11 @@ class BookmarksResponse {
     this.data,
   });
 
-  int errCode;
-  bool valid;
-  int code;
-  String message;
-  List<Feed> data;
+  int? errCode;
+  bool? valid;
+  int? code;
+  String? message;
+  List<Feed>? data;
 
   factory BookmarksResponse.fromJson(Map<String, dynamic> json) =>
       BookmarksResponse(
@@ -45,7 +45,7 @@ class BookmarksResponse {
         "message": message == null ? null : message,
         "data": data == null
             ? null
-            : List<dynamic>.from(data.map((x) => x.toJson())),
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
@@ -85,38 +85,38 @@ class Datum {
     this.owner,
   });
 
-  int id;
-  int userId;
-  String text;
-  String type;
-  String replysCount;
-  String repostsCount;
-  String likesCount;
-  String status;
-  int threadId;
-  String target;
+  int? id;
+  int? userId;
+  String? text;
+  String? type;
+  String? replysCount;
+  String? repostsCount;
+  String? likesCount;
+  String? status;
+  int? threadId;
+  String? target;
   dynamic ogData;
-  String pollData;
-  String privWcs;
-  String privWcr;
-  String time;
-  int offsetId;
-  bool advertising;
-  String timeRaw;
-  String ogText;
-  String ogImage;
-  String url;
-  bool canDelete;
-  List<dynamic> media;
-  bool isOwner;
-  bool hasLiked;
-  bool hasSaved;
-  bool hasReposted;
-  bool isBlocked;
-  bool meBlocked;
-  bool canSee;
-  List<dynamic> replyTo;
-  Owner owner;
+  String? pollData;
+  String? privWcs;
+  String? privWcr;
+  String? time;
+  int? offsetId;
+  bool? advertising;
+  String? timeRaw;
+  String? ogText;
+  String? ogImage;
+  String? url;
+  bool? canDelete;
+  List<dynamic>? media;
+  bool? isOwner;
+  bool? hasLiked;
+  bool? hasSaved;
+  bool? hasReposted;
+  bool? isBlocked;
+  bool? meBlocked;
+  bool? canSee;
+  List<dynamic>? replyTo;
+  Owner? owner;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"] == null ? null : json["id"],
@@ -181,7 +181,8 @@ class Datum {
         "og_image": ogImage == null ? null : ogImage,
         "url": url == null ? null : url,
         "can_delete": canDelete == null ? null : canDelete,
-        "media": media == null ? null : List<dynamic>.from(media.map((x) => x)),
+        "media":
+            media == null ? null : List<dynamic>.from(media!.map((x) => x)),
         "is_owner": isOwner == null ? null : isOwner,
         "has_liked": hasLiked == null ? null : hasLiked,
         "has_saved": hasSaved == null ? null : hasSaved,
@@ -190,8 +191,8 @@ class Datum {
         "me_blocked": meBlocked == null ? null : meBlocked,
         "can_see": canSee == null ? null : canSee,
         "reply_to":
-            replyTo == null ? null : List<dynamic>.from(replyTo.map((x) => x)),
-        "owner": owner == null ? null : owner.toJson(),
+            replyTo == null ? null : List<dynamic>.from(replyTo!.map((x) => x)),
+        "owner": owner == null ? null : owner!.toJson(),
       };
 }
 
@@ -203,10 +204,10 @@ class OgDataClass {
     this.url,
   });
 
-  String title;
-  String description;
-  String image;
-  String url;
+  String? title;
+  String? description;
+  String? image;
+  String? url;
 
   factory OgDataClass.fromJson(Map<String, dynamic> json) => OgDataClass(
         title: json["title"] == null ? null : json["title"],
@@ -233,12 +234,12 @@ class Owner {
     this.verified,
   });
 
-  int id;
-  String url;
-  String avatar;
-  String username;
-  String name;
-  String verified;
+  int? id;
+  String? url;
+  String? avatar;
+  String? username;
+  String? name;
+  String? verified;
 
   factory Owner.fromJson(Map<String, dynamic> json) => Owner(
         id: json["id"] == null ? null : json["id"],

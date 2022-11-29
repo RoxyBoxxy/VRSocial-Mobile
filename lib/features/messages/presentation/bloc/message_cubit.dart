@@ -42,16 +42,16 @@ class MessageCubit extends Cubit<MessageState> {
   final searchQuery = FieldValidators(null, null);
 
   // use cases
-  final GetMessagesUseCase getMessagesUseCase;
+  final GetMessagesUseCase? getMessagesUseCase;
 
-  final DeleteAllMessagesUseCase deleteMessageUseCase;
+  final DeleteAllMessagesUseCase? deleteMessageUseCase;
 
   MessageCubit(this.getMessagesUseCase, this.deleteMessageUseCase)
       : super(const MessageState.initial());
 
   getMessages() async {
     emit(const MessageState.loading());
-    var either = await getMessagesUseCase(unit);
+    var either = await getMessagesUseCase!(unit);
     either.fold(
         (l) => emit(l is NoDataFoundFailure
             ? const MessageState.noData()
@@ -64,7 +64,7 @@ class MessageCubit extends Cubit<MessageState> {
 
   Future<bool> deleteMessage(int index) async {
     // emit(MessageState.loading());
-    var either = await deleteMessageUseCase(DeleteChatRequestModel(
+    var either = await deleteMessageUseCase!(DeleteChatRequestModel(
         deleteChat: true, userId: _messageItemsController.value[index].userId));
     // emit(MessageState.success(false));
     return either.fold((l) => false, (r) => true);
@@ -93,7 +93,7 @@ class MessageCubit extends Cubit<MessageState> {
   void updateCurrentMessage(int index, ChatEntity s) {
     var value = _messageItemsController.value[index];
     _messageItemsController.value[index] =
-        value.copyWith(message: s.message, time: s.time);
+        value.copyWith(message: s.message!, time: s.time);
     changeMessageItems(_messageItemsController.value);
   }
 
@@ -104,7 +104,7 @@ class MessageCubit extends Cubit<MessageState> {
     else
       changeMessageItems(_items
           .where((element) =>
-              element.fullName.toLowerCase().contains(text.toLowerCase()))
+              element.fullName!.toLowerCase().contains(text.toLowerCase()))
           .toList());
   }
 }

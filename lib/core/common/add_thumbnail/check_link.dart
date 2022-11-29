@@ -1,7 +1,7 @@
 import 'package:html/parser.dart';
 
 class CheckLink {
-  static String checkYouTubeLink(String htmlString) {
+  static String? checkYouTubeLink(String htmlString) {
     print("hgello vishal 789");
     print(htmlString);
 
@@ -34,7 +34,7 @@ class CheckLink {
     }
   }
 
-  static removeHtmlTag(String title) {
+  static removeHtmlTag(String? title) {
     final document = parse(title);
     final String parsedString = parse(document.body.text).documentElement.text;
     return parsedString;

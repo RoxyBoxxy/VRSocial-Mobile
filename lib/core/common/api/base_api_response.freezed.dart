@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
 
 part of 'base_api_response.dart';
 
@@ -9,19 +9,20 @@ part of 'base_api_response.dart';
 
 T _$identity<T>(T value) => value;
 
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+
 /// @nodoc
 class _$ApiResponseTearOff {
   const _$ApiResponseTearOff();
 
-// ignore: unused_element
   Success<T> success<T>(T value) {
     return Success<T>(
       value,
     );
   }
 
-// ignore: unused_element
-  ErrorDetails<T> error<T>([String message]) {
+  ErrorDetails<T> error<T>([String? message]) {
     return ErrorDetails<T>(
       message,
     );
@@ -29,33 +30,36 @@ class _$ApiResponseTearOff {
 }
 
 /// @nodoc
-// ignore: unused_element
 const $ApiResponse = _$ApiResponseTearOff();
 
 /// @nodoc
 mixin _$ApiResponse<T> {
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result success(T value),
-    @required Result error(String message),
-  });
+  TResult when<TResult extends Object?>({
+    required TResult Function(T value) success,
+    required TResult Function(String? message) error,
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result success(T value),
-    Result error(String message),
-    @required Result orElse(),
-  });
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(T value)? success,
+    TResult Function(String? message)? error,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result success(Success<T> value),
-    @required Result error(ErrorDetails<T> value),
-  });
+  TResult map<TResult extends Object?>({
+    required TResult Function(Success<T> value) success,
+    required TResult Function(ErrorDetails<T> value) error,
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result success(Success<T> value),
-    Result error(ErrorDetails<T> value),
-    @required Result orElse(),
-  });
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Success<T> value)? success,
+    TResult Function(ErrorDetails<T> value)? error,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -93,17 +97,20 @@ class _$SuccessCopyWithImpl<T, $Res> extends _$ApiResponseCopyWithImpl<T, $Res>
 
   @override
   $Res call({
-    Object value = freezed,
+    Object? value = freezed,
   }) {
     return _then(Success<T>(
-      value == freezed ? _value.value : value as T,
+      value == freezed
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as T,
     ));
   }
 }
 
 /// @nodoc
 class _$Success<T> with DiagnosticableTreeMixin implements Success<T> {
-  const _$Success(this.value) : assert(value != null);
+  const _$Success(this.value);
 
   @override
   final T value;
@@ -133,29 +140,27 @@ class _$Success<T> with DiagnosticableTreeMixin implements Success<T> {
   int get hashCode =>
       runtimeType.hashCode ^ const DeepCollectionEquality().hash(value);
 
+  @JsonKey(ignore: true)
   @override
   $SuccessCopyWith<T, Success<T>> get copyWith =>
       _$SuccessCopyWithImpl<T, Success<T>>(this, _$identity);
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result success(T value),
-    @required Result error(String message),
+  TResult when<TResult extends Object?>({
+    required TResult Function(T value) success,
+    required TResult Function(String? message) error,
   }) {
-    assert(success != null);
-    assert(error != null);
     return success(value);
   }
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result success(T value),
-    Result error(String message),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(T value)? success,
+    TResult Function(String? message)? error,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (success != null) {
       return success(value);
     }
@@ -164,23 +169,20 @@ class _$Success<T> with DiagnosticableTreeMixin implements Success<T> {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result success(Success<T> value),
-    @required Result error(ErrorDetails<T> value),
+  TResult map<TResult extends Object?>({
+    required TResult Function(Success<T> value) success,
+    required TResult Function(ErrorDetails<T> value) error,
   }) {
-    assert(success != null);
-    assert(error != null);
     return success(this);
   }
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result success(Success<T> value),
-    Result error(ErrorDetails<T> value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Success<T> value)? success,
+    TResult Function(ErrorDetails<T> value)? error,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (success != null) {
       return success(this);
     }
@@ -191,8 +193,10 @@ class _$Success<T> with DiagnosticableTreeMixin implements Success<T> {
 abstract class Success<T> implements ApiResponse<T> {
   const factory Success(T value) = _$Success<T>;
 
-  T get value;
-  $SuccessCopyWith<T, Success<T>> get copyWith;
+  T get value => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $SuccessCopyWith<T, Success<T>> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -200,7 +204,7 @@ abstract class $ErrorDetailsCopyWith<T, $Res> {
   factory $ErrorDetailsCopyWith(
           ErrorDetails<T> value, $Res Function(ErrorDetails<T>) then) =
       _$ErrorDetailsCopyWithImpl<T, $Res>;
-  $Res call({String message});
+  $Res call({String? message});
 }
 
 /// @nodoc
@@ -216,10 +220,13 @@ class _$ErrorDetailsCopyWithImpl<T, $Res>
 
   @override
   $Res call({
-    Object message = freezed,
+    Object? message = freezed,
   }) {
     return _then(ErrorDetails<T>(
-      message == freezed ? _value.message : message as String,
+      message == freezed
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -231,7 +238,7 @@ class _$ErrorDetails<T>
   const _$ErrorDetails([this.message]);
 
   @override
-  final String message;
+  final String? message;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -258,29 +265,27 @@ class _$ErrorDetails<T>
   int get hashCode =>
       runtimeType.hashCode ^ const DeepCollectionEquality().hash(message);
 
+  @JsonKey(ignore: true)
   @override
   $ErrorDetailsCopyWith<T, ErrorDetails<T>> get copyWith =>
       _$ErrorDetailsCopyWithImpl<T, ErrorDetails<T>>(this, _$identity);
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result success(T value),
-    @required Result error(String message),
+  TResult when<TResult extends Object?>({
+    required TResult Function(T value) success,
+    required TResult Function(String? message) error,
   }) {
-    assert(success != null);
-    assert(error != null);
     return error(message);
   }
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result success(T value),
-    Result error(String message),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(T value)? success,
+    TResult Function(String? message)? error,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (error != null) {
       return error(message);
     }
@@ -289,23 +294,20 @@ class _$ErrorDetails<T>
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result success(Success<T> value),
-    @required Result error(ErrorDetails<T> value),
+  TResult map<TResult extends Object?>({
+    required TResult Function(Success<T> value) success,
+    required TResult Function(ErrorDetails<T> value) error,
   }) {
-    assert(success != null);
-    assert(error != null);
     return error(this);
   }
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result success(Success<T> value),
-    Result error(ErrorDetails<T> value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Success<T> value)? success,
+    TResult Function(ErrorDetails<T> value)? error,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (error != null) {
       return error(this);
     }
@@ -314,8 +316,10 @@ class _$ErrorDetails<T>
 }
 
 abstract class ErrorDetails<T> implements ApiResponse<T> {
-  const factory ErrorDetails([String message]) = _$ErrorDetails<T>;
+  const factory ErrorDetails([String? message]) = _$ErrorDetails<T>;
 
-  String get message;
-  $ErrorDetailsCopyWith<T, ErrorDetails<T>> get copyWith;
+  String? get message => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ErrorDetailsCopyWith<T, ErrorDetails<T>> get copyWith =>
+      throw _privateConstructorUsedError;
 }

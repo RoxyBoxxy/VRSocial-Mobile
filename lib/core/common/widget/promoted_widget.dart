@@ -5,9 +5,9 @@ import 'package:colibri/extensions.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PromotedWidget extends StatefulWidget {
-  final AdvertisementEntity advertisementEntity;
+  final AdvertisementEntity? advertisementEntity;
 
-  const PromotedWidget({Key key, this.advertisementEntity}) : super(key: key);
+  const PromotedWidget({Key? key, this.advertisementEntity}) : super(key: key);
   @override
   _PromotedWidgetState createState() => _PromotedWidgetState();
 }
@@ -15,7 +15,7 @@ class PromotedWidget extends StatefulWidget {
 class _PromotedWidgetState extends State<PromotedWidget> {
   @override
   Widget build(BuildContext context) {
-    var item = widget.advertisementEntity;
+    var item = widget.advertisementEntity!;
     return Container(
       child: [
         "Sponsored"
@@ -24,19 +24,19 @@ class _PromotedWidgetState extends State<PromotedWidget> {
         [
           item.adTitle.toCaption(fontWeight: FontWeight.bold),
           5.toSizedBox,
-          item.adSubTitle.toCaption(fontWeight: FontWeight.bold),
+          item.adSubTitle!.toCaption(fontWeight: FontWeight.bold),
           5.toSizedBox,
-          item.adMediaUrl.toNetWorkOrLocalImage(
+          item.adMediaUrl!.toNetWorkOrLocalImage(
               borderRadius: 0, width: context.getScreenWidth, height: 150),
           10.toSizedBox,
           [
             [
-              item.bodyText.toCaption(),
-              item.adWebsite.toCaption(
+              item.bodyText!.toCaption(),
+              item.adWebsite!.toCaption(
                   fontWeight: FontWeight.bold, color: AppColors.colorPrimary)
             ].toColumn().toFlexible(),
             "Learn More".toCaption().toOutlinedBorder(() async {
-              await launch(item.onClickUrl);
+              await launch(item.onClickUrl!);
             }, borderRadius: 2).toFlexible()
           ].toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween)
         ].toColumn().toPadding(12).toContainer(color: AppColors.lightSky)

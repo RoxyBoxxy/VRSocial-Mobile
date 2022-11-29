@@ -20,7 +20,7 @@ class MentionsPage extends StatefulWidget {
 
 class _MentionsPageState extends State<MentionsPage>
     with SingleTickerProviderStateMixin {
-  NotificationCubit _notificationCubit;
+  late NotificationCubit _notificationCubit;
   @override
   void initState() {
     super.initState();
@@ -32,21 +32,21 @@ class _MentionsPageState extends State<MentionsPage>
     return Stack(
       children: [
         StreamBuilder<Set<int>>(
-            stream: _notificationCubit.mentionsPagination.deletedItems,
+            stream: _notificationCubit.mentionsPagination!.deletedItems,
             initialData: Set(),
             builder: (context, snapshot) {
               return RefreshIndicator(
                 onRefresh: () {
-                  _notificationCubit.mentionsPagination.onRefresh();
+                  _notificationCubit.mentionsPagination!.onRefresh();
                   return Future.value();
                 },
                 child: StreamBuilder<Set<int>>(
-                    stream: _notificationCubit.mentionsPagination.deletedItems,
+                    stream: _notificationCubit.mentionsPagination!.deletedItems,
                     builder: (context, snapshot) {
                       return PagedListView(
                           padding: const EdgeInsets.only(bottom: 80),
                           pagingController: _notificationCubit
-                              .mentionsPagination.pagingController,
+                              .mentionsPagination!.pagingController,
                           builderDelegate: PagedChildBuilderDelegate<
                                   NotificationEntity>(
                               noItemsFoundIndicatorBuilder: (_) =>
@@ -70,16 +70,19 @@ class _MentionsPageState extends State<MentionsPage>
                               itemBuilder: (_, item, index) => NotificationItem(
                                     notificationEntity: item,
                                     onChanged: (v) {
+                                      if (v == null) {
+                                        return;
+                                      }
                                       if (v)
-                                        _notificationCubit.mentionsPagination
+                                        _notificationCubit.mentionsPagination!
                                             .addDeletedItem(index);
                                       else
-                                        _notificationCubit.mentionsPagination
+                                        _notificationCubit.mentionsPagination!
                                             .deleteSelectedItem(index);
                                     },
-                                    isSelected: snapshot?.data
+                                    isSelected: snapshot.data
                                             ?.toList()
-                                            ?.contains(index) ??
+                                            .contains(index) ??
                                         false,
                                   )));
                     }),
@@ -89,17 +92,17 @@ class _MentionsPageState extends State<MentionsPage>
             alignment: Alignment.bottomCenter,
             child: StreamBuilder<Set<int>>(
                 initialData: Set<int>(),
-                stream: _notificationCubit.mentionsPagination.deletedItems,
+                stream: _notificationCubit.mentionsPagination!.deletedItems,
                 builder: (context, snapshot) {
                   return SlideBottomWidget(
-                    doForward: snapshot.data.isNotEmpty,
+                    doForward: snapshot.data!.isNotEmpty,
                     child: ListTile(
                       title: StreamBuilder<Set<int>>(
                           initialData: Set(),
                           stream: _notificationCubit
-                              .mentionsPagination.deletedItems,
+                              .mentionsPagination!.deletedItems,
                           builder: (context, snapshot) {
-                            return "Delete Selected (${snapshot.data.length})"
+                            return "Delete Selected (${snapshot.data!.length})"
                                 .toSubTitle2(fontWeight: FontWeight.w600);
                           }),
                       trailing: AppIcons.deleteOption(),
@@ -112,7 +115,7 @@ class _MentionsPageState extends State<MentionsPage>
                             okButtonTitle: "Delete",
                             onTapOk: () {
                               Navigator.of(context).pop();
-                              _notificationCubit.mentionsPagination
+                              _notificationCubit.mentionsPagination!
                                   .deleteNotification();
                             });
                       },

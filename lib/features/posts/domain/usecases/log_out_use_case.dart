@@ -6,10 +6,10 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class LogOutUseCase extends UseCase<dynamic, Unit> {
-  final ProfileRepo profileRepo;
+  final ProfileRepo? profileRepo;
 
   LogOutUseCase(this.profileRepo);
   @override
   Future<Either<Failure, dynamic>> call(Unit params) =>
-      profileRepo.logOutUser();
+      profileRepo!.logOutUser();
 }

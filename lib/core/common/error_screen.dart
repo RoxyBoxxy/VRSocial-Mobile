@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:colibri/extensions.dart';
 
 class ErrorScreen extends StatefulWidget {
-  final String error;
-  const ErrorScreen({Key key, this.error}) : super(key: key);
+  final String? error;
+  const ErrorScreen({Key? key, this.error}) : super(key: key);
   @override
   _ErrorScreenState createState() => _ErrorScreenState();
 }
@@ -18,7 +18,7 @@ class _ErrorScreenState extends State<ErrorScreen> {
           children: [
             const Icon(Icons.error),
             10.toSizedBox,
-            widget.error
+            widget.error!
                 .toSubTitle2(color: Colors.red, align: TextAlign.center)
                 .toPadding(12),
           ],

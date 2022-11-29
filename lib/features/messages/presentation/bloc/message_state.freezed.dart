@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
 
 part of 'message_state.dart';
 
@@ -9,34 +9,32 @@ part of 'message_state.dart';
 
 T _$identity<T>(T value) => value;
 
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+
 /// @nodoc
 class _$MessageStateTearOff {
   const _$MessageStateTearOff();
 
-// ignore: unused_element
   Initial<T> initial<T>() {
     return Initial<T>();
   }
 
-// ignore: unused_element
   Success<T> success<T>(T value) {
     return Success<T>(
       value,
     );
   }
 
-// ignore: unused_element
   Loading<T> loading<T>() {
     return Loading<T>();
   }
 
-// ignore: unused_element
   NoDataFound<T> noData<T>() {
     return NoDataFound<T>();
   }
 
-// ignore: unused_element
-  ErrorDetails<T> error<T>([String message]) {
+  ErrorDetails<T> error<T>([String? message]) {
     return ErrorDetails<T>(
       message,
     );
@@ -44,45 +42,48 @@ class _$MessageStateTearOff {
 }
 
 /// @nodoc
-// ignore: unused_element
 const $MessageState = _$MessageStateTearOff();
 
 /// @nodoc
 mixin _$MessageState<T> {
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result success(T value),
-    @required Result loading(),
-    @required Result noData(),
-    @required Result error(String message),
-  });
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function(T value) success,
+    required TResult Function() loading,
+    required TResult Function() noData,
+    required TResult Function(String? message) error,
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result success(T value),
-    Result loading(),
-    Result noData(),
-    Result error(String message),
-    @required Result orElse(),
-  });
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function(T value)? success,
+    TResult Function()? loading,
+    TResult Function()? noData,
+    TResult Function(String? message)? error,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(Initial<T> value),
-    @required Result success(Success<T> value),
-    @required Result loading(Loading<T> value),
-    @required Result noData(NoDataFound<T> value),
-    @required Result error(ErrorDetails<T> value),
-  });
+  TResult map<TResult extends Object?>({
+    required TResult Function(Initial<T> value) initial,
+    required TResult Function(Success<T> value) success,
+    required TResult Function(Loading<T> value) loading,
+    required TResult Function(NoDataFound<T> value) noData,
+    required TResult Function(ErrorDetails<T> value) error,
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(Initial<T> value),
-    Result success(Success<T> value),
-    Result loading(Loading<T> value),
-    Result noData(NoDataFound<T> value),
-    Result error(ErrorDetails<T> value),
-    @required Result orElse(),
-  });
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial<T> value)? initial,
+    TResult Function(Success<T> value)? success,
+    TResult Function(Loading<T> value)? loading,
+    TResult Function(NoDataFound<T> value)? noData,
+    TResult Function(ErrorDetails<T> value)? error,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -137,32 +138,26 @@ class _$Initial<T> implements Initial<T> {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result success(T value),
-    @required Result loading(),
-    @required Result noData(),
-    @required Result error(String message),
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function(T value) success,
+    required TResult Function() loading,
+    required TResult Function() noData,
+    required TResult Function(String? message) error,
   }) {
-    assert(initial != null);
-    assert(success != null);
-    assert(loading != null);
-    assert(noData != null);
-    assert(error != null);
     return initial();
   }
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result success(T value),
-    Result loading(),
-    Result noData(),
-    Result error(String message),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function(T value)? success,
+    TResult Function()? loading,
+    TResult Function()? noData,
+    TResult Function(String? message)? error,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (initial != null) {
       return initial();
     }
@@ -171,32 +166,26 @@ class _$Initial<T> implements Initial<T> {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(Initial<T> value),
-    @required Result success(Success<T> value),
-    @required Result loading(Loading<T> value),
-    @required Result noData(NoDataFound<T> value),
-    @required Result error(ErrorDetails<T> value),
+  TResult map<TResult extends Object?>({
+    required TResult Function(Initial<T> value) initial,
+    required TResult Function(Success<T> value) success,
+    required TResult Function(Loading<T> value) loading,
+    required TResult Function(NoDataFound<T> value) noData,
+    required TResult Function(ErrorDetails<T> value) error,
   }) {
-    assert(initial != null);
-    assert(success != null);
-    assert(loading != null);
-    assert(noData != null);
-    assert(error != null);
     return initial(this);
   }
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(Initial<T> value),
-    Result success(Success<T> value),
-    Result loading(Loading<T> value),
-    Result noData(NoDataFound<T> value),
-    Result error(ErrorDetails<T> value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial<T> value)? initial,
+    TResult Function(Success<T> value)? success,
+    TResult Function(Loading<T> value)? loading,
+    TResult Function(NoDataFound<T> value)? noData,
+    TResult Function(ErrorDetails<T> value)? error,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (initial != null) {
       return initial(this);
     }
@@ -226,17 +215,20 @@ class _$SuccessCopyWithImpl<T, $Res> extends _$MessageStateCopyWithImpl<T, $Res>
 
   @override
   $Res call({
-    Object value = freezed,
+    Object? value = freezed,
   }) {
     return _then(Success<T>(
-      value == freezed ? _value.value : value as T,
+      value == freezed
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as T,
     ));
   }
 }
 
 /// @nodoc
 class _$Success<T> implements Success<T> {
-  const _$Success(this.value) : assert(value != null);
+  const _$Success(this.value);
 
   @override
   final T value;
@@ -258,38 +250,33 @@ class _$Success<T> implements Success<T> {
   int get hashCode =>
       runtimeType.hashCode ^ const DeepCollectionEquality().hash(value);
 
+  @JsonKey(ignore: true)
   @override
   $SuccessCopyWith<T, Success<T>> get copyWith =>
       _$SuccessCopyWithImpl<T, Success<T>>(this, _$identity);
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result success(T value),
-    @required Result loading(),
-    @required Result noData(),
-    @required Result error(String message),
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function(T value) success,
+    required TResult Function() loading,
+    required TResult Function() noData,
+    required TResult Function(String? message) error,
   }) {
-    assert(initial != null);
-    assert(success != null);
-    assert(loading != null);
-    assert(noData != null);
-    assert(error != null);
     return success(value);
   }
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result success(T value),
-    Result loading(),
-    Result noData(),
-    Result error(String message),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function(T value)? success,
+    TResult Function()? loading,
+    TResult Function()? noData,
+    TResult Function(String? message)? error,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (success != null) {
       return success(value);
     }
@@ -298,32 +285,26 @@ class _$Success<T> implements Success<T> {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(Initial<T> value),
-    @required Result success(Success<T> value),
-    @required Result loading(Loading<T> value),
-    @required Result noData(NoDataFound<T> value),
-    @required Result error(ErrorDetails<T> value),
+  TResult map<TResult extends Object?>({
+    required TResult Function(Initial<T> value) initial,
+    required TResult Function(Success<T> value) success,
+    required TResult Function(Loading<T> value) loading,
+    required TResult Function(NoDataFound<T> value) noData,
+    required TResult Function(ErrorDetails<T> value) error,
   }) {
-    assert(initial != null);
-    assert(success != null);
-    assert(loading != null);
-    assert(noData != null);
-    assert(error != null);
     return success(this);
   }
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(Initial<T> value),
-    Result success(Success<T> value),
-    Result loading(Loading<T> value),
-    Result noData(NoDataFound<T> value),
-    Result error(ErrorDetails<T> value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial<T> value)? initial,
+    TResult Function(Success<T> value)? success,
+    TResult Function(Loading<T> value)? loading,
+    TResult Function(NoDataFound<T> value)? noData,
+    TResult Function(ErrorDetails<T> value)? error,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (success != null) {
       return success(this);
     }
@@ -334,8 +315,10 @@ class _$Success<T> implements Success<T> {
 abstract class Success<T> implements MessageState<T> {
   const factory Success(T value) = _$Success<T>;
 
-  T get value;
-  $SuccessCopyWith<T, Success<T>> get copyWith;
+  T get value => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $SuccessCopyWith<T, Success<T>> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -373,32 +356,26 @@ class _$Loading<T> implements Loading<T> {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result success(T value),
-    @required Result loading(),
-    @required Result noData(),
-    @required Result error(String message),
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function(T value) success,
+    required TResult Function() loading,
+    required TResult Function() noData,
+    required TResult Function(String? message) error,
   }) {
-    assert(initial != null);
-    assert(success != null);
-    assert(loading != null);
-    assert(noData != null);
-    assert(error != null);
     return loading();
   }
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result success(T value),
-    Result loading(),
-    Result noData(),
-    Result error(String message),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function(T value)? success,
+    TResult Function()? loading,
+    TResult Function()? noData,
+    TResult Function(String? message)? error,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (loading != null) {
       return loading();
     }
@@ -407,32 +384,26 @@ class _$Loading<T> implements Loading<T> {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(Initial<T> value),
-    @required Result success(Success<T> value),
-    @required Result loading(Loading<T> value),
-    @required Result noData(NoDataFound<T> value),
-    @required Result error(ErrorDetails<T> value),
+  TResult map<TResult extends Object?>({
+    required TResult Function(Initial<T> value) initial,
+    required TResult Function(Success<T> value) success,
+    required TResult Function(Loading<T> value) loading,
+    required TResult Function(NoDataFound<T> value) noData,
+    required TResult Function(ErrorDetails<T> value) error,
   }) {
-    assert(initial != null);
-    assert(success != null);
-    assert(loading != null);
-    assert(noData != null);
-    assert(error != null);
     return loading(this);
   }
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(Initial<T> value),
-    Result success(Success<T> value),
-    Result loading(Loading<T> value),
-    Result noData(NoDataFound<T> value),
-    Result error(ErrorDetails<T> value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial<T> value)? initial,
+    TResult Function(Success<T> value)? success,
+    TResult Function(Loading<T> value)? loading,
+    TResult Function(NoDataFound<T> value)? noData,
+    TResult Function(ErrorDetails<T> value)? error,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (loading != null) {
       return loading(this);
     }
@@ -482,32 +453,26 @@ class _$NoDataFound<T> implements NoDataFound<T> {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result success(T value),
-    @required Result loading(),
-    @required Result noData(),
-    @required Result error(String message),
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function(T value) success,
+    required TResult Function() loading,
+    required TResult Function() noData,
+    required TResult Function(String? message) error,
   }) {
-    assert(initial != null);
-    assert(success != null);
-    assert(loading != null);
-    assert(noData != null);
-    assert(error != null);
     return noData();
   }
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result success(T value),
-    Result loading(),
-    Result noData(),
-    Result error(String message),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function(T value)? success,
+    TResult Function()? loading,
+    TResult Function()? noData,
+    TResult Function(String? message)? error,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (noData != null) {
       return noData();
     }
@@ -516,32 +481,26 @@ class _$NoDataFound<T> implements NoDataFound<T> {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(Initial<T> value),
-    @required Result success(Success<T> value),
-    @required Result loading(Loading<T> value),
-    @required Result noData(NoDataFound<T> value),
-    @required Result error(ErrorDetails<T> value),
+  TResult map<TResult extends Object?>({
+    required TResult Function(Initial<T> value) initial,
+    required TResult Function(Success<T> value) success,
+    required TResult Function(Loading<T> value) loading,
+    required TResult Function(NoDataFound<T> value) noData,
+    required TResult Function(ErrorDetails<T> value) error,
   }) {
-    assert(initial != null);
-    assert(success != null);
-    assert(loading != null);
-    assert(noData != null);
-    assert(error != null);
     return noData(this);
   }
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(Initial<T> value),
-    Result success(Success<T> value),
-    Result loading(Loading<T> value),
-    Result noData(NoDataFound<T> value),
-    Result error(ErrorDetails<T> value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial<T> value)? initial,
+    TResult Function(Success<T> value)? success,
+    TResult Function(Loading<T> value)? loading,
+    TResult Function(NoDataFound<T> value)? noData,
+    TResult Function(ErrorDetails<T> value)? error,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (noData != null) {
       return noData(this);
     }
@@ -558,7 +517,7 @@ abstract class $ErrorDetailsCopyWith<T, $Res> {
   factory $ErrorDetailsCopyWith(
           ErrorDetails<T> value, $Res Function(ErrorDetails<T>) then) =
       _$ErrorDetailsCopyWithImpl<T, $Res>;
-  $Res call({String message});
+  $Res call({String? message});
 }
 
 /// @nodoc
@@ -574,10 +533,13 @@ class _$ErrorDetailsCopyWithImpl<T, $Res>
 
   @override
   $Res call({
-    Object message = freezed,
+    Object? message = freezed,
   }) {
     return _then(ErrorDetails<T>(
-      message == freezed ? _value.message : message as String,
+      message == freezed
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -587,7 +549,7 @@ class _$ErrorDetails<T> implements ErrorDetails<T> {
   const _$ErrorDetails([this.message]);
 
   @override
-  final String message;
+  final String? message;
 
   @override
   String toString() {
@@ -606,38 +568,33 @@ class _$ErrorDetails<T> implements ErrorDetails<T> {
   int get hashCode =>
       runtimeType.hashCode ^ const DeepCollectionEquality().hash(message);
 
+  @JsonKey(ignore: true)
   @override
   $ErrorDetailsCopyWith<T, ErrorDetails<T>> get copyWith =>
       _$ErrorDetailsCopyWithImpl<T, ErrorDetails<T>>(this, _$identity);
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result success(T value),
-    @required Result loading(),
-    @required Result noData(),
-    @required Result error(String message),
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function(T value) success,
+    required TResult Function() loading,
+    required TResult Function() noData,
+    required TResult Function(String? message) error,
   }) {
-    assert(initial != null);
-    assert(success != null);
-    assert(loading != null);
-    assert(noData != null);
-    assert(error != null);
     return error(message);
   }
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result success(T value),
-    Result loading(),
-    Result noData(),
-    Result error(String message),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function(T value)? success,
+    TResult Function()? loading,
+    TResult Function()? noData,
+    TResult Function(String? message)? error,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (error != null) {
       return error(message);
     }
@@ -646,32 +603,26 @@ class _$ErrorDetails<T> implements ErrorDetails<T> {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(Initial<T> value),
-    @required Result success(Success<T> value),
-    @required Result loading(Loading<T> value),
-    @required Result noData(NoDataFound<T> value),
-    @required Result error(ErrorDetails<T> value),
+  TResult map<TResult extends Object?>({
+    required TResult Function(Initial<T> value) initial,
+    required TResult Function(Success<T> value) success,
+    required TResult Function(Loading<T> value) loading,
+    required TResult Function(NoDataFound<T> value) noData,
+    required TResult Function(ErrorDetails<T> value) error,
   }) {
-    assert(initial != null);
-    assert(success != null);
-    assert(loading != null);
-    assert(noData != null);
-    assert(error != null);
     return error(this);
   }
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(Initial<T> value),
-    Result success(Success<T> value),
-    Result loading(Loading<T> value),
-    Result noData(NoDataFound<T> value),
-    Result error(ErrorDetails<T> value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial<T> value)? initial,
+    TResult Function(Success<T> value)? success,
+    TResult Function(Loading<T> value)? loading,
+    TResult Function(NoDataFound<T> value)? noData,
+    TResult Function(ErrorDetails<T> value)? error,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (error != null) {
       return error(this);
     }
@@ -680,8 +631,10 @@ class _$ErrorDetails<T> implements ErrorDetails<T> {
 }
 
 abstract class ErrorDetails<T> implements MessageState<T> {
-  const factory ErrorDetails([String message]) = _$ErrorDetails<T>;
+  const factory ErrorDetails([String? message]) = _$ErrorDetails<T>;
 
-  String get message;
-  $ErrorDetailsCopyWith<T, ErrorDetails<T>> get copyWith;
+  String? get message => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ErrorDetailsCopyWith<T, ErrorDetails<T>> get copyWith =>
+      throw _privateConstructorUsedError;
 }

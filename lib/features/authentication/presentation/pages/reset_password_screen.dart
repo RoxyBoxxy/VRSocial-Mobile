@@ -18,7 +18,7 @@ class ResetPasswordScreen extends StatefulWidget {
 }
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
-  ResetPasswordCubit resetPasswordCubit;
+  ResetPasswordCubit? resetPasswordCubit;
   @override
   void initState() {
     // TODO: implement initState
@@ -30,7 +30,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   Widget build(BuildContext context) {
     context.initScreenUtil();
     return BlocProvider<ResetPasswordCubit>(
-      create: (c) => resetPasswordCubit,
+      create: (c) => resetPasswordCubit!,
       child: BlocListener<ResetPasswordCubit, CommonUIState>(
           listener: (_, state) {
             state.maybeWhen(
@@ -40,7 +40,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   context.showSnackBar(message: message);
                 },
                 error: (e) {
-                  context.showOkAlertDialog(desc: e, title: "Alert");
+                  context.showOkAlertDialog(desc: e!, title: "Alert");
                 });
           },
           child: Scaffold(
@@ -67,12 +67,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             actions: [
               KeyboardActionsItem(
                 displayDoneButton: true,
-                focusNode: resetPasswordCubit.emailValidator.focusNode,
+                focusNode: resetPasswordCubit!.emailValidator.focusNode,
               ),
             ],
           ),
           child: SizedBox(
-            height: context.getScreenHeight,
+            height: context.getScreenHeight as double?,
             child: [
               [
                 AppIcons.appLogo
@@ -85,11 +85,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               [
                 20.toSizedBox,
                 "Enter email address".toTextField().toStreamBuilder(
-                    validators: resetPasswordCubit.emailValidator),
+                    validators: resetPasswordCubit!.emailValidator),
                 20.toSizedBox,
                 "Reset".toButton().toStreamBuilderButton(
-                    resetPasswordCubit.enableButton,
-                    () => resetPasswordCubit.resetPassword()),
+                    resetPasswordCubit!.enableButton,
+                    () => resetPasswordCubit!.resetPassword()),
               ].toColumn().toExpanded(),
               [
                 "Have an account already?".toCaption(

@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
 
 part of 'all_home_screens.dart';
 
@@ -9,98 +9,97 @@ part of 'all_home_screens.dart';
 
 T _$identity<T>(T value) => value;
 
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+
 /// @nodoc
 class _$ScreenTypeTearOff {
   const _$ScreenTypeTearOff();
 
-// ignore: unused_element
   Home home() {
     return const Home();
   }
 
-// ignore: unused_element
   Message message() {
     return const Message();
   }
 
-// ignore: unused_element
   Notification notification() {
     return const Notification();
   }
 
-// ignore: unused_element
   Search search() {
     return const Search();
   }
 
-// ignore: unused_element
   Profile profile(ProfileScreenArguments arguments) {
     return Profile(
       arguments,
     );
   }
 
-// ignore: unused_element
   Settings settings(bool fromProfile) {
     return Settings(
       fromProfile,
     );
   }
 
-// ignore: unused_element
   BookMarks bookmarks() {
     return const BookMarks();
   }
 }
 
 /// @nodoc
-// ignore: unused_element
 const $ScreenType = _$ScreenTypeTearOff();
 
 /// @nodoc
 mixin _$ScreenType {
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result home(),
-    @required Result message(),
-    @required Result notification(),
-    @required Result search(),
-    @required Result profile(ProfileScreenArguments arguments),
-    @required Result settings(bool fromProfile),
-    @required Result bookmarks(),
-  });
+  TResult when<TResult extends Object?>({
+    required TResult Function() home,
+    required TResult Function() message,
+    required TResult Function() notification,
+    required TResult Function() search,
+    required TResult Function(ProfileScreenArguments arguments) profile,
+    required TResult Function(bool fromProfile) settings,
+    required TResult Function() bookmarks,
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result home(),
-    Result message(),
-    Result notification(),
-    Result search(),
-    Result profile(ProfileScreenArguments arguments),
-    Result settings(bool fromProfile),
-    Result bookmarks(),
-    @required Result orElse(),
-  });
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? home,
+    TResult Function()? message,
+    TResult Function()? notification,
+    TResult Function()? search,
+    TResult Function(ProfileScreenArguments arguments)? profile,
+    TResult Function(bool fromProfile)? settings,
+    TResult Function()? bookmarks,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result home(Home value),
-    @required Result message(Message value),
-    @required Result notification(Notification value),
-    @required Result search(Search value),
-    @required Result profile(Profile value),
-    @required Result settings(Settings value),
-    @required Result bookmarks(BookMarks value),
-  });
+  TResult map<TResult extends Object?>({
+    required TResult Function(Home value) home,
+    required TResult Function(Message value) message,
+    required TResult Function(Notification value) notification,
+    required TResult Function(Search value) search,
+    required TResult Function(Profile value) profile,
+    required TResult Function(Settings value) settings,
+    required TResult Function(BookMarks value) bookmarks,
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result home(Home value),
-    Result message(Message value),
-    Result notification(Notification value),
-    Result search(Search value),
-    Result profile(Profile value),
-    Result settings(Settings value),
-    Result bookmarks(BookMarks value),
-    @required Result orElse(),
-  });
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Home value)? home,
+    TResult Function(Message value)? message,
+    TResult Function(Notification value)? notification,
+    TResult Function(Search value)? search,
+    TResult Function(Profile value)? profile,
+    TResult Function(Settings value)? settings,
+    TResult Function(BookMarks value)? bookmarks,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -154,38 +153,30 @@ class _$Home implements Home {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result home(),
-    @required Result message(),
-    @required Result notification(),
-    @required Result search(),
-    @required Result profile(ProfileScreenArguments arguments),
-    @required Result settings(bool fromProfile),
-    @required Result bookmarks(),
+  TResult when<TResult extends Object?>({
+    required TResult Function() home,
+    required TResult Function() message,
+    required TResult Function() notification,
+    required TResult Function() search,
+    required TResult Function(ProfileScreenArguments arguments) profile,
+    required TResult Function(bool fromProfile) settings,
+    required TResult Function() bookmarks,
   }) {
-    assert(home != null);
-    assert(message != null);
-    assert(notification != null);
-    assert(search != null);
-    assert(profile != null);
-    assert(settings != null);
-    assert(bookmarks != null);
     return home();
   }
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result home(),
-    Result message(),
-    Result notification(),
-    Result search(),
-    Result profile(ProfileScreenArguments arguments),
-    Result settings(bool fromProfile),
-    Result bookmarks(),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? home,
+    TResult Function()? message,
+    TResult Function()? notification,
+    TResult Function()? search,
+    TResult Function(ProfileScreenArguments arguments)? profile,
+    TResult Function(bool fromProfile)? settings,
+    TResult Function()? bookmarks,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (home != null) {
       return home();
     }
@@ -194,38 +185,30 @@ class _$Home implements Home {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result home(Home value),
-    @required Result message(Message value),
-    @required Result notification(Notification value),
-    @required Result search(Search value),
-    @required Result profile(Profile value),
-    @required Result settings(Settings value),
-    @required Result bookmarks(BookMarks value),
+  TResult map<TResult extends Object?>({
+    required TResult Function(Home value) home,
+    required TResult Function(Message value) message,
+    required TResult Function(Notification value) notification,
+    required TResult Function(Search value) search,
+    required TResult Function(Profile value) profile,
+    required TResult Function(Settings value) settings,
+    required TResult Function(BookMarks value) bookmarks,
   }) {
-    assert(home != null);
-    assert(message != null);
-    assert(notification != null);
-    assert(search != null);
-    assert(profile != null);
-    assert(settings != null);
-    assert(bookmarks != null);
     return home(this);
   }
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result home(Home value),
-    Result message(Message value),
-    Result notification(Notification value),
-    Result search(Search value),
-    Result profile(Profile value),
-    Result settings(Settings value),
-    Result bookmarks(BookMarks value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Home value)? home,
+    TResult Function(Message value)? message,
+    TResult Function(Notification value)? notification,
+    TResult Function(Search value)? search,
+    TResult Function(Profile value)? profile,
+    TResult Function(Settings value)? settings,
+    TResult Function(BookMarks value)? bookmarks,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (home != null) {
       return home(this);
     }
@@ -272,38 +255,30 @@ class _$Message implements Message {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result home(),
-    @required Result message(),
-    @required Result notification(),
-    @required Result search(),
-    @required Result profile(ProfileScreenArguments arguments),
-    @required Result settings(bool fromProfile),
-    @required Result bookmarks(),
+  TResult when<TResult extends Object?>({
+    required TResult Function() home,
+    required TResult Function() message,
+    required TResult Function() notification,
+    required TResult Function() search,
+    required TResult Function(ProfileScreenArguments arguments) profile,
+    required TResult Function(bool fromProfile) settings,
+    required TResult Function() bookmarks,
   }) {
-    assert(home != null);
-    assert(message != null);
-    assert(notification != null);
-    assert(search != null);
-    assert(profile != null);
-    assert(settings != null);
-    assert(bookmarks != null);
     return message();
   }
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result home(),
-    Result message(),
-    Result notification(),
-    Result search(),
-    Result profile(ProfileScreenArguments arguments),
-    Result settings(bool fromProfile),
-    Result bookmarks(),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? home,
+    TResult Function()? message,
+    TResult Function()? notification,
+    TResult Function()? search,
+    TResult Function(ProfileScreenArguments arguments)? profile,
+    TResult Function(bool fromProfile)? settings,
+    TResult Function()? bookmarks,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (message != null) {
       return message();
     }
@@ -312,38 +287,30 @@ class _$Message implements Message {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result home(Home value),
-    @required Result message(Message value),
-    @required Result notification(Notification value),
-    @required Result search(Search value),
-    @required Result profile(Profile value),
-    @required Result settings(Settings value),
-    @required Result bookmarks(BookMarks value),
+  TResult map<TResult extends Object?>({
+    required TResult Function(Home value) home,
+    required TResult Function(Message value) message,
+    required TResult Function(Notification value) notification,
+    required TResult Function(Search value) search,
+    required TResult Function(Profile value) profile,
+    required TResult Function(Settings value) settings,
+    required TResult Function(BookMarks value) bookmarks,
   }) {
-    assert(home != null);
-    assert(message != null);
-    assert(notification != null);
-    assert(search != null);
-    assert(profile != null);
-    assert(settings != null);
-    assert(bookmarks != null);
     return message(this);
   }
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result home(Home value),
-    Result message(Message value),
-    Result notification(Notification value),
-    Result search(Search value),
-    Result profile(Profile value),
-    Result settings(Settings value),
-    Result bookmarks(BookMarks value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Home value)? home,
+    TResult Function(Message value)? message,
+    TResult Function(Notification value)? notification,
+    TResult Function(Search value)? search,
+    TResult Function(Profile value)? profile,
+    TResult Function(Settings value)? settings,
+    TResult Function(BookMarks value)? bookmarks,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (message != null) {
       return message(this);
     }
@@ -392,38 +359,30 @@ class _$Notification implements Notification {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result home(),
-    @required Result message(),
-    @required Result notification(),
-    @required Result search(),
-    @required Result profile(ProfileScreenArguments arguments),
-    @required Result settings(bool fromProfile),
-    @required Result bookmarks(),
+  TResult when<TResult extends Object?>({
+    required TResult Function() home,
+    required TResult Function() message,
+    required TResult Function() notification,
+    required TResult Function() search,
+    required TResult Function(ProfileScreenArguments arguments) profile,
+    required TResult Function(bool fromProfile) settings,
+    required TResult Function() bookmarks,
   }) {
-    assert(home != null);
-    assert(message != null);
-    assert(notification != null);
-    assert(search != null);
-    assert(profile != null);
-    assert(settings != null);
-    assert(bookmarks != null);
     return notification();
   }
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result home(),
-    Result message(),
-    Result notification(),
-    Result search(),
-    Result profile(ProfileScreenArguments arguments),
-    Result settings(bool fromProfile),
-    Result bookmarks(),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? home,
+    TResult Function()? message,
+    TResult Function()? notification,
+    TResult Function()? search,
+    TResult Function(ProfileScreenArguments arguments)? profile,
+    TResult Function(bool fromProfile)? settings,
+    TResult Function()? bookmarks,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (notification != null) {
       return notification();
     }
@@ -432,38 +391,30 @@ class _$Notification implements Notification {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result home(Home value),
-    @required Result message(Message value),
-    @required Result notification(Notification value),
-    @required Result search(Search value),
-    @required Result profile(Profile value),
-    @required Result settings(Settings value),
-    @required Result bookmarks(BookMarks value),
+  TResult map<TResult extends Object?>({
+    required TResult Function(Home value) home,
+    required TResult Function(Message value) message,
+    required TResult Function(Notification value) notification,
+    required TResult Function(Search value) search,
+    required TResult Function(Profile value) profile,
+    required TResult Function(Settings value) settings,
+    required TResult Function(BookMarks value) bookmarks,
   }) {
-    assert(home != null);
-    assert(message != null);
-    assert(notification != null);
-    assert(search != null);
-    assert(profile != null);
-    assert(settings != null);
-    assert(bookmarks != null);
     return notification(this);
   }
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result home(Home value),
-    Result message(Message value),
-    Result notification(Notification value),
-    Result search(Search value),
-    Result profile(Profile value),
-    Result settings(Settings value),
-    Result bookmarks(BookMarks value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Home value)? home,
+    TResult Function(Message value)? message,
+    TResult Function(Notification value)? notification,
+    TResult Function(Search value)? search,
+    TResult Function(Profile value)? profile,
+    TResult Function(Settings value)? settings,
+    TResult Function(BookMarks value)? bookmarks,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (notification != null) {
       return notification(this);
     }
@@ -510,38 +461,30 @@ class _$Search implements Search {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result home(),
-    @required Result message(),
-    @required Result notification(),
-    @required Result search(),
-    @required Result profile(ProfileScreenArguments arguments),
-    @required Result settings(bool fromProfile),
-    @required Result bookmarks(),
+  TResult when<TResult extends Object?>({
+    required TResult Function() home,
+    required TResult Function() message,
+    required TResult Function() notification,
+    required TResult Function() search,
+    required TResult Function(ProfileScreenArguments arguments) profile,
+    required TResult Function(bool fromProfile) settings,
+    required TResult Function() bookmarks,
   }) {
-    assert(home != null);
-    assert(message != null);
-    assert(notification != null);
-    assert(search != null);
-    assert(profile != null);
-    assert(settings != null);
-    assert(bookmarks != null);
     return search();
   }
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result home(),
-    Result message(),
-    Result notification(),
-    Result search(),
-    Result profile(ProfileScreenArguments arguments),
-    Result settings(bool fromProfile),
-    Result bookmarks(),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? home,
+    TResult Function()? message,
+    TResult Function()? notification,
+    TResult Function()? search,
+    TResult Function(ProfileScreenArguments arguments)? profile,
+    TResult Function(bool fromProfile)? settings,
+    TResult Function()? bookmarks,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (search != null) {
       return search();
     }
@@ -550,38 +493,30 @@ class _$Search implements Search {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result home(Home value),
-    @required Result message(Message value),
-    @required Result notification(Notification value),
-    @required Result search(Search value),
-    @required Result profile(Profile value),
-    @required Result settings(Settings value),
-    @required Result bookmarks(BookMarks value),
+  TResult map<TResult extends Object?>({
+    required TResult Function(Home value) home,
+    required TResult Function(Message value) message,
+    required TResult Function(Notification value) notification,
+    required TResult Function(Search value) search,
+    required TResult Function(Profile value) profile,
+    required TResult Function(Settings value) settings,
+    required TResult Function(BookMarks value) bookmarks,
   }) {
-    assert(home != null);
-    assert(message != null);
-    assert(notification != null);
-    assert(search != null);
-    assert(profile != null);
-    assert(settings != null);
-    assert(bookmarks != null);
     return search(this);
   }
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result home(Home value),
-    Result message(Message value),
-    Result notification(Notification value),
-    Result search(Search value),
-    Result profile(Profile value),
-    Result settings(Settings value),
-    Result bookmarks(BookMarks value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Home value)? home,
+    TResult Function(Message value)? message,
+    TResult Function(Notification value)? notification,
+    TResult Function(Search value)? search,
+    TResult Function(Profile value)? profile,
+    TResult Function(Settings value)? settings,
+    TResult Function(BookMarks value)? bookmarks,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (search != null) {
       return search(this);
     }
@@ -611,19 +546,20 @@ class _$ProfileCopyWithImpl<$Res> extends _$ScreenTypeCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object arguments = freezed,
+    Object? arguments = freezed,
   }) {
     return _then(Profile(
       arguments == freezed
           ? _value.arguments
-          : arguments as ProfileScreenArguments,
+          : arguments // ignore: cast_nullable_to_non_nullable
+              as ProfileScreenArguments,
     ));
   }
 }
 
 /// @nodoc
 class _$Profile implements Profile {
-  const _$Profile(this.arguments) : assert(arguments != null);
+  const _$Profile(this.arguments);
 
   @override
   final ProfileScreenArguments arguments;
@@ -646,44 +582,37 @@ class _$Profile implements Profile {
   int get hashCode =>
       runtimeType.hashCode ^ const DeepCollectionEquality().hash(arguments);
 
+  @JsonKey(ignore: true)
   @override
   $ProfileCopyWith<Profile> get copyWith =>
       _$ProfileCopyWithImpl<Profile>(this, _$identity);
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result home(),
-    @required Result message(),
-    @required Result notification(),
-    @required Result search(),
-    @required Result profile(ProfileScreenArguments arguments),
-    @required Result settings(bool fromProfile),
-    @required Result bookmarks(),
+  TResult when<TResult extends Object?>({
+    required TResult Function() home,
+    required TResult Function() message,
+    required TResult Function() notification,
+    required TResult Function() search,
+    required TResult Function(ProfileScreenArguments arguments) profile,
+    required TResult Function(bool fromProfile) settings,
+    required TResult Function() bookmarks,
   }) {
-    assert(home != null);
-    assert(message != null);
-    assert(notification != null);
-    assert(search != null);
-    assert(profile != null);
-    assert(settings != null);
-    assert(bookmarks != null);
     return profile(arguments);
   }
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result home(),
-    Result message(),
-    Result notification(),
-    Result search(),
-    Result profile(ProfileScreenArguments arguments),
-    Result settings(bool fromProfile),
-    Result bookmarks(),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? home,
+    TResult Function()? message,
+    TResult Function()? notification,
+    TResult Function()? search,
+    TResult Function(ProfileScreenArguments arguments)? profile,
+    TResult Function(bool fromProfile)? settings,
+    TResult Function()? bookmarks,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (profile != null) {
       return profile(arguments);
     }
@@ -692,38 +621,30 @@ class _$Profile implements Profile {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result home(Home value),
-    @required Result message(Message value),
-    @required Result notification(Notification value),
-    @required Result search(Search value),
-    @required Result profile(Profile value),
-    @required Result settings(Settings value),
-    @required Result bookmarks(BookMarks value),
+  TResult map<TResult extends Object?>({
+    required TResult Function(Home value) home,
+    required TResult Function(Message value) message,
+    required TResult Function(Notification value) notification,
+    required TResult Function(Search value) search,
+    required TResult Function(Profile value) profile,
+    required TResult Function(Settings value) settings,
+    required TResult Function(BookMarks value) bookmarks,
   }) {
-    assert(home != null);
-    assert(message != null);
-    assert(notification != null);
-    assert(search != null);
-    assert(profile != null);
-    assert(settings != null);
-    assert(bookmarks != null);
     return profile(this);
   }
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result home(Home value),
-    Result message(Message value),
-    Result notification(Notification value),
-    Result search(Search value),
-    Result profile(Profile value),
-    Result settings(Settings value),
-    Result bookmarks(BookMarks value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Home value)? home,
+    TResult Function(Message value)? message,
+    TResult Function(Notification value)? notification,
+    TResult Function(Search value)? search,
+    TResult Function(Profile value)? profile,
+    TResult Function(Settings value)? settings,
+    TResult Function(BookMarks value)? bookmarks,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (profile != null) {
       return profile(this);
     }
@@ -734,8 +655,9 @@ class _$Profile implements Profile {
 abstract class Profile implements ScreenType {
   const factory Profile(ProfileScreenArguments arguments) = _$Profile;
 
-  ProfileScreenArguments get arguments;
-  $ProfileCopyWith<Profile> get copyWith;
+  ProfileScreenArguments get arguments => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ProfileCopyWith<Profile> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -756,17 +678,20 @@ class _$SettingsCopyWithImpl<$Res> extends _$ScreenTypeCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object fromProfile = freezed,
+    Object? fromProfile = freezed,
   }) {
     return _then(Settings(
-      fromProfile == freezed ? _value.fromProfile : fromProfile as bool,
+      fromProfile == freezed
+          ? _value.fromProfile
+          : fromProfile // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
 
 /// @nodoc
 class _$Settings implements Settings {
-  const _$Settings(this.fromProfile) : assert(fromProfile != null);
+  const _$Settings(this.fromProfile);
 
   @override
   final bool fromProfile;
@@ -789,44 +714,37 @@ class _$Settings implements Settings {
   int get hashCode =>
       runtimeType.hashCode ^ const DeepCollectionEquality().hash(fromProfile);
 
+  @JsonKey(ignore: true)
   @override
   $SettingsCopyWith<Settings> get copyWith =>
       _$SettingsCopyWithImpl<Settings>(this, _$identity);
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result home(),
-    @required Result message(),
-    @required Result notification(),
-    @required Result search(),
-    @required Result profile(ProfileScreenArguments arguments),
-    @required Result settings(bool fromProfile),
-    @required Result bookmarks(),
+  TResult when<TResult extends Object?>({
+    required TResult Function() home,
+    required TResult Function() message,
+    required TResult Function() notification,
+    required TResult Function() search,
+    required TResult Function(ProfileScreenArguments arguments) profile,
+    required TResult Function(bool fromProfile) settings,
+    required TResult Function() bookmarks,
   }) {
-    assert(home != null);
-    assert(message != null);
-    assert(notification != null);
-    assert(search != null);
-    assert(profile != null);
-    assert(settings != null);
-    assert(bookmarks != null);
     return settings(fromProfile);
   }
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result home(),
-    Result message(),
-    Result notification(),
-    Result search(),
-    Result profile(ProfileScreenArguments arguments),
-    Result settings(bool fromProfile),
-    Result bookmarks(),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? home,
+    TResult Function()? message,
+    TResult Function()? notification,
+    TResult Function()? search,
+    TResult Function(ProfileScreenArguments arguments)? profile,
+    TResult Function(bool fromProfile)? settings,
+    TResult Function()? bookmarks,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (settings != null) {
       return settings(fromProfile);
     }
@@ -835,38 +753,30 @@ class _$Settings implements Settings {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result home(Home value),
-    @required Result message(Message value),
-    @required Result notification(Notification value),
-    @required Result search(Search value),
-    @required Result profile(Profile value),
-    @required Result settings(Settings value),
-    @required Result bookmarks(BookMarks value),
+  TResult map<TResult extends Object?>({
+    required TResult Function(Home value) home,
+    required TResult Function(Message value) message,
+    required TResult Function(Notification value) notification,
+    required TResult Function(Search value) search,
+    required TResult Function(Profile value) profile,
+    required TResult Function(Settings value) settings,
+    required TResult Function(BookMarks value) bookmarks,
   }) {
-    assert(home != null);
-    assert(message != null);
-    assert(notification != null);
-    assert(search != null);
-    assert(profile != null);
-    assert(settings != null);
-    assert(bookmarks != null);
     return settings(this);
   }
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result home(Home value),
-    Result message(Message value),
-    Result notification(Notification value),
-    Result search(Search value),
-    Result profile(Profile value),
-    Result settings(Settings value),
-    Result bookmarks(BookMarks value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Home value)? home,
+    TResult Function(Message value)? message,
+    TResult Function(Notification value)? notification,
+    TResult Function(Search value)? search,
+    TResult Function(Profile value)? profile,
+    TResult Function(Settings value)? settings,
+    TResult Function(BookMarks value)? bookmarks,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (settings != null) {
       return settings(this);
     }
@@ -877,8 +787,10 @@ class _$Settings implements Settings {
 abstract class Settings implements ScreenType {
   const factory Settings(bool fromProfile) = _$Settings;
 
-  bool get fromProfile;
-  $SettingsCopyWith<Settings> get copyWith;
+  bool get fromProfile => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $SettingsCopyWith<Settings> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -916,38 +828,30 @@ class _$BookMarks implements BookMarks {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result home(),
-    @required Result message(),
-    @required Result notification(),
-    @required Result search(),
-    @required Result profile(ProfileScreenArguments arguments),
-    @required Result settings(bool fromProfile),
-    @required Result bookmarks(),
+  TResult when<TResult extends Object?>({
+    required TResult Function() home,
+    required TResult Function() message,
+    required TResult Function() notification,
+    required TResult Function() search,
+    required TResult Function(ProfileScreenArguments arguments) profile,
+    required TResult Function(bool fromProfile) settings,
+    required TResult Function() bookmarks,
   }) {
-    assert(home != null);
-    assert(message != null);
-    assert(notification != null);
-    assert(search != null);
-    assert(profile != null);
-    assert(settings != null);
-    assert(bookmarks != null);
     return bookmarks();
   }
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result home(),
-    Result message(),
-    Result notification(),
-    Result search(),
-    Result profile(ProfileScreenArguments arguments),
-    Result settings(bool fromProfile),
-    Result bookmarks(),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? home,
+    TResult Function()? message,
+    TResult Function()? notification,
+    TResult Function()? search,
+    TResult Function(ProfileScreenArguments arguments)? profile,
+    TResult Function(bool fromProfile)? settings,
+    TResult Function()? bookmarks,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (bookmarks != null) {
       return bookmarks();
     }
@@ -956,38 +860,30 @@ class _$BookMarks implements BookMarks {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result home(Home value),
-    @required Result message(Message value),
-    @required Result notification(Notification value),
-    @required Result search(Search value),
-    @required Result profile(Profile value),
-    @required Result settings(Settings value),
-    @required Result bookmarks(BookMarks value),
+  TResult map<TResult extends Object?>({
+    required TResult Function(Home value) home,
+    required TResult Function(Message value) message,
+    required TResult Function(Notification value) notification,
+    required TResult Function(Search value) search,
+    required TResult Function(Profile value) profile,
+    required TResult Function(Settings value) settings,
+    required TResult Function(BookMarks value) bookmarks,
   }) {
-    assert(home != null);
-    assert(message != null);
-    assert(notification != null);
-    assert(search != null);
-    assert(profile != null);
-    assert(settings != null);
-    assert(bookmarks != null);
     return bookmarks(this);
   }
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result home(Home value),
-    Result message(Message value),
-    Result notification(Notification value),
-    Result search(Search value),
-    Result profile(Profile value),
-    Result settings(Settings value),
-    Result bookmarks(BookMarks value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Home value)? home,
+    TResult Function(Message value)? message,
+    TResult Function(Notification value)? notification,
+    TResult Function(Search value)? search,
+    TResult Function(Profile value)? profile,
+    TResult Function(Settings value)? settings,
+    TResult Function(BookMarks value)? bookmarks,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (bookmarks != null) {
       return bookmarks(this);
     }

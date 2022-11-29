@@ -33,7 +33,7 @@ import '../../../profile/presentation/pages/bookmark_screen.dart';
 
 // StreamController<double> controller = StreamController<double>();
 StreamController<double> controller = StreamController<double>.broadcast();
-LoginResponse loginResponseFeed;
+LoginResponse? loginResponseFeed;
 
 class FeedScreen extends StatefulWidget {
   @override
@@ -42,13 +42,13 @@ class FeedScreen extends StatefulWidget {
 
 class _FeedScreenState extends State<FeedScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  FeedCubit feedCubit;
-  CreatePostCubit createPostCubit;
+  FeedCubit? feedCubit;
+  CreatePostCubit? createPostCubit;
 
   int prevIndex = 0;
   int currentIndex = 0;
 
-  double _containerMaxHeight = 56, _offset, _delta = 0, _oldOffset = 0;
+  double? _containerMaxHeight = 56, _offset, _delta = 0, _oldOffset = 0;
 
   bool _isVisible = true;
   // final ScrollController scrollController = ScrollController();
@@ -84,13 +84,13 @@ class _FeedScreenState extends State<FeedScreen> {
 
   static loginData() {
     Future.delayed(Duration(seconds: 1), () async {
-      AC.loginResponse = await localDataSource.getUserAuth();
+      AC.loginResponse = await localDataSource!.getUserAuth();
     });
   }
 
   loginUserData() async {
-    loginResponseFeed = await localDataSource.getUserData();
-    print("User Name :  -  ${loginResponseFeed.data.user.userName}");
+    loginResponseFeed = await localDataSource!.getUserData();
+    print("User Name :  -  ${loginResponseFeed!.data!.user!.userName}");
   }
 
   blurDotDataGet() {
@@ -144,15 +144,15 @@ class _FeedScreenState extends State<FeedScreen> {
           keyboardActionsPlatform: KeyboardActionsPlatform.IOS,
           actions: [
             KeyboardActionsItem(
-              focusNode: createPostCubit.postTextValidator.focusNode,
+              focusNode: createPostCubit!.postTextValidator.focusNode,
             ),
           ]),
       child: SizedBox(
-        height: context.getScreenHeight,
+        height: context.getScreenHeight as double?,
         child: MultiBlocProvider(
           providers: [
-            BlocProvider<FeedCubit>(create: (c) => feedCubit),
-            BlocProvider<CreatePostCubit>(create: (c) => createPostCubit)
+            BlocProvider<FeedCubit>(create: (c) => feedCubit!),
+            BlocProvider<CreatePostCubit>(create: (c) => createPostCubit!)
           ],
           child: BlocListener<FeedCubit, CommonUIState>(
             listener: (_, state) {
@@ -170,7 +170,7 @@ class _FeedScreenState extends State<FeedScreen> {
                   });
             },
             child: StreamBuilder<ScreenType>(
-                stream: feedCubit.currentPage,
+                stream: feedCubit!.currentPage,
                 initialData: const ScreenType.home(),
                 builder: (context, snapshot) {
                   return Scaffold(
@@ -182,11 +182,10 @@ class _FeedScreenState extends State<FeedScreen> {
                         Navigator.pop(context);
                       },
                       child: Container(
-                        color:
-                            scaffoldKey?.currentState?.isDrawerOpen != null &&
-                                    scaffoldKey.currentState.isDrawerOpen
-                                ? Color(0xFF1D88F0).withOpacity(0.6)
-                                : Colors.transparent,
+                        color: scaffoldKey.currentState?.isDrawerOpen != null &&
+                                scaffoldKey.currentState!.isDrawerOpen
+                            ? Color(0xFF1D88F0).withOpacity(0.6)
+                            : Colors.transparent,
                         height: MediaQuery.of(context).size.height,
                         width: MediaQuery.of(context).size.width,
                         child: Stack(
@@ -196,7 +195,7 @@ class _FeedScreenState extends State<FeedScreen> {
                               height: MediaQuery.of(context).size.height,
                               width: MediaQuery.of(context).size.width / 1.3,
                               child: StreamBuilder<ProfileEntity>(
-                                  stream: feedCubit.drawerEntity,
+                                  stream: feedCubit!.drawerEntity,
                                   builder: (context, snapshot) {
                                     if (snapshot.data == null)
                                       return Container(
@@ -228,7 +227,7 @@ class _FeedScreenState extends State<FeedScreen> {
                             bottom: false,
                             child: PageTransitionSwitcher(
                               reverse: doReverse(),
-                              child: getSelectedHomeScreen(snapshot.data),
+                              child: getSelectedHomeScreen(snapshot.data!),
                               transitionBuilder: (Widget child,
                                       Animation<double> primaryAnimation,
                                       Animation<double> secondaryAnimation) =>
@@ -281,12 +280,12 @@ class _FeedScreenState extends State<FeedScreen> {
                                 curve: Curves.bounceOut,
                                 duration: Duration(microseconds: 1),
                                 height: (_hideButtonController
-                                                ?.positions.isNotEmpty &&
+                                                .positions.isNotEmpty &&
                                             _hideButtonController.position
                                                     .userScrollDirection ==
                                                 ScrollDirection.reverse) ||
                                         (_hideButtonController
-                                                ?.positions.isNotEmpty &&
+                                                .positions.isNotEmpty &&
                                             _hideButtonController.position
                                                     .userScrollDirection ==
                                                 ScrollDirection.forward)
@@ -318,8 +317,8 @@ class _FeedScreenState extends State<FeedScreen> {
                                         onTap: () {
                                           prevIndex = currentIndex;
                                           currentIndex = 0;
-                                          feedCubit.onRefresh();
-                                          feedCubit.changeCurrentPage(
+                                          feedCubit!.onRefresh();
+                                          feedCubit!.changeCurrentPage(
                                               const ScreenType.home());
                                         },
                                         child: Container(
@@ -365,7 +364,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                   .setBool("message", false);
                                               prevIndex = currentIndex;
                                               currentIndex = 1;
-                                              feedCubit.changeCurrentPage(
+                                              feedCubit!.changeCurrentPage(
                                                   const ScreenType.message());
                                               setState(() {});
                                             },
@@ -429,7 +428,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                   "notification", false);
                                               prevIndex = currentIndex;
                                               currentIndex = 3;
-                                              feedCubit.changeCurrentPage(
+                                              feedCubit!.changeCurrentPage(
                                                   const ScreenType
                                                       .notification());
                                               setState(() {});
@@ -483,7 +482,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                         onTap: () {
                                           prevIndex = currentIndex;
                                           currentIndex = 4;
-                                          feedCubit.changeCurrentPage(
+                                          feedCubit!.changeCurrentPage(
                                               const ScreenType.search());
                                         },
                                         child: Container(
@@ -526,12 +525,12 @@ class _FeedScreenState extends State<FeedScreen> {
                                     curve: Curves.bounceOut,
                                     duration: Duration(microseconds: 1),
                                     height: (_hideButtonController
-                                                    ?.positions.isNotEmpty &&
+                                                    .positions.isNotEmpty &&
                                                 _hideButtonController.position
                                                         .userScrollDirection ==
                                                     ScrollDirection.reverse) ||
                                             (_hideButtonController
-                                                    ?.positions.isNotEmpty &&
+                                                    .positions.isNotEmpty &&
                                                 _hideButtonController.position
                                                         .userScrollDirection ==
                                                     ScrollDirection.forward)
@@ -557,7 +556,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                           backRefresh: () {
                                                         // prevIndex=currentIndex;
                                                         // currentIndex = index;
-                                                        feedCubit.onRefresh();
+                                                        feedCubit!.onRefresh();
                                                         // widget.backRefresh();
                                                         setState(() {});
                                                       })));
@@ -569,7 +568,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                 ? Icons.close
                                                 : Icons.add,
                                             size: (_hideButtonController
-                                                            ?.positions
+                                                            .positions
                                                             .isNotEmpty &&
                                                         _hideButtonController
                                                                 .position
@@ -577,7 +576,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                             ScrollDirection
                                                                 .reverse) ||
                                                     (_hideButtonController
-                                                            ?.positions
+                                                            .positions
                                                             .isNotEmpty &&
                                                         _hideButtonController
                                                                 .position
@@ -605,8 +604,8 @@ class _FeedScreenState extends State<FeedScreen> {
   Widget getHomeWidget() {
     return RefreshIndicator(
       onRefresh: () {
-        feedCubit.onRefresh();
-        feedCubit.getUserData();
+        feedCubit!.onRefresh();
+        feedCubit!.getUserData();
         return Future.value();
       },
       // Scrollbar
@@ -680,10 +679,10 @@ class _FeedScreenState extends State<FeedScreen> {
 
           PostPaginationWidget(
               isComeHome: true,
-              pagingController: feedCubit.pagingController,
-              onTapLike: feedCubit.likeUnlikePost,
-              onTapRepost: feedCubit.repost,
-              onOptionItemTap: feedCubit.onOptionItemSelected)
+              pagingController: feedCubit!.pagingController,
+              onTapLike: feedCubit!.likeUnlikePost,
+              onTapRepost: feedCubit!.repost,
+              onOptionItemTap: feedCubit!.onOptionItemSelected)
           // SliverFillRemaining(child:,)
         ],
       )),
@@ -692,13 +691,13 @@ class _FeedScreenState extends State<FeedScreen> {
 
   onTapBottomBar(int index) {
     if (index == 0)
-      feedCubit.changeCurrentPage(const ScreenType.home());
+      feedCubit!.changeCurrentPage(const ScreenType.home());
     else if (index == 1)
-      feedCubit.changeCurrentPage(const ScreenType.message());
+      feedCubit!.changeCurrentPage(const ScreenType.message());
     else if (index == 2)
-      feedCubit.changeCurrentPage(const ScreenType.notification());
+      feedCubit!.changeCurrentPage(const ScreenType.notification());
     else
-      feedCubit.changeCurrentPage(const ScreenType.search());
+      feedCubit!.changeCurrentPage(const ScreenType.search());
   }
 
   Widget getSelectedHomeScreen(ScreenType data) {
@@ -716,7 +715,7 @@ class _FeedScreenState extends State<FeedScreen> {
               fromProfile: args,
             ),
         bookmarks: () =>
-            BlocProvider.value(value: feedCubit, child: BookMarkScreen()));
+            BlocProvider.value(value: feedCubit!, child: BookMarkScreen()));
   }
 
   bool doReverse() {
@@ -731,7 +730,7 @@ class _FeedScreenState extends State<FeedScreen> {
     );
   }
 
-  appBarShow(ScreenType data) {
+  appBarShow(ScreenType? data) {
     // && currentIndex != 2
     return data == const ScreenType.home()
         ? AppBar(
@@ -772,11 +771,12 @@ class _FeedScreenState extends State<FeedScreen> {
                 .toColumn(mainAxisAlignment: MainAxisAlignment.center)
                 .toPadding(0)
                 .onTapWidget(() {
-              scaffoldKey.currentState.openDrawer();
+              scaffoldKey.currentState!.openDrawer();
             }).toPadding(4),
             backgroundColor: Colors.white,
             title: AppIcons.appLogo.toContainer(height: 35, width: 35),
-            centerTitle: true, systemOverlayStyle: SystemUiOverlayStyle.dark,
+            centerTitle: true,
+            systemOverlayStyle: SystemUiOverlayStyle.dark,
           )
         : null;
   }
@@ -789,12 +789,13 @@ class MyBorderShape extends ShapeBorder {
   EdgeInsetsGeometry get dimensions => EdgeInsets.zero;
 
   @override
-  Path getInnerPath(Rect rect, {TextDirection textDirection}) => null;
+  Path getInnerPath(Rect rect, {TextDirection? textDirection}) =>
+      throw UnimplementedError();
 
   double holeSize = 80;
 
   @override
-  Path getOuterPath(Rect rect, {TextDirection textDirection}) {
+  Path getOuterPath(Rect rect, {TextDirection? textDirection}) {
     print(rect.height);
     return Path.combine(
       PathOperation.difference,
@@ -812,7 +813,7 @@ class MyBorderShape extends ShapeBorder {
   }
 
   @override
-  void paint(Canvas canvas, Rect rect, {TextDirection textDirection}) {}
+  void paint(Canvas canvas, Rect rect, {TextDirection? textDirection}) {}
 
   @override
   ShapeBorder scale(double t) => this;
@@ -832,7 +833,7 @@ class TutorialOverlay extends ModalRoute<void> {
   Color get barrierColor => Colors.black.withOpacity(0.5);
 
   @override
-  String get barrierLabel => null;
+  String? get barrierLabel => null;
 
   @override
   bool get maintainState => true;
@@ -896,8 +897,9 @@ class TutorialOverlay extends ModalRoute<void> {
 }
 
 class RedeemConfirmationScreen extends StatefulWidget {
-  final Function backRefresh;
-  const RedeemConfirmationScreen({Key key, this.backRefresh}) : super(key: key);
+  final Function? backRefresh;
+  const RedeemConfirmationScreen({Key? key, this.backRefresh})
+      : super(key: key);
 
   @override
   _RedeemConfirmationScreenState createState() =>
@@ -954,7 +956,7 @@ class _RedeemConfirmationScreenState extends State<RedeemConfirmationScreen> {
               // prevIndex=currentIndex;
               // currentIndex = index;
               // feedCubit.onRefresh();
-              widget.backRefresh();
+              widget.backRefresh!();
               // setState(() {});
             });
           }),

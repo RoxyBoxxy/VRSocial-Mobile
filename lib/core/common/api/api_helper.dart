@@ -10,13 +10,13 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class ApiHelper {
-  final Dio dio = getIt<Dio>();
-  final LocalDataSource localDataSource;
+  final Dio? dio = getIt<Dio>();
+  final LocalDataSource? localDataSource;
   ApiHelper(this.localDataSource) {
-    dio.options.baseUrl = ApiConstants.baseUrl;
+    dio!.options.baseUrl = ApiConstants.baseUrl;
     final interceptor = InterceptorsWrapper(
       onError: (e) {
-        if (e?.response?.data != null)
+        if (e.response?.data != null)
           print("error in response ${e.response?.data["message"]}");
       },
       onResponse: (res) async {
@@ -39,23 +39,23 @@ class ApiHelper {
       },
       onRequest: (req) async {
         // adding auth token
-        var loginResponse = await localDataSource.getUserAuth();
+        var loginResponse = await localDataSource!.getUserAuth();
         if (loginResponse != null) {
           req.headers.addAll({"session_id": loginResponse.authToken});
           if (req.method == "GET") {
             req.queryParameters.addAll({"session_id": loginResponse.authToken});
           } else {
             var updatedReq = (req.data as FormData)
-              ..fields.add(MapEntry("session_id", loginResponse.authToken));
+              ..fields.add(MapEntry("session_id", loginResponse.authToken!));
             req.data = updatedReq;
           }
         }
-        (req.data as FormData)?.fields?.forEach((element) {
+        (req.data as FormData?)?.fields?.forEach((element) {
           print(element);
         });
       },
     );
-    dio.interceptors
+    dio!.interceptors
       ..add(interceptor)
       ..add(
           LogInterceptor(request: true, responseBody: true, requestBody: true));
@@ -65,20 +65,20 @@ class ApiHelper {
   Future<Either<Failure, Response>> post(
           String path, HashMap<String, dynamic> body,
           {dynamic headers}) async =>
-      safeApiHelperRequest(() => dio.post(path,
+      safeApiHelperRequest(() => dio!.post(path,
           data: FormData.fromMap(body), options: Options(headers: headers)));
 
   Future<Either<Failure, Response>> get<T>(String path,
-          {Map<String, dynamic> headers,
-          Map<String, dynamic> queryParameters}) async =>
-      safeApiHelperRequest(() => dio.get(path,
-          options: Options(headers: headers),
-          queryParameters: queryParameters));
+          {Map<String, dynamic>? headers,
+          Map<String, dynamic>? queryParameters}) async =>
+      safeApiHelperRequest(() => dio!.get(path,
+          options: Options(headers: headers!),
+          queryParameters: queryParameters!));
 
   Future<Either<Failure, Response>> put<T>(String path,
-          {Map<String, dynamic> headers, dynamic body}) async =>
-      safeApiHelperRequest(
-          () => dio.put(path, options: Options(headers: headers), data: body));
+          {Map<String, dynamic>? headers, dynamic body}) async =>
+      safeApiHelperRequest(() =>
+          dio!.put(path, options: Options(headers: headers!), data: body));
 
   Future<Either<Failure, Response>> safeApiHelperRequest(
       Future<dynamic> Function() function) async {

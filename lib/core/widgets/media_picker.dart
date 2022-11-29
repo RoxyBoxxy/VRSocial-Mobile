@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
@@ -35,13 +36,11 @@ openMediaPicker(
         if (mediaType == MediaTypeEnum.IMAGE) {
           pickedFile = await ImagePicker().getImage(source: ImageSource.camera);
           final media = await pickedFile.path.compressImage();
-          if (media != null) {
-            if (allowCropping) {
-              final file = await _cropImage(media.path);
-              onMediaSelected(file.path);
-            } else
-              onMediaSelected(media.path);
-          }
+          if (allowCropping) {
+            final file = await (_cropImage(media.path) as FutureOr<File>);
+            onMediaSelected(file.path);
+          } else
+            onMediaSelected(media.path);
         } else {
           pickedFile = await ImagePicker().getVideo(
             source: ImageSource.camera,
@@ -49,7 +48,7 @@ openMediaPicker(
 
           /// no need to compress video for ios
           if (Platform.isAndroid) {
-            var videoFile = await pickedFile?.path?.compressVideo;
+            var videoFile = await pickedFile.path?.compressVideo;
             onMediaSelected(videoFile?.path);
           } else
             onMediaSelected(pickedFile.path);
@@ -63,10 +62,10 @@ openMediaPicker(
         if (mediaType == MediaTypeEnum.IMAGE) {
           pickedFile =
               await ImagePicker().getImage(source: ImageSource.gallery);
-          final media = await pickedFile?.path?.compressImage();
+          final media = await pickedFile.path?.compressImage();
           if (media != null) {
             if (allowCropping) {
-              final file = await _cropImage(media.path);
+              final file = await (_cropImage(media.path) as FutureOr<File>);
               onMediaSelected(file.path);
             } else
               onMediaSelected(pickedFile.path);
@@ -76,7 +75,7 @@ openMediaPicker(
             source: ImageSource.gallery,
           );
           if (Platform.isAndroid) {
-            var videoFile = await pickedFile?.path?.compressVideo;
+            var videoFile = await pickedFile.path?.compressVideo;
             onMediaSelected(videoFile?.path);
           } else
             onMediaSelected(pickedFile.path);
@@ -103,8 +102,8 @@ _requestPermission(BuildContext context, Permission permission) async {
 // await openAppSettings();
 }
 
-Future<File> _cropImage(String path) async {
-  File croppedFile = await ImageCropper().cropImage(
+Future<File?> _cropImage(String path) async {
+  File? croppedFile = await ImageCropper().cropImage(
       sourcePath: path,
       aspectRatio: const CropAspectRatio(ratioX: 3, ratioY: 1),
       androidUiSettings: const AndroidUiSettings(

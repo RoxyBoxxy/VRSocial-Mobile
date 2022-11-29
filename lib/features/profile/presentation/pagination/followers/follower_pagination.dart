@@ -8,12 +8,12 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class FollowerPagination extends CustomPagination<FollowerEntity> {
-  final GetFollowersUseCase getFollowersUseCase;
-  String userId;
+  final GetFollowersUseCase? getFollowersUseCase;
+  String? userId;
   FollowerPagination(this.getFollowersUseCase);
   @override
-  Future<Either<Failure, List<FollowerEntity>>> getItems(int pageKey) async {
-    return getFollowersUseCase(
+  Future<Either<Failure, List<FollowerEntity>>?> getItems(int pageKey) async {
+    return getFollowersUseCase!(
         PostCategoryModel(pageKey.toString(), null, userId));
   }
 
@@ -23,7 +23,7 @@ class FollowerPagination extends CustomPagination<FollowerEntity> {
   }
 
   @override
-  int getNextKey(FollowerEntity item) {
+  int? getNextKey(FollowerEntity item) {
     return item.offsetId;
   }
 

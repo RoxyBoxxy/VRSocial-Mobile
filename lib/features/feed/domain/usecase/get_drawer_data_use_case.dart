@@ -7,10 +7,10 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class GetDrawerDataUseCase extends UseCase<ProfileEntity, Unit> {
-  final ProfileRepo profileRepo;
+  final ProfileRepo? profileRepo;
   GetDrawerDataUseCase(this.profileRepo);
   @override
   Future<Either<Failure, ProfileEntity>> call(Unit params) async {
-    return await profileRepo.getProfileData(null);
+    return await profileRepo!.getProfileData(null);
   }
 }

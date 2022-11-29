@@ -18,10 +18,10 @@ part 'chat_state.dart';
 
 @injectable
 class ChatCubit extends Cubit<CommonUIState> {
-  final messageController = BehaviorSubject<List<ChatEntity>>.seeded([]);
-  Function(List<ChatEntity>) get changeMessageList =>
+  final messageController = BehaviorSubject<List<ChatEntity>?>.seeded([]);
+  Function(List<ChatEntity>?) get changeMessageList =>
       messageController.sink.add;
-  Stream<List<ChatEntity>> get messageList => messageController.stream;
+  Stream<List<ChatEntity>?> get messageList => messageController.stream;
 
   final _scrollHelperController = BehaviorSubject<bool>.seeded(true);
   Function(bool) get changeScrollValue => _scrollHelperController.sink.add;
@@ -33,17 +33,17 @@ class ChatCubit extends Cubit<CommonUIState> {
 
   // use case
 
-  final GetChatUseCase getChatUseCase;
+  final GetChatUseCase? getChatUseCase;
 
-  final SendChatMessageUseCase sendChatMessageUseCase;
+  final SendChatMessageUseCase? sendChatMessageUseCase;
 
-  final DeleteAllMessagesUseCase deleteAllMessagesUseCase;
+  final DeleteAllMessagesUseCase? deleteAllMessagesUseCase;
 
-  final DeleteMessageUseCase deleteMessageUseCase;
+  final DeleteMessageUseCase? deleteMessageUseCase;
 
-  final ChatPagination chatPagination;
+  final ChatPagination? chatPagination;
 
-  final HashTagPagination hashTagPagination;
+  final HashTagPagination? hashTagPagination;
 
   GlobalKey<AnimatedListState> animatedKey = GlobalKey<AnimatedListState>();
   ChatCubit(
@@ -64,7 +64,7 @@ class ChatCubit extends Cubit<CommonUIState> {
   //   } );
   // }
 
-  sendMessage(String otherUserId) async {
+  sendMessage(String? otherUserId) async {
     emit(const CommonUIState.loading());
     // emit(const CommonUIState.loading());
 
@@ -82,7 +82,7 @@ class ChatCubit extends Cubit<CommonUIState> {
 
     var chatRequestModel = MessagesRequestModel(
         type: "text", message: message.text, userId: otherUserId);
-    var either = await sendChatMessageUseCase(chatRequestModel);
+    var either = await sendChatMessageUseCase!(chatRequestModel);
 
     // animatedKey.currentState.didUpdateWidget(animatedKey.currentState.widget);
     either.fold((l) => emit(CommonUIState.error(l.errorMessage)), (r) {
@@ -90,9 +90,9 @@ class ChatCubit extends Cubit<CommonUIState> {
       // items[0]=messageText.copyWith(time: DateTime.now().getCurrentFormattedTime(),id: r.data.id.toString(),);
       // changeMessageList(items);
       // animatedKey.currentState.removeItem(index, (context, animation) => Duration(mi))
-      chatPagination.pagingController.itemList ??= [];
-      chatPagination.pagingController
-        ..itemList.insert(0, messageText)
+      chatPagination!.pagingController.itemList ??= [];
+      chatPagination!.pagingController
+        ..itemList!.insert(0, messageText)
         ..notifyListeners();
       // chatPagination.pagingController..itemList.insert(0, messageText)..notifyListeners();
       emit(const CommonUIState.success(unit));
@@ -100,7 +100,7 @@ class ChatCubit extends Cubit<CommonUIState> {
     });
   }
 
-  sendImage(String path, String otherUserId) async {
+  sendImage(String? path, String? otherUserId) async {
     emit(const CommonUIState.loading());
     final messageText = ChatEntity(
         messageId: null,
@@ -119,16 +119,16 @@ class ChatCubit extends Cubit<CommonUIState> {
         message: message.text,
         userId: otherUserId,
         mediaUrl: path);
-    var either = await sendChatMessageUseCase(chatRequestModel);
+    var either = await sendChatMessageUseCase!(chatRequestModel);
     either.fold((l) => emit(CommonUIState.error(l.errorMessage)), (r) {
       //// updating the index value
       // items[0]=messageText.copyWith(time: DateTime.now().getCurrentFormattedTime(),id: r.data.id.toString(),);
       // changeMessageList(items);
       // animatedKey.currentState.removeItem(index, (context, animation) => Duration(mi))
       // emit(CommonUIState.success(items));
-      chatPagination.pagingController.itemList ??= [];
-      chatPagination.pagingController
-        ..itemList.insert(0, messageText)
+      chatPagination!.pagingController.itemList ??= [];
+      chatPagination!.pagingController
+        ..itemList!.insert(0, messageText)
         ..notifyListeners();
       // chatPagination.pagingController..itemList.insert(0, messageText)..notifyListeners();
       emit(const CommonUIState.success(unit));
@@ -137,11 +137,11 @@ class ChatCubit extends Cubit<CommonUIState> {
 
   deleteAllMessages(DeleteChatRequestModel deleteChatRequestModel) async {
     emit(const CommonUIState.loading());
-    final either = await deleteAllMessagesUseCase(deleteChatRequestModel);
+    final either = await deleteAllMessagesUseCase!(deleteChatRequestModel);
     either.fold((l) => emit(CommonUIState.error(l.errorMessage)), (r) {
       // clearing chat only
       if (!deleteChatRequestModel.deleteChat) {
-        chatPagination.onRefresh();
+        chatPagination!.onRefresh();
       }
       emit(CommonUIState.success(deleteChatRequestModel.deleteChat
           ? "Chat Deleted Successfully"
@@ -151,18 +151,18 @@ class ChatCubit extends Cubit<CommonUIState> {
 
   // sending last message to the previous screen
   getLastMessage() {
-    if (chatPagination.pagingController.itemList == null ||
-        chatPagination?.pagingController?.itemList?.isEmpty == true) return '';
-    return chatPagination?.pagingController?.itemList[0];
+    if (chatPagination!.pagingController.itemList == null ||
+        chatPagination?.pagingController.itemList?.isEmpty == true) return '';
+    return chatPagination?.pagingController.itemList![0];
   }
 
   deleteMessage(int index) async {
     emit(const CommonUIState.loading());
-    var either = await deleteMessageUseCase(
-        chatPagination.pagingController.itemList[index].messageId);
+    var either = await deleteMessageUseCase!(
+        chatPagination!.pagingController.itemList![index].messageId!);
     either.fold((l) => emit(CommonUIState.error(l.errorMessage)), (r) {
       changeMessageList(
-          chatPagination.pagingController.itemList..removeAt(index));
+          chatPagination!.pagingController.itemList!..removeAt(index));
       emit(CommonUIState.success(r));
     });
   }

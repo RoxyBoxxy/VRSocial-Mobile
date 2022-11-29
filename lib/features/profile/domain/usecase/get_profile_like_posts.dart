@@ -9,11 +9,11 @@ import 'package:injectable/injectable.dart';
 @injectable
 class GetProfileLikedPostsUseCase
     extends UseCase<List<PostEntity>, PostCategoryModel> {
-  final ProfileRepo profileRepo;
+  final ProfileRepo? profileRepo;
   GetProfileLikedPostsUseCase(this.profileRepo);
 
   @override
   Future<Either<Failure, List<PostEntity>>> call(PostCategoryModel params) {
-    return profileRepo.getUserPostByCategory(params);
+    return profileRepo!.getUserPostByCategory(params);
   }
 }

@@ -2,13 +2,12 @@ import 'package:colibri/features/notifications/data/models/response/notification
 import 'package:colibri/extensions.dart';
 import 'package:colibri/features/posts/presentation/pages/view_post_screen.dart';
 import 'package:colibri/features/profile/presentation/pages/profile_screen.dart';
-import 'package:flutter/foundation.dart';
 
 class NotificationEntity {
-  final String name;
+  final String? name;
   final String title;
-  final String time;
-  final String profileUrl;
+  final String? time;
+  final String? profileUrl;
   final String notificationId;
   final String offsetId;
   final NotificationType notificationType;
@@ -16,24 +15,24 @@ class NotificationEntity {
 
   /// below are the two types where use can navigate on tap of notification
   /// if the notification is type of post then we will open post detail screen [ViewPostScreen] using post id
-  final String postId;
+  final String? postId;
 
   /// if the notification is type of a specific to a user then we will open user profile[ProfileScreen] using user id
-  final String userID;
+  final String? userID;
 
   NotificationEntity._(
-      {@required this.title,
-      @required this.time,
-      @required this.profileUrl,
-      @required this.offsetId,
-      @required this.name,
-      @required this.verifiedUser,
-      @required this.notificationType,
-      @required this.notificationId,
+      {required this.title,
+      required this.time,
+      required this.profileUrl,
+      required this.offsetId,
+      required this.name,
+      required this.verifiedUser,
+      required this.notificationType,
+      required this.notificationId,
       this.userID,
       this.postId});
 
-  factory NotificationEntity.fromResponse({@required NotificationModel model}) {
+  factory NotificationEntity.fromResponse({required NotificationModel model}) {
     return NotificationEntity._(
         title: getTitleFromNotificationType(model.subject),
         time: model.time,
@@ -42,12 +41,12 @@ class NotificationEntity {
         offsetId: model.id.toString(),
         name: model.name,
         notificationType: getNotificationType(model.subject),
-        verifiedUser: model.verified.isVerifiedUser,
+        verifiedUser: model.verified!.isVerifiedUser,
         postId: model.postId.toString(),
         userID: model.userId.toString());
   }
 
-  static NotificationType getNotificationType(String subject) {
+  static NotificationType getNotificationType(String? subject) {
     if (subject == "subscribe")
       return NotificationType.SUBSCRIBED;
     else if (subject == "subscribe_accept")
@@ -69,7 +68,7 @@ class NotificationEntity {
     return NotificationType.UNDEFINED_YET;
   }
 
-  static String getTitleFromNotificationType(String subject) {
+  static String getTitleFromNotificationType(String? subject) {
     final notificationType = getNotificationType(subject);
     var title = '';
     switch (notificationType) {

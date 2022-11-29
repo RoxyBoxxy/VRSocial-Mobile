@@ -15,7 +15,7 @@ class ChatNotificationResponse {
     this.data,
   });
 
-  Data data;
+  Data? data;
 
   factory ChatNotificationResponse.fromJson(Map<String, dynamic> json) =>
       ChatNotificationResponse(
@@ -23,7 +23,7 @@ class ChatNotificationResponse {
       );
 
   Map<String, dynamic> toJson() => {
-        "data": data == null ? null : data.toJson(),
+        "data": data == null ? null : data!.toJson(),
       };
 }
 
@@ -32,7 +32,7 @@ class Data {
     this.chatMessage,
   });
 
-  ChatMessage chatMessage;
+  ChatMessage? chatMessage;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         chatMessage: json["chat_message"] == null
@@ -41,7 +41,7 @@ class Data {
       );
 
   Map<String, dynamic> toJson() => {
-        "chat_message": chatMessage == null ? null : chatMessage.toJson(),
+        "chat_message": chatMessage == null ? null : chatMessage!.toJson(),
       };
 }
 
@@ -55,12 +55,12 @@ class ChatMessage {
     this.name,
   });
 
-  String messageType;
-  String data;
-  int messageId;
-  String avatar;
-  int userId;
-  String name;
+  String? messageType;
+  String? data;
+  int? messageId;
+  String? avatar;
+  int? userId;
+  String? name;
 
   factory ChatMessage.fromJson(Map<String, dynamic> json) => ChatMessage(
         messageType: json["message_type"] == null ? null : json["message_type"],

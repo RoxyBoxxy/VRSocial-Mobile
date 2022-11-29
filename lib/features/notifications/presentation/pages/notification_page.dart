@@ -20,7 +20,7 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
-  NotificationCubit _notificationCubit;
+  late NotificationCubit _notificationCubit;
   @override
   void initState() {
     // TODO: implement initState
@@ -37,7 +37,7 @@ class _NotificationPageState extends State<NotificationPage> {
     //     // });
     //
     // });
-    _notificationCubit.notificationPagination.deletedItems.listen((event) {
+    _notificationCubit.notificationPagination!.deletedItems.listen((event) {
       print("inside listener ${event.length}");
     });
   }
@@ -50,17 +50,17 @@ class _NotificationPageState extends State<NotificationPage> {
         children: [
           StreamBuilder<Set<int>>(
               initialData: Set(),
-              stream: _notificationCubit.notificationPagination.deletedItems,
+              stream: _notificationCubit.notificationPagination!.deletedItems,
               builder: (context, snapshot) {
                 return RefreshIndicator(
                   onRefresh: () {
-                    _notificationCubit.notificationPagination.onRefresh();
+                    _notificationCubit.notificationPagination!.onRefresh();
                     return Future.value();
                   },
                   child: PagedListView(
                       padding: const EdgeInsets.only(bottom: 80),
                       pagingController: _notificationCubit
-                          .notificationPagination.pagingController,
+                          .notificationPagination!.pagingController,
                       builderDelegate: PagedChildBuilderDelegate<
                               NotificationEntity>(
                           noItemsFoundIndicatorBuilder: (_) =>
@@ -85,15 +85,18 @@ class _NotificationPageState extends State<NotificationPage> {
                                 child: NotificationItem(
                                   notificationEntity: item,
                                   onChanged: (v) {
+                                    if (v == null) {
+                                      return;
+                                    }
                                     if (v)
-                                      _notificationCubit.notificationPagination
+                                      _notificationCubit.notificationPagination!
                                           .addDeletedItem(index);
                                     else
-                                      _notificationCubit.notificationPagination
+                                      _notificationCubit.notificationPagination!
                                           .deleteSelectedItem(index);
                                   },
                                   isSelected:
-                                      snapshot.data.toList().contains(index),
+                                      snapshot.data!.toList().contains(index),
                                 ),
                               ))),
                 );
@@ -103,19 +106,19 @@ class _NotificationPageState extends State<NotificationPage> {
               child: StreamBuilder<Set<int>>(
                   initialData: Set(),
                   stream:
-                      _notificationCubit.notificationPagination.deletedItems,
+                      _notificationCubit.notificationPagination!.deletedItems,
                   builder: (context, snapshot) {
                     return SlideBottomWidget(
-                      doForward: snapshot.data.isNotEmpty,
+                      doForward: snapshot.data!.isNotEmpty,
                       child: Material(
                         elevation: 10.0,
                         child: ListTile(
                           title: StreamBuilder<Set<int>>(
                               initialData: Set(),
                               stream: _notificationCubit
-                                  .notificationPagination.deletedItems,
+                                  .notificationPagination!.deletedItems,
                               builder: (context, snapshot) {
-                                return "Delete Selected (${snapshot.data.length})"
+                                return "Delete Selected (${snapshot.data!.length})"
                                     .toSubTitle2(fontWeight: FontWeight.w600);
                               }),
                           trailing: AppIcons.deleteOption(),
@@ -128,7 +131,7 @@ class _NotificationPageState extends State<NotificationPage> {
                                 okButtonTitle: "Delete",
                                 onTapOk: () {
                                   Navigator.of(context).pop();
-                                  _notificationCubit.notificationPagination
+                                  _notificationCubit.notificationPagination!
                                       .deleteNotification();
                                 });
                           },

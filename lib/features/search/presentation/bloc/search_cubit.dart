@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:colibri/core/common/uistate/common_ui_state.dart';
 import 'package:colibri/features/profile/domain/usecase/follow_unfollow_use_case.dart';
+import 'package:colibri/features/search/domain/entity/people_entity.dart';
 import 'package:colibri/features/search/presentation/pagination/hashtag_pagination.dart';
 import 'package:colibri/features/search/presentation/pagination/people_pagination.dart';
 import 'package:equatable/equatable.dart';
@@ -11,13 +12,13 @@ part 'search_state.dart';
 @injectable
 class SearchCubit extends Cubit<CommonUIState> {
   // pagination
-  final HashTagPagination hashTagPagination;
+  final HashTagPagination? hashTagPagination;
 
-  final PeoplePagination peoplePagination;
+  final PeoplePagination? peoplePagination;
 
   // use cases
 
-  final FollowUnFollowUseCase followUnFollowUseCase;
+  final FollowUnFollowUseCase? followUnFollowUseCase;
 
   SearchCubit(
       this.hashTagPagination, this.peoplePagination, this.followUnFollowUseCase)
@@ -25,25 +26,26 @@ class SearchCubit extends Cubit<CommonUIState> {
 
   @override
   Future<void> close() {
-    hashTagPagination.onClose();
-    peoplePagination.onClose();
+    hashTagPagination!.onClose();
+    peoplePagination!.onClose();
     return super.close();
   }
 
   followUnFollow(int index) async {
-    var currentItem = peoplePagination.pagingController.itemList[index];
-    peoplePagination.pagingController.itemList[index] = currentItem.copyWith(
-        isFollowed: !currentItem.isFollowed,
-        buttonText: currentItem.isFollowed ? "Unfollow" : "follow");
-    peoplePagination.pagingController.notifyListeners();
+    PeopleEntity currentItem =
+        peoplePagination!.pagingController.itemList![index];
+    peoplePagination!.pagingController.itemList![index] = currentItem.copyWith(
+        isFollowed: !currentItem.isFollowed!,
+        buttonText: currentItem.isFollowed! ? "Unfollow" : "follow");
+    peoplePagination!.pagingController.notifyListeners();
 
-    var either = await followUnFollowUseCase(currentItem.id);
+    var either = await followUnFollowUseCase!(currentItem.id);
     either.fold((l) {
       emit(CommonUIState.error(l.errorMessage));
-      peoplePagination.pagingController
-        ..itemList[index] = currentItem.copyWith(
-            isFollowed: !currentItem.isFollowed,
-            buttonText: currentItem.isFollowed ? "Unfollow" : "follow")
+      peoplePagination!.pagingController
+        ..itemList![index] = currentItem.copyWith(
+            isFollowed: !currentItem.isFollowed!,
+            buttonText: currentItem.isFollowed! ? "Unfollow" : "follow")
         ..notifyListeners();
     }, (r) {});
   }

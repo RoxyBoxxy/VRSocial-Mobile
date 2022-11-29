@@ -18,10 +18,10 @@ class HashtagResponse {
     this.data,
   });
 
-  bool valid;
-  int code;
-  String message;
-  List<HashTag> data;
+  bool? valid;
+  int? code;
+  String? message;
+  List<HashTag>? data;
 
   factory HashtagResponse.fromJson(Map<String, dynamic> json) =>
       HashtagResponse(
@@ -39,7 +39,7 @@ class HashtagResponse {
         "message": message == null ? null : message,
         "data": data == null
             ? null
-            : List<dynamic>.from(data.map((x) => x.toJson())),
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
@@ -54,13 +54,13 @@ class HashTag {
     this.total,
   });
 
-  int id;
-  int posts;
-  String tag;
-  String time;
-  String hashtag;
-  String url;
-  String total;
+  int? id;
+  int? posts;
+  String? tag;
+  String? time;
+  String? hashtag;
+  String? url;
+  String? total;
 
   factory HashTag.fromJson(Map<String, dynamic> json) => HashTag(
         id: json["id"] == null ? null : json["id"],

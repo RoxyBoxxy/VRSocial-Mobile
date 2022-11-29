@@ -1,5 +1,3 @@
-
-
 import 'package:colibri/features/feed/data/models/feeds_response.dart';
 import 'package:colibri/features/feed/domain/entity/post_media.dart';
 
@@ -9,36 +7,35 @@ import 'package:colibri/features/profile/data/models/response/profile_posts_resp
 import 'package:equatable/equatable.dart';
 import 'package:faker/faker.dart';
 import 'package:colibri/extensions.dart';
-import 'package:flutter/foundation.dart';
 
 class PostEntity extends Equatable {
   final String postId;
-  final String profileUrl;
-  final String name;
-  final String userName;
-  final String time;
+  final String? profileUrl;
+  final String? name;
+  final String? userName;
+  final String? time;
   final String description;
   final List<PostMedia> media;
-  final bool isLiked;
-  final bool isCommented;
-  final bool isReposted;
-  final bool showRepostedText;
-  final String likeCount;
-  final String repostCount;
-  final String commentCount;
-  final int offSetId;
-  final bool isAdvertisement;
-  final bool isSaved;
-  final int threadID;
+  final bool? isLiked;
+  final bool? isCommented;
+  final bool? isReposted;
+  final bool? showRepostedText;
+  final String? likeCount;
+  final String? repostCount;
+  final String? commentCount;
+  final int? offSetId;
+  final bool? isAdvertisement;
+  final bool? isSaved;
+  final int? threadID;
   final List<PostEntity> replys;
 
   // response to full name
-  final String responseTo;
+  final String? responseTo;
 
   // user id of person who responds to the post
-  final String responseToUserId;
+  final String? responseToUserId;
 
-  final PostEntity previous;
+  final PostEntity? previous;
 
   // helps to draw lines between two post item ( timeline)
   final bool isConnected;
@@ -47,7 +44,7 @@ class PostEntity extends Equatable {
   final bool isReplyItem;
 
   // if it's ads then we will show ads widget
-  final AdvertisementEntity advertisementEntity;
+  final AdvertisementEntity? advertisementEntity;
 
   // it's used when user is inside post detail
   // this will be used on the main post of the thread/post
@@ -55,20 +52,20 @@ class PostEntity extends Equatable {
   final String parentPostTime;
 
   //we need username of the person who is parent or owner of the post
-  final String parentPostUsername;
+  final String? parentPostUsername;
 
   final bool isOtherUser;
-  final String otherUserId;
+  final String? otherUserId;
 
-  final String userProfileUrl;
-  final String coverUrl;
+  final String? userProfileUrl;
+  final String? coverUrl;
 
   final bool postOwnerVerified;
 
-  final String reposterFullname;
+  final String? reposterFullname;
 
   // used for sharing the post as url to other platforms
-  final String urlForSharing;
+  final String? urlForSharing;
 
   final bool isRposterCurrentUser;
 
@@ -76,23 +73,23 @@ class PostEntity extends Equatable {
   final ogData;
 
   const PostEntity._(
-      {@required this.postId,
-      @required this.profileUrl,
-      @required this.name,
-      @required this.userName,
-      @required this.time,
-      @required this.description,
+      {required this.postId,
+      required this.profileUrl,
+      required this.name,
+      required this.userName,
+      required this.time,
+      required this.description,
       this.media = const [],
       this.isLiked = false,
       this.isCommented = false,
       this.isReposted = false,
-      @required this.likeCount,
-      @required this.repostCount,
-      @required this.commentCount,
-      @required this.offSetId,
-      @required this.isAdvertisement,
-      @required this.isSaved,
-      @required this.threadID,
+      required this.likeCount,
+      required this.repostCount,
+      required this.commentCount,
+      required this.offSetId,
+      required this.isAdvertisement,
+      required this.isSaved,
+      required this.threadID,
       this.replys = const [],
       this.responseTo,
       this.previous,
@@ -105,25 +102,26 @@ class PostEntity extends Equatable {
       this.isOtherUser = false,
       this.otherUserId,
       this.responseToUserId,
-      @required this.coverUrl,
-      @required this.userProfileUrl,
-      @required this.urlForSharing,
+      required this.coverUrl,
+      required this.userProfileUrl,
+      required this.urlForSharing,
       this.parentPostUsername,
       this.postOwnerVerified = false,
       this.ogData,
       this.reposterFullname = null,
+      // ignore: unused_element
       this.isRposterCurrentUser = false});
 
-  factory PostEntity.fromFeed(Feed data, {Feed previous}) {
+  factory PostEntity.fromFeed(Feed data, {Feed? previous}) {
     return PostEntity._(
         postId: data.id.toString(),
-        profileUrl: data.owner.avatar,
-        name: data.owner.name,
-        userName: data.owner.username,
+        profileUrl: data.owner!.avatar,
+        name: data.owner!.name,
+        userName: data.owner!.username,
         time: data.time,
         // description: faker.lorem.sentence(),
         description: data.text ?? "",
-        media: data.media?.map((e) => PostMedia.fromFeed(e))?.toList() ?? [],
+        media: data.media?.map((e) => PostMedia.fromFeed(e)).toList() ?? [],
         isLiked: data.hasLiked,
         isCommented: data.hasSaved,
         isReposted: data.hasReposted,
@@ -134,21 +132,21 @@ class PostEntity extends Equatable {
         isAdvertisement: data.advertising,
         isSaved: data.hasSaved,
         threadID: data.id,
-        responseTo: data?.replyTo?.name,
-        responseToUserId: data?.replyTo?.id.toString(),
+        responseTo: data.replyTo?.name,
+        responseToUserId: data.replyTo?.id.toString(),
         previous: previous != null ? PostEntity.fromFeed(previous) : null,
         showRepostedText: data.isRepost,
-        advertisementEntity: data.advertising
-            ? AdvertisementEntity.fromAdsResponse(data.advertisementResponse)
+        advertisementEntity: data.advertising!
+            ? AdvertisementEntity.fromAdsResponse(data.advertisementResponse!)
             : null,
-        isOtherUser: !data.isOwner,
-        otherUserId: !data.isOwner ? data.owner.id.toString() : null,
+        isOtherUser: !data.isOwner!,
+        otherUserId: !data.isOwner! ? data.owner!.id.toString() : null,
         coverUrl: data.cover,
         userProfileUrl: data.avatar,
-        reposterFullname: data?.reposter?.name,
+        reposterFullname: data.reposter?.name,
         urlForSharing: data.url,
-        ogData: data?.ogData != null ? data.ogData : null,
-        postOwnerVerified: data.owner.verified.isVerifiedUser);
+        ogData: data.ogData != null ? data.ogData : null,
+        postOwnerVerified: data.owner!.verified!.isVerifiedUser);
   }
 
   factory PostEntity.fromDummy() {
@@ -180,15 +178,15 @@ class PostEntity extends Equatable {
     ///123456
     return PostEntity._(
         postId: data.id.toString(),
-        profileUrl: data.owner.avatar,
-        name: data.owner.name,
-        userName: data.owner.username,
+        profileUrl: data.owner!.avatar,
+        name: data.owner!.name,
+        userName: data.owner!.username,
         time: data.time,
         // description: faker.lorem.sentence(),
         description: data.text ?? "",
         media: data.media
                 ?.map((e) => PostMedia.fromProfilePostMedia(e))
-                ?.toList() ??
+                .toList() ??
             [],
         isLiked: data.hasLiked,
         isCommented: data.hasSaved,
@@ -200,36 +198,36 @@ class PostEntity extends Equatable {
         isAdvertisement: data.advertising,
         isSaved: data.hasSaved,
         threadID: data.id,
-        isOtherUser: !data.isOwner,
-        otherUserId: !data.isOwner ? data.owner.id.toString() : null,
+        isOtherUser: !data.isOwner!,
+        otherUserId: !data.isOwner! ? data.owner!.id.toString() : null,
         showRepostedText: data.isRepost,
         coverUrl: data.cover,
         userProfileUrl: data.avatar,
         urlForSharing: data.url,
-        responseTo: data?.replyTo?.name,
-        responseToUserId: data?.replyTo?.id.toString(),
-        advertisementEntity: data.advertising
-            ? AdvertisementEntity.fromAdsResponse(data.advertisementResponse)
+        responseTo: data.replyTo?.name,
+        responseToUserId: data.replyTo?.id.toString(),
+        advertisementEntity: data.advertising!
+            ? AdvertisementEntity.fromAdsResponse(data.advertisementResponse!)
             : null,
-        postOwnerVerified: data.owner.verified.isVerifiedUser,
-        reposterFullname: data?.reposter?.name,
-        ogData: data?.ogData != null && data.ogData != "" ? data?.ogData : null
+        postOwnerVerified: data.owner!.verified!.isVerifiedUser,
+        reposterFullname: data.reposter?.name,
+        ogData: data.ogData != null && data.ogData != "" ? data.ogData : null
         // ogData: data?.ogData != null ? data?.ogData : null
         );
   }
 
-  factory PostEntity.fromPostDetails(NextPostItem data, {Feed previous}) {
+  factory PostEntity.fromPostDetails(NextPostItem data, {Feed? previous}) {
     return PostEntity._(
         postId: data.id.toString(),
-        profileUrl: data.owner.avatar,
-        name: data.owner.name,
-        userName: data.owner.username,
+        profileUrl: data.owner!.avatar,
+        name: data.owner!.name,
+        userName: data.owner!.username,
         time: data.time,
         // description: faker.lorem.sentence(),
         description: data.text ?? "",
         media: data.media
                 ?.map((e) => PostMedia.fromProfilePostMedia(e))
-                ?.toList() ??
+                .toList() ??
             [],
         isLiked: data.hasLiked,
         isCommented: data.hasSaved,
@@ -241,49 +239,49 @@ class PostEntity extends Equatable {
         isAdvertisement: data.advertising,
         isSaved: data.hasSaved,
         threadID: data.id,
-        responseTo: data?.replyTo?.name,
-        responseToUserId: data?.replyTo?.id.toString(),
-        isOtherUser: data.owner.id.toString() != data?.replyTo.toString(),
+        responseTo: data.replyTo?.name,
+        responseToUserId: data.replyTo?.id.toString(),
+        isOtherUser: data.owner!.id.toString() != data.replyTo.toString(),
         previous: previous != null ? PostEntity.fromFeed(previous) : null,
         showRepostedText: data.isRepost,
         userProfileUrl: null,
         coverUrl: null,
-        reposterFullname: data?.reposter?.name,
+        reposterFullname: data.reposter?.name,
         urlForSharing: data.url,
-        postOwnerVerified: data.owner.verified.isVerifiedUser,
-        ogData: data?.ogData != null ? data?.ogData : null);
+        postOwnerVerified: data.owner!.verified!.isVerifiedUser,
+        ogData: data.ogData != null ? data.ogData : null);
   }
 
   PostEntity copyWith(
-      {String commentCount,
-      String description,
-      bool isAdvertisement,
-      bool isCommented,
-      bool isLiked,
-      bool isReposted,
-      String likeCount,
-      List<PostMedia> media,
-      String name,
-      int offSetId,
-      String postId,
-      String profileUrl,
-      String repostCount,
-      String time,
-      String userName,
-      bool isSaved,
-      int threadID,
-      List<PostEntity> replys,
-      PostEntity previous,
-      String responseTo,
-      bool isConnected,
-      bool showRepostedText,
-      bool isReplyItem,
-      String parentPostTime,
-      bool showFullDivider,
-      String parentPostUsername,
-      String reposterFullname,
-      String responseToUserId,
-      bool isOtherUser,
+      {String? commentCount,
+      String? description,
+      bool? isAdvertisement,
+      bool? isCommented,
+      bool? isLiked,
+      bool? isReposted,
+      String? likeCount,
+      List<PostMedia>? media,
+      String? name,
+      int? offSetId,
+      String? postId,
+      String? profileUrl,
+      String? repostCount,
+      String? time,
+      String? userName,
+      bool? isSaved,
+      int? threadID,
+      List<PostEntity>? replys,
+      PostEntity? previous,
+      String? responseTo,
+      bool? isConnected,
+      bool? showRepostedText,
+      bool? isReplyItem,
+      String? parentPostTime,
+      bool? showFullDivider,
+      String? parentPostUsername,
+      String? reposterFullname,
+      String? responseToUserId,
+      bool? isOtherUser,
       final ogData
       // OgDataClass1 ogData
 
@@ -328,34 +326,34 @@ class PostEntity extends Equatable {
   }
 
   @override
-  List<Object> get props => [likeCount, repostCount, commentCount, postId];
+  List<Object?> get props => [likeCount, repostCount, commentCount, postId];
 }
 
 class AdvertisementEntity {
   final String adTitle;
-  final String adSubTitle;
-  final String adMediaUrl;
-  final String bodyText;
-  final String adWebsite;
-  final String onClickUrl;
-  final String advertiserName;
-  final String advertiserUsername;
-  final String advertiserProfileUrl;
+  final String? adSubTitle;
+  final String? adMediaUrl;
+  final String? bodyText;
+  final String? adWebsite;
+  final String? onClickUrl;
+  final String? advertiserName;
+  final String? advertiserUsername;
+  final String? advertiserProfileUrl;
   final bool isVerified;
-  final String time;
+  final String? time;
 
   AdvertisementEntity._(
-      {@required this.adTitle,
-      @required this.adSubTitle,
-      @required this.adMediaUrl,
-      @required this.bodyText,
-      @required this.adWebsite,
-      @required this.onClickUrl,
-      @required this.advertiserName,
-      @required this.advertiserUsername,
-      @required this.advertiserProfileUrl,
-      @required this.isVerified,
-      @required this.time});
+      {required this.adTitle,
+      required this.adSubTitle,
+      required this.adMediaUrl,
+      required this.bodyText,
+      required this.adWebsite,
+      required this.onClickUrl,
+      required this.advertiserName,
+      required this.advertiserUsername,
+      required this.advertiserProfileUrl,
+      required this.isVerified,
+      required this.time});
 
   factory AdvertisementEntity.fromAdsResponse(AdvertisementResponse data) {
     return AdvertisementEntity._(
@@ -365,10 +363,10 @@ class AdvertisementEntity {
         bodyText: data.cta,
         adWebsite: data.domain,
         onClickUrl: data.targetUrl,
-        advertiserName: data.owner.name,
-        advertiserUsername: data.owner.username,
-        advertiserProfileUrl: data.owner.avatar,
-        isVerified: data.owner.id == 1 ? true : false,
+        advertiserName: data.owner!.name,
+        advertiserUsername: data.owner!.username,
+        advertiserProfileUrl: data.owner!.avatar,
+        isVerified: data.owner!.id == 1 ? true : false,
         time: data.time);
   }
 }

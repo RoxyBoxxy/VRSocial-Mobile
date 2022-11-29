@@ -3,7 +3,8 @@ import 'package:share/share.dart';
 
 @injectable
 class MySocialShare {
-  shareToOtherPlatforms({List<String> files = const [], String text}) async {
+  shareToOtherPlatforms(
+      {List<String>? files = const [], required String text}) async {
     // files.forEach((element) {
     //   text="$text\n $element";
     // });

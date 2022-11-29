@@ -3,6 +3,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:colibri/core/routes/routes.gr.dart';
 import 'package:colibri/core/theme/colors.dart';
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_store/flutter_cache_store.dart';
 import 'package:html/dom.dart' as htmlDom;
@@ -24,40 +25,40 @@ class SimpleUrlPreviewWeb extends StatefulWidget {
   final double previewHeight;
 
   /// Whether or not to show close button for the preview
-  final bool isClosable;
+  final bool? isClosable;
 
   /// Background color
-  final Color bgColor;
+  final Color? bgColor;
 
   /// Style of Title.
-  final TextStyle titleStyle;
+  final TextStyle? titleStyle;
 
   /// Number of lines for Title. (Max possible lines = 2)
   final int titleLines;
 
   /// Style of Description
-  final TextStyle descriptionStyle;
+  final TextStyle? descriptionStyle;
 
   /// Number of lines for Description. (Max possible lines = 3)
   final int descriptionLines;
 
   /// Style of site title
-  final TextStyle siteNameStyle;
+  final TextStyle? siteNameStyle;
 
   /// Color for loader icon shown, till image loads
-  final Color imageLoaderColor;
+  final Color? imageLoaderColor;
 
   /// Container padding
-  final EdgeInsetsGeometry previewContainerPadding;
+  final EdgeInsetsGeometry? previewContainerPadding;
 
   /// onTap URL preview, by default opens URL in default browser
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   final bool homePagePostCreate;
-  final Function clearText;
+  final Function? clearText;
 
   SimpleUrlPreviewWeb(
-      {@required this.url,
+      {required this.url,
       this.previewHeight = 130.0,
       this.isClosable,
       this.bgColor,
@@ -83,19 +84,19 @@ class SimpleUrlPreviewWeb extends StatefulWidget {
 }
 
 class _SimpleUrlPreviewWebState extends State<SimpleUrlPreviewWeb> {
-  Map _urlPreviewData;
+  Map? _urlPreviewData;
   bool _isVisible = true;
-  bool _isClosable;
-  double _previewHeight;
-  Color _bgColor;
-  TextStyle _titleStyle;
-  int _titleLines;
-  TextStyle _descriptionStyle;
-  int _descriptionLines;
-  TextStyle _siteNameStyle;
-  Color _imageLoaderColor;
-  EdgeInsetsGeometry _previewContainerPadding;
-  VoidCallback _onTap;
+  late bool _isClosable;
+  double? _previewHeight;
+  Color? _bgColor;
+  TextStyle? _titleStyle;
+  int? _titleLines;
+  TextStyle? _descriptionStyle;
+  int? _descriptionLines;
+  TextStyle? _siteNameStyle;
+  Color? _imageLoaderColor;
+  EdgeInsetsGeometry? _previewContainerPadding;
+  VoidCallback? _onTap;
 
   bool isVideoPlay = false;
   //widget.homePagePostCreate true close icon show : -
@@ -156,7 +157,7 @@ class _SimpleUrlPreviewWebState extends State<SimpleUrlPreviewWeb> {
       return;
     }
 
-    if (data != null && data.isNotEmpty) {
+    if (data.isNotEmpty) {
       setState(() {
         _urlPreviewData = data;
         _isVisible = true;
@@ -165,9 +166,9 @@ class _SimpleUrlPreviewWebState extends State<SimpleUrlPreviewWeb> {
   }
 
   void _extractOGData(htmlDom.Document document, Map data, String parameter) {
-    var titleMetaTag = document.getElementsByTagName("meta")?.firstWhere(
-        (meta) => meta.attributes['property'] == parameter,
-        orElse: () => null);
+    var titleMetaTag = document
+        .getElementsByTagName("meta")
+        ?.firstWhereOrNull((meta) => meta.attributes['property'] == parameter);
     if (titleMetaTag != null) {
       data[parameter] = titleMetaTag.attributes['content'];
     }
@@ -232,7 +233,7 @@ class _SimpleUrlPreviewWebState extends State<SimpleUrlPreviewWeb> {
                   child: InkWell(
                     onTap: () {
                       // _onTap();
-                      widget.clearText();
+                      widget.clearText!();
                     },
                     child: Container(
                       height: 20,
@@ -284,7 +285,7 @@ class _SimpleUrlPreviewWebState extends State<SimpleUrlPreviewWeb> {
         children: [
           Expanded(
               child: PreviewImage(
-            _urlPreviewData['og:image'],
+            _urlPreviewData!['og:image'],
             _imageLoaderColor,
           )),
           Container(
@@ -295,7 +296,7 @@ class _SimpleUrlPreviewWebState extends State<SimpleUrlPreviewWeb> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 PreviewTitle(
-                  _urlPreviewData['og:title'],
+                  _urlPreviewData!['og:title'],
                   _titleStyle == null
                       ? const TextStyle(
                           fontWeight: FontWeight.w500,
@@ -303,18 +304,18 @@ class _SimpleUrlPreviewWebState extends State<SimpleUrlPreviewWeb> {
                           fontFamily: "CeraPro",
                           color: Colors.black,
                         )
-                      : _titleStyle,
+                      : _titleStyle!,
                   1,
                   // _titleLines
                 ),
                 PreviewDescription(
-                  _urlPreviewData['og:description'],
+                  _urlPreviewData!['og:description'],
                   _descriptionStyle == null
                       ? const TextStyle(
                           fontSize: 10,
                           color: Colors.black,
                         )
-                      : _descriptionStyle,
+                      : _descriptionStyle!,
                   2,
 
                   // _descriptionLines,
@@ -341,7 +342,7 @@ class _SimpleUrlPreviewWebState extends State<SimpleUrlPreviewWeb> {
 /// Shows site name of URL
 class PreviewSiteName extends StatelessWidget {
   final String _siteName;
-  final TextStyle _textStyle;
+  final TextStyle? _textStyle;
 
   PreviewSiteName(this._siteName, this._textStyle);
 
@@ -362,8 +363,8 @@ class PreviewSiteName extends StatelessWidget {
 
 /// Shows image of URL
 class PreviewImage extends StatelessWidget {
-  final String _image;
-  final Color _imageLoaderColor;
+  final String? _image;
+  final Color? _imageLoaderColor;
 
   PreviewImage(this._image, this._imageLoaderColor);
 
@@ -375,7 +376,7 @@ class PreviewImage extends StatelessWidget {
         borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(10), topRight: Radius.circular(10)),
         child: CachedNetworkImage(
-          imageUrl: _image,
+          imageUrl: _image!,
           width: MediaQuery.of(context).size.width,
           fit: BoxFit.fill,
 

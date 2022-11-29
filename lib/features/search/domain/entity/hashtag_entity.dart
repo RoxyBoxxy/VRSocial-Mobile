@@ -1,14 +1,12 @@
-
 import 'package:colibri/features/search/data/models/hashtags_response.dart';
-import 'package:flutter/foundation.dart';
 
 class HashTagEntity {
   final String id;
-  final String name;
-  final String totalPosts;
+  final String? name;
+  final String? totalPosts;
 
   HashTagEntity._(
-      {@required this.id, @required this.name, @required this.totalPosts});
+      {required this.id, required this.name, required this.totalPosts});
 
   factory HashTagEntity.fromHashTag(HashTag item) {
     return HashTagEntity._(

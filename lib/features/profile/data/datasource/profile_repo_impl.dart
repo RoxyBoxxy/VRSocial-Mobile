@@ -29,29 +29,29 @@ import 'package:colibri/extensions.dart';
 
 @Injectable(as: ProfileRepo)
 class ProfileRepoImpl extends ProfileRepo {
-  final ApiHelper apiHelper;
-  final LocalDataSource localDataSource;
-  final GoogleSignIn _googleSignIn;
+  final ApiHelper? apiHelper;
+  final LocalDataSource? localDataSource;
+  final GoogleSignIn? _googleSignIn;
   ProfileRepoImpl(this.apiHelper, this.localDataSource, this._googleSignIn);
 
   // passing null to the this function will add current user id to request object
   @override
   Future<Either<Failure, ProfileEntity>> getProfileData(
-      String userIdOrUsername) async {
-    var loginResponse = await localDataSource.getUserData();
+      String? userIdOrUsername) async {
+    var loginResponse = await localDataSource!.getUserData();
     var map = {};
     //// if we have username like [null] or same1, john2 etc
     if (userIdOrUsername == null || int.tryParse(userIdOrUsername) != null) {
       map.addAll(
-          {"user_id": userIdOrUsername ?? loginResponse.data.user.userId});
+          {"user_id": userIdOrUsername ?? loginResponse!.data!.user!.userId});
     }
     // if the argument is parsed to int successfully then we have user id like 5421,5688 etc
     else {
       map.addAll({"username": userIdOrUsername});
     }
 
-    var either = await apiHelper.get(ApiConstants.profile,
-        queryParameters: HashMap.from(map));
+    var either = await apiHelper!
+        .get(ApiConstants.profile, queryParameters: HashMap.from(map));
     return either.fold((l) => left(l), (r) {
       var profileResponse = ProfileResponse.fromJson(r.data);
       var profileEntity = ProfileEntity.fromProfileResponse(
@@ -63,21 +63,21 @@ class ProfileRepoImpl extends ProfileRepo {
   @override
   Future<Either<Failure, List<PostEntity>>> getUserPostByCategory(
       PostCategoryModel model) async {
-    var loginResponse = await localDataSource.getUserData();
+    var loginResponse = await localDataSource!.getUserData();
     var map = {
-      "user_id": model.userId ?? loginResponse.data.user.userId.toString(),
+      "user_id": model.userId ?? loginResponse!.data!.user!.userId.toString(),
       "page_size": ApiConstants.pageSize,
-      "offset": model.offSetId?.toString(),
+      "offset": model.offSetId.toString(),
       "type": _getPostType(model.postCategory),
     };
     // if(model.offSetId!=null)map.addAll({"offset":model.offSetId.toString()});
     var either =
-        await apiHelper.get(ApiConstants.profilePosts, queryParameters: map);
+        await apiHelper!.get(ApiConstants.profilePosts, queryParameters: map);
     return either.fold(
         (l) => left(l),
         (r) => right(ProfilePostResponse.fromJson(r.data)
-            .data
-            .posts
+            .data!
+            .posts!
             .map((e) => PostEntity.fromProfilePosts(e))
             .toList()));
   }
@@ -91,11 +91,11 @@ class ProfileRepoImpl extends ProfileRepo {
     };
     // if(model.offSetId!=null)map.addAll({"offset":model.offSetId.toString()});
     var either =
-        await apiHelper.get(ApiConstants.getBookmarks, queryParameters: map);
+        await apiHelper!.get(ApiConstants.getBookmarks, queryParameters: map);
     return either.fold(
         (l) => left(l),
         (r) => right(BookmarksResponse.fromJson(r.data)
-            .data
+            .data!
             .map((e) => PostEntity.fromFeed(e))
             .toList()));
   }
@@ -103,48 +103,48 @@ class ProfileRepoImpl extends ProfileRepo {
   @override
   Future<Either<Failure, List<FollowerEntity>>> getFollower(
       PostCategoryModel model) async {
-    var loginResponse = await localDataSource.getUserData();
+    var loginResponse = await localDataSource!.getUserData();
     var map = {
-      "user_id": model.userId ?? loginResponse.data.user.userId.toString(),
+      "user_id": model.userId ?? loginResponse!.data!.user!.userId.toString(),
       "page_size": ApiConstants.pageSize,
       "offset": model.offSetId,
     };
     final either =
-        await apiHelper.get(ApiConstants.fetchFollowers, queryParameters: map);
+        await apiHelper!.get(ApiConstants.fetchFollowers, queryParameters: map);
     return either.fold(
         (l) => left(l),
         (r) => right(FollowersResponse.fromJson(r.data)
-            .data
+            .data!
             .map((e) => FollowerEntity.fromResponse(
-                e, loginResponse.data.user.userId == e.id))
+                e, loginResponse!.data!.user!.userId == e.id))
             .toList()));
   }
 
   @override
   Future<Either<Failure, List<FollowerEntity>>> getFollowing(
       PostCategoryModel model) async {
-    final loginResponse = await localDataSource.getUserData();
+    final loginResponse = await localDataSource!.getUserData();
     final map = {
-      "user_id": model.userId ?? loginResponse.data.user.userId.toString(),
+      "user_id": model.userId ?? loginResponse!.data!.user!.userId.toString(),
       "page_size": ApiConstants.pageSize,
       "offset": model.offSetId,
     };
     var either =
-        await apiHelper.get(ApiConstants.fetchFollowing, queryParameters: map);
+        await apiHelper!.get(ApiConstants.fetchFollowing, queryParameters: map);
     return either.fold(
         (l) => left(l),
         (r) => right(FollowersResponse.fromJson(r.data)
-            .data
+            .data!
             .map((e) => FollowerEntity.fromResponse(
-                e, loginResponse.data.user.userId == e.id))
+                e, loginResponse!.data!.user!.userId == e.id))
             .toList()));
   }
 
   // it can accept both user id i.e of int type and username i.e type of string
   @override
   Future<Either<Failure, dynamic>> followUnFollow(String userId) async =>
-      await apiHelper.post(
-          ApiConstants.follow, HashMap.from({"user_id": userId}));
+      await apiHelper!
+          .post(ApiConstants.follow, HashMap.from({"user_id": userId}));
 
   @override
   Future<Either<Failure, SettingEntity>> getUserSettings() async {
@@ -161,40 +161,40 @@ class ProfileRepoImpl extends ProfileRepo {
 
   @override
   Future<Either<Failure, AccountPrivacyEntity>> getUserPrivacySettings() async {
-    final either = await apiHelper.get(ApiConstants.privacySettings);
+    final either = await apiHelper!.get(ApiConstants.privacySettings);
     return either.fold((l) => left(l), (r) {
       final privacyResponse = PrivacyResponse.fromJson(r.data);
-      return right(AccountPrivacyEntity.fromResponse(privacyResponse.data));
+      return right(AccountPrivacyEntity.fromResponse(privacyResponse.data!));
     });
   }
 
   @override
   Future<Either<Failure, dynamic>> updateUserSetting(
       UpdateSettingsRequestModel model) async {
-    var either = await apiHelper.post(
-        ApiConstants.updateUserSettings, HashMap.from(model.toJson()));
+    var either = await apiHelper!
+        .post(ApiConstants.updateUserSettings, HashMap.from(model.toJson()));
     return either.fold((l) => left(l), (r) => right(r));
   }
 
   @override
   Future<Either<Failure, dynamic>> updatePassword(
           UpdatePasswordRequest model) async =>
-      await apiHelper.post(
-          ApiConstants.changePassword, HashMap.from(model.toJson()));
+      await apiHelper!
+          .post(ApiConstants.changePassword, HashMap.from(model.toJson()));
 
   @override
   Future<Either<Failure, dynamic>> updatePrivacy(
           AccountPrivacyEntity model) async =>
-      await apiHelper.post(ApiConstants.updatePrivacySettings,
+      await apiHelper!.post(ApiConstants.updatePrivacySettings,
           HashMap.from(model.toModelJson()));
 
   @override
   Future<Either<Failure, dynamic>> logOutUser() async {
-    var post = await apiHelper.post(ApiConstants.logOut, HashMap());
+    var post = await apiHelper!.post(ApiConstants.logOut, HashMap());
     return post.fold((l) => left(l), (r) async {
-      await localDataSource.clearData();
+      await localDataSource!.clearData();
       await PushNotificationHelper.unregister();
-      await _googleSignIn.signOut();
+      await _googleSignIn!.signOut();
       await FacebookLogin().logOut();
       return right(r);
     });
@@ -202,10 +202,10 @@ class ProfileRepoImpl extends ProfileRepo {
 
   @override
   Future<Either<Failure, dynamic>> deleteAccount(String password) async {
-    final either = await apiHelper.post(
-        ApiConstants.deleteAccount, HashMap.from({"password": password}));
+    final either = await apiHelper!
+        .post(ApiConstants.deleteAccount, HashMap.from({"password": password}));
     return either.fold((l) => left(l), (r) async {
-      await localDataSource.clearData();
+      await localDataSource!.clearData();
       ExtendedNavigator.root
           .pushAndRemoveUntil(Routes.loginScreen, (route) => false);
       return right(r);
@@ -216,41 +216,41 @@ class ProfileRepoImpl extends ProfileRepo {
   Future<Either<Failure, dynamic>> verifyUserAccount(
       VerifyRequestModel verifyRequestModel) async {
     final map = await verifyRequestModel.toMap;
-    return apiHelper.post(ApiConstants.verifyUser, map);
+    return apiHelper!.post(ApiConstants.verifyUser, map);
   }
 
   @override
-  Future<Either<Failure, String>> changeLanguage(String lang) async {
-    final either = await apiHelper.post(
-        ApiConstants.changeLanguage, HashMap.from({"lang_name": lang}));
+  Future<Either<Failure, String?>> changeLanguage(String lang) async {
+    final either = await apiHelper!
+        .post(ApiConstants.changeLanguage, HashMap.from({"lang_name": lang}));
     return either.fold((l) => left(l), (r) => right(r.data["message"]));
   }
 
   @override
-  Future<Either<Failure, String>> updateAvatar(String image) async {
-    final either = await apiHelper.post(ApiConstants.updateAvatar,
+  Future<Either<Failure, String?>> updateAvatar(String image) async {
+    final either = await apiHelper!.post(ApiConstants.updateAvatar,
         HashMap.from({"avatar": await image.toMultiPart()}));
     return either.fold((l) => left(l), (r) => right(r.data["message"]));
   }
 
   @override
-  Future<Either<Failure, String>> updateCover(String image) async {
-    final either = await apiHelper.post(ApiConstants.updateCover,
+  Future<Either<Failure, String?>> updateCover(String image) async {
+    final either = await apiHelper!.post(ApiConstants.updateCover,
         HashMap.from({"cover": await image.toMultiPart()}));
     return either.fold((l) => left(l), (r) => right(r.data["message"]));
   }
 
   @override
   Future<Either<Failure, bool>> getLoginMode() async {
-    final sl = await localDataSource.didSocialLoggedIn();
-    if (sl != null && sl) {
+    final sl = await localDataSource!.didSocialLoggedIn();
+    if (sl) {
       return const Right(true);
     } else
       return Left(NoDataFoundFailure(""));
   }
 }
 
-String _getPostType(PostCategory type) {
+String? _getPostType(PostCategory? type) {
   switch (type) {
     case PostCategory.POSTS:
       return "posts";

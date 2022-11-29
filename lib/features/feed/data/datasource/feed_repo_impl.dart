@@ -12,8 +12,8 @@ import 'package:injectable/injectable.dart';
 
 @Injectable(as: FeedRepo)
 class FeedRepoImpl extends FeedRepo {
-  final ApiHelper apiHelper;
-  final LocalDataSource localDataSource;
+  final ApiHelper? apiHelper;
+  final LocalDataSource? localDataSource;
   // int requestCount=0;
   FeedRepoImpl(this.apiHelper, this.localDataSource);
 
@@ -22,14 +22,14 @@ class FeedRepoImpl extends FeedRepo {
     print("fetching apis");
     // requestCount=requestCount+1;
     var queryMap = {"page_size": ApiConstants.pageSize.toString()};
-    if (pageKey != null && pageKey.isNotEmpty && pageKey != "0")
+    if (pageKey.isNotEmpty && pageKey != "0")
       queryMap.addAll({"offset": pageKey});
     var response =
-        await apiHelper.get(ApiConstants.feeds, queryParameters: queryMap);
+        await apiHelper!.get(ApiConstants.feeds, queryParameters: queryMap);
     return response.fold((l) => left(l), (r) {
       return right(FeedResponse.fromJson(r.data)
-          .data
-          .feeds
+          .data!
+          .feeds!
           .map((e) =>
               PostEntity.fromFeed(e).copyWith(parentPostUsername: e.username))
           .toList());
@@ -38,14 +38,15 @@ class FeedRepoImpl extends FeedRepo {
 
   @override
   Future<Either<Failure, List<PostEntity>>> saveNotificationToken() async {
-    if (await localDataSource.isUserLoggedIn()) {
-      final pushToken = await localDataSource.getPushToken();
-      await apiHelper.post(
+    if (await localDataSource!.isUserLoggedIn()) {
+      final pushToken = await localDataSource!.getPushToken();
+      await apiHelper!.post(
           ApiConstants.saveNotificationToken,
           HashMap.from({
             "token": pushToken,
             "type": Platform.isAndroid ? "android" : "ios"
           }));
     }
+    return right([]);
   }
 }

@@ -3,6 +3,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:colibri/core/theme/colors.dart';
 import 'package:colibri/features/feed/domain/entity/post_entity.dart';
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:flutter_cache_store/flutter_cache_store.dart';
@@ -25,43 +26,43 @@ class SimpleUrlPreview extends StatefulWidget {
   final double previewHeight;
 
   /// Whether or not to show close button for the preview
-  final bool isClosable;
+  final bool? isClosable;
 
   /// Background color
-  final Color bgColor;
+  final Color? bgColor;
 
   /// Style of Title.
-  final TextStyle titleStyle;
+  final TextStyle? titleStyle;
 
   /// Number of lines for Title. (Max possible lines = 2)
   final int titleLines;
 
   /// Style of Description
-  final TextStyle descriptionStyle;
+  final TextStyle? descriptionStyle;
 
   /// Number of lines for Description. (Max possible lines = 3)
   final int descriptionLines;
 
   /// Style of site title
-  final TextStyle siteNameStyle;
+  final TextStyle? siteNameStyle;
 
   /// Color for loader icon shown, till image loads
-  final Color imageLoaderColor;
+  final Color? imageLoaderColor;
 
   /// Container padding
-  final EdgeInsetsGeometry previewContainerPadding;
+  final EdgeInsetsGeometry? previewContainerPadding;
 
   /// onTap URL preview, by default opens URL in default browser
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   final bool homePagePostCreate;
-  final Function clearText;
+  final Function? clearText;
 
-  final PostEntity postEntity;
-  final Function onClickAction;
+  final PostEntity? postEntity;
+  final Function? onClickAction;
 
   SimpleUrlPreview(
-      {@required this.url,
+      {required this.url,
       this.previewHeight = 130.0,
       this.isClosable,
       this.bgColor,
@@ -89,19 +90,19 @@ class SimpleUrlPreview extends StatefulWidget {
 }
 
 class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
-  Map _urlPreviewData;
+  Map? _urlPreviewData;
   bool _isVisible = true;
-  bool _isClosable;
-  double _previewHeight;
-  Color _bgColor;
-  TextStyle _titleStyle;
-  int _titleLines;
-  TextStyle _descriptionStyle;
-  int _descriptionLines;
-  TextStyle _siteNameStyle;
-  Color _imageLoaderColor;
-  EdgeInsetsGeometry _previewContainerPadding;
-  VoidCallback _onTap;
+  late bool _isClosable;
+  double? _previewHeight;
+  Color? _bgColor;
+  TextStyle? _titleStyle;
+  int? _titleLines;
+  TextStyle? _descriptionStyle;
+  int? _descriptionLines;
+  TextStyle? _siteNameStyle;
+  Color? _imageLoaderColor;
+  EdgeInsetsGeometry? _previewContainerPadding;
+  VoidCallback? _onTap;
 
   bool isVideoPlay = false;
   //widget.homePagePostCreate true close icon show : -
@@ -163,7 +164,7 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
       return;
     }
 
-    if (data != null && data.isNotEmpty) {
+    if (data.isNotEmpty) {
       setState(() {
         _urlPreviewData = data;
         _isVisible = true;
@@ -172,9 +173,9 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
   }
 
   void _extractOGData(htmlDom.Document document, Map data, String parameter) {
-    var titleMetaTag = document.getElementsByTagName("meta")?.firstWhere(
-        (meta) => meta.attributes['property'] == parameter,
-        orElse: () => null);
+    var titleMetaTag = document
+        .getElementsByTagName("meta")
+        ?.firstWhereOrNull((meta) => meta.attributes['property'] == parameter);
     if (titleMetaTag != null) {
       data[parameter] = titleMetaTag.attributes['content'];
     }
@@ -185,7 +186,7 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
     // setState(() {});
 
     YoutubePlayerController _controller = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(widget.url),
+      initialVideoId: YoutubePlayer.convertUrlToId(widget.url)!,
       flags: const YoutubePlayerFlags(
         autoPlay: true,
         mute: false,
@@ -256,7 +257,7 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    widget.onClickAction(0);
+                                    widget.onClickAction!(0);
                                     Future.delayed(Duration(milliseconds: 300),
                                         () {
                                       setState(() {});
@@ -280,8 +281,7 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
                                           padding: const EdgeInsets.only(
                                               bottom: 0, left: 5),
                                           child: Text(
-                                              widget?.postEntity
-                                                      ?.commentCount ??
+                                              widget.postEntity?.commentCount ??
                                                   "0",
                                               style: const TextStyle(
                                                   color: Color(0xFFFFFFFF),
@@ -302,7 +302,7 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    widget.onClickAction(1);
+                                    widget.onClickAction!(1);
                                     Future.delayed(Duration(milliseconds: 50),
                                         () {
                                       setState(() {});
@@ -319,13 +319,13 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
                                               height: 20,
                                               width: 20,
                                               image: AssetImage(widget
-                                                          ?.postEntity
+                                                          .postEntity
                                                           ?.isLiked ??
                                                       false
                                                   ? "images/png_image/heart.png"
                                                   : "images/png_image/white_like.png"),
                                               color:
-                                                  widget?.postEntity?.isLiked ??
+                                                  widget.postEntity?.isLiked ??
                                                           false
                                                       ? Colors.red
                                                       : Color(0xFFFFFFFF))),
@@ -336,10 +336,10 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
                                           padding: const EdgeInsets.only(
                                               bottom: 0, left: 5),
                                           child: Text(
-                                              widget?.postEntity?.likeCount ??
+                                              widget.postEntity?.likeCount ??
                                                   "0",
                                               style: TextStyle(
-                                                  color: widget?.postEntity
+                                                  color: widget.postEntity
                                                               ?.isLiked ??
                                                           false
                                                       ? Colors.red
@@ -359,7 +359,7 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    widget.onClickAction(2);
+                                    widget.onClickAction!(2);
                                     ExtendedNavigator.root.pop();
                                     // Future.delayed(Duration(milliseconds: 300), () {
                                     //   // setState(() {});
@@ -377,7 +377,7 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
                                               height: 20,
                                               width: 20,
                                               image: AssetImage(widget
-                                                          ?.postEntity
+                                                          .postEntity
                                                           ?.isReposted ??
                                                       false
                                                   ? "images/png_image/blur_share.png"
@@ -386,10 +386,10 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
                                           padding: const EdgeInsets.only(
                                               bottom: 0, left: 5),
                                           child: Text(
-                                              widget?.postEntity?.repostCount ??
+                                              widget.postEntity?.repostCount ??
                                                   "0",
                                               style: TextStyle(
-                                                  color: widget?.postEntity
+                                                  color: widget.postEntity
                                                               ?.isReposted ??
                                                           false
                                                       ? AppColors.alertBg
@@ -429,7 +429,7 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    widget.onClickAction(3);
+                                    widget.onClickAction!(3);
                                     Future.delayed(Duration(milliseconds: 300),
                                         () {
                                       setState(() {});
@@ -506,7 +506,7 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
                   child: InkWell(
                     onTap: () {
                       // _onTap();
-                      widget.clearText();
+                      widget.clearText!();
                     },
                     child: Container(
                       height: 20,
@@ -523,7 +523,7 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
                   alignment: Alignment.topCenter,
                   child: InkWell(
                     onTap: () {
-                      _onTap();
+                      _onTap!();
                     },
                     child: Container(
                       height: 35,
@@ -574,7 +574,7 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
         children: [
           Expanded(
               child: PreviewImage(
-            _urlPreviewData['og:image'],
+            _urlPreviewData!['og:image'],
             _imageLoaderColor,
           )),
           Container(
@@ -586,7 +586,7 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 PreviewTitle(
-                  _urlPreviewData['og:title'],
+                  _urlPreviewData!['og:title'],
                   _titleStyle == null
                       ? const TextStyle(
                           fontWeight: FontWeight.w500,
@@ -594,18 +594,18 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
                           fontFamily: "CeraPro",
                           color: Colors.black,
                         )
-                      : _titleStyle,
+                      : _titleStyle!,
                   1,
                   // _titleLines
                 ),
                 PreviewDescription(
-                  _urlPreviewData['og:description'],
+                  _urlPreviewData!['og:description'],
                   _descriptionStyle == null
                       ? const TextStyle(
                           fontSize: 10,
                           color: Colors.black,
                         )
-                      : _descriptionStyle,
+                      : _descriptionStyle!,
                   2,
 
                   // _descriptionLines,
@@ -632,7 +632,7 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
 /// Shows site name of URL
 class PreviewSiteName extends StatelessWidget {
   final String _siteName;
-  final TextStyle _textStyle;
+  final TextStyle? _textStyle;
 
   PreviewSiteName(this._siteName, this._textStyle);
 
@@ -653,8 +653,8 @@ class PreviewSiteName extends StatelessWidget {
 
 /// Shows image of URL
 class PreviewImage extends StatelessWidget {
-  final String _image;
-  final Color _imageLoaderColor;
+  final String? _image;
+  final Color? _imageLoaderColor;
 
   PreviewImage(this._image, this._imageLoaderColor);
 
@@ -666,7 +666,7 @@ class PreviewImage extends StatelessWidget {
         borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(10), topRight: Radius.circular(10)),
         child: CachedNetworkImage(
-          imageUrl: _image,
+          imageUrl: _image!,
           width: MediaQuery.of(context).size.width,
           fit: BoxFit.fill,
 

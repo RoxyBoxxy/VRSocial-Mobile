@@ -6,11 +6,11 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class RepostUseCase extends UseCase<dynamic, String> {
-  final PostRepo postRepo;
+  final PostRepo? postRepo;
 
   RepostUseCase(this.postRepo);
   @override
   Future<Either<Failure, dynamic>> call(String params) {
-    return postRepo.repost(params);
+    return postRepo!.repost(params);
   }
 }

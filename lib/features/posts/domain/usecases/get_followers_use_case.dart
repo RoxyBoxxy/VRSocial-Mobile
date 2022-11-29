@@ -9,11 +9,11 @@ import 'package:injectable/injectable.dart';
 @injectable
 class GetFollowersUseCase
     extends UseCase<List<FollowerEntity>, PostCategoryModel> {
-  final ProfileRepo profileRepo;
+  final ProfileRepo? profileRepo;
 
   GetFollowersUseCase(this.profileRepo);
   @override
   Future<Either<Failure, List<FollowerEntity>>> call(
           PostCategoryModel params) =>
-      profileRepo.getFollower(params);
+      profileRepo!.getFollower(params);
 }

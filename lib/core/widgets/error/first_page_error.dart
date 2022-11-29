@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class CustomFirstPageView extends StatelessWidget {
   const CustomFirstPageView({
     this.onTryAgain,
-    Key key,
+    Key? key,
   }) : super(key: key);
 
-  final VoidCallback onTryAgain;
+  final VoidCallback? onTryAgain;
 
   @override
   Widget build(BuildContext context) => FirstPageExceptionIndicator(
@@ -19,15 +19,14 @@ class CustomFirstPageView extends StatelessWidget {
 
 class FirstPageExceptionIndicator extends StatelessWidget {
   const FirstPageExceptionIndicator({
-    @required this.title,
+    required this.title,
     this.message,
     this.onTryAgain,
-    Key key,
-  })  : assert(title != null),
-        super(key: key);
+    Key? key,
+  }) : super(key: key);
   final String title;
-  final String message;
-  final VoidCallback onTryAgain;
+  final String? message;
+  final VoidCallback? onTryAgain;
 
   @override
   Widget build(BuildContext context) => Center(
@@ -46,7 +45,7 @@ class FirstPageExceptionIndicator extends StatelessWidget {
                 ),
               if (message != null)
                 Text(
-                  message,
+                  message!,
                   textAlign: TextAlign.center,
                 ),
               if (onTryAgain != null)

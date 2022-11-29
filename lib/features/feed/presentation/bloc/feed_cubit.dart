@@ -21,6 +21,7 @@ import 'package:colibri/features/posts/domain/usecases/delete_post_use_case.dart
 import 'package:colibri/features/posts/domain/usecases/log_out_use_case.dart';
 import 'package:colibri/features/posts/presentation/bloc/like_unlike_mixin.dart';
 import 'package:colibri/features/profile/domain/entity/profile_entity.dart';
+import 'package:collection/collection.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
@@ -56,27 +57,27 @@ class FeedCubit extends PostPaginatonCubit<PostEntity, CommonUIState>
   // Stream<bool> get enablePublishButton=>
 
   // use cases
-  final GetFeedPostUseCase getFeedPostUseCase;
+  final GetFeedPostUseCase? getFeedPostUseCase;
 
-  final GetDrawerDataUseCase getDrawerUseCase;
+  final GetDrawerDataUseCase? getDrawerUseCase;
 
-  final UploadMediaUseCase uploadMediaUseCase;
+  final UploadMediaUseCase? uploadMediaUseCase;
 
-  final DeleteMediaUseCase deleteMediaUseCase;
+  final DeleteMediaUseCase? deleteMediaUseCase;
 
-  final CreatePostUseCase createPostUseCase;
+  final CreatePostUseCase? createPostUseCase;
 
-  final LikeUnlikeUseCase likeUnlikeUseCase;
+  final LikeUnlikeUseCase? likeUnlikeUseCase;
 
-  final RepostUseCase repostUseCase;
+  final RepostUseCase? repostUseCase;
 
-  final AddOrRemoveBookmarkUseCase addOrRemoveUseCase;
+  final AddOrRemoveBookmarkUseCase? addOrRemoveUseCase;
 
-  final DeletePostUseCase deletePostUseCase;
+  final DeletePostUseCase? deletePostUseCase;
 
-  final LogOutUseCase logOutUseCase;
+  final LogOutUseCase? logOutUseCase;
 
-  final SaveNotificationPushUseCase saveNotificationPushUseCase;
+  final SaveNotificationPushUseCase? saveNotificationPushUseCase;
 
   FeedCubit(
       this.getFeedPostUseCase,
@@ -93,8 +94,8 @@ class FeedCubit extends PostPaginatonCubit<PostEntity, CommonUIState>
       : super(const CommonUIState.initial());
 
   @override
-  Future<Either<Failure, List<PostEntity>>> getItems(int pageKey) async {
-    return await getFeedPostUseCase(pageKey.toString());
+  Future<Either<Failure, List<PostEntity>>?> getItems(int pageKey) async {
+    return await getFeedPostUseCase!(pageKey.toString());
   }
 
   @override
@@ -118,20 +119,21 @@ class FeedCubit extends PostPaginatonCubit<PostEntity, CommonUIState>
 
   @override
   Future likeUnlikePost(int index) async {
-    var item = pagingController.itemList[index];
-    pagingController.itemList[index] = item.copyWith(
-        isLiked: !item.isLiked,
-        likeCount: (item.isLiked ? item.likeCount.dec : item.likeCount.inc)
+    PostEntity item = pagingController.itemList![index];
+    pagingController.itemList![index] = item.copyWith(
+        isLiked: !item.isLiked!,
+        likeCount: (item.isLiked! ? item.likeCount!.dec : item.likeCount!.inc)
             .toString());
     pagingController.notifyListeners();
-    var either = await likeUnlikeUseCase(item.postId);
+    var either = await likeUnlikeUseCase!(item.postId);
     either.fold((l) {
-      var oldItem = pagingController.itemList[index];
-      pagingController.itemList[index] = oldItem.copyWith(
-          isLiked: !oldItem.isLiked,
-          likeCount:
-              (oldItem.isLiked ? oldItem.likeCount.dec : oldItem.likeCount.inc)
-                  .toString());
+      PostEntity oldItem = pagingController.itemList![index];
+      pagingController.itemList![index] = oldItem.copyWith(
+          isLiked: !oldItem.isLiked!,
+          likeCount: (oldItem.isLiked!
+                  ? oldItem.likeCount!.dec
+                  : oldItem.likeCount!.inc)
+              .toString());
       pagingController.notifyListeners();
       emit(CommonUIState.error(l.errorMessage));
       emit(const CommonUIState.initial());
@@ -140,44 +142,43 @@ class FeedCubit extends PostPaginatonCubit<PostEntity, CommonUIState>
 
   @override
   Future<void> deletePost(int index) async {
-    var either = await deletePostUseCase(
-        pagingController.itemList[index].postId.toString());
+    var either = await deletePostUseCase!(
+        pagingController.itemList![index].postId.toString());
     either.fold((l) {
       emit(const CommonUIState.initial());
       emit(CommonUIState.error(l.errorMessage));
     }, (r) {
       emit(const CommonUIState.initial());
       emit(const CommonUIState.success("Deleted Successfully"));
-      pagingController.itemList.removeAt(index);
+      pagingController.itemList!.removeAt(index);
       pagingController.notifyListeners();
     });
   }
 
   @override
   Future<void> repost(int index) async {
-    final item = pagingController.itemList[index];
-    final allItems = pagingController.itemList
+    final PostEntity item = pagingController.itemList![index];
+    final List<PostEntity> allItems = pagingController.itemList!
         .where((element) => element.postId == item.postId)
         .toList();
 
     /// case of removing reposted item
     /// if items is already reposteed
-    if (item?.showRepostedText == true && item.isReposted) {
+    if (item.showRepostedText == true && item.isReposted!) {
       /// if the reposted items is not owned by the other person
       /// current user is reposted this particular item
       /// or owner of the post is not the logged in current user but current user reposted the post
-      if (!item.isOtherUser || item.isReposted) {
+      if (!item.isOtherUser || item.isReposted!) {
         /// Firstly removed the item from the list
         ///
         /// find the reposted post item with having name of current user in reposted text
-        final firstWhere = pagingController.itemList.firstWhere(
-            (element) => element.postId == item.postId,
-            orElse: () => null);
+        final PostEntity? firstWhere = pagingController.itemList!
+            .firstWhereOrNull((element) => element.postId == item.postId);
         if (firstWhere != null) {
           /// remove post item
-          final removedIndex = pagingController.itemList.indexOf(firstWhere);
+          final removedIndex = pagingController.itemList!.indexOf(firstWhere);
           pagingController
-            ..itemList.removeAt(removedIndex)
+            ..itemList!.removeAt(removedIndex)
             ..notifyListeners();
 
           /// also removed from global list
@@ -185,12 +186,12 @@ class FeedCubit extends PostPaginatonCubit<PostEntity, CommonUIState>
 
           /// updated all items with new values
           allItems.asMap().forEach((index, value) {
-            pagingController.itemList[index] = value.copyWith(
-                isReposted: false, repostCount: value.repostCount.dec);
+            pagingController.itemList![index] = value.copyWith(
+                isReposted: false, repostCount: value.repostCount!.dec);
           });
         } else {
           pagingController
-            ..itemList.removeAt(index)
+            ..itemList!.removeAt(index)
             ..notifyListeners();
 
           /// get all items of that particular item (we have more more than one post of same id) so that we can update reposted count on each post
@@ -198,8 +199,8 @@ class FeedCubit extends PostPaginatonCubit<PostEntity, CommonUIState>
           /// assigning & updated resposted count and isResposted to false
           allItems.asMap().forEach((index, value) {
             pagingController
-              ..itemList[index] = value.copyWith(
-                  repostCount: value.repostCount.dec.toString(),
+              ..itemList![index] = value.copyWith(
+                  repostCount: value.repostCount!.dec.toString(),
                   isReposted: false)
               ..notifyListeners();
           });
@@ -215,19 +216,18 @@ class FeedCubit extends PostPaginatonCubit<PostEntity, CommonUIState>
       /// we don't remove the post from current index
       /// and add the same post as reposted post on the top of the list
       else {
-        final firstWhere = pagingController.itemList.firstWhere(
-            (element) => element.postId == item.postId,
-            orElse: () => null);
+        final PostEntity? firstWhere = pagingController.itemList!
+            .firstWhereOrNull((element) => element.postId == item.postId);
         if (firstWhere != null) {
           increaseRepostCount(allItems);
           // var index=pagingController.itemList.indexOf(firstWhere);
           /// at last we're adding reposted post on the top of the list
           pagingController
-            ..itemList.insert(
+            ..itemList!.insert(
                 0,
                 firstWhere.copyWith(
                     isReposted: true,
-                    repostCount: item.repostCount.inc.toString(),
+                    repostCount: item.repostCount!.inc.toString(),
                     showRepostedText: true,
                     reposterFullname: "You",
                     isOtherUser: false))
@@ -235,20 +235,20 @@ class FeedCubit extends PostPaginatonCubit<PostEntity, CommonUIState>
         } else {
           /// getting all post items with reposted or without reposted
           /// so that we can increase the repost count on each item
-          var list = pagingController.itemList
+          List<PostEntity> list = pagingController.itemList!
               .where((element) => element.postId == item.postId)
               .toList();
 
           /// all items with same post ids
           list.asMap().forEach((index, value) {
             /// updating the items with incremented reposted value
-            pagingController.itemList[index] = item.copyWith(
-                repostCount: item.repostCount.inc.toString(),
+            pagingController.itemList![index] = item.copyWith(
+                repostCount: item.repostCount!.inc.toString(),
                 isReposted: true,
                 reposterFullname:
-                    pagingController.itemList[index].reposterFullname,
+                    pagingController.itemList![index].reposterFullname,
                 showRepostedText:
-                    pagingController.itemList[index].showRepostedText);
+                    pagingController.itemList![index].showRepostedText);
           });
         }
       }
@@ -256,18 +256,17 @@ class FeedCubit extends PostPaginatonCubit<PostEntity, CommonUIState>
       // pagingController
       //   ..itemList[index] = item.copyWith(
       //       isReposted: true, repostCount: item.repostCount.inc.toString());
-      if (!item.isOtherUser && item.isReposted) {
+      if (!item.isOtherUser && item.isReposted!) {
         /// Firstly removed the item from the list
         ///
         /// find the reposted post item with having name of current user in reposted text
-        final firstWhere = pagingController.itemList.firstWhere(
-            (element) => element.postId == item.postId,
-            orElse: () => null);
+        final PostEntity? firstWhere = pagingController.itemList!
+            .firstWhereOrNull((element) => element.postId == item.postId);
         if (firstWhere != null) {
           /// remove post item
-          final removedIndex = pagingController.itemList.indexOf(firstWhere);
+          final removedIndex = pagingController.itemList!.indexOf(firstWhere);
           pagingController
-            ..itemList.removeAt(removedIndex)
+            ..itemList!.removeAt(removedIndex)
             ..notifyListeners();
 
           /// also removed from global list
@@ -275,12 +274,12 @@ class FeedCubit extends PostPaginatonCubit<PostEntity, CommonUIState>
 
           /// updated all items with new values
           allItems.asMap().forEach((index, value) {
-            pagingController.itemList[index] = value.copyWith(
-                isReposted: false, repostCount: value.repostCount.dec);
+            pagingController.itemList![index] = value.copyWith(
+                isReposted: false, repostCount: value.repostCount!.dec);
           });
         } else {
           pagingController
-            ..itemList.removeAt(index)
+            ..itemList!.removeAt(index)
             ..notifyListeners();
 
           /// get all items of that particular item (we have more more than one post of same id) so that we can update reposted count on each post
@@ -288,8 +287,8 @@ class FeedCubit extends PostPaginatonCubit<PostEntity, CommonUIState>
           /// assigning & updated resposted count and isResposted to false
           allItems.asMap().forEach((index, value) {
             pagingController
-              ..itemList[index] = value.copyWith(
-                  repostCount: value.repostCount.dec.toString(),
+              ..itemList![index] = value.copyWith(
+                  repostCount: value.repostCount!.dec.toString(),
                   isReposted: false)
               ..notifyListeners();
           });
@@ -302,18 +301,19 @@ class FeedCubit extends PostPaginatonCubit<PostEntity, CommonUIState>
       } else {
         allItems.asMap().forEach((index, value) {
           pagingController
-            ..itemList[index] = value.copyWith(
-                repostCount: value.repostCount.inc.toString(), isReposted: true)
+            ..itemList![index] = value.copyWith(
+                repostCount: value.repostCount!.inc.toString(),
+                isReposted: true)
             ..notifyListeners();
         });
         pagingController
-          ..itemList.insert(
+          ..itemList!.insert(
               0,
               item.copyWith(
                   showRepostedText: true,
                   reposterFullname: "You",
                   isOtherUser: false,
-                  repostCount: item.repostCount.inc.toString(),
+                  repostCount: item.repostCount!.inc.toString(),
                   isReposted: true))
           ..notifyListeners();
       }
@@ -334,7 +334,7 @@ class FeedCubit extends PostPaginatonCubit<PostEntity, CommonUIState>
       // }
     }
     pagingController.notifyListeners();
-    await repostUseCase(item.postId);
+    await repostUseCase!(item.postId);
   }
 
   @override
@@ -346,28 +346,28 @@ class FeedCubit extends PostPaginatonCubit<PostEntity, CommonUIState>
   }
 
   Future<void> getUserData() async {
-    var response = await getDrawerUseCase(unit);
+    var response = await getDrawerUseCase!(unit);
     response.fold((l) => left(l), (data) => changeDrawerEntity(data));
   }
 
   @override
   Future<void> addOrRemoveBookmark(int index) async {
-    var item = pagingController.itemList[index];
-    pagingController.itemList[index] = item.copyWith(
-      isSaved: !item.isSaved,
+    PostEntity item = pagingController.itemList![index];
+    pagingController.itemList![index] = item.copyWith(
+      isSaved: !item.isSaved!,
     );
     pagingController.notifyListeners();
-    var either = await addOrRemoveUseCase(item.postId);
+    var either = await addOrRemoveUseCase!(item.postId);
     either.fold((l) {
-      var oldItem = pagingController.itemList[index];
-      pagingController.itemList[index] = oldItem.copyWith(
-        isSaved: !oldItem.isSaved,
+      PostEntity oldItem = pagingController.itemList![index];
+      pagingController.itemList![index] = oldItem.copyWith(
+        isSaved: !oldItem.isSaved!,
       );
       pagingController.notifyListeners();
       emit(CommonUIState.error(l.errorMessage));
       emit(const CommonUIState.initial());
     }, (r) {
-      var message = pagingController.itemList[index].isSaved
+      var message = pagingController.itemList![index].isSaved!
           ? Strings.bookmarkAdded
           : Strings.removeBookmark;
       emit(CommonUIState.success(message));
@@ -397,7 +397,7 @@ class FeedCubit extends PostPaginatonCubit<PostEntity, CommonUIState>
 
   logout() async {
     emit(const CommonUIState.loading());
-    var either = await logOutUseCase(unit);
+    var either = await logOutUseCase!(unit);
     either.fold((l) => emit(CommonUIState.error(l.errorMessage)), (r) {
       emit(const CommonUIState.success("Log out successfully"));
     });
@@ -406,8 +406,8 @@ class FeedCubit extends PostPaginatonCubit<PostEntity, CommonUIState>
   void increaseRepostCount(List<PostEntity> allItems) {
     allItems.asMap().forEach((index, value) {
       pagingController
-        ..itemList[index] = value.copyWith(
-            repostCount: value.repostCount.inc.toString(), isReposted: true);
+        ..itemList![index] = value.copyWith(
+            repostCount: value.repostCount!.inc.toString(), isReposted: true);
     });
   }
 }

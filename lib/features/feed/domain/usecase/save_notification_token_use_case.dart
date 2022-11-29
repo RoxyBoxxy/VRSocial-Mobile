@@ -6,11 +6,11 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class SaveNotificationPushUseCase extends UseCase<dynamic, Unit> {
-  final FeedRepo feedRepo;
+  final FeedRepo? feedRepo;
 
   SaveNotificationPushUseCase(this.feedRepo);
   @override
   Future<Either<Failure, dynamic>> call(Unit params) {
-    return feedRepo.saveNotificationToken();
+    return feedRepo!.saveNotificationToken();
   }
 }

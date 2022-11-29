@@ -6,8 +6,8 @@ import 'package:colibri/features/messages/domain/entity/chat_entity.dart';
 import 'package:colibri/features/profile/data/models/response/profile_posts_response.dart';
 
 class PostMedia {
-  final MediaTypeEnum mediaType;
-  final String url;
+  final MediaTypeEnum? mediaType;
+  final String? url;
 
   const PostMedia._({this.mediaType, this.url});
 
@@ -17,12 +17,12 @@ class PostMedia {
   }
   factory PostMedia.fromFeed(FeedMedia media) {
     return PostMedia._(
-        mediaType: media.src.getMediaType, url: _makeValidUrl(media.src));
+        mediaType: media.src!.getMediaType, url: _makeValidUrl(media.src!));
   }
 
   factory PostMedia.fromProfilePostMedia(ProfilePostMedia media) {
     return PostMedia._(
-        mediaType: media.src.getMediaType, url: _makeValidUrl(media.src));
+        mediaType: media.src!.getMediaType, url: _makeValidUrl(media.src!));
   }
   static String _makeValidUrl(String url) {
     if (!url.contains("https")) {

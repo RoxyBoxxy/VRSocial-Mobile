@@ -12,25 +12,25 @@ import 'package:injectable/injectable.dart';
 @injectable
 class ShowLikesPagination extends CustomPagination<PeopleEntity>
     with FollowUnFollowMixin {
-  final GetLikesUseCase getLikesUseCase;
-  final FollowUnFollowUseCase followUnFollowUseCaseMixin;
+  final GetLikesUseCase? getLikesUseCase;
+  final FollowUnFollowUseCase? followUnFollowUseCaseMixin;
 
   ShowLikesPagination(this.getLikesUseCase, this.followUnFollowUseCaseMixin);
 
-  String _postId;
+  String? _postId;
 
   setPostID(String value) => _postId = value;
 
   @override
-  Future<Either<Failure, List<PeopleEntity>>> getItems(int pageKey) async =>
-      await getLikesUseCase(
+  Future<Either<Failure, List<PeopleEntity>>?> getItems(int pageKey) async =>
+      await getLikesUseCase!(
           LikesRequestModel(postId: _postId, offsetId: pageKey.toString()));
 
   @override
   PeopleEntity getLastItemWithoutAd(List<PeopleEntity> item) => item.last;
 
   @override
-  int getNextKey(PeopleEntity item) => item.offsetId;
+  int? getNextKey(PeopleEntity item) => item.offsetId;
 
   @override
   bool isLastPage(List<PeopleEntity> item) => commonLastPage(item);

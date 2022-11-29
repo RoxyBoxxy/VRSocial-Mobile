@@ -20,10 +20,10 @@ class SearcPostsResponse {
     this.data,
   });
 
-  bool valid;
-  int code;
-  String message;
-  List<Feed> data;
+  bool? valid;
+  int? code;
+  String? message;
+  List<Feed>? data;
 
   factory SearcPostsResponse.fromJson(Map<String, dynamic> json) =>
       SearcPostsResponse(
@@ -40,6 +40,6 @@ class SearcPostsResponse {
         "code": code == null ? null : code,
         "message": message == null ? null : message,
         "data":
-            data == null ? null : List<Feed>.from(data.map((x) => x.toJson())),
+            data == null ? null : List<Feed>.from(data!.map((x) => x.toJson())),
       };
 }

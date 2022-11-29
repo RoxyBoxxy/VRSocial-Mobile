@@ -32,7 +32,7 @@ Either<Failure, T> handleApiErrors<T>(Exception e) {
     return Left(NoDataFoundFailure(e.errorMessage));
   } else {
     var exception = e as DioError;
-    if (exception?.response?.statusCode == 401) {
+    if (exception.response?.statusCode == 401) {
       return Left(UnAuthorized("Access denied due to unautorzied access"));
     }
     exception.handleError;

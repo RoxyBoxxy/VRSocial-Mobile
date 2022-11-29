@@ -15,17 +15,17 @@ part 'sign_up_state.dart';
 
 @injectable
 class SignUpCubit extends Cubit<CommonUIState> {
-  FieldValidators emailValidator;
+  late FieldValidators emailValidator;
 
-  FieldValidators firstNameValidator;
+  late FieldValidators firstNameValidator;
 
-  FieldValidators userNameValidator;
+  late FieldValidators userNameValidator;
 
-  FieldValidators lastNameValidator;
+  late FieldValidators lastNameValidator;
 
-  FieldValidators passwordValidator;
+  late FieldValidators passwordValidator;
 
-  FieldValidators confirmPasswordValidator;
+  late FieldValidators confirmPasswordValidator;
 
   // page view controller for sign up ui
   final currentPageController = BehaviorSubject<int>.seeded(0);
@@ -42,10 +42,10 @@ class SignUpCubit extends Cubit<CommonUIState> {
       firstNameValidator.stream,
       lastNameValidator.stream,
       userNameValidator.stream,
-      (a, b, c) => true);
+      (dynamic a, dynamic b, dynamic c) => true);
   // Stream<bool> get isSecondStepValid=> Rx.combineLatest3(firstNameValidator.stream, lastNameValidator.stream, userNameValidator.stream, (a, b, c) => true);
-  Stream<bool> get validForm => Rx.combineLatest7<String, String, String,
-          String, String, String, bool, bool>(
+  Stream<bool> get validForm => Rx.combineLatest7<String?, String?, String?,
+          String?, String?, String?, bool, bool>(
       emailValidator.stream,
       firstNameValidator.stream,
       userNameValidator.stream,
@@ -56,8 +56,8 @@ class SignUpCubit extends Cubit<CommonUIState> {
       (a, b, c, d, e, f, g) => true && g);
 
   // use cases
-  final SignUpUseCase signUpUseCase;
-  final SocialLoginUseCase socialLoginUseCase;
+  final SignUpUseCase? signUpUseCase;
+  final SocialLoginUseCase? socialLoginUseCase;
 
   SignUpCubit(this.signUpUseCase, this.socialLoginUseCase)
       : super(const CommonUIState.initial()) {
@@ -78,7 +78,7 @@ class SignUpCubit extends Cubit<CommonUIState> {
       lastNameValidator.onChange("");
       confirmPasswordValidator.onChange("");
     } else {
-      var response = await signUpUseCase(HashMap.from({
+      var response = await signUpUseCase!(HashMap.from({
         "email": emailValidator.text,
         "first_name": firstNameValidator.text,
         "last_name": lastNameValidator.text,
@@ -113,25 +113,25 @@ class SignUpCubit extends Cubit<CommonUIState> {
   }
 
   void facebookLogin() async {
-    var response = await socialLoginUseCase(SocialLogin.FB);
+    var response = await socialLoginUseCase!(SocialLogin.FB);
     emit(response.fold((l) => CommonUIState.error(l.errorMessage),
         (r) => CommonUIState.success(true)));
   }
 
   void googleLogin() async {
-    var response = await socialLoginUseCase(SocialLogin.GOOGLE);
+    var response = await socialLoginUseCase!(SocialLogin.GOOGLE);
     emit(response.fold((l) => CommonUIState.error(l.errorMessage),
         (r) => CommonUIState.success(true)));
   }
 
   void twitterLogin() async {
-    var response = await socialLoginUseCase(SocialLogin.TWITTER);
+    var response = await socialLoginUseCase!(SocialLogin.TWITTER);
     emit(response.fold((l) => CommonUIState.error(l.errorMessage),
         (r) => CommonUIState.success(true)));
   }
 
   @override
-  Future<void> close() {
+  Future<void> close() async {
     // TODO: implement close
     confirmPasswordValidator.onDispose();
     firstNameValidator.onDispose();

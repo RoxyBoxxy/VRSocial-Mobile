@@ -19,10 +19,10 @@ class FeedResponse {
     this.data,
   });
 
-  int errCode;
-  int code;
-  String message;
-  Data data;
+  int? errCode;
+  int? code;
+  String? message;
+  Data? data;
 
   factory FeedResponse.fromJson(Map<String, dynamic> json) => FeedResponse(
         errCode: json["err_code"] == null ? null : json["err_code"],
@@ -35,7 +35,7 @@ class FeedResponse {
         "err_code": errCode == null ? null : errCode,
         "code": code == null ? null : code,
         "message": message == null ? null : message,
-        "data": data == null ? null : data.toJson(),
+        "data": data == null ? null : data!.toJson(),
       };
 }
 
@@ -44,7 +44,7 @@ class Data {
     this.feeds,
   });
 
-  List<Feed> feeds;
+  List<Feed>? feeds;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         feeds: json["feeds"] == null
@@ -55,7 +55,7 @@ class Data {
   Map<String, dynamic> toJson() => {
         "feeds": feeds == null
             ? null
-            : List<dynamic>.from(feeds.map((x) => x.toJson())),
+            : List<dynamic>.from(feeds!.map((x) => x.toJson())),
       };
 }
 
@@ -107,52 +107,52 @@ class Feed {
       this.domain,
       this.advertisementResponse});
 
-  int id;
-  int userId;
-  String text;
-  String type;
-  String replysCount;
-  String repostsCount;
-  String likesCount;
-  String status;
-  int threadId;
-  String target;
+  int? id;
+  int? userId;
+  String? text;
+  String? type;
+  String? replysCount;
+  String? repostsCount;
+  String? likesCount;
+  String? status;
+  int? threadId;
+  String? target;
   var ogData;
   // OgDataClass1 ogData;
-  String time;
-  int offsetId;
-  bool isRepost;
-  bool isReposter;
-  String attrs;
-  bool advertising;
-  String timeRaw;
-  String ogText;
-  String ogImage;
-  String url;
-  bool canDelete;
-  List<FeedMedia> media;
-  bool isOwner;
-  bool hasLiked;
-  bool hasSaved;
-  bool hasReposted;
-  ReplyTo replyTo;
-  Owner owner;
-  Reposter reposter;
+  String? time;
+  int? offsetId;
+  bool? isRepost;
+  bool? isReposter;
+  String? attrs;
+  bool? advertising;
+  String? timeRaw;
+  String? ogText;
+  String? ogImage;
+  String? url;
+  bool? canDelete;
+  List<FeedMedia>? media;
+  bool? isOwner;
+  bool? hasLiked;
+  bool? hasSaved;
+  bool? hasReposted;
+  ReplyTo? replyTo;
+  Owner? owner;
+  Reposter? reposter;
   dynamic gif;
-  String cover;
-  String company;
-  String targetUrl;
-  int views;
-  String description;
-  String cta;
-  String avatar;
-  String username;
-  String verified;
-  String name;
-  bool isConversed;
-  bool showStats;
-  String domain;
-  AdvertisementResponse advertisementResponse;
+  String? cover;
+  String? company;
+  String? targetUrl;
+  int? views;
+  String? description;
+  String? cta;
+  String? avatar;
+  String? username;
+  String? verified;
+  String? name;
+  bool? isConversed;
+  bool? showStats;
+  String? domain;
+  AdvertisementResponse? advertisementResponse;
   factory Feed.fromJson(Map<String, dynamic> json) => Feed(
         id: json["id"] == null ? null : json["id"],
         userId: json["user_id"] == null ? null : json["user_id"],
@@ -243,14 +243,14 @@ class Feed {
         "can_delete": canDelete == null ? null : canDelete,
         "media": media == null
             ? null
-            : List<dynamic>.from(media.map((x) => x.toJson())),
+            : List<dynamic>.from(media!.map((x) => x.toJson())),
         "is_owner": isOwner == null ? null : isOwner,
         "has_liked": hasLiked == null ? null : hasLiked,
         "has_saved": hasSaved == null ? null : hasSaved,
         "has_reposted": hasReposted == null ? null : hasReposted,
-        "reply_to": replyTo == null ? null : replyTo.toJson(),
-        "owner": owner == null ? null : owner.toJson(),
-        "reposter": reposter == null ? null : reposter.toJson(),
+        "reply_to": replyTo == null ? null : replyTo!.toJson(),
+        "owner": owner == null ? null : owner!.toJson(),
+        "reposter": reposter == null ? null : reposter!.toJson(),
         "gif": gif,
         "cover": cover == null ? null : cover,
         "company": company == null ? null : company,
@@ -279,12 +279,12 @@ class FeedMedia {
     // this.x,
   });
 
-  int id;
-  int pubId;
-  String type;
-  String src;
-  String jsonData;
-  String time;
+  int? id;
+  int? pubId;
+  String? type;
+  String? src;
+  String? jsonData;
+  String? time;
   // List<String> x;
 
   factory FeedMedia.fromJson(Map<String, dynamic> json) => FeedMedia(
@@ -355,12 +355,12 @@ class Owner {
     this.verified,
   });
 
-  int id;
-  String url;
-  String avatar;
-  String username;
-  String name;
-  String verified;
+  int? id;
+  String? url;
+  String? avatar;
+  String? username;
+  String? name;
+  String? verified;
 
   factory Owner.fromJson(Map<String, dynamic> json) => Owner(
         id: json["id"] == null ? null : json["id"],
@@ -388,9 +388,9 @@ class Reposter {
     this.url,
   });
 
-  String name;
-  String username;
-  String url;
+  String? name;
+  String? username;
+  String? url;
 
   factory Reposter.fromJson(Map<String, dynamic> json) => Reposter(
         name: json["name"] == null ? null : json["name"],

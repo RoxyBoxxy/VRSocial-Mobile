@@ -1,12 +1,11 @@
 import 'dart:collection';
 
-
 class PostRequestModel {
-  final String postText;
-  final String gifUrl;
-  final String threadId;
+  final String? postText;
+  final String? gifUrl;
+  final String? threadId;
   // final OgDataClass1 ogData;
-  final String ogData;
+  final String? ogData;
 
   PostRequestModel({this.postText, this.gifUrl, this.threadId, this.ogData});
 

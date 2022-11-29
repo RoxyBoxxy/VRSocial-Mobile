@@ -12,6 +12,7 @@ import 'package:colibri/features/posts/domain/usecases/add_remove_bookmark_use_c
 import 'package:colibri/features/posts/domain/usecases/delete_post_use_case.dart';
 import 'package:colibri/features/posts/presentation/bloc/post_cubit.dart';
 import 'package:colibri/main.dart';
+import 'package:collection/collection.dart';
 import 'package:dartz/dartz.dart';
 import 'package:colibri/extensions.dart';
 import 'package:http/http.dart' as http;
@@ -19,23 +20,23 @@ import 'package:http/http.dart' as http;
 mixin PostInteractionMixin on PostPaginatonCubit<PostEntity, CommonUIState> {
   Future<Either<Failure, String>> mAddRemoveBookmark(
       int index, AddOrRemoveBookmarkUseCase addOrRemoveBookmarkUseCase) async {
-    var item = pagingController.itemList[index];
-    pagingController.itemList[index] = item.copyWith(
-      isSaved: !item.isSaved,
+    PostEntity item = pagingController.itemList![index];
+    pagingController.itemList![index] = item.copyWith(
+      isSaved: !item.isSaved!,
     );
     pagingController.notifyListeners();
     var either = await addOrRemoveBookmarkUseCase(item.postId);
     return either.fold((l) {
-      var oldItem = pagingController.itemList[index];
-      pagingController.itemList[index] = oldItem.copyWith(
-        isSaved: !oldItem.isSaved,
+      PostEntity oldItem = pagingController.itemList![index];
+      pagingController.itemList![index] = oldItem.copyWith(
+        isSaved: !oldItem.isSaved!,
       );
       pagingController.notifyListeners();
       // emit(CommonUIState.error(l.errorMessage));
       // emit(CommonUIState.initial());
       return left(l);
     }, (r) {
-      var message = pagingController.itemList[index].isSaved
+      var message = pagingController.itemList![index].isSaved!
           ? Strings.bookmarkAdded
           : Strings.removeBookmark;
       // emit(CommonUIState.success(message));
@@ -47,7 +48,7 @@ mixin PostInteractionMixin on PostPaginatonCubit<PostEntity, CommonUIState> {
   Future<Either<Failure, String>> mDeletePost(
       int index, DeletePostUseCase deletePostUseCase) async {
     var either = await deletePostUseCase(
-        pagingController.itemList[index].postId.toString());
+        pagingController.itemList![index].postId.toString());
     return either.fold((l) {
       // emit(CommonUIState.initial());
       // emit(CommonUIState.error(l.errorMessage));
@@ -55,43 +56,42 @@ mixin PostInteractionMixin on PostPaginatonCubit<PostEntity, CommonUIState> {
     }, (r) {
       // emit(CommonUIState.initial());
       // emit(CommonUIState.success("Deleted Successfully"));
-      pagingController.itemList.removeAt(index);
+      pagingController.itemList!.removeAt(index);
       pagingController.notifyListeners();
       return right("Post Deleted Successfully");
     });
   }
 
-  PostCubit postCubit;
+  late PostCubit postCubit;
 
   Future<Either<Failure, String>> mRepost(
       int index, RepostUseCase repostUseCase) async {
     // postCubit = getIt<PostCubit>();
     // postCubit.onRefresh();
-    loginResponse = await localDataSource.getUserAuth();
+    loginResponse = await localDataSource!.getUserAuth();
 
-    final item = pagingController.itemList[index];
-    final allItems = pagingController.itemList
+    final PostEntity item = pagingController.itemList![index];
+    final List<PostEntity> allItems = pagingController.itemList!
         .where((element) => element.postId == item.postId)
         .toList();
 
     /// case of removing reposted item
     /// if items is already reposteed
-    if (item?.showRepostedText == true) {
+    if (item.showRepostedText == true) {
       /// if the reposted items is not owned by the other person
       /// current user is reposted this particular item
       /// or owner of the post is not the logged in current user but current user reposted the post
-      if (!item.isOtherUser || item.isReposted) {
+      if (!item.isOtherUser || item.isReposted!) {
         /// Firstly removed the item from the list
         ///
         /// find the reposted post item with having name of current user in reposted text
-        final firstWhere = pagingController.itemList.firstWhere(
-            (element) => element.postId == item.postId,
-            orElse: () => null);
+        final PostEntity? firstWhere = pagingController.itemList!
+            .firstWhereOrNull((element) => element.postId == item.postId);
         if (firstWhere != null) {
           /// remove post item
-          final removedIndex = pagingController.itemList.indexOf(firstWhere);
+          final removedIndex = pagingController.itemList!.indexOf(firstWhere);
           pagingController
-            ..itemList.removeAt(removedIndex)
+            ..itemList!.removeAt(removedIndex)
             ..notifyListeners();
 
           /// also removed from global list
@@ -99,12 +99,12 @@ mixin PostInteractionMixin on PostPaginatonCubit<PostEntity, CommonUIState> {
 
           /// updated all items with new values
           allItems.asMap().forEach((index, value) {
-            pagingController.itemList[index] = value.copyWith(
-                isReposted: false, repostCount: value.repostCount.dec);
+            pagingController.itemList![index] = value.copyWith(
+                isReposted: false, repostCount: value.repostCount!.dec);
           });
         } else {
           pagingController
-            ..itemList.removeAt(index)
+            ..itemList!.removeAt(index)
             ..notifyListeners();
 
           /// get all items of that particular item (we have more more than one post of same id) so that we can update reposted count on each post
@@ -112,8 +112,8 @@ mixin PostInteractionMixin on PostPaginatonCubit<PostEntity, CommonUIState> {
           /// assigning & updated resposted count and isResposted to false
           allItems.asMap().forEach((index, value) {
             pagingController
-              ..itemList[index] = value.copyWith(
-                  repostCount: value.repostCount.dec.toString(),
+              ..itemList![index] = value.copyWith(
+                  repostCount: value.repostCount!.dec.toString(),
                   isReposted: false)
               ..notifyListeners();
           });
@@ -129,18 +129,17 @@ mixin PostInteractionMixin on PostPaginatonCubit<PostEntity, CommonUIState> {
       /// we don't remove the post from current index
       /// and add the same post as reposted post on the top of the list
       else {
-        final firstWhere = pagingController.itemList.firstWhere(
-            (element) => element.postId == item.postId,
-            orElse: () => null);
+        final PostEntity? firstWhere = pagingController.itemList!
+            .firstWhereOrNull((element) => element.postId == item.postId);
         if (firstWhere != null) {
           // var index=pagingController.itemList.indexOf(firstWhere);
           /// at last we're adding reposted post on the top of the list
           pagingController
-            ..itemList.insert(
+            ..itemList!.insert(
                 0,
                 firstWhere.copyWith(
                     isReposted: true,
-                    repostCount: item.repostCount.inc.toString(),
+                    repostCount: item.repostCount!.inc.toString(),
                     showRepostedText: true,
                     reposterFullname: "You",
                     isOtherUser: false))
@@ -148,38 +147,38 @@ mixin PostInteractionMixin on PostPaginatonCubit<PostEntity, CommonUIState> {
         } else {
           /// getting all post items with reposted or without reposted
           /// so that we can increase the repost count on each item
-          var list = pagingController.itemList
+          List<PostEntity> list = pagingController.itemList!
               .where((element) => element.postId == item.postId)
               .toList();
 
           /// all items with same post ids
           list.asMap().forEach((index, value) {
             /// updating the items with incremented reposted value
-            pagingController.itemList[index] = item.copyWith(
-                repostCount: item.repostCount.inc.toString(),
+            pagingController.itemList![index] = item.copyWith(
+                repostCount: item.repostCount!.inc.toString(),
                 isReposted: true,
                 reposterFullname:
-                    pagingController.itemList[index].reposterFullname,
+                    pagingController.itemList![index].reposterFullname,
                 showRepostedText:
-                    pagingController.itemList[index].showRepostedText);
+                    pagingController.itemList![index].showRepostedText);
           });
         }
       }
     } else {
       pagingController
-        ..itemList[index] = item.copyWith(
-            isReposted: true, repostCount: item.repostCount.inc.toString())
+        ..itemList![index] = item.copyWith(
+            isReposted: true, repostCount: item.repostCount!.inc.toString())
         ..notifyListeners();
 
       Future.delayed(Duration(seconds: 2), () {
         pagingController
-          ..itemList.insert(
+          ..itemList!.insert(
               0,
               item.copyWith(
                   showRepostedText: true,
                   reposterFullname: "You",
                   isOtherUser: false,
-                  repostCount: item.repostCount.inc.toString(),
+                  repostCount: item.repostCount!.inc.toString(),
                   isReposted: true));
         // ..notifyListeners();
       });
@@ -208,7 +207,7 @@ mixin PostInteractionMixin on PostPaginatonCubit<PostEntity, CommonUIState> {
 
     var either = await repostUseCase(item.postId);
     return either.fold((l) {
-      pagingController.itemList.insert(index, item);
+      pagingController.itemList!.insert(index, item);
       pagingController.notifyListeners();
       return left(l);
     }, (r) => right(""));
@@ -216,20 +215,21 @@ mixin PostInteractionMixin on PostPaginatonCubit<PostEntity, CommonUIState> {
 
   Future<Either<Failure, String>> mLikeUnlike(
       int index, LikeUnlikeUseCase likeUnlikeUseCase) async {
-    var item = pagingController.itemList[index];
-    pagingController.itemList[index] = item.copyWith(
-        isLiked: !item.isLiked,
-        likeCount: (item.isLiked ? item.likeCount.dec : item.likeCount.inc)
+    PostEntity item = pagingController.itemList![index];
+    pagingController.itemList![index] = item.copyWith(
+        isLiked: !item.isLiked!,
+        likeCount: (item.isLiked! ? item.likeCount!.dec : item.likeCount!.inc)
             .toString());
     pagingController.notifyListeners();
     var either = await likeUnlikeUseCase(item.postId);
     return either.fold((l) {
-      var oldItem = pagingController.itemList[index];
-      pagingController.itemList[index] = oldItem.copyWith(
-          isLiked: !oldItem.isLiked,
-          likeCount:
-              (oldItem.isLiked ? oldItem.likeCount.dec : oldItem.likeCount.inc)
-                  .toString());
+      PostEntity oldItem = pagingController.itemList![index];
+      pagingController.itemList![index] = oldItem.copyWith(
+          isLiked: !oldItem.isLiked!,
+          likeCount: (oldItem.isLiked!
+                  ? oldItem.likeCount!.dec
+                  : oldItem.likeCount!.inc)
+              .toString());
       pagingController.notifyListeners();
       // emit(CommonUIState.error(l.errorMessage));
       // emit(CommonUIState.initial());
@@ -239,7 +239,7 @@ mixin PostInteractionMixin on PostPaginatonCubit<PostEntity, CommonUIState> {
 
   static var loginResponse;
 
-  Future<http.Response> myRepostShow(String postId) async {
+  Future<http.Response?> myRepostShow(String postId) async {
     String uri = ApiConstants.baseUrl + ApiConstants.publicationRepost;
 
     Map<String, dynamic> requestBody = {
@@ -265,23 +265,23 @@ mixin PostInteractionMixin on PostPaginatonCubit<PostEntity, CommonUIState> {
 mixin PostInteractionMixinOnCustomPagination on CustomPagination<PostEntity> {
   Future<Either<Failure, String>> mAddRemoveBookmark(
       int index, AddOrRemoveBookmarkUseCase addOrRemoveBookmarkUseCase) async {
-    var item = pagingController.itemList[index];
-    pagingController.itemList[index] = item.copyWith(
-      isSaved: !item.isSaved,
+    PostEntity item = pagingController.itemList![index];
+    pagingController.itemList![index] = item.copyWith(
+      isSaved: !item.isSaved!,
     );
     pagingController.notifyListeners();
     var either = await addOrRemoveBookmarkUseCase(item.postId);
     return either.fold((l) {
-      var oldItem = pagingController.itemList[index];
-      pagingController.itemList[index] = oldItem.copyWith(
-        isSaved: !oldItem.isSaved,
+      PostEntity oldItem = pagingController.itemList![index];
+      pagingController.itemList![index] = oldItem.copyWith(
+        isSaved: !oldItem.isSaved!,
       );
       pagingController.notifyListeners();
       // emit(CommonUIState.error(l.errorMessage));
       // emit(CommonUIState.initial());
       return left(l);
     }, (r) {
-      var message = pagingController.itemList[index].isSaved
+      var message = pagingController.itemList![index].isSaved!
           ? Strings.bookmarkAdded
           : Strings.removeBookmark;
       // emit(CommonUIState.success(message));
@@ -293,11 +293,11 @@ mixin PostInteractionMixinOnCustomPagination on CustomPagination<PostEntity> {
   Future<Either<Failure, String>> mDeletePost(
       int index, DeletePostUseCase deletePostUseCase) async {
     var either = await deletePostUseCase(
-        pagingController.itemList[index].postId.toString());
+        pagingController.itemList![index].postId.toString());
     return either.fold((l) => left(l), (r) {
       // emit(CommonUIState.initial());
       // emit(CommonUIState.success("Deleted Successfully"));
-      pagingController.itemList.removeAt(index);
+      pagingController.itemList!.removeAt(index);
       pagingController.notifyListeners();
       return right(r);
     });
@@ -305,20 +305,20 @@ mixin PostInteractionMixinOnCustomPagination on CustomPagination<PostEntity> {
 
   Future<Either<Failure, String>> mRepost(
       int index, RepostUseCase repostUseCase) async {
-    var item = pagingController.itemList[index];
-    if (item?.showRepostedText == true) {
-      pagingController.itemList.removeAt(index);
+    PostEntity item = pagingController.itemList![index];
+    if (item.showRepostedText == true) {
+      pagingController.itemList!.removeAt(index);
     } else {
-      pagingController.itemList[index] = item.copyWith(
-          isReposted: !item.isReposted,
+      pagingController.itemList![index] = item.copyWith(
+          isReposted: !item.isReposted!,
           repostCount:
-              (item.isReposted ? item.repostCount.dec : item.repostCount.inc)
+              (item.isReposted! ? item.repostCount!.dec : item.repostCount!.inc)
                   .toString());
     }
     pagingController.notifyListeners();
     var either = await repostUseCase(item.postId);
     return either.fold((l) {
-      pagingController.itemList.insert(index, item);
+      pagingController.itemList!.insert(index, item);
       pagingController.notifyListeners();
       return left(l);
     }, (r) => right(""));
@@ -326,20 +326,21 @@ mixin PostInteractionMixinOnCustomPagination on CustomPagination<PostEntity> {
 
   Future<Either<Failure, String>> mLikeUnlike(
       int index, LikeUnlikeUseCase likeUnlikeUseCase) async {
-    var item = pagingController.itemList[index];
-    pagingController.itemList[index] = item.copyWith(
-        isLiked: !item.isLiked,
-        likeCount: (item.isLiked ? item.likeCount.dec : item.likeCount.inc)
+    PostEntity item = pagingController.itemList![index];
+    pagingController.itemList![index] = item.copyWith(
+        isLiked: !item.isLiked!,
+        likeCount: (item.isLiked! ? item.likeCount!.dec : item.likeCount!.inc)
             .toString());
     pagingController.notifyListeners();
     var either = await likeUnlikeUseCase(item.postId);
     return either.fold((l) {
-      var oldItem = pagingController.itemList[index];
-      pagingController.itemList[index] = oldItem.copyWith(
-          isLiked: !oldItem.isLiked,
-          likeCount:
-              (oldItem.isLiked ? oldItem.likeCount.dec : oldItem.likeCount.inc)
-                  .toString());
+      PostEntity oldItem = pagingController.itemList![index];
+      pagingController.itemList![index] = oldItem.copyWith(
+          isLiked: !oldItem.isLiked!,
+          likeCount: (oldItem.isLiked!
+                  ? oldItem.likeCount!.dec
+                  : oldItem.likeCount!.inc)
+              .toString());
       pagingController.notifyListeners();
       // emit(CommonUIState.error(l.errorMessage));
       // emit(CommonUIState.initial());

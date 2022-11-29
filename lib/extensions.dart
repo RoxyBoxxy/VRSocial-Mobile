@@ -76,29 +76,31 @@ extension ScreenUtilExtension on num {
         width: this.w,
       );
 
-  Widget toContainer({num height, num width, Color color}) => Container(
+  Widget toContainer({required num height, required num width, Color? color}) =>
+      Container(
         color: color,
         width: width.w,
         height: height.h,
       );
   RoundedRectangleBorder get toRoundRectTop => RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(this)));
+      borderRadius:
+          BorderRadius.vertical(top: Radius.circular(this as double)));
 }
 
 extension ExtensionContainer on Container {
   Container get autoScale => Container(
-        width: this.constraints.maxWidth.w,
-        height: this.constraints.maxHeight.h,
+        width: this.constraints!.maxWidth.w,
+        height: this.constraints!.maxHeight.h,
       );
 }
 
-extension ListWidgetExtension on List<Widget> {
+extension ListWidgetExtension on List<Widget?> {
   Column toColumn(
           {MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
           CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.start,
           MainAxisSize mainAxisSize = MainAxisSize.min}) =>
       Column(
-        children: this,
+        children: this as List<Widget>,
         mainAxisSize: mainAxisSize,
         mainAxisAlignment: mainAxisAlignment,
         crossAxisAlignment: crossAxisAlignment,
@@ -109,12 +111,12 @@ extension ListWidgetExtension on List<Widget> {
           CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.start,
           MainAxisSize mainAxisSize = MainAxisSize.min}) =>
       ListView(
-        children: this,
+        children: this as List<Widget>,
       );
 
-  ListView toListViewSeparated({@required int itemCount, Widget child}) =>
+  ListView toListViewSeparated({required int itemCount, Widget? child}) =>
       ListView.separated(
-        itemBuilder: (BuildContext context, int index) => child,
+        itemBuilder: (BuildContext context, int index) => child!,
         separatorBuilder: (BuildContext context, int index) => const Divider(),
         itemCount: itemCount,
       );
@@ -124,21 +126,21 @@ extension ListWidgetExtension on List<Widget> {
           MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
           CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.start}) =>
       Row(
-        children: this,
+        children: this as List<Widget>,
         mainAxisSize: mainAxisSize,
         mainAxisAlignment: mainAxisAlignment,
         crossAxisAlignment: crossAxisAlignment,
       );
 
   Wrap toWrap() => Wrap(
-        children: this,
+        children: this as List<Widget>,
         spacing: 3,
         // textDirection: TextDirection.rtl,
         //     runAlignment: WrapAlignment.ce,
         crossAxisAlignment: WrapCrossAlignment.center,
         // alignment: WrapAlignment.end,
       );
-  Widget toPopWithMenuItems(StringToVoidFunc fun, {Widget icon}) =>
+  Widget toPopWithMenuItems(StringToVoidFunc fun, {Widget? icon}) =>
       PopupMenuButton<MenuItemWidget>(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         icon: icon != null
@@ -155,8 +157,8 @@ extension ListWidgetExtension on List<Widget> {
         itemBuilder: (context) {
           return this
               .map((choice) => PopupMenuItem<MenuItemWidget>(
-                    height: 25.toHeight,
-                    value: choice,
+                    height: 25.toHeight as double,
+                    value: choice as MenuItemWidget?,
                     child: choice,
                   ))
               .toList();
@@ -173,7 +175,7 @@ extension ColmnExtension on Column {
 }
 
 extension TextFieldExtension on TextField {
-  Widget toStreamBuilder<T>({@required StreamValidators<T> validators}) =>
+  Widget toStreamBuilder<T>({required StreamValidators<T> validators}) =>
       StreamBuilder<T>(
         stream: validators.stream,
         builder: (context, snapshot) => TextField(
@@ -187,19 +189,19 @@ extension TextFieldExtension on TextField {
               ? TextInputAction.done
               : TextInputAction.next,
           controller: validators.textController,
-          decoration: this.decoration.copyWith(
-                errorText: snapshot?.error,
+          decoration: this.decoration!.copyWith(
+                errorText: snapshot.error as String?,
               ),
           onChanged: validators.onChange,
           inputFormatters: [LengthLimitingTextInputFormatter(this.maxLength)],
           onSubmitted: (value) {
-            this.onSubmitted(value);
+            this.onSubmitted!(value);
             if (validators.nextFocusNode != null)
               FocusScope.of(context).requestFocus(validators.nextFocusNode);
           },
         ),
       );
-  Widget toPostBuilder<T>({@required StreamValidators<T> validators}) =>
+  Widget toPostBuilder<T>({required StreamValidators<T> validators}) =>
       StreamBuilder<T>(
         stream: validators.stream,
         builder: (context, snapshot) => TextField(
@@ -214,7 +216,8 @@ extension TextFieldExtension on TextField {
           focusNode: validators.focusNode,
           controller: validators.textController,
           inputFormatters: [LengthLimitingTextInputFormatter(this.maxLength)],
-          decoration: this.decoration.copyWith(errorText: snapshot?.error),
+          decoration:
+              this.decoration!.copyWith(errorText: snapshot.error as String?),
           onChanged: (value) {
             if (validators.text.length < 601) {
               validators.onChange(value);
@@ -223,7 +226,7 @@ extension TextFieldExtension on TextField {
             }
           },
           onSubmitted: (value) {
-            this.onSubmitted(value);
+            this.onSubmitted!(value);
             if (validators.nextFocusNode != null)
               FocusScope.of(context).requestFocus(validators.nextFocusNode);
           },
@@ -239,7 +242,7 @@ extension BoolExtension on bool {
 }
 
 extension ListStringExtension on List<String> {
-  Widget toPopUpMenuButton(StringToVoidFunc fun, {Widget icon}) =>
+  Widget toPopUpMenuButton(StringToVoidFunc fun, {Widget? icon}) =>
       PopupMenuButton<String>(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         icon: icon != null
@@ -263,11 +266,11 @@ extension ListStringExtension on List<String> {
       ).toContainer();
 }
 
-typedef StringToVoidFunc = void Function(String);
+typedef StringToVoidFunc = void Function(String?);
 typedef IntToVoidFunc = void Function(int);
 
 extension FileExtension on File {
-  Future<MediaInfo> get compressVideo async =>
+  Future<MediaInfo?> get compressVideo async =>
       await VideoCompress.compressVideo(
         this.path,
         quality: VideoQuality.LowQuality,
@@ -283,9 +286,9 @@ extension FileExtension on File {
 
 extension PostListExtensions on List<PostEntity> {
   bool get isLastPage {
-    if (this.last.isAdvertisement && this.length == ApiConstants.pageSize + 1)
+    if (this.last.isAdvertisement! && this.length == ApiConstants.pageSize + 1)
       return false;
-    return !this.last.isAdvertisement && this.length < ApiConstants.pageSize;
+    return !this.last.isAdvertisement! && this.length < ApiConstants.pageSize;
     // else if(!this.last.isAdvertisement&&this.length==ApiConstants.pageSize) {
     //   return false;
     // }
@@ -293,7 +296,7 @@ extension PostListExtensions on List<PostEntity> {
   }
 
   PostEntity get getItemWithoutAd {
-    if (this.last.isAdvertisement) return this[this.length - 2];
+    if (this.last.isAdvertisement!) return this[this.length - 2];
     return this.last;
   }
 }

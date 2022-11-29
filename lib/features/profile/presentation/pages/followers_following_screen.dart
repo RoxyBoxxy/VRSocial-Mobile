@@ -18,10 +18,10 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class FollowingFollowersScreen extends StatefulWidget {
   final FollowUnFollowScreenEnum followScreenEnum;
-  final String userId;
+  final String? userId;
 
   const FollowingFollowersScreen(
-      {Key key,
+      {Key? key,
       this.followScreenEnum = FollowUnFollowScreenEnum.FOLLOWERS,
       this.userId})
       : super(key: key);
@@ -33,9 +33,9 @@ class FollowingFollowersScreen extends StatefulWidget {
 
 class _FollowingFollowersScreenState extends State<FollowingFollowersScreen>
     with SingleTickerProviderStateMixin {
-  FollowersFollowingCubit followersFollowingCubit;
-  TabController tabController;
-  FeedCubit feedCubit;
+  FollowersFollowingCubit? followersFollowingCubit;
+  TabController? tabController;
+  FeedCubit? feedCubit;
 
   @override
   void initState() {
@@ -49,17 +49,17 @@ class _FollowingFollowersScreenState extends State<FollowingFollowersScreen>
     tabController = TabController(length: 2, vsync: this);
     switch (widget.followScreenEnum) {
       case FollowUnFollowScreenEnum.FOLLOWERS:
-        tabController.animateTo(0,
+        tabController!.animateTo(0,
             duration: const Duration(milliseconds: 500),
             curve: Curves.easeInBack);
         break;
       case FollowUnFollowScreenEnum.FOLLOWING:
-        tabController.animateTo(1,
+        tabController!.animateTo(1,
             duration: const Duration(milliseconds: 500),
             curve: Curves.easeInBack);
         break;
       case FollowUnFollowScreenEnum.PEOPLE:
-        tabController.animateTo(2,
+        tabController!.animateTo(2,
             duration: const Duration(milliseconds: 500),
             curve: Curves.easeInBack);
         break;
@@ -100,7 +100,7 @@ class _FollowingFollowersScreenState extends State<FollowingFollowersScreen>
                 // ),
                 bottom: PreferredSize(
                   child: StreamBuilder<ProfileEntity>(
-                      stream: followersFollowingCubit.profileEntity,
+                      stream: followersFollowingCubit!.profileEntity,
                       builder: (context, snapshot) {
                         return snapshot.data == null
                             ? const SizedBox()
@@ -124,7 +124,7 @@ class _FollowingFollowersScreenState extends State<FollowingFollowersScreen>
                                     tabs: [
                                       Tab(
                                         text:
-                                            "Followers (${snapshot.data.followerCount})",
+                                            "Followers (${snapshot.data!.followerCount})",
                                       ).toContainer(
                                           alignment: Alignment.center,
                                           decoration: const BoxDecoration(
@@ -135,7 +135,7 @@ class _FollowingFollowersScreenState extends State<FollowingFollowersScreen>
                                                       width: 0.2)))),
                                       Tab(
                                         text:
-                                            "Following (${snapshot.data.followingCount})",
+                                            "Following (${snapshot.data!.followingCount})",
                                       ).toContainer(
                                           alignment: Alignment.center,
                                           decoration: const BoxDecoration(
@@ -159,7 +159,8 @@ class _FollowingFollowersScreenState extends State<FollowingFollowersScreen>
                               );
                       }),
                   preferredSize: const Size(500, 56),
-                ), systemOverlayStyle: SystemUiOverlayStyle.dark,
+                ),
+                systemOverlayStyle: SystemUiOverlayStyle.dark,
               ),
             ];
           },
@@ -168,13 +169,13 @@ class _FollowingFollowersScreenState extends State<FollowingFollowersScreen>
             children: [
               RefreshIndicator(
                 onRefresh: () {
-                  followersFollowingCubit.getProfile(widget.userId);
-                  followersFollowingCubit.followerPagination.onRefresh();
+                  followersFollowingCubit!.getProfile(widget.userId);
+                  followersFollowingCubit!.followerPagination.onRefresh();
                   return Future.value();
                 },
                 child: PagedListView.separated(
                   padding: const EdgeInsets.only(bottom: 10),
-                  pagingController: followersFollowingCubit
+                  pagingController: followersFollowingCubit!
                       .followerPagination.pagingController,
                   builderDelegate: PagedChildBuilderDelegate<FollowerEntity>(
                       noItemsFoundIndicatorBuilder: (_) => NoDataFoundScreen(
@@ -197,7 +198,7 @@ class _FollowingFollowersScreenState extends State<FollowingFollowersScreen>
                               padding:
                                   EdgeInsets.only(top: index == 0 ? 8 : 0.0),
                               child: followerTile(item, () {
-                                followersFollowingCubit.followUnFollow(
+                                followersFollowingCubit!.followUnFollow(
                                     index, FollowUnFollowEnums.FOLLOWERS);
                               }).onTapWidget(() {
                                 // feedCubit.changeCurrentPage(ScreenType.home());
@@ -218,13 +219,13 @@ class _FollowingFollowersScreenState extends State<FollowingFollowersScreen>
               ),
               RefreshIndicator(
                 onRefresh: () {
-                  followersFollowingCubit.getProfile(widget.userId);
-                  followersFollowingCubit.followingPagination.onRefresh();
+                  followersFollowingCubit!.getProfile(widget.userId);
+                  followersFollowingCubit!.followingPagination.onRefresh();
                   return Future.value();
                 },
                 child: PagedListView.separated(
                   padding: const EdgeInsets.only(bottom: 10),
-                  pagingController: followersFollowingCubit
+                  pagingController: followersFollowingCubit!
                       .followingPagination.pagingController,
                   builderDelegate: PagedChildBuilderDelegate<FollowerEntity>(
                       noItemsFoundIndicatorBuilder: (_) => NoDataFoundScreen(
@@ -245,7 +246,7 @@ class _FollowingFollowersScreenState extends State<FollowingFollowersScreen>
                               padding:
                                   EdgeInsets.only(top: index == 0 ? 8 : 0.0),
                               child: followerTile(item, () {
-                                followersFollowingCubit.followUnFollow(
+                                followersFollowingCubit!.followUnFollow(
                                     index, FollowUnFollowEnums.FOLLOWING);
                               }),
                             ),
@@ -283,16 +284,16 @@ class _FollowingFollowersScreenState extends State<FollowingFollowersScreen>
   Widget followerTile(
       FollowerEntity followerEntity, VoidCallback voidCallback) {
     return [
-      followerEntity.profileUrl.toRoundNetworkImage(radius: 12),
+      followerEntity.profileUrl!.toRoundNetworkImage(radius: 12),
       [
         5.toSizedBox,
-        followerEntity.fullName.toSubTitle2(fontWeight: FontWeight.bold),
+        followerEntity.fullName!.toSubTitle2(fontWeight: FontWeight.bold),
         2.toSizedBox,
-        followerEntity.username.toCaption(),
+        followerEntity.username!.toCaption(),
         5.toSizedBox,
-        followerEntity.about
+        followerEntity.about!
             .toCaption()
-            .toVisibility(followerEntity.about.isNotEmpty)
+            .toVisibility(followerEntity.about!.isNotEmpty)
       ].toColumn().toHorizontalPadding(8).toExpanded(),
       getFollowUnFollowButton(followerEntity, voidCallback)
           .toVisibility(!followerEntity.isCurrentLoggedInUser),

@@ -7,11 +7,11 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class CreatePostUseCase extends UseCase<dynamic, PostRequestModel> {
-  final PostRepo postRepo;
+  final PostRepo? postRepo;
 
   CreatePostUseCase(this.postRepo);
   @override
   Future<Either<Failure, dynamic>> call(PostRequestModel params) {
-    return postRepo.createPost(params);
+    return postRepo!.createPost(params);
   }
 }

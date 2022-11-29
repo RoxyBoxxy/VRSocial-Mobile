@@ -16,9 +16,9 @@ class ChatsResponse {
     this.data,
   });
 
-  bool valid;
-  int code;
-  List<ChatResponseModel> data;
+  bool? valid;
+  int? code;
+  List<ChatResponseModel>? data;
 
   factory ChatsResponse.fromJson(Map<String, dynamic> json) => ChatsResponse(
         valid: json["valid"] == null ? null : json["valid"],
@@ -34,7 +34,7 @@ class ChatsResponse {
         "code": code == null ? null : code,
         "data": data == null
             ? null
-            : List<dynamic>.from(data.map((x) => x.toJson())),
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
@@ -54,18 +54,18 @@ class ChatResponseModel {
     this.side,
   });
 
-  int id;
-  int sentBy;
-  int sentTo;
-  bool owner;
-  String message;
-  String mediaFile;
-  String mediaType;
-  String seen;
-  String deletedFs1;
-  String deletedFs2;
-  String time;
-  String side;
+  int? id;
+  int? sentBy;
+  int? sentTo;
+  bool? owner;
+  String? message;
+  String? mediaFile;
+  String? mediaType;
+  String? seen;
+  String? deletedFs1;
+  String? deletedFs2;
+  String? time;
+  String? side;
 
   factory ChatResponseModel.fromJson(Map<String, dynamic> json) =>
       ChatResponseModel(

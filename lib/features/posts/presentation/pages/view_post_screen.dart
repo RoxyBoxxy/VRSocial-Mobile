@@ -1,4 +1,3 @@
-
 import 'package:auto_route/auto_route.dart';
 import 'package:colibri/core/common/media/media_data.dart';
 import 'package:colibri/core/common/uistate/common_ui_state.dart';
@@ -35,9 +34,9 @@ import 'package:velocity_x/velocity_x.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 class ViewPostScreen extends StatefulWidget {
-  final int threadID;
-  final PostEntity postEntity;
-  const ViewPostScreen({Key key, this.threadID, @required this.postEntity})
+  final int? threadID;
+  final PostEntity? postEntity;
+  const ViewPostScreen({Key? key, this.threadID, required this.postEntity})
       : super(key: key);
 
   @override
@@ -45,8 +44,8 @@ class ViewPostScreen extends StatefulWidget {
 }
 
 class _ViewPostScreenState extends State<ViewPostScreen> {
-  ViewPostCubit viewPostCubit;
-  CreatePostCubit createPostCubit;
+  ViewPostCubit? viewPostCubit;
+  CreatePostCubit? createPostCubit;
 
   @override
   void initState() {
@@ -66,8 +65,8 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
         if (widget.postEntity == null) {
           ExtendedNavigator.root.pop();
         } else {
-          var item = viewPostCubit.items.firstWhere(
-              (element) => element.postId == widget.postEntity.postId);
+          var item = viewPostCubit!.items.firstWhere(
+              (element) => element.postId == widget.postEntity!.postId);
           ExtendedNavigator.root.pop(item);
         }
         return Future.value(true);
@@ -85,7 +84,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                 error: (e) => context.showSnackBar(message: e, isError: true),
                 success: (s) {
                   if (s != null && s is String && s.isNotEmpty) {
-                    viewPostCubit.getParentPost(widget.threadID.toString());
+                    viewPostCubit!.getParentPost(widget.threadID.toString());
                     context.showSnackBar(message: s, isError: false);
                   }
                 });
@@ -97,8 +96,8 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                   orElse: () {},
                   error: (e) => context.showSnackBar(message: e, isError: true),
                   success: (s) {
-                    if (s is String && s != null && s.isNotEmpty) {
-                      viewPostCubit.getParentPost(widget.threadID.toString());
+                    if (s is String && s.isNotEmpty) {
+                      viewPostCubit!.getParentPost(widget.threadID.toString());
                       context.showSnackBar(message: s, isError: false);
                     }
                   });
@@ -110,7 +109,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                   success: (s) => buildHomeWithStream(),
                   loading: () => LoadingBar(),
                   error: (e) => Container(
-                        child: e.toText,
+                        child: e!.toText,
                       )),
             ),
           ),
@@ -123,30 +122,30 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
         bloc: viewPostCubit,
         builder: (_, state) => state.when(
             initial: () => StreamBuilder<List<PostEntity>>(
-                stream: viewPostCubit.parentPostEntity,
+                stream: viewPostCubit!.parentPostEntity,
                 builder: (context, snapshot) {
                   if (snapshot.data == null) return Container();
                   return StreamBuilder<List<PostEntity>>(
-                      stream: viewPostCubit.parentPostEntity,
+                      stream: viewPostCubit!.parentPostEntity,
                       builder: (context, items) =>
                           buildHomeScreen(items.data, 5));
                 }),
             success: (c) => StreamBuilder<List<PostEntity>>(
-                stream: viewPostCubit.parentPostEntity,
+                stream: viewPostCubit!.parentPostEntity,
                 builder: (context, snapshot) {
                   if (snapshot.data == null) return Container();
                   return StreamBuilder<List<PostEntity>>(
-                      stream: viewPostCubit.parentPostEntity,
+                      stream: viewPostCubit!.parentPostEntity,
                       builder: (context, items) =>
                           buildHomeScreen(items.data, 5));
                 }),
             loading: () => LoadingBar(),
             error: (e) => Center(
-                  child: e.toSubTitle1(),
+                  child: e!.toSubTitle1(),
                 )),
       );
 
-  Widget buildHomeScreen(List<PostEntity> postItems, int size) {
+  Widget buildHomeScreen(List<PostEntity>? postItems, int size) {
     if (postItems == null) return LoadingBar();
     return Stack(
       clipBehavior: Clip.none,
@@ -187,20 +186,20 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                     Padding(
                       padding: const EdgeInsets.only(left: 24.0),
                       child: StreamBuilder<List<MediaData>>(
-                          stream: createPostCubit.images,
+                          stream: createPostCubit!.images,
                           initialData: [],
                           builder: (context, snapshot) => Wrap(
                               runSpacing: 20.0,
                               spacing: 5.0,
                               children: List.generate(
-                                snapshot.data.length,
+                                snapshot.data!.length,
                                 (index) {
-                                  switch (snapshot.data[index].type) {
+                                  switch (snapshot.data![index].type) {
                                     case MediaTypeEnum.IMAGE:
                                       return ThumbnailWidget(
-                                        data: snapshot.data[index],
+                                        data: snapshot.data![index],
                                         onCloseTap: () async {
-                                          await createPostCubit
+                                          await createPostCubit!
                                               .removedFile(index);
                                         },
                                       ).onInkTap(
@@ -209,7 +208,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                               .push(CupertinoPageRoute(
                                                   builder: (c) => MediaOpener(
                                                         data: snapshot
-                                                            .data[index],
+                                                            .data![index],
                                                       )));
                                         },
                                       ).toContainer(
@@ -219,9 +218,9 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                       return Stack(
                                         children: [
                                           ThumbnailWidget(
-                                            data: snapshot.data[index],
+                                            data: snapshot.data![index],
                                             onCloseTap: () async {
-                                              await createPostCubit
+                                              await createPostCubit!
                                                   .removedFile(index);
                                             },
                                           ),
@@ -237,7 +236,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                             .push(CupertinoPageRoute(
                                                 builder: (c) => MediaOpener(
                                                       data:
-                                                          snapshot.data[index],
+                                                          snapshot.data![index],
                                                     )));
                                       });
                                       break;
@@ -245,9 +244,9 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                       return ClipRRect(
                                         borderRadius: BorderRadius.circular(10),
                                         child: GiphyWidget(
-                                          path: snapshot.data[index].path,
+                                          path: snapshot.data![index].path,
                                           fun: () async {
-                                            await createPostCubit
+                                            await createPostCubit!
                                                 .removedFile(index);
                                           },
                                         ),
@@ -255,7 +254,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                       break;
                                     case MediaTypeEnum.EMOJI:
                                       return ThumbnailWidget(
-                                          data: snapshot.data[index]);
+                                          data: snapshot.data![index]);
                                       break;
                                     default:
                                       return Container();
@@ -267,7 +266,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                     [
                       "Replying to".toCaption(),
                       3.toSizedBoxHorizontal,
-                      postItems[0].userName.toSubTitle1(
+                      postItems[0].userName!.toSubTitle1(
                           onTapMention: (mention) {
                             ExtendedNavigator.root.push(Routes.profileScreen,
                                 arguments: ProfileScreenArguments(
@@ -279,20 +278,20 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                     ].toRow().toHorizontalPadding(16),
                     5.toSizedBox,
                     "Reply".toTextField().toStreamBuilder(
-                        validators: createPostCubit.postTextValidator),
+                        validators: createPostCubit!.postTextValidator),
                     5.toSizedBox,
                     [
                       StreamBuilder<bool>(
-                          stream: createPostCubit.imageButton,
+                          stream: createPostCubit!.imageButton,
                           initialData: true,
                           builder: (context, snapshot) =>
-                              AppIcons.imageIcon(enabled: snapshot.data)
+                              AppIcons.imageIcon(enabled: snapshot.data!)
                                   .onInkTap(() async {
-                                if (snapshot.data)
+                                if (snapshot.data!)
                                   await openMediaPicker(
                                     context,
                                     (image) {
-                                      createPostCubit.addImage(image);
+                                      createPostCubit!.addImage(image);
                                       // context.showSnackBar(message: image);
                                     },
                                     mediaType: MediaTypeEnum.IMAGE,
@@ -300,14 +299,14 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                               })),
                       20.toSizedBoxHorizontal,
                       StreamBuilder<bool>(
-                          stream: createPostCubit.videoButton,
+                          stream: createPostCubit!.videoButton,
                           initialData: true,
                           builder: (_, snapshot) =>
-                              AppIcons.videoIcon(enabled: snapshot.data)
+                              AppIcons.videoIcon(enabled: snapshot.data!)
                                   .onInkTap(() async {
-                                if (snapshot.data)
+                                if (snapshot.data!)
                                   await openMediaPicker(context, (video) {
-                                    createPostCubit.addVideo(video);
+                                    createPostCubit!.addVideo(video!);
                                   }, mediaType: MediaTypeEnum.VIDEO);
                               })),
                       20.toSizedBoxHorizontal,
@@ -316,18 +315,18 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                       }),
                       20.toSizedBoxHorizontal,
                       StreamBuilder<bool>(
-                          stream: createPostCubit.gifButton,
+                          stream: createPostCubit!.gifButton,
                           initialData: true,
                           builder: (context, snapshot) =>
-                              AppIcons.gifIcon(enabled: snapshot.data)
+                              AppIcons.gifIcon(enabled: snapshot.data!)
                                   .onInkTap(() async {
-                                if (snapshot.data) {
+                                if (snapshot.data!) {
                                   final gif = await GiphyPicker.pickGif(
                                       context: context,
                                       apiKey: Strings.giphyApiKey);
-                                  if (gif?.images?.original?.url != null)
-                                    createPostCubit
-                                        .addGif(gif?.images?.original?.url);
+                                  if (gif.images?.original?.url != null)
+                                    createPostCubit!
+                                        .addGif(gif.images.original.url);
                                 }
                                 // context.showModelBottomSheet(GiphyImage.original(gif: gif));
                               })),
@@ -337,8 +336,8 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold)
                             .toMaterialButton(() {
-                          createPostCubit.createPost(
-                              threadId: widget.threadID.toString());
+                          createPostCubit!
+                              .createPost(threadId: widget.threadID.toString());
                         })
                       ]
                           .toRow(
@@ -366,10 +365,10 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
   Widget buildPostItem(PostEntity postEntity, index) => PostItem(
       postEntity: postEntity,
       onTapRepost: () async {
-        viewPostCubit.repost(index);
+        viewPostCubit!.repost(index);
       },
       onLikeTap: () {
-        viewPostCubit.likeUnLikePost(index);
+        viewPostCubit!.likeUnLikePost(index);
       },
       onPostOptionItem: (value) async {
         // if (value == "Bookmark" || value == "UnBookmark") {
@@ -379,9 +378,9 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
         //     await viewPostCubit.deletePost(index);
         //   });
         // }
-        FocusManager.instance.primaryFocus.unfocus();
+        FocusManager.instance.primaryFocus!.unfocus();
 
-        final getOptionsEnum = value.getOptionsEnum;
+        final getOptionsEnum = value!.getOptionsEnum;
         switch (getOptionsEnum) {
           case PostOptionsEnum.SHOW_LIKES:
             showModalBottomSheet(
@@ -389,11 +388,11 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                 builder: (c) => ShowLikeScreen(postEntity.postId));
             break;
           case PostOptionsEnum.BOOKMARK:
-            viewPostCubit.addRemoveBook(index);
+            viewPostCubit!.addRemoveBook(index);
             break;
           case PostOptionsEnum.DELETE:
             context.showDeleteDialog(onOkTap: () async {
-              await viewPostCubit.deletePost(index);
+              await viewPostCubit!.deletePost(index);
             });
             break;
         }
@@ -408,8 +407,8 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
       onEmojiSelected: (emoji, category) {
         print(emoji.emoji);
         // print(emoji.emoji);
-        createPostCubit.postTextValidator.textController.text =
-            createPostCubit.postTextValidator.text + emoji.emoji;
+        createPostCubit!.postTextValidator.textController.text =
+            createPostCubit!.postTextValidator.text + emoji.emoji;
       },
     ).toContainer(
         height: context.getScreenWidth > 600 ? 400 : 250,
@@ -428,7 +427,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                       ? Padding(
                           padding: const EdgeInsets.only(left: 20.0),
                           child: postEntity[index]
-                              .profileUrl
+                              .profileUrl!
                               .toRoundNetworkImage(radius: 11),
                         )
                       : Container(),
@@ -491,36 +490,36 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
       ].toColumn();
     return PostItem(
       replyCountIncreased: (value) {
-        var item = viewPostCubit.items[index];
+        var item = viewPostCubit!.items[index];
         if (value)
-          viewPostCubit.items[index] =
-              item.copyWith(commentCount: item.commentCount.inc.toString());
-        viewPostCubit.changePostEntity(viewPostCubit.items);
+          viewPostCubit!.items[index] =
+              item.copyWith(commentCount: item.commentCount!.inc.toString());
+        viewPostCubit!.changePostEntity(viewPostCubit!.items);
       },
       postEntity: item,
       detailedPost: !item.isReplyItem,
       onPostOptionItem: (optionSelected) async {
-        FocusManager.instance.primaryFocus.unfocus();
+        FocusManager.instance.primaryFocus!.unfocus();
 
-        final getOptionsEnum = optionSelected.getOptionsEnum;
+        final getOptionsEnum = optionSelected!.getOptionsEnum;
         switch (getOptionsEnum) {
           case PostOptionsEnum.SHOW_LIKES:
             showModalBottomSheet(
                 context: context, builder: (c) => ShowLikeScreen(item.postId));
             break;
           case PostOptionsEnum.BOOKMARK:
-            viewPostCubit.addRemoveBook(index);
+            viewPostCubit!.addRemoveBook(index);
             break;
           case PostOptionsEnum.DELETE:
             context.showDeleteDialog(onOkTap: () async {
               // ExtendedNavigator.root.pop();
-              await viewPostCubit.deletePost(index);
+              await viewPostCubit!.deletePost(index);
             });
             break;
         }
       },
-      onLikeTap: () => viewPostCubit.likeUnLikePost(index),
-      onTapRepost: () => viewPostCubit.repost(index),
+      onLikeTap: () => viewPostCubit!.likeUnLikePost(index),
+      onTapRepost: () => viewPostCubit!.repost(index),
     );
   }
 }
@@ -530,21 +529,21 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
 // no need to call the api again to
 // increase like, share, comment count
 class ViewPostCallBack extends Equatable {
-  final String commentsCount;
-  final String repostCount;
-  final String likeCount;
+  final String? commentsCount;
+  final String? repostCount;
+  final String? likeCount;
 
   const ViewPostCallBack._(
-      {@required this.commentsCount,
-      @required this.repostCount,
-      @required this.likeCount});
+      {required this.commentsCount,
+      required this.repostCount,
+      required this.likeCount});
 
-  factory ViewPostCallBack.fromPostItem({PostEntity postEntity}) =>
+  factory ViewPostCallBack.fromPostItem({required PostEntity postEntity}) =>
       ViewPostCallBack._(
           commentsCount: postEntity.commentCount,
           repostCount: postEntity.repostCount,
           likeCount: postEntity.likeCount);
 
   @override
-  List<String> get props => [commentsCount, repostCount, likeCount];
+  List<String?> get props => [commentsCount, repostCount, likeCount];
 }

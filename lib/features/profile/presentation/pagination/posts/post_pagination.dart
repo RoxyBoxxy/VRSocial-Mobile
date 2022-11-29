@@ -10,7 +10,7 @@ import 'package:injectable/injectable.dart';
 @injectable
 class ProfilePostPagination extends CustomPagination<PostEntity>
     with PostInteractionMixinOnCustomPagination {
-  final GetProfilePostsUseCase getProfilePostsUseCase;
+  final GetProfilePostsUseCase? getProfilePostsUseCase;
   // String userId;
 
   ProfilePostPagination(this.getProfilePostsUseCase);
@@ -18,11 +18,12 @@ class ProfilePostPagination extends CustomPagination<PostEntity>
   @override
   Future<Either<Failure, List<PostEntity>>> getItems(int pageKey) async {
     // return await getProfilePostsUseCase(PostCategoryModel(pageKey.toString(),PostCategory.POSTS,userId));
+    throw UnimplementedError();
   }
 
   @override
   PostEntity getLastItemWithoutAd(List<PostEntity> item) {
-    if (item.last.isAdvertisement) return item[item.length - 2];
+    if (item.last.isAdvertisement!) return item[item.length - 2];
     return item.last;
   }
 
@@ -33,10 +34,10 @@ class ProfilePostPagination extends CustomPagination<PostEntity>
 
   @override
   bool isLastPage(List<PostEntity> item) {
-    if (item.last.isAdvertisement && item.length == ApiConstants.pageSize + 1)
+    if (item.last.isAdvertisement! && item.length == ApiConstants.pageSize + 1)
       return false;
-    else if (!item.last.isAdvertisement && item.length == ApiConstants.pageSize)
-      return false;
+    else if (!item.last.isAdvertisement! &&
+        item.length == ApiConstants.pageSize) return false;
     return true;
   }
 

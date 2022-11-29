@@ -17,10 +17,10 @@ class PeopleResponse {
     this.data,
   });
 
-  bool valid;
-  int code;
-  String message;
-  List<PeopleModel> data;
+  bool? valid;
+  int? code;
+  String? message;
+  List<PeopleModel>? data;
 
   factory PeopleResponse.fromJson(Map<String, dynamic> json) => PeopleResponse(
         valid: json["valid"] == null ? null : json["valid"],
@@ -38,7 +38,7 @@ class PeopleResponse {
         "message": message == null ? null : message,
         "data": data == null
             ? null
-            : List<dynamic>.from(data.map((x) => x.toJson())),
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
@@ -61,21 +61,21 @@ class PeopleModel {
     this.isFollowing,
   });
 
-  int id;
-  String about;
-  int followers;
-  int posts;
-  String avatar;
-  String lastActive;
-  String username;
-  String fname;
-  String lname;
-  String email;
-  String verified;
-  String name;
-  String url;
-  bool isUser;
-  bool isFollowing;
+  int? id;
+  String? about;
+  int? followers;
+  int? posts;
+  String? avatar;
+  String? lastActive;
+  String? username;
+  String? fname;
+  String? lname;
+  String? email;
+  String? verified;
+  String? name;
+  String? url;
+  bool? isUser;
+  bool? isFollowing;
 
   factory PeopleModel.fromJson(Map<String, dynamic> json) => PeopleModel(
         id: json["id"] == null ? null : json["id"],

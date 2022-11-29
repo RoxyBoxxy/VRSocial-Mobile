@@ -21,7 +21,7 @@ Widget getHastTagItem(HashTagEntity entity, StringToVoidFunc onTap) {
         .toCenter(),
     10.toSizedBoxHorizontal,
     [
-      entity.name.toSubTitle2(fontWeight: FontWeight.w600),
+      entity.name!.toSubTitle2(fontWeight: FontWeight.w600),
       3.toSizedBox,
       "${entity.totalPosts} Posts".toCaption(fontSize: 10.toSp)
     ].toColumn()

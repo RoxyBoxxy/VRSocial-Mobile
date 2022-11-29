@@ -23,7 +23,8 @@ extension PaddingExtension on Widget {
         visible: visibility,
       );
 
-  Widget toSwipeToDelete({Key key, VoidCallback onDismissed}) => Dismissible(
+  Widget toSwipeToDelete({required Key key, VoidCallback? onDismissed}) =>
+      Dismissible(
         onDismissed: (direction) {
           onDismissed?.call();
         },
@@ -54,44 +55,49 @@ extension PaddingExtension on Widget {
   Widget toPadding(num value) => Padding(
         child: this,
         padding: EdgeInsets.symmetric(
-            vertical: value.toVertical, horizontal: value.toHorizontal),
+            vertical: value.toVertical as double,
+            horizontal: value.toHorizontal as double),
       );
 
   Widget toVerticalPadding(num value) => Padding(
         child: this,
-        padding: EdgeInsets.symmetric(vertical: value.toVertical),
+        padding: EdgeInsets.symmetric(vertical: value.toVertical as double),
       );
   Widget toPaddingOnly(
           {num top = 0, num bottom = 0, num right = 0, num left = 0}) =>
       Padding(
-        padding:
-            EdgeInsets.only(top: top, right: right, left: left, bottom: bottom),
+        padding: EdgeInsets.only(
+            top: top as double,
+            right: right as double,
+            left: left as double,
+            bottom: bottom as double),
       );
 
   Widget toHorizontalPadding(num value) => Padding(
         child: this,
-        padding: EdgeInsets.symmetric(horizontal: value.toHorizontal),
+        padding: EdgeInsets.symmetric(horizontal: value.toHorizontal as double),
       );
 
   Widget toSymmetricPadding(num horizontal, num vertical) => Padding(
         child: this,
         padding: EdgeInsets.symmetric(
-            horizontal: horizontal.toHorizontal, vertical: vertical.toVertical),
+            horizontal: horizontal.toHorizontal as double,
+            vertical: vertical.toVertical as double),
       );
 
   Container toContainer(
           {AlignmentGeometry alignment = Alignment.centerLeft,
-          double height,
-          Color color,
-          BoxDecoration decoration,
-          double width}) =>
+          double? height,
+          Color? color,
+          BoxDecoration? decoration,
+          double? width}) =>
       Container(
         alignment: alignment,
         color: color,
         decoration: decoration,
         child: this,
-        height: height?.toHeight,
-        width: width?.toWidth,
+        height: height?.toHeight as double?,
+        width: width?.toWidth as double?,
       );
 
   Expanded toExpanded({int flex = 1}) => Expanded(
@@ -104,27 +110,27 @@ extension PaddingExtension on Widget {
         flex: flex,
       );
 
-  TextButton toFlatButton(VoidCallback callback, {Color color}) => TextButton(
+  TextButton toFlatButton(VoidCallback callback, {Color? color}) => TextButton(
         child: this,
         style: TextButton.styleFrom(foregroundColor: color),
         onPressed: callback,
       );
 
   Widget onTapWidget(VoidCallback callback,
-          {bool removeFocus = true, VoidCallback onLongPress}) =>
+          {bool removeFocus = true, VoidCallback? onLongPress}) =>
       InkWell(
         // customBorder: new CircleBorder(),
         child: this,
         onLongPress: onLongPress,
         onTap: () {
           if (removeFocus) {
-            FocusManager.instance.primaryFocus.unfocus();
+            FocusManager.instance.primaryFocus!.unfocus();
           }
           callback.call();
         },
       );
 
-  Widget toIconButton({@required VoidCallback onTap}) => IconButton(
+  Widget toIconButton({required VoidCallback onTap}) => IconButton(
         icon: this,
         onPressed: onTap,
       );
@@ -134,10 +140,10 @@ extension PaddingExtension on Widget {
         alignment: Alignment.center,
       );
 
-  SizedBox toSizedBox({num height, num width}) => SizedBox(
+  SizedBox toSizedBox({required num height, required num width}) => SizedBox(
         child: this,
-        height: height.toHeight,
-        width: width.toWidth,
+        height: height.toHeight as double?,
+        width: width.toWidth as double?,
       );
 
   FadeTransition toFadeAnimation(AnimationController controller) =>
@@ -173,7 +179,7 @@ extension PaddingExtension on Widget {
         child: this,
         onPressed: () {
           if (enabled) {
-            FocusManager.instance.primaryFocus.unfocus();
+            FocusManager.instance.primaryFocus!.unfocus();
             callback.call();
           }
         },
@@ -189,7 +195,7 @@ extension PaddingExtension on Widget {
 
   Widget toSteamVisibility(Stream<bool> stream) => StreamBuilder<bool>(
         initialData: false,
-        builder: (c, snapshot) => this.toVisibility(snapshot.data),
+        builder: (c, snapshot) => this.toVisibility(snapshot.data!),
         stream: stream,
       );
 }

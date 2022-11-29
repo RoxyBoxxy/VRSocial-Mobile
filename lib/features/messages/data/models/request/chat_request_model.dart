@@ -1,10 +1,8 @@
-import 'package:flutter/foundation.dart';
-
 class ChatRequestModel {
-  final String userId;
+  final String? userId;
   final String offset;
-  final String searchQuery;
+  final String? searchQuery;
 
   ChatRequestModel(
-      {@required this.userId, @required this.offset, this.searchQuery});
+      {required this.userId, required this.offset, this.searchQuery});
 }

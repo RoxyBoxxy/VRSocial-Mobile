@@ -18,10 +18,10 @@ class PostLikesResponse {
     this.data,
   });
 
-  bool valid;
-  int code;
-  String message;
-  List<LikePeopleModel> data;
+  bool? valid;
+  int? code;
+  String? message;
+  List<LikePeopleModel>? data;
 
   factory PostLikesResponse.fromJson(Map<String, dynamic> json) =>
       PostLikesResponse(
@@ -40,7 +40,7 @@ class PostLikesResponse {
         "message": message == null ? null : message,
         "data": data == null
             ? null
-            : List<dynamic>.from(data.map((x) => x.toJson())),
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
@@ -64,22 +64,22 @@ class LikePeopleModel {
     this.isUser,
   });
 
-  int offsetId;
-  int id;
-  String about;
-  int followers;
-  int posts;
-  String avatar;
-  String lastActive;
-  String username;
-  String fname;
-  String lname;
-  String email;
-  String verified;
-  String name;
-  String url;
-  bool isFollowing;
-  bool isUser;
+  int? offsetId;
+  int? id;
+  String? about;
+  int? followers;
+  int? posts;
+  String? avatar;
+  String? lastActive;
+  String? username;
+  String? fname;
+  String? lname;
+  String? email;
+  String? verified;
+  String? name;
+  String? url;
+  bool? isFollowing;
+  bool? isUser;
 
   factory LikePeopleModel.fromJson(Map<String, dynamic> json) =>
       LikePeopleModel(

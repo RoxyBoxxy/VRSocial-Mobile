@@ -1,18 +1,17 @@
 import 'dart:collection';
 
 import 'package:colibri/extensions.dart';
-import 'package:flutter/foundation.dart';
 
 class MessagesRequestModel {
-  final String userId;
+  final String? userId;
   final String type;
   final String message;
-  final String mediaUrl;
+  final String? mediaUrl;
 
   const MessagesRequestModel(
-      {@required this.userId,
-      @required this.type,
-      @required this.message,
+      {required this.userId,
+      required this.type,
+      required this.message,
       this.mediaUrl = ''});
 
   HashMap<String, dynamic> get toMap => HashMap.from({
@@ -25,7 +24,7 @@ class MessagesRequestModel {
     return HashMap.from({
       "user_id": userId,
       "type": type,
-      "image": await mediaUrl.toMultiPart(),
+      "image": await mediaUrl!.toMultiPart(),
     });
   }
 }

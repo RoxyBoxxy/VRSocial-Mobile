@@ -10,15 +10,15 @@ import 'package:injectable/injectable.dart';
 @injectable
 class HashTagPagination extends CustomPagination<HashTagEntity>
     with SearchingMixin<HashTagEntity> {
-  final SearchHashtagsUseCase searchHashtagsUseCase;
+  final SearchHashtagsUseCase? searchHashtagsUseCase;
 
   HashTagPagination(this.searchHashtagsUseCase) {
     enableSearch();
   }
 
   @override
-  Future<Either<Failure, List<HashTagEntity>>> getItems(int pageKey) async {
-    return await searchHashtagsUseCase(
+  Future<Either<Failure, List<HashTagEntity>>?> getItems(int pageKey) async {
+    return await searchHashtagsUseCase!(
         TextModelWithOffset(queryText: queryText, offset: pageKey.toString()));
   }
 
@@ -28,7 +28,7 @@ class HashTagPagination extends CustomPagination<HashTagEntity>
   }
 
   @override
-  int getNextKey(HashTagEntity item) {
+  int? getNextKey(HashTagEntity item) {
     return int.tryParse(item.id);
   }
 

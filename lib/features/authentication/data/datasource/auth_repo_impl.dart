@@ -16,17 +16,17 @@ import 'package:injectable/injectable.dart';
 
 @Singleton(as: AuthRepo)
 class AuthRepoImpl extends AuthRepo {
-  final ApiHelper apiHelper;
-  final GoogleSignIn _googleSignIn;
+  final ApiHelper? apiHelper;
+  final GoogleSignIn? _googleSignIn;
   // final TwitterLogin _twitterLogin;
-  final LocalDataSource localDataSource;
+  final LocalDataSource? localDataSource;
 
   AuthRepoImpl(this.apiHelper, this._googleSignIn, this.localDataSource);
 
   @override
   Future<Either<Failure, dynamic>> signIn(
       HashMap<String, dynamic> hashMap) async {
-    var response = await apiHelper.post(ApiConstants.loginEndPoint, hashMap);
+    var response = await apiHelper!.post(ApiConstants.loginEndPoint, hashMap);
     return response.fold((l) {
       if (l.errorMessage.toLowerCase().contains("incorrect")) {
         return left(ServerFailure(
@@ -37,9 +37,9 @@ class AuthRepoImpl extends AuthRepo {
       // saving data locally
 
       var loginResponse = LoginResponse.fromJson(r.data);
-      await localDataSource.saveUserData(loginResponse);
-      final pushToken = await localDataSource.getPushToken();
-      await apiHelper.post(
+      await localDataSource!.saveUserData(loginResponse);
+      final pushToken = await localDataSource!.getPushToken();
+      await apiHelper!.post(
           ApiConstants.saveNotificationToken,
           HashMap.from({
             "token": pushToken,
@@ -51,7 +51,7 @@ class AuthRepoImpl extends AuthRepo {
 
   @override
   Future<Either<Failure, dynamic>> signUp(HashMap<String, dynamic> hashMap) {
-    return apiHelper.post(ApiConstants.signUpEndPoint, hashMap);
+    return apiHelper!.post(ApiConstants.signUpEndPoint, hashMap);
   }
 
   @override
@@ -59,7 +59,7 @@ class AuthRepoImpl extends AuthRepo {
     final facebookLogin = FacebookLogin();
     final result = await facebookLogin.logIn(['email']);
     if (result.status == FacebookLoginStatus.loggedIn) {
-      var r = await apiHelper.post(
+      var r = await apiHelper!.post(
           ApiConstants.oauth,
           HashMap.from({
             "access_token": result.accessToken.token,
@@ -70,10 +70,10 @@ class AuthRepoImpl extends AuthRepo {
         return left(ServerFailure("Something went wrong. Please try again"));
       }, (r) async {
         var loginResponse = LoginResponse.fromJson(r.data);
-        await localDataSource.saveUserData(loginResponse);
-        localDataSource.setSocialLogin(true);
-        final pushToken = await localDataSource.getPushToken();
-        await apiHelper.post(
+        await localDataSource!.saveUserData(loginResponse);
+        localDataSource!.setSocialLogin(true);
+        final pushToken = await localDataSource!.getPushToken();
+        await apiHelper!.post(
             ApiConstants.saveNotificationToken,
             HashMap.from({
               "token": pushToken,
@@ -90,10 +90,10 @@ class AuthRepoImpl extends AuthRepo {
   @override
   Future<Either<Failure, String>> googleLogin() async {
     try {
-      var response = await _googleSignIn.signIn();
+      var response = await _googleSignIn!.signIn();
       var auth = await response.authentication;
       // var token=await refreshToken();
-      var r = await apiHelper.post(
+      var r = await apiHelper!.post(
           ApiConstants.oauth,
           HashMap.from({
             "access_token": auth.accessToken,
@@ -101,16 +101,16 @@ class AuthRepoImpl extends AuthRepo {
             "device_type": Platform.isAndroid ? "android" : "ios"
           }));
       return r.fold((l) async {
-        await _googleSignIn.signOut();
+        await _googleSignIn!.signOut();
         return left(ServerFailure("Something went wrong. Please try again"));
       }, (r) async {
         // saving data locally
 
         var loginResponse = LoginResponse.fromJson(r.data);
-        await localDataSource.saveUserData(loginResponse);
-        localDataSource.setSocialLogin(true);
-        final pushToken = await localDataSource.getPushToken();
-        await apiHelper.post(
+        await localDataSource!.saveUserData(loginResponse);
+        localDataSource!.setSocialLogin(true);
+        final pushToken = await localDataSource!.getPushToken();
+        await apiHelper!.post(
             ApiConstants.saveNotificationToken,
             HashMap.from({
               "token": pushToken,
@@ -130,12 +130,13 @@ class AuthRepoImpl extends AuthRepo {
     // if(result.status==TwitterLoginStatus.loggedIn) return Right(result.session.token);
     // else if(result.status==TwitterLoginStatus.cancelledByUser)return Left(ServerFailure("Cancelled by the user"));
     // else return Left(ServerFailure(result.errorMessage));
+    throw UnimplementedError();
   }
 
   @override
   Future<Either<Failure, String>> resetPassword(String email) async {
     HashMap<String, dynamic> map = HashMap()..addAll({"email": email});
-    var response = await apiHelper.post(ApiConstants.resetPassword, map);
+    var response = await apiHelper!.post(ApiConstants.resetPassword, map);
     return response.fold((l) => left(l), (r) => right("hello"));
   }
 }

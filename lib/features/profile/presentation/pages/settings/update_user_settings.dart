@@ -16,10 +16,10 @@ import 'package:smart_select/smart_select.dart';
 
 class UpdateUserProfile extends StatefulWidget {
   final UpdateSettingEnum updateSettingEnum;
-  final VoidCallback onTapSave;
+  final VoidCallback? onTapSave;
 
   const UpdateUserProfile(
-      {Key key, @required this.updateSettingEnum, this.onTapSave})
+      {Key? key, required this.updateSettingEnum, this.onTapSave})
       : super(key: key);
 
   @override
@@ -27,7 +27,7 @@ class UpdateUserProfile extends StatefulWidget {
 }
 
 class _UpdateUserProfileState extends State<UpdateUserProfile> {
-  UserSettingCubit userSettingCubit;
+  UserSettingCubit? userSettingCubit;
 
   @override
   void initState() {
@@ -47,7 +47,7 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
     return SafeArea(
       child: WillPopScope(
         onWillPop: () {
-          userSettingCubit.resetAllData();
+          userSettingCubit!.resetAllData();
           ExtendedNavigator.root.pop();
           return Future.value(true);
         },
@@ -73,7 +73,7 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
                               widget.updateSettingEnum,
                             ),
                             onTap: () {
-                              widget.onTapSave.call();
+                              widget.onTapSave!.call();
                             },
                             color: widget.updateSettingEnum ==
                                     UpdateSettingEnum.DELETE_ACCOUNT
@@ -169,15 +169,15 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
         11.toSizedBox,
         Strings.firstName
             .toTextField()
-            .toStreamBuilder(validators: userSettingCubit.firstNameValidator),
+            .toStreamBuilder(validators: userSettingCubit!.firstNameValidator),
         11.toSizedBox,
         Strings.lastName
             .toTextField()
-            .toStreamBuilder(validators: userSettingCubit.lastNameValidator),
+            .toStreamBuilder(validators: userSettingCubit!.lastNameValidator),
         10.toSizedBox,
         Strings.userName
             .toTextField()
-            .toStreamBuilder(validators: userSettingCubit.userNameValidator),
+            .toStreamBuilder(validators: userSettingCubit!.userNameValidator),
       ],
     );
   }
@@ -187,7 +187,7 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
       11.toSizedBox,
       Strings.emailAddress
           .toTextField()
-          .toStreamBuilder(validators: userSettingCubit.emailValidator),
+          .toStreamBuilder(validators: userSettingCubit!.emailValidator),
       11.toSizedBox,
       "Please note that after changing the email address, the email address that you use during authorization will be replaced by a new one"
           .toCaption(
@@ -203,7 +203,7 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
       11.toSizedBox,
       Strings.userSiteUrl
           .toTextField()
-          .toStreamBuilder(validators: userSettingCubit.websiteValidators),
+          .toStreamBuilder(validators: userSettingCubit!.websiteValidators),
       11.toSizedBox,
       "Please note that this URL will appear on your profile page. If you want to hide it, leave this field blank."
           .toCaption(
@@ -219,7 +219,7 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
       11.toSizedBox,
       Strings.aboutYou
           .toTextField(maxLength: 140)
-          .toStreamBuilder(validators: userSettingCubit.aboutYouValidators),
+          .toStreamBuilder(validators: userSettingCubit!.aboutYouValidators),
       11.toSizedBox,
       "Please enter a brief description of yourself with a maximum of 140 characters"
           .toCaption(
@@ -232,7 +232,7 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
 
   Widget _updateGender() {
     return StreamBuilder<SettingEntity>(
-        stream: userSettingCubit.settingEntity,
+        stream: userSettingCubit!.settingEntity,
         builder: (context, snapshot) {
           return snapshot.data == null
               ? const SizedBox()
@@ -248,10 +248,10 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
                             textStyle: context.subTitle1
                                 .copyWith(fontWeight: FontWeight.w600))),
                     modalType: S2ModalType.bottomSheet,
-                    value: snapshot.data.gender.split('')[0],
+                    value: snapshot.data!.gender.split('')[0],
                     onChange: (s) {
-                      userSettingCubit
-                        ..changeSettingEntity(snapshot.data.copyWith(
+                      userSettingCubit!
+                        ..changeSettingEntity(snapshot.data!.copyWith(
                             updatedGender: s.value == "M" ? "Male" : "Female"))
                         ..gender = s.value;
                     },
@@ -264,7 +264,7 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
                         s.showModal();
                       },
                       title: "Gender".toSubTitle2(fontWeight: FontWeight.w600),
-                      subtitle: snapshot.data.gender
+                      subtitle: snapshot.data!.gender
                           .toCaption(fontWeight: FontWeight.w600),
                     ),
                     choiceItems: ["Male", "Female"]
@@ -291,14 +291,14 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
       11.toSizedBox,
       Strings.currentPassword
           .toTextField()
-          .toStreamBuilder(validators: userSettingCubit.oldPasswordValidator),
+          .toStreamBuilder(validators: userSettingCubit!.oldPasswordValidator!),
       11.toSizedBox,
       Strings.newPassword
           .toTextField()
-          .toStreamBuilder(validators: userSettingCubit.newPasswordValidator),
+          .toStreamBuilder(validators: userSettingCubit!.newPasswordValidator!),
       11.toSizedBox,
       Strings.confirmNewPassword.toTextField().toStreamBuilder(
-          validators: userSettingCubit.confirmPasswordValidator),
+          validators: userSettingCubit!.confirmPasswordValidator!),
       11.toSizedBox,
       "Before changing your current password, please follow these tips: Indicate the minimum length (8 characters). Use uppercase and lowercase letters. Use numbers and special characters (&%\$)"
           .toCaption(
@@ -313,24 +313,23 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
     return [
       11.toSizedBox,
       Strings.fullName.toTextField().toStreamBuilder(
-          validators: userSettingCubit.verifyFullNameValidator),
+          validators: userSettingCubit!.verifyFullNameValidator),
       11.toSizedBox,
-      Strings.messageToReceiver
-          .toTextField()
-          .toStreamBuilder(validators: userSettingCubit.verifyMessageValidator),
+      Strings.messageToReceiver.toTextField().toStreamBuilder(
+          validators: userSettingCubit!.verifyMessageValidator),
       15.toSizedBox,
       "Video Message".toSubTitle2(fontWeight: FontWeight.w600),
       5.toSizedBox,
       "Select a video appeal to the reviewer"
           .toSubTitle2(align: TextAlign.center)
           .toTextStreamBuilder(
-              userSettingCubit.videoPath.map((event) => event.split('/').last))
+              userSettingCubit!.videoPath.map((event) => event.split('/').last))
           .toPadding(18)
           .toContainer(color: AppColors.sfBgColor, alignment: Alignment.center)
           .onTapWidget(() async {
         await openMediaPicker(context, (media) {
           if (media != null && media.isNotEmpty)
-            userSettingCubit.changeVideoPath(media);
+            userSettingCubit!.changeVideoPath(media);
         }, mediaType: MediaTypeEnum.VIDEO);
       }),
       15.toSizedBox,
@@ -349,9 +348,8 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
   Widget _deleteAccount() {
     return [
       11.toSizedBox,
-      Strings.password
-          .toTextField()
-          .toStreamBuilder(validators: userSettingCubit.deleteAccountValidator),
+      Strings.password.toTextField().toStreamBuilder(
+          validators: userSettingCubit!.deleteAccountValidator),
       11.toSizedBox,
       "Please note that after deleting your account, all your publications, subscriptions,"
               " all your data and all your actions will also be deleted, and this action will not be canceled"
@@ -365,17 +363,17 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
 
   Widget _updateCountry() {
     return StreamBuilder<SettingEntity>(
-        stream: userSettingCubit.settingEntity,
+        stream: userSettingCubit!.settingEntity,
         builder: (context, snapshot) {
           return snapshot.data == null
               ? const SizedBox()
-              : StreamBuilder<List<String>>(
-                  stream: userSettingCubit.countries,
+              : StreamBuilder<List<String?>>(
+                  stream: userSettingCubit!.countries,
                   initialData: [],
                   builder: (context, countrySnapshot) {
                     return [
                       11.toSizedBox,
-                      SmartSelect<String>.single(
+                      SmartSelect<String?>.single(
                         modalFilter: true,
                         modalFilterBuilder: (ctx, cont) => TextField(
                           decoration: InputDecoration(
@@ -396,11 +394,11 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
                                 textStyle: context.subTitle1
                                     .copyWith(fontWeight: FontWeight.w600))),
                         modalType: S2ModalType.fullPage,
-                        value: snapshot.data.country,
+                        value: snapshot.data!.country,
                         onChange: (s) {
-                          userSettingCubit
+                          userSettingCubit!
                             ..changeSettingEntity(
-                                snapshot.data.copyWith(country: s.value));
+                                snapshot.data!.copyWith(country: s.value));
                           //   ..gender = s.value;
                         },
                         tileBuilder: (c, s) => ListTile(
@@ -413,14 +411,14 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
                           },
                           title: "Country"
                               .toSubTitle2(fontWeight: FontWeight.w600),
-                          subtitle: snapshot.data.country
+                          subtitle: snapshot.data!.country!
                               .toCaption(fontWeight: FontWeight.w600),
                         ),
-                        choiceItems: countrySnapshot.data
+                        choiceItems: countrySnapshot.data!
                             .toList()
                             .map((e) => S2Choice(
                                   value: e,
-                                  title: e,
+                                  title: e!,
                                 ))
                             .toList(),
                       ),
@@ -456,16 +454,16 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
 
   Widget _changeLanguage() {
     return StreamBuilder<SettingEntity>(
-        stream: userSettingCubit.settingEntity,
+        stream: userSettingCubit!.settingEntity,
         builder: (context, snapshot) {
           return snapshot.data == null
               ? const SizedBox()
               : StreamBuilder<List<String>>(
-                  stream: userSettingCubit.languages,
+                  stream: userSettingCubit!.languages,
                   initialData: [],
                   builder: (context, countrySnapshot) => [
                         11.toSizedBox,
-                        SmartSelect<String>.single(
+                        SmartSelect<String?>.single(
                           modalFilter: true,
                           modalFilterBuilder: (ctx, cont) => TextField(
                             decoration: InputDecoration(
@@ -486,10 +484,10 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
                                   textStyle: context.subTitle1
                                       .copyWith(fontWeight: FontWeight.w600))),
                           modalType: S2ModalType.fullPage,
-                          value: snapshot.data.displayLanguage,
-                          onChange: (s) => userSettingCubit
+                          value: snapshot.data!.displayLanguage,
+                          onChange: (s) => userSettingCubit!
                             ..changeSettingEntity(
-                                snapshot.data.copyWith(displayLang: s.value))
+                                snapshot.data!.copyWith(displayLang: s.value))
                             ..changeSelectedLang(s.value),
                           tileBuilder: (c, s) => ListTile(
                             trailing: const Icon(
@@ -499,15 +497,15 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
                             onTap: () => s.showModal(),
                             title: "Select display language"
                                 .toSubTitle2(fontWeight: FontWeight.w600),
-                            subtitle:
-                                allLanguagesMap[snapshot.data.displayLanguage]
-                                    .toCaption(fontWeight: FontWeight.w600),
+                            subtitle: allLanguagesMap[
+                                    snapshot.data!.displayLanguage!]!
+                                .toCaption(fontWeight: FontWeight.w600),
                           ),
-                          choiceItems: countrySnapshot.data
+                          choiceItems: countrySnapshot.data!
                               .toList()
                               .map((e) => S2Choice(
                                     value: e,
-                                    title: allLanguagesMap[e],
+                                    title: allLanguagesMap[e]!,
                                   ))
                               .toList(),
                         ),
@@ -526,10 +524,10 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
 
   @override
   void dispose() {
-    userSettingCubit.resetAllData();
-    userSettingCubit.newPasswordValidator..textController.clear();
-    userSettingCubit.oldPasswordValidator..textController.clear();
-    userSettingCubit.confirmPasswordValidator..textController.clear();
+    userSettingCubit!.resetAllData();
+    userSettingCubit!.newPasswordValidator!..textController.clear();
+    userSettingCubit!.oldPasswordValidator!..textController.clear();
+    userSettingCubit!.confirmPasswordValidator!..textController.clear();
     super.dispose();
   }
 }

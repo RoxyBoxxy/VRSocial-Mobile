@@ -8,5 +8,5 @@ abstract class CommonUIState<T> with _$CommonUIState<T> {
   const factory CommonUIState.initial() = Initial<T>;
   const factory CommonUIState.success(T value) = Success<T>;
   const factory CommonUIState.loading() = Loading<T>;
-  const factory CommonUIState.error([String message]) = ErrorDetails<T>;
+  const factory CommonUIState.error([String? message]) = ErrorDetails<T>;
 }

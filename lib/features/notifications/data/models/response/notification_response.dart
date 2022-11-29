@@ -18,10 +18,10 @@ class NotificationResponse {
     this.data,
   });
 
-  bool valid;
-  int code;
-  String message;
-  List<NotificationModel> data;
+  bool? valid;
+  int? code;
+  String? message;
+  List<NotificationModel>? data;
 
   factory NotificationResponse.fromJson(Map<String, dynamic> json) =>
       NotificationResponse(
@@ -40,7 +40,7 @@ class NotificationResponse {
         "message": message == null ? null : message,
         "data": data == null
             ? null
-            : List<dynamic>.from(data.map((x) => x.toJson())),
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
@@ -63,21 +63,21 @@ class NotificationModel {
     this.postId,
   });
 
-  int id;
-  int notifierId;
-  int recipientId;
-  String status;
-  String subject;
-  int entryId;
-  String json;
-  String time;
-  String username;
-  String avatar;
-  String verified;
-  String name;
-  String url;
-  int userId;
-  int postId;
+  int? id;
+  int? notifierId;
+  int? recipientId;
+  String? status;
+  String? subject;
+  int? entryId;
+  String? json;
+  String? time;
+  String? username;
+  String? avatar;
+  String? verified;
+  String? name;
+  String? url;
+  int? userId;
+  int? postId;
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) =>
       NotificationModel(

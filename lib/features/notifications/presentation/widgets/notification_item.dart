@@ -7,12 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:colibri/extensions.dart';
 
 class NotificationItem extends StatefulWidget {
-  final NotificationEntity notificationEntity;
-  final ValueChanged<bool> onChanged;
-  bool isSelected;
+  final NotificationEntity? notificationEntity;
+  final ValueChanged<bool?>? onChanged;
+  bool? isSelected;
 
   NotificationItem(
-      {Key key, this.notificationEntity, this.onChanged, this.isSelected})
+      {Key? key, this.notificationEntity, this.onChanged, this.isSelected})
       : super(key: key);
 
   @override
@@ -22,7 +22,7 @@ class NotificationItem extends StatefulWidget {
 class _NotificationItemState extends State<NotificationItem>
     with SingleTickerProviderStateMixin {
   // NotificationCubit _notificationCubit;
-  AnimationController animationController;
+  AnimationController? animationController;
 
   @override
   void initState() {
@@ -41,39 +41,39 @@ class _NotificationItemState extends State<NotificationItem>
     //   });
     //   isSelected?_notificationCubit.addItemForDelete(widget.index):_notificationCubit.removeItemForDelete(widget.index);
     // }, value: isSelected,title: notificationItem(),).toContainer().makeBottomBorder;
-    return notificationItem(widget.notificationEntity).onTapWidget(() {
-      if (widget.notificationEntity.postId != null &&
-          widget.notificationEntity.postId != "null") {
+    return notificationItem(widget.notificationEntity!).onTapWidget(() {
+      if (widget.notificationEntity!.postId != null &&
+          widget.notificationEntity!.postId != "null") {
         // context.showSnackBar(message: widget.notificationEntity.postId);
         ExtendedNavigator.root.push(Routes.viewPostScreen,
             arguments: ViewPostScreenArguments(
-                threadID: int.tryParse(widget.notificationEntity.postId),
+                threadID: int.tryParse(widget.notificationEntity!.postId!),
                 postEntity: null));
       } else {
         ExtendedNavigator.root.push(Routes.profileScreen,
             arguments: ProfileScreenArguments(
-                otherUserId: widget.notificationEntity.userID));
+                otherUserId: widget.notificationEntity!.userID));
       }
     }, onLongPress: () {
-      widget.onChanged(!widget.isSelected);
+      widget.onChanged!(!widget.isSelected!);
       setState(() {
-        widget.isSelected = !widget.isSelected;
+        widget.isSelected = !widget.isSelected!;
       });
     });
   }
 
   Widget notificationItem(NotificationEntity notificationEntity) =>
       AnimatedContainer(
-        width: widget.isSelected ? context.getScreenWidth : 0,
+        width: widget.isSelected! ? context.getScreenWidth as double? : 0,
         duration: const Duration(milliseconds: 200),
         decoration: BoxDecoration(
-            color: widget.isSelected
+            color: widget.isSelected!
                 ? AppColors.colorPrimary.withOpacity(.1)
                 : Colors.transparent),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            notificationEntity.profileUrl
+            notificationEntity.profileUrl!
                 .toRoundNetworkImage(radius: 10)
                 .toHorizontalPadding(8),
             Column(
@@ -82,13 +82,13 @@ class _NotificationItemState extends State<NotificationItem>
                 Wrap(
                   runSpacing: 2,
                   children: [
-                    notificationEntity.name
+                    notificationEntity.name!
                         .toSubTitle2(fontWeight: FontWeight.w800, fontSize: 15)
                         .toHorizontalPadding(2),
                     // 2.toSizedBoxHorizontal.toVisibility(widget.notificationEntity.verifiedUser),
                     Images.verified
                         .toSvg(height: 15, width: 15)
-                        .toVisibility(widget.notificationEntity.verifiedUser)
+                        .toVisibility(widget.notificationEntity!.verifiedUser)
                         .toHorizontalPadding(2),
 
                     notificationEntity.title
@@ -108,7 +108,7 @@ class _NotificationItemState extends State<NotificationItem>
                 setState(() {
                   widget.isSelected = value;
                 });
-                widget.onChanged(value);
+                widget.onChanged!(value);
               },
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ).toContainer(alignment: Alignment.centerRight)

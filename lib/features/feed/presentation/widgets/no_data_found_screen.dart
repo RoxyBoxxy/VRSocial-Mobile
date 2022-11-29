@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:colibri/extensions.dart';
 
 class NoDataFoundScreen extends StatelessWidget {
-  final VoidCallback onTapButton;
+  final VoidCallback? onTapButton;
   final String message;
   final String title;
   final Widget icon;
   final String buttonText;
   final bool buttonVisibility;
   const NoDataFoundScreen(
-      {Key key,
+      {Key? key,
       this.onTapButton,
       this.buttonVisibility = true,
       this.message =

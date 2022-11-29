@@ -9,7 +9,7 @@ extension TextExtension on Text {
         text: this.data,
         fullWidth: fullWidth,
         onTap: () {
-          FocusManager.instance.primaryFocus.unfocus();
+          FocusManager.instance.primaryFocus!.unfocus();
           callBack.call();
         },
       );
@@ -21,20 +21,20 @@ extension TextExtension on Text {
         stream: stream,
         initialData: false,
         builder: (c, snapshot) => CustomButton(
-          color: snapshot.data != null && snapshot.data
+          color: snapshot.data != null && snapshot.data!
               ? AppColors.colorPrimary
               : AppColors.colorPrimary.withOpacity(.5),
           text: this.data,
           fullWidth: fullWidth,
           onTap: () {
-            if (snapshot.data != null && snapshot.data) callBack.call();
-            FocusManager.instance.primaryFocus.unfocus();
+            if (snapshot.data != null && snapshot.data!) callBack.call();
+            FocusManager.instance.primaryFocus!.unfocus();
           },
         ),
       );
 
   TextButton toTextButton(VoidCallback callback,
-          {Color color, RoundedRectangleBorder border}) =>
+          {Color? color, RoundedRectangleBorder? border}) =>
       TextButton(
         child: this,
         style: TextButton.styleFrom(
@@ -42,20 +42,20 @@ extension TextExtension on Text {
           shape: border,
         ),
         onPressed: () {
-          FocusManager.instance.primaryFocus.unfocus();
+          FocusManager.instance.primaryFocus!.unfocus();
           callback.call();
         },
       );
 
   Text toAlign(TextAlign align) => Text(
-        this.data,
+        this.data!,
         textAlign: align,
         style: this.style,
       );
 
   Text toUnderLine() => Text(
-        this.data,
-        style: this.style.copyWith(decoration: TextDecoration.underline),
+        this.data!,
+        style: this.style!.copyWith(decoration: TextDecoration.underline),
         textAlign: textAlign,
       );
 
@@ -75,7 +75,7 @@ extension TextExtension on Text {
         builder: (_, sndapshot) => Visibility(
           visible: sndapshot.data,
           child: Text(
-            this.data,
+            this.data!,
             style: this.style,
             textAlign: textAlign,
           ),

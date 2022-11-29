@@ -7,11 +7,11 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class VerifyUserAccountUseCase extends UseCase<dynamic, VerifyRequestModel> {
-  final ProfileRepo profileRepo;
+  final ProfileRepo? profileRepo;
 
   VerifyUserAccountUseCase(this.profileRepo);
   @override
   Future<Either<Failure, dynamic>> call(VerifyRequestModel params) {
-    return profileRepo.verifyUserAccount(params);
+    return profileRepo!.verifyUserAccount(params);
   }
 }

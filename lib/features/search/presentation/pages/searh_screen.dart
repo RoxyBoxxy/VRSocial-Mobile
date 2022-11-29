@@ -19,19 +19,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class SearchScreen extends StatefulWidget {
-  final String searchedText;
-  const SearchScreen({Key key, this.searchedText}) : super(key: key);
+  final String? searchedText;
+  const SearchScreen({Key? key, this.searchedText}) : super(key: key);
   @override
   _SearchScreenState createState() => _SearchScreenState();
 }
 
 class _SearchScreenState extends State<SearchScreen>
     with SingleTickerProviderStateMixin {
-  SearchCubit searchCubit;
-  PostCubit postCubit;
-  TabController tabController;
-  FocusNode focusNode;
-  TextEditingController textEditingController;
+  SearchCubit? searchCubit;
+  PostCubit? postCubit;
+  TabController? tabController;
+  FocusNode? focusNode;
+  TextEditingController? textEditingController;
   @override
   void initState() {
     // TODO: implement initState
@@ -43,22 +43,23 @@ class _SearchScreenState extends State<SearchScreen>
     textEditingController = TextEditingController();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (widget.searchedText?.isNotEmpty == true) {
-        tabController.animateTo(2, duration: const Duration(milliseconds: 300));
+        tabController!
+            .animateTo(2, duration: const Duration(milliseconds: 300));
         // textEditingController.text=widget.searchedText.replaceAll("#", "");
-        postCubit.searchedText = widget.searchedText.replaceAll("#", "");
+        postCubit!.searchedText = widget.searchedText!.replaceAll("#", "");
         // postCubit.searchedText=widget.searchedText;
         // postCubit.changeSearch(widget.searchedText.replaceAll("#", ""));
       }
     });
-    tabController.addListener(() {
-      FocusManager.instance.primaryFocus.unfocus();
-      var s = textEditingController.text;
-      if (tabController.index == 0) {
-        searchCubit.hashTagPagination.queryText = s;
-      } else if (tabController.index == 1) {
-        searchCubit.peoplePagination.queryText = s;
+    tabController!.addListener(() {
+      FocusManager.instance.primaryFocus!.unfocus();
+      var s = textEditingController!.text;
+      if (tabController!.index == 0) {
+        searchCubit!.hashTagPagination!.queryText = s;
+      } else if (tabController!.index == 1) {
+        searchCubit!.peoplePagination!.queryText = s;
       } else {
-        postCubit.searchedText = s;
+        postCubit!.searchedText = s;
       }
       // doSearch(textEditingController.text);
     });
@@ -79,13 +80,14 @@ class _SearchScreenState extends State<SearchScreen>
             elevation: 0.0,
             floating: true,
             pinned: true,
-            expandedHeight:
-                widget.searchedText != null ? 160.toHeight : 115.toHeight,
+            expandedHeight: widget.searchedText != null
+                ? 160.toHeight as double?
+                : 115.toHeight as double?,
             flexibleSpace: "#hashtag, username, etc..."
                 .toSearchBarField(
                     onTextChange: (s) {
                       // textEditingController.text=s;
-                      print(textEditingController.text);
+                      print(textEditingController!.text);
                       doSearch(s);
                     },
                     focusNode: focusNode,
@@ -98,7 +100,8 @@ class _SearchScreenState extends State<SearchScreen>
             ).toVisibility(widget.searchedText != null),
             backgroundColor: Colors.white,
             bottom: PreferredSize(
-              preferredSize: Size(context.getScreenWidth, 56.toHeight),
+              preferredSize:
+                  Size(context.getScreenWidth as double, 56.toHeight as double),
               child: Stack(
                 children: [
                   Positioned.fill(
@@ -109,7 +112,7 @@ class _SearchScreenState extends State<SearchScreen>
                   ),
                   TabBar(
                     onTap: (value) {
-                      FocusManager.instance.primaryFocus.unfocus();
+                      FocusManager.instance.primaryFocus!.unfocus();
                     },
                     controller: tabController,
                     tabs: [
@@ -132,13 +135,13 @@ class _SearchScreenState extends State<SearchScreen>
             Container(
                 child: RefreshIndicator(
               onRefresh: () {
-                searchCubit.hashTagPagination.onRefresh();
+                searchCubit!.hashTagPagination!.onRefresh();
                 return Future.value();
               },
               child: PagedListView.separated(
                 key: const PageStorageKey("Hashtags"),
                 pagingController:
-                    searchCubit.hashTagPagination.pagingController,
+                    searchCubit!.hashTagPagination!.pagingController,
                 builderDelegate: PagedChildBuilderDelegate<HashTagEntity>(
                     noItemsFoundIndicatorBuilder: (_) => NoDataFoundScreen(
                           buttonText: "GO TO HOMEPAGE",
@@ -149,7 +152,7 @@ class _SearchScreenState extends State<SearchScreen>
                           ),
                           title: "Nothing Found",
                           message:
-                              'Sorry, but we could not find anything in our database for your search query  "${textEditingController.text}."  Please try again by typing other keywords.',
+                              'Sorry, but we could not find anything in our database for your search query  "${textEditingController!.text}."  Please try again by typing other keywords.',
                           onTapButton: () {
                             BlocProvider.of<FeedCubit>(context)
                                 .changeCurrentPage(const ScreenType.home());
@@ -163,10 +166,10 @@ class _SearchScreenState extends State<SearchScreen>
                           // DefaultTabController.of(context).animateTo(1);
 
                           // context.showSnackBar(message: s);
-                          textEditingController.text = s.replaceAll("#", "");
-                          postCubit.searchedText = s.replaceAll("#", "");
+                          textEditingController!.text = s!.replaceAll("#", "");
+                          postCubit!.searchedText = s.replaceAll("#", "");
                           // FocusScope.of(context).requestFocus(focusNode);
-                          tabController.animateTo(2,
+                          tabController!.animateTo(2,
                               duration: const Duration(milliseconds: 300));
                         }),
                       );
@@ -177,12 +180,13 @@ class _SearchScreenState extends State<SearchScreen>
             )),
             RefreshIndicator(
               onRefresh: () {
-                searchCubit.peoplePagination.onRefresh();
+                searchCubit!.peoplePagination!.onRefresh();
                 return Future.value();
               },
               child: PagedListView.separated(
                 key: const PageStorageKey("People"),
-                pagingController: searchCubit.peoplePagination.pagingController,
+                pagingController:
+                    searchCubit!.peoplePagination!.pagingController,
                 padding: const EdgeInsets.only(top: 10),
                 builderDelegate: PagedChildBuilderDelegate<PeopleEntity>(
                     noItemsFoundIndicatorBuilder: (_) => NoDataFoundScreen(
@@ -194,7 +198,7 @@ class _SearchScreenState extends State<SearchScreen>
                           ),
                           title: "Nothing Found",
                           message:
-                              'Sorry, but we could not find anything in our database for your search query  "${textEditingController.text}."  Please try again by typing other keywords.',
+                              'Sorry, but we could not find anything in our database for your search query  "${textEditingController!.text}."  Please try again by typing other keywords.',
                           onTapButton: () {
                             BlocProvider.of<FeedCubit>(context)
                                 .changeCurrentPage(const ScreenType.home());
@@ -205,7 +209,7 @@ class _SearchScreenState extends State<SearchScreen>
                         peopleEntity: item,
                         onFollowTap: () {
                           // context.showSnackBar(message:"test");
-                          searchCubit.followUnFollow(index);
+                          searchCubit!.followUnFollow(index);
                         },
                       );
                     }),
@@ -215,17 +219,17 @@ class _SearchScreenState extends State<SearchScreen>
             ),
             RefreshIndicator(
               onRefresh: () {
-                postCubit.onRefresh();
+                postCubit!.onRefresh();
                 return Future.value();
               },
               child: PostPaginationWidget(
                 isComeHome: true,
                 isSliverList: false,
                 noDataFoundScreen: StreamBuilder<String>(
-                    stream: postCubit.search,
-                    initialData: textEditingController.text,
+                    stream: postCubit!.search,
+                    initialData: textEditingController!.text,
                     builder: (context, snapshot) {
-                      return snapshot.data.isEmpty
+                      return snapshot.data!.isEmpty
                           ? LoadingBar()
                           : NoDataFoundScreen(
                               buttonText: "GO TO HOMEPAGE",
@@ -240,10 +244,10 @@ class _SearchScreenState extends State<SearchScreen>
                               },
                             );
                     }),
-                pagingController: postCubit.pagingController,
-                onTapLike: postCubit.likeUnlikePost,
-                onTapRepost: postCubit.repost,
-                onOptionItemTap: postCubit.onOptionItemSelected,
+                pagingController: postCubit!.pagingController,
+                onTapLike: postCubit!.likeUnlikePost,
+                onTapRepost: postCubit!.repost,
+                onOptionItemTap: postCubit!.onOptionItemSelected,
                 isFromProfileSearch: true,
               ),
             )
@@ -253,20 +257,20 @@ class _SearchScreenState extends State<SearchScreen>
     );
   }
 
-  void doSearch(String s) {
+  void doSearch(String? s) {
     print("inside methid $s");
-    if (tabController.index == 0) {
-      searchCubit.hashTagPagination.changeSearch(s);
-    } else if (tabController.index == 1) {
-      searchCubit.peoplePagination.changeSearch(s);
+    if (tabController!.index == 0) {
+      searchCubit!.hashTagPagination!.changeSearch(s);
+    } else if (tabController!.index == 1) {
+      searchCubit!.peoplePagination!.changeSearch(s);
     } else {
-      postCubit.changeSearch(s);
+      postCubit!.changeSearch(s);
     }
   }
 
   @override
   void dispose() {
-    tabController.dispose();
+    tabController!.dispose();
     super.dispose();
   }
 }

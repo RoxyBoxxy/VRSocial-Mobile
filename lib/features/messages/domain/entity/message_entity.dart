@@ -1,40 +1,34 @@
-
-
-
-
-
 import 'package:colibri/features/messages/data/models/response/messages_response.dart';
 import 'package:colibri/extensions.dart';
-import 'package:flutter/foundation.dart';
 
 class MessageEntity {
-  final String fullName;
+  final String? fullName;
   final String userId;
-  final String message;
-  final String time;
-  final String userName;
-  final String profileUrl;
+  final String? message;
+  final String? time;
+  final String? userName;
+  final String? profileUrl;
   final bool isVerified;
 
   MessageEntity._(
-      {@required this.fullName,
-      @required this.userId,
-      @required this.message,
-      @required this.time,
-      @required this.userName,
-      @required this.profileUrl,
-      @required this.isVerified});
+      {required this.fullName,
+      required this.userId,
+      required this.message,
+      required this.time,
+      required this.userName,
+      required this.profileUrl,
+      required this.isVerified});
   factory MessageEntity.fromResponse(MessageResponseModel model) {
     return MessageEntity._(
         fullName: model.name,
         userId: model.userId.toString(),
-        message: model.lastMessage.isEmpty ? "No Messages" : model.lastMessage,
+        message: model.lastMessage!.isEmpty ? "No Messages" : model.lastMessage,
         time: model.time,
         userName: model.username,
         profileUrl: model.avatar,
-        isVerified: model.verified.isVerifiedUser);
+        isVerified: model.verified!.isVerifiedUser);
   }
-  MessageEntity copyWith({String message, String time}) {
+  MessageEntity copyWith({required String message, String? time}) {
     return MessageEntity._(
         fullName: fullName,
         userId: userId,

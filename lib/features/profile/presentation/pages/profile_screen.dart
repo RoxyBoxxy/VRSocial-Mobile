@@ -26,11 +26,11 @@ class ProfileScreen extends StatefulWidget {
   /// will going to pass id if the login user id is different than profile owner
   /// otherwise will pass null to this param to mark the current logged in user as profile owner
   final ProfileNavigationEnum profileNavigationEnum;
-  final String otherUserId;
-  final String profileUrl;
-  final String coverUrl;
+  final String? otherUserId;
+  final String? profileUrl;
+  final String? coverUrl;
   const ProfileScreen({
-    Key key,
+    Key? key,
     this.otherUserId,
     this.profileUrl,
     this.coverUrl,
@@ -43,12 +43,12 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin {
-  ProfileCubit _profileCubit;
-  UserPostCubit userPostCubit;
-  UserMediaCubit userMediaCubit;
-  UserLikesCubit userLikesCubit;
-  TabController tabController;
-  Size size;
+  ProfileCubit? _profileCubit;
+  UserPostCubit? userPostCubit;
+  UserMediaCubit? userMediaCubit;
+  UserLikesCubit? userLikesCubit;
+  TabController? tabController;
+  Size? size;
   @override
   void initState() {
     /// passing user for getting the data
@@ -61,15 +61,15 @@ class _ProfileScreenState extends State<ProfileScreen>
     userPostCubit = getIt<UserPostCubit>();
     userMediaCubit = getIt<UserMediaCubit>();
     userLikesCubit = getIt<UserLikesCubit>();
-    _profileCubit.profileEntity.listen((event) {
-      userLikesCubit.userId = event.id;
-      userMediaCubit.userId = event.id;
-      userPostCubit.userId = event.id;
+    _profileCubit!.profileEntity.listen((event) {
+      userLikesCubit!.userId = event.id;
+      userMediaCubit!.userId = event.id;
+      userPostCubit!.userId = event.id;
     });
 
     super.initState();
-    _profileCubit.getUserProfile(
-        widget.otherUserId, widget.coverUrl, widget.profileUrl);
+    _profileCubit!
+        .getUserProfile(widget.otherUserId, widget.coverUrl, widget.profileUrl);
   }
 
   @override
@@ -78,7 +78,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     return Scaffold(
       // appBar: AppBar(),
       body: BlocProvider(
-        create: (c) => _profileCubit,
+        create: (c) => _profileCubit!,
         child: BlocBuilder<ProfileCubit, CommonUIState>(
           bloc: _profileCubit,
           builder: (_, state) {
@@ -92,7 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                         icon: AppIcons.personOption(
                             color: AppColors.colorPrimary, size: 40),
                         title: "Profile not found!",
-                        message: e.contains("invalid")
+                        message: e!.contains("invalid")
                             ? "Sorry, we cannot find the page you are looking for."
                             : e,
                         buttonText: "Go Back",
@@ -112,13 +112,13 @@ class _ProfileScreenState extends State<ProfileScreen>
           headerSliverBuilder: (context, value) {
             return [
               StreamBuilder<ProfileEntity>(
-                  stream: _profileCubit.profileEntity,
+                  stream: _profileCubit!.profileEntity,
                   builder: (context, snapshot) {
                     return SliverAppBar(
                       automaticallyImplyLeading: false,
                       leading: null,
                       elevation: 0.0,
-                      expandedHeight: calculateHeight(snapshot.data),
+                      expandedHeight: calculateHeight(snapshot.data) as double?,
                       floating: true,
                       pinned: true,
                       actions: [
@@ -126,9 +126,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                             icon: const Icon(Icons.edit),
                             onPressed: () async {
                               await openMediaPicker(context, (media) async {
-                                _profileCubit.changeProfileEntity(snapshot.data
+                                _profileCubit!.changeProfileEntity(snapshot
+                                    .data!
                                     .copyWith(backgroundImage: media));
-                                await _profileCubit.updateProfileCover(media);
+                                await _profileCubit!.updateProfileCover(media);
                               },
                                   mediaType: MediaTypeEnum.IMAGE,
                                   allowCropping: true);
@@ -141,7 +142,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                         background: snapshot.data == null
                             ? Container()
                             : TopAppBar(
-                                otherUserId: snapshot.data.id,
+                                otherUserId: snapshot.data!.id,
                                 otherUser: widget.otherUserId != null,
                                 profileEntity: snapshot.data,
                                 profileNavigationEnum:
@@ -199,7 +200,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                           ],
                         ),
                         preferredSize: const Size(500, 56),
-                      ), systemOverlayStyle: SystemUiOverlayStyle.dark,
+                      ),
+                      systemOverlayStyle: SystemUiOverlayStyle.dark,
                     );
                   }),
             ];
@@ -209,14 +211,14 @@ class _ProfileScreenState extends State<ProfileScreen>
               Container(
                   child: RefreshIndicator(
                 onRefresh: () {
-                  userPostCubit.onRefresh();
+                  userPostCubit!.onRefresh();
                   return Future.value();
                 },
                 child: PostPaginationWidget(
                   isComeHome: false,
                   isFromProfileSearch: true,
                   isPrivateAccount: (value) {
-                    _profileCubit.isPrivateUser = value;
+                    _profileCubit!.isPrivateUser = value;
                   },
                   isSliverList: false,
                   noDataFoundScreen: NoDataFoundScreen(
@@ -229,22 +231,22 @@ class _ProfileScreenState extends State<ProfileScreen>
                       // ExtendedNavigator.root.push(Routes.createPost);
                     },
                   ),
-                  pagingController: userPostCubit.pagingController,
-                  onTapLike: userPostCubit.likeUnlikePost,
-                  onOptionItemTap: userPostCubit.onOptionItemSelected,
-                  onTapRepost: userPostCubit.repost,
+                  pagingController: userPostCubit!.pagingController,
+                  onTapLike: userPostCubit!.likeUnlikePost,
+                  onOptionItemTap: userPostCubit!.onOptionItemSelected,
+                  onTapRepost: userPostCubit!.repost,
                 ),
               )),
               Container(
                   child: RefreshIndicator(
                 onRefresh: () {
-                  userMediaCubit.onRefresh();
+                  userMediaCubit!.onRefresh();
                   return Future.value();
                 },
                 child: PostPaginationWidget(
                   isComeHome: false,
                   isPrivateAccount: (value) {
-                    _profileCubit.isPrivateUser = value;
+                    _profileCubit!.isPrivateUser = value;
                   },
                   isSliverList: false,
                   noDataFoundScreen: NoDataFoundScreen(
@@ -258,23 +260,23 @@ class _ProfileScreenState extends State<ProfileScreen>
                       // ExtendedNavigator.root.push(Routes.createPost);
                     },
                   ),
-                  pagingController: userMediaCubit.pagingController,
-                  onTapLike: userMediaCubit.likeUnlikePost,
+                  pagingController: userMediaCubit!.pagingController,
+                  onTapLike: userMediaCubit!.likeUnlikePost,
                   onOptionItemTap: (PostOptionsEnum value, int index) async =>
-                      await userMediaCubit.onOptionItemSelected(value, index),
-                  onTapRepost: userMediaCubit.repost,
+                      await userMediaCubit!.onOptionItemSelected(value, index),
+                  onTapRepost: userMediaCubit!.repost,
                 ),
               )),
               Container(
                   child: RefreshIndicator(
                 onRefresh: () {
-                  userLikesCubit.onRefresh();
+                  userLikesCubit!.onRefresh();
                   return Future.value();
                 },
                 child: PostPaginationWidget(
                   isComeHome: false,
                   isPrivateAccount: (value) {
-                    _profileCubit.isPrivateUser = value;
+                    _profileCubit!.isPrivateUser = value;
                   },
                   isSliverList: false,
                   noDataFoundScreen: NoDataFoundScreen(
@@ -290,10 +292,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                       // ExtendedNavigator.root.push(Routes.createPost);
                     },
                   ),
-                  pagingController: userLikesCubit.pagingController,
-                  onTapLike: userLikesCubit.likeUnlikePost,
-                  onOptionItemTap: userLikesCubit.onOptionItemSelected,
-                  onTapRepost: userLikesCubit.repost,
+                  pagingController: userLikesCubit!.pagingController,
+                  onTapLike: userLikesCubit!.likeUnlikePost,
+                  onOptionItemTap: userLikesCubit!.onOptionItemSelected,
+                  onTapRepost: userLikesCubit!.repost,
                 ),
               )),
             ],
@@ -303,16 +305,16 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
   }
 
-  num calculateHeight(ProfileEntity data) {
+  num calculateHeight(ProfileEntity? data) {
     if (data == null)
       return 0.toHeight;
 
     /// we will have to give static height to app bar
     /// in case of about is more than 40 chars we will increase height
-    else if (data.about.isNotEmpty) {
+    else if (data.about!.isNotEmpty) {
       /// handling large sizes
       if (context.getScreenWidth > 320) {
-        if (data.about.length > 40)
+        if (data.about!.length > 40)
           return 450.toHeight;
         else
           // return 500;

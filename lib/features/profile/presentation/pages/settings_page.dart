@@ -21,14 +21,14 @@ import 'package:video_compress/video_compress.dart';
 class SettingsScreen extends StatefulWidget {
   final bool fromProfile;
 
-  const SettingsScreen({Key key, this.fromProfile = false}) : super(key: key);
+  const SettingsScreen({Key? key, this.fromProfile = false}) : super(key: key);
 
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  UserSettingCubit userSettingCubit;
+  UserSettingCubit? userSettingCubit;
 
   @override
   void initState() {
@@ -69,11 +69,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 },
               )
             : null,
-        automaticallyImplyLeading: true, systemOverlayStyle: SystemUiOverlayStyle.dark,
+        automaticallyImplyLeading: true,
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          await userSettingCubit.getUserSettings();
+          await userSettingCubit!.getUserSettings();
           return Future.value();
         },
         child: BlocListener<UserSettingCubit, CommonUIState>(
@@ -100,19 +101,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
               return state.when(
                   initial: () => LoadingBar(),
                   success: (settingEntity) => StreamBuilder<SettingEntity>(
-                      stream: userSettingCubit.settingEntity,
+                      stream: userSettingCubit!.settingEntity,
                       builder: (context, snapshot) {
                         return snapshot.data == null
                             ? const SizedBox()
-                            : buildHomeUI(snapshot.data);
+                            : buildHomeUI(snapshot.data!);
                       }),
                   loading: () => LoadingBar(),
                   error: (e) => StreamBuilder<SettingEntity>(
-                      stream: userSettingCubit.settingEntity,
+                      stream: userSettingCubit!.settingEntity,
                       builder: (context, snapshot) {
                         return snapshot.data == null
                             ? const SizedBox()
-                            : buildHomeUI(snapshot.data);
+                            : buildHomeUI(snapshot.data!);
                       }));
             },
           ),
@@ -130,39 +131,39 @@ class _SettingsScreenState extends State<SettingsScreen> {
         // context.showSnackBar(message: settingEntity.userName);
         openUpdateBottomSheet(settingEntity, UpdateSettingEnum.USERNAME);
       }),
-      profileItem("Email", settingEntity.email, onTap: () {
+      profileItem("Email", settingEntity.email!, onTap: () {
         openUpdateBottomSheet(settingEntity, UpdateSettingEnum.EMAIL);
       }),
-      profileItem("Website", settingEntity.website, onTap: () {
+      profileItem("Website", settingEntity.website!, onTap: () {
         openUpdateBottomSheet(settingEntity, UpdateSettingEnum.WEBSITE);
       }),
-      profileItem("About", settingEntity.about, onTap: () {
+      profileItem("About", settingEntity.about!, onTap: () {
         openUpdateBottomSheet(settingEntity, UpdateSettingEnum.ABOUT_YOU);
       }),
       profileItem("Your Gender", settingEntity.gender, onTap: () {
         openUpdateBottomSheet(settingEntity, UpdateSettingEnum.GENDER);
       }),
-      header("User Password").toVisibility(!settingEntity.socialLogin),
+      header("User Password").toVisibility(!settingEntity.socialLogin!),
 
       profileItem("My password", "* * * * * *", onTap: () {
         openUpdateBottomSheet(settingEntity, UpdateSettingEnum.PASSWORD);
-      }).toVisibility(!settingEntity.socialLogin),
+      }).toVisibility(!settingEntity.socialLogin!),
       header("Language and Country"),
       // profileItem("Display Language", settingEntity.displayLanguage),
       profileItem(
-          "Display Language", allLanguagesMap[settingEntity.displayLanguage],
+          "Display Language", allLanguagesMap[settingEntity.displayLanguage!]!,
           onTap: () {
         openUpdateBottomSheet(settingEntity, UpdateSettingEnum.CHANGE_LANGUAGE);
       }),
-      profileItem("Country", settingEntity.country, onTap: () {
+      profileItem("Country", settingEntity.country!, onTap: () {
         openUpdateBottomSheet(settingEntity, UpdateSettingEnum.COUNTRY);
       }),
-      header("Account Verification").toVisibility(!settingEntity.isVerified),
+      header("Account Verification").toVisibility(!settingEntity.isVerified!),
       profileItem("Verify my account", "Click to submit a verification request",
           onTap: () {
         openUpdateBottomSheet(
             settingEntity, UpdateSettingEnum.VERIFY_MY_ACCOUNT);
-      }).toVisibility(!settingEntity.isVerified),
+      }).toVisibility(!settingEntity.isVerified!),
       header("Account Privacy Settings"),
       profileItem("Account Privacy", "Click to set your account privacy ",
           onTap: () {
@@ -174,7 +175,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             context: context,
             builder: (c) {
               return BlocProvider.value(
-                  value: userSettingCubit,
+                  value: userSettingCubit!,
                   child: PrivacyScreen(
                     privacyModels: PrivacyWidgetModel.getPrivacyModels(
                         accountPrivacyEntity:
@@ -256,78 +257,78 @@ class _SettingsScreenState extends State<SettingsScreen> {
         // clipBehavior: Clip.hardEdge,
         context: context,
         builder: (c) => BlocProvider.value(
-              value: userSettingCubit,
+              value: userSettingCubit!,
               child: UpdateUserProfile(
                 updateSettingEnum: updateSettingEnum,
                 onTapSave: () {
                   switch (updateSettingEnum) {
                     case UpdateSettingEnum.USERNAME:
-                      if (userSettingCubit.firstNameValidator.text.isEmpty) {
+                      if (userSettingCubit!.firstNameValidator.text.isEmpty) {
                         ExtendedNavigator.root.pop();
-                        userSettingCubit.firstNameValidator
+                        userSettingCubit!.firstNameValidator
                             .changeData(settingEntity.firstName);
-                        userSettingCubit.firstNameValidator.textController
-                            .text = settingEntity.firstName;
+                        userSettingCubit!.firstNameValidator.textController
+                            .text = settingEntity.firstName!;
                         context.showSnackBar(
                             message: "First name must not be empty",
                             isError: true);
-                      } else if (userSettingCubit
+                      } else if (userSettingCubit!
                           .lastNameValidator.text.isEmpty) {
                         ExtendedNavigator.root.pop();
-                        userSettingCubit.lastNameValidator.textController.text =
-                            settingEntity.lastName;
-                        userSettingCubit.lastNameValidator
+                        userSettingCubit!.lastNameValidator.textController
+                            .text = settingEntity.lastName!;
+                        userSettingCubit!.lastNameValidator
                             .changeData(settingEntity.lastName);
                         context.showSnackBar(
                             message: "Last name m"
                                 "ust not be empty",
                             isError: true);
-                      } else if (userSettingCubit
+                      } else if (userSettingCubit!
                           .userNameValidator.text.isEmpty) {
                         ExtendedNavigator.root.pop();
-                        userSettingCubit.userNameValidator
+                        userSettingCubit!.userNameValidator
                             .changeData(settingEntity.userName);
-                        userSettingCubit.userNameValidator.textController.text =
-                            settingEntity.userName;
+                        userSettingCubit!.userNameValidator.textController
+                            .text = settingEntity.userName;
                         context.showSnackBar(
                             message: "Username must not be empty",
                             isError: true);
                       } else {
-                        userSettingCubit.updateUserSettings(updateSettingEnum);
+                        userSettingCubit!.updateUserSettings(updateSettingEnum);
                         ExtendedNavigator.root.pop();
                       }
                       break;
                     case UpdateSettingEnum.EMAIL:
-                      if (userSettingCubit.emailValidator.text.isEmpty) {
+                      if (userSettingCubit!.emailValidator.text.isEmpty) {
                         ExtendedNavigator.root.pop();
-                        userSettingCubit.emailValidator
+                        userSettingCubit!.emailValidator
                             .changeData(settingEntity.email);
-                        userSettingCubit.emailValidator.textController.text =
-                            settingEntity.email;
+                        userSettingCubit!.emailValidator.textController.text =
+                            settingEntity.email!;
                         context.showSnackBar(
                             message: "Email must not be empty", isError: true);
                       } else {
-                        userSettingCubit.updateUserSettings(updateSettingEnum);
+                        userSettingCubit!.updateUserSettings(updateSettingEnum);
                         ExtendedNavigator.root.pop();
                       }
                       break;
                     case UpdateSettingEnum.WEBSITE:
-                      if (userSettingCubit.websiteValidators.text.isValidUrl) {
-                        userSettingCubit.websiteValidators
+                      if (userSettingCubit!.websiteValidators.text.isValidUrl) {
+                        userSettingCubit!.websiteValidators
                             .changeData(settingEntity.website);
-                        userSettingCubit.websiteValidators.textController.text =
-                            settingEntity.website;
+                        userSettingCubit!.websiteValidators.textController
+                            .text = settingEntity.website!;
                         ExtendedNavigator.root.pop();
                         context.showSnackBar(
                             message: "Website address is not valid",
                             isError: true);
                       } else {
-                        userSettingCubit.updateUserSettings(updateSettingEnum);
+                        userSettingCubit!.updateUserSettings(updateSettingEnum);
                         ExtendedNavigator.root.pop();
                       }
                       break;
                     case UpdateSettingEnum.ABOUT_YOU:
-                      userSettingCubit.updateUserSettings(updateSettingEnum);
+                      userSettingCubit!.updateUserSettings(updateSettingEnum);
                       ExtendedNavigator.root.pop();
 
                       // if(userSettingCubit.aboutYouValidators.text.isEmpty){
@@ -342,54 +343,56 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                       break;
                     case UpdateSettingEnum.GENDER:
-                      userSettingCubit.updateUserSettings(updateSettingEnum);
+                      userSettingCubit!.updateUserSettings(updateSettingEnum);
                       ExtendedNavigator.root.pop();
                       break;
                     case UpdateSettingEnum.COUNTRY:
-                      userSettingCubit.updateUserSettings(updateSettingEnum);
+                      userSettingCubit!.updateUserSettings(updateSettingEnum);
                       ExtendedNavigator.root.pop();
                       break;
                     case UpdateSettingEnum.PASSWORD:
-                      if (userSettingCubit.oldPasswordValidator.text.isEmpty) {
+                      if (userSettingCubit!
+                          .oldPasswordValidator!.text.isEmpty) {
                         context.showSnackBar(
                             message: "Old Password you must not be empty",
                             isError: true);
-                      } else if (userSettingCubit
-                          .newPasswordValidator.text.isEmpty) {
+                      } else if (userSettingCubit!
+                          .newPasswordValidator!.text.isEmpty) {
                         context.showSnackBar(
                             message: "New Password you must not be empty",
                             isError: true);
-                      } else if (userSettingCubit
-                              .newPasswordValidator.text.isEmpty ||
-                          userSettingCubit
-                              .confirmPasswordValidator.text.isEmpty ||
-                          userSettingCubit.newPasswordValidator.text !=
-                              userSettingCubit.confirmPasswordValidator.text) {
+                      } else if (userSettingCubit!
+                              .newPasswordValidator!.text.isEmpty ||
+                          userSettingCubit!
+                              .confirmPasswordValidator!.text.isEmpty ||
+                          userSettingCubit!.newPasswordValidator!.text !=
+                              userSettingCubit!
+                                  .confirmPasswordValidator!.text) {
                         context.showSnackBar(
                             message: "Please make sure password match",
                             isError: true);
                       } else {
                         // userSettingCubit.oldPasswordValidator.addError("dummy");
-                        userSettingCubit.updateUserSettings(updateSettingEnum);
+                        userSettingCubit!.updateUserSettings(updateSettingEnum);
                         // ExtendedNavigator.root.pop();
                       }
                       break;
                     case UpdateSettingEnum.VERIFY_MY_ACCOUNT:
-                      userSettingCubit.verifyUserAccount();
+                      userSettingCubit!.verifyUserAccount();
                       ExtendedNavigator.root.pop();
                       break;
                     case UpdateSettingEnum.DELETE_ACCOUNT:
-                      if (userSettingCubit
+                      if (userSettingCubit!
                           .deleteAccountValidator.text.isValidPass)
-                        userSettingCubit.deleteAccount();
+                        userSettingCubit!.deleteAccount();
                       else
                         context.showSnackBar(
                             message:
-                                userSettingCubit.deleteAccountValidator.text);
+                                userSettingCubit!.deleteAccountValidator.text);
                       ExtendedNavigator.root.pop();
                       break;
                     case UpdateSettingEnum.CHANGE_LANGUAGE:
-                      userSettingCubit.changeUserLanguage();
+                      userSettingCubit!.changeUserLanguage();
                       ExtendedNavigator.root.pop();
                       break;
                   }
@@ -421,7 +424,7 @@ Widget header(String name) {
       .makeBottomBorder;
 }
 
-Widget profileItem(String title, String value, {VoidCallback onTap}) {
+Widget profileItem(String title, String value, {VoidCallback? onTap}) {
   return [
     title.toSubTitle2(fontWeight: FontWeight.bold),
     5.toSizedBox,
@@ -439,7 +442,7 @@ class PrivacyWidgetModel {
       {this.isSelected = false});
 
   static List<PrivacyWidgetModel> getPrivacyModels(
-      {AccountPrivacyEntity accountPrivacyEntity}) {
+      {required AccountPrivacyEntity accountPrivacyEntity}) {
     return [
       PrivacyWidgetModel._("Yes", PrivacyOptionEnum.SEARCH_VISIBILITY,
           isSelected: accountPrivacyEntity.showProfileInSearchEngine ==
@@ -479,7 +482,7 @@ class PrivacyWidgetModel {
   }
 
   PrivacyWidgetModel copyWith(
-      {String value, PrivacyOptionEnum privacyOptionEnum, bool isSelected}) {
+      {String? value, PrivacyOptionEnum? privacyOptionEnum, bool? isSelected}) {
     return PrivacyWidgetModel._(
         value ?? this.value, privacyOptionEnum ?? this.privacyOptionEnum,
         isSelected: isSelected ?? this.isSelected);

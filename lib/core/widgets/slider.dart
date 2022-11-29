@@ -16,18 +16,18 @@ import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class CustomSlider extends StatefulWidget {
-  final PostEntity postEntity;
-  final bool isOnlySocialLink;
+  final PostEntity? postEntity;
+  final bool? isOnlySocialLink;
 
-  final List<PostMedia> mediaItems;
+  final List<PostMedia>? mediaItems;
   final bool dialogView;
   final int currentIndex;
-  final Function onClickAction;
+  final Function? onClickAction;
   final ogData;
   // final OgDataClass1  ogData;
 
   const CustomSlider(
-      {Key key,
+      {Key? key,
       this.onClickAction,
       this.postEntity,
       this.isOnlySocialLink,
@@ -42,14 +42,14 @@ class CustomSlider extends StatefulWidget {
 
 class _CustomSliderState extends State<CustomSlider> {
   int _current = 0;
-  PageController pageController;
+  PageController? pageController;
 
   final ValueNotifier<int> _pageNotifier = new ValueNotifier<int>(0);
   PageController _pageController = PageController();
   // double currentPage = 0;
   // int currentIndex = 0;
 
-  PageController _pageControllerClick;
+  PageController? _pageControllerClick;
   int currentPage = 0;
 
   @override
@@ -61,8 +61,8 @@ class _CustomSliderState extends State<CustomSlider> {
     pageController = PageController(initialPage: widget.currentIndex);
     _pageControllerClick = PageController(initialPage: currentPage);
 
-    if (widget.mediaItems != null && widget.mediaItems.length != 0) {
-      print(widget.mediaItems[0].mediaType == MediaTypeEnum.IMAGE);
+    if (widget.mediaItems != null && widget.mediaItems!.length != 0) {
+      print(widget.mediaItems![0].mediaType == MediaTypeEnum.IMAGE);
     }
   }
 
@@ -111,21 +111,21 @@ class _CustomSliderState extends State<CustomSlider> {
   }
 
   heightSet() {
-    if (widget.postEntity.ogData != null &&
-        widget.postEntity.ogData != "" &&
-        (widget.postEntity.ogData["image"] == null ||
-            widget.postEntity.ogData["image"] == "") &&
-        widget.postEntity.ogData["url"] != null &&
-        widget.postEntity.ogData["url"] != "") {
+    if (widget.postEntity!.ogData != null &&
+        widget.postEntity!.ogData != "" &&
+        (widget.postEntity!.ogData["image"] == null ||
+            widget.postEntity!.ogData["image"] == "") &&
+        widget.postEntity!.ogData["url"] != null &&
+        widget.postEntity!.ogData["url"] != "") {
       return 135.0;
     } else {
-      if (widget.isOnlySocialLink) {
+      if (widget.isOnlySocialLink!) {
         // if(widget?.ogData != null || widget.ogData != "" || widget?.ogData?.url != null || widget.ogData.url.isNotEmpty) {
         return 230.0;
       } else {
-        if (widget.mediaItems != null && widget.mediaItems.length != 0) {
-          print(widget.mediaItems[0].mediaType == MediaTypeEnum.VIDEO);
-          if (widget.mediaItems[0].mediaType == MediaTypeEnum.VIDEO) {
+        if (widget.mediaItems != null && widget.mediaItems!.length != 0) {
+          print(widget.mediaItems![0].mediaType == MediaTypeEnum.VIDEO);
+          if (widget.mediaItems![0].mediaType == MediaTypeEnum.VIDEO) {
             return 145.0;
           } else {
             return 160.0;
@@ -142,8 +142,8 @@ class _CustomSliderState extends State<CustomSlider> {
 
     String description = "";
 
-    if (widget?.ogData != null && widget?.ogData != "") {
-      description = widget?.ogData['url'] ?? "";
+    if (widget.ogData != null && widget.ogData != "") {
+      description = widget.ogData['url'] ?? "";
     }
 
     String linkGet = "";
@@ -151,19 +151,19 @@ class _CustomSliderState extends State<CustomSlider> {
     if (widget.ogData != null) {
       // print("vishal <><><<><><><> $description");
 
-      String convertLink1 = CheckLink.checkYouTubeLink(description);
+      String? convertLink1 = CheckLink.checkYouTubeLink(description);
 
       print("vishal <><><<><><><> $convertLink1");
 
       if (convertLink1 != null) {
         String convertLink = convertLink1.replaceAll("\n", " ");
 
-        List d1 = List();
+        List d1 = [];
 
         if (convertLink != null) {
-          d1 = convertLink?.split(" ") ?? "";
+          d1 = convertLink.split(" ");
         } else {
-          d1.add(description ?? "");
+          d1.add(description);
         }
 
         print("Vishal .,.,.,.,.,.,.,.,  $d1");
@@ -225,12 +225,12 @@ class _CustomSliderState extends State<CustomSlider> {
       });
     }*/
 
-    if (widget.postEntity.ogData != null &&
-        widget.postEntity.ogData != "" &&
-        (widget.postEntity.ogData["image"] == null ||
-            widget.postEntity.ogData["image"] == "") &&
-        widget.postEntity.ogData["url"] != null &&
-        widget.postEntity.ogData["url"] != "") {
+    if (widget.postEntity!.ogData != null &&
+        widget.postEntity!.ogData != "" &&
+        (widget.postEntity!.ogData["image"] == null ||
+            widget.postEntity!.ogData["image"] == "") &&
+        widget.postEntity!.ogData["url"] != null &&
+        widget.postEntity!.ogData["url"] != "") {
       return imageNotShow();
     } else if (linkGet.contains("https://www.youtube.com") ||
         linkGet.contains("https://youtu.be") ||
@@ -244,7 +244,7 @@ class _CustomSliderState extends State<CustomSlider> {
         postEntity: widget.postEntity,
         onClickAction: (index) {
           print(index);
-          widget.onClickAction(index);
+          widget.onClickAction!(index);
           Future.delayed(Duration(milliseconds: 50), () {
             setState(() {});
           });
@@ -267,7 +267,7 @@ class _CustomSliderState extends State<CustomSlider> {
         homePagePostCreate: false,
       );
     } else {
-      return showGrid(widget?.mediaItems?.length ?? 0);
+      return showGrid(widget.mediaItems?.length ?? 0);
     }
   }
 
@@ -356,13 +356,13 @@ class _CustomSliderState extends State<CustomSlider> {
 
             PageView.builder(
               controller: _pageController,
-              itemCount: widget?.mediaItems?.length ?? 0,
+              itemCount: widget.mediaItems?.length ?? 0,
               itemBuilder: (context, index) {
                 return Container(
                   decoration: const BoxDecoration(
                       // color: Colors.black,
                       borderRadius: BorderRadius.all(Radius.circular(40))),
-                  child: twoImageShow(index, widget?.mediaItems?.length),
+                  child: twoImageShow(index, widget.mediaItems?.length),
                 );
               },
               onPageChanged: (index) {
@@ -386,7 +386,7 @@ class _CustomSliderState extends State<CustomSlider> {
               decoration: const BoxDecoration(shape: BoxShape.circle),
               child: ListView.builder(
                   controller: _pageController,
-                  itemCount: widget?.mediaItems?.length ?? 0,
+                  itemCount: widget.mediaItems?.length ?? 0,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     return SizedBox(
@@ -580,13 +580,13 @@ class _CustomSliderState extends State<CustomSlider> {
     // }
   }
 
-  twoImageShow(int itemIndex, int length) {
-    if (widget.mediaItems[itemIndex].mediaType == MediaTypeEnum.IMAGE) {
+  twoImageShow(int itemIndex, int? length) {
+    if (widget.mediaItems![itemIndex].mediaType == MediaTypeEnum.IMAGE) {
       return ClipRRect(
           borderRadius: BorderRadius.circular(0),
           child: CachedNetworkImage(
-              imageUrl: widget.mediaItems[itemIndex].url,
-              width: context.getScreenWidth,
+              imageUrl: widget.mediaItems![itemIndex].url!,
+              width: context.getScreenWidth as double,
               height: 180,
               fit: BoxFit.cover,
               progressIndicatorBuilder: (_, ___, progress) {
@@ -656,32 +656,32 @@ class _CustomSliderState extends State<CustomSlider> {
         // ).makeScrollable().toContainer(height: context.getScreenHeight - MediaQuery.of(context).padding.top,alignment: Alignment.center),barrierDismissible: true);
         // makeScrollable().toContainer(height: context.getScreenHeight,alignment: Alignment.center).toSafeArea,barrierDismissible: true);
       });
-    } else if (widget.mediaItems[itemIndex].mediaType == MediaTypeEnum.VIDEO) {
+    } else if (widget.mediaItems![itemIndex].mediaType == MediaTypeEnum.VIDEO) {
       GlobalKey<MyVideoPlayerState> videoKey = GlobalKey();
       return ClipRRect(
         borderRadius: BorderRadius.circular(35),
         child: MyVideoPlayer(
             withAppBar: false,
             key: videoKey,
-            path: widget.mediaItems[itemIndex].url),
+            path: widget.mediaItems![itemIndex].url),
       ).onTapWidget(() {
-        videoKey.currentState.pause();
+        videoKey.currentState!.pause();
         showAnimatedDialog(
             barrierDismissible: true,
             context: context,
             builder: (c) => MyVideoPlayer(
-                path: widget.mediaItems[itemIndex].url,
+                path: widget.mediaItems![itemIndex].url,
                 withAppBar: false,
                 fullVideoControls: true));
       });
-    } else if (widget.mediaItems[itemIndex].mediaType == MediaTypeEnum.GIF) {
+    } else if (widget.mediaItems![itemIndex].mediaType == MediaTypeEnum.GIF) {
       return GiphyWidget(
-        path: widget.mediaItems[itemIndex].url,
+        path: widget.mediaItems![itemIndex].url,
         enableClose: false,
       ).toContainer(color: Colors.red);
-    } else if (widget.mediaItems[itemIndex].mediaType == MediaTypeEnum.EMOJI) {
+    } else if (widget.mediaItems![itemIndex].mediaType == MediaTypeEnum.EMOJI) {
       return GiphyWidget(
-        path: widget.mediaItems[itemIndex].url,
+        path: widget.mediaItems![itemIndex].url,
       ).toContainer(
           height: 150,
           width: double.infinity,
@@ -692,14 +692,14 @@ class _CustomSliderState extends State<CustomSlider> {
   ///old code image showing
   Widget getListView() {
     return ExpandablePageView(
-      children: List<Widget>.generate(widget.mediaItems.length, (itemIndex) {
-        switch (widget.mediaItems[itemIndex].mediaType) {
+      children: List<Widget>.generate(widget.mediaItems!.length, (itemIndex) {
+        switch (widget.mediaItems![itemIndex].mediaType) {
           case MediaTypeEnum.IMAGE:
             return ClipRRect(
                 borderRadius: BorderRadius.circular(35),
                 child: CachedNetworkImage(
-                    imageUrl: widget.mediaItems[itemIndex].url,
-                    width: context.getScreenWidth,
+                    imageUrl: widget.mediaItems![itemIndex].url!,
+                    width: context.getScreenWidth as double,
                     height: 180,
                     fit: BoxFit.cover,
                     progressIndicatorBuilder: (_, ___, progress) {
@@ -752,7 +752,7 @@ class _CustomSliderState extends State<CustomSlider> {
                         )
                             .makeScrollable()
                             .toContainer(
-                                height: context.getScreenHeight,
+                                height: context.getScreenHeight as double,
                                 alignment: Alignment.center)
                             .toSafeArea,
                     barrierDismissible: true);
@@ -765,28 +765,28 @@ class _CustomSliderState extends State<CustomSlider> {
               child: MyVideoPlayer(
                 withAppBar: false,
                 key: videoKey,
-                path: widget.mediaItems[itemIndex].url,
+                path: widget.mediaItems![itemIndex].url,
               ),
             ).onTapWidget(() {
-              videoKey.currentState.pause();
+              videoKey.currentState!.pause();
               showAnimatedDialog(
                   barrierDismissible: true,
                   context: context,
                   builder: (c) => MyVideoPlayer(
-                      path: widget.mediaItems[itemIndex].url,
+                      path: widget.mediaItems![itemIndex].url,
                       withAppBar: false,
                       fullVideoControls: true));
             });
             break;
           case MediaTypeEnum.GIF:
             return GiphyWidget(
-              path: widget.mediaItems[itemIndex].url,
+              path: widget.mediaItems![itemIndex].url,
               enableClose: false,
             ).toContainer(color: Colors.red);
             break;
           case MediaTypeEnum.EMOJI:
             return GiphyWidget(
-              path: widget.mediaItems[itemIndex].url,
+              path: widget.mediaItems![itemIndex].url,
             ).toContainer(
                 height: 150,
                 width: double.infinity,
@@ -808,15 +808,15 @@ class _CustomSliderState extends State<CustomSlider> {
   }
 
   gridData(int itemIndex, int length) {
-    if (widget.mediaItems == null || widget.mediaItems.length == 0) {
+    if (widget.mediaItems == null || widget.mediaItems!.length == 0) {
       return Container();
     } else {
-      if (widget.mediaItems[itemIndex].mediaType == MediaTypeEnum.IMAGE) {
+      if (widget.mediaItems![itemIndex].mediaType == MediaTypeEnum.IMAGE) {
         return ClipRRect(
             borderRadius: boarderRadiusCheck(itemIndex, length),
             child: CachedNetworkImage(
-                imageUrl: widget.mediaItems[itemIndex].url,
-                width: context.getScreenWidth,
+                imageUrl: widget.mediaItems![itemIndex].url!,
+                width: context.getScreenWidth as double,
                 fit: BoxFit.cover,
                 progressIndicatorBuilder: (_, ___, progress) {
                   // if(progress.downloaded==progress.totalSize){
@@ -911,7 +911,7 @@ class _CustomSliderState extends State<CustomSlider> {
 
         ///video player code and on Tap
 
-      } else if (widget.mediaItems[itemIndex].mediaType ==
+      } else if (widget.mediaItems![itemIndex].mediaType ==
           MediaTypeEnum.VIDEO) {
         GlobalKey<MyVideoPlayerState> videoKey = GlobalKey();
 
@@ -927,9 +927,9 @@ class _CustomSliderState extends State<CustomSlider> {
           child: MyVideoPlayer(
               withAppBar: false,
               key: videoKey,
-              path: widget.mediaItems[itemIndex].url),
+              path: widget.mediaItems![itemIndex].url),
         ).onTapWidget(() {
-          videoKey.currentState.pause();
+          videoKey.currentState!.pause();
 
           // showAnimatedDialog (
           //     barrierDismissible: true,
@@ -976,17 +976,17 @@ class _CustomSliderState extends State<CustomSlider> {
 
           // makeScrollable().toContainer(height: context.getScreenHeight,alignment: Alignment.center).toSafeArea,barrierDismissible: true)
         });
-      } else if (widget.mediaItems[itemIndex].mediaType == MediaTypeEnum.GIF) {
+      } else if (widget.mediaItems![itemIndex].mediaType == MediaTypeEnum.GIF) {
         return GiphyWidget(
-          path: widget.mediaItems[itemIndex].url,
+          path: widget.mediaItems![itemIndex].url,
           enableClose: false,
           itemIndex: itemIndex,
           length: length,
         ).toContainer(color: Colors.red);
-      } else if (widget.mediaItems[itemIndex].mediaType ==
+      } else if (widget.mediaItems![itemIndex].mediaType ==
           MediaTypeEnum.EMOJI) {
         return GiphyWidget(
-          path: widget.mediaItems[itemIndex].url,
+          path: widget.mediaItems![itemIndex].url,
           itemIndex: itemIndex,
           length: length,
         ).toContainer(
@@ -1111,9 +1111,9 @@ class _CustomSliderState extends State<CustomSlider> {
     }
   }
 
-  showMediaSlider(int itemIndex, int length) {
+  showMediaSlider(int itemIndex, int? length) {
     GlobalKey<MyVideoPlayerState> videoAlertKey = GlobalKey();
-    videoAlertKey?.currentState?.isPlaying = false;
+    videoAlertKey.currentState?.isPlaying = false;
 
     bool isArrowShow = true;
     bool isVideoPlay = true;
@@ -1132,7 +1132,7 @@ class _CustomSliderState extends State<CustomSlider> {
                       children: [
                         InkWell(
                           onTap: () {
-                            if (widget.mediaItems[itemIndex].mediaType ==
+                            if (widget.mediaItems![itemIndex].mediaType ==
                                 MediaTypeEnum.IMAGE) {
                               isArrowShow = !isArrowShow;
                               setState(() {});
@@ -1170,7 +1170,7 @@ class _CustomSliderState extends State<CustomSlider> {
                                               },
                                               itemBuilder: (context, index) {
                                                 return widget
-                                                            .mediaItems[
+                                                            .mediaItems![
                                                                 itemIndex]
                                                             .mediaType ==
                                                         MediaTypeEnum.VIDEO
@@ -1181,7 +1181,7 @@ class _CustomSliderState extends State<CustomSlider> {
                                                         children: [
                                                           ModelVideoPlayer(
                                                               path: widget
-                                                                  .mediaItems[
+                                                                  .mediaItems![
                                                                       itemIndex]
                                                                   .url),
 
@@ -1199,9 +1199,8 @@ class _CustomSliderState extends State<CustomSlider> {
                                                               children: [
                                                                 InkWell(
                                                                   onTap: () {
-                                                                    widget
-                                                                        .onClickAction(
-                                                                            0);
+                                                                    widget.onClickAction!(
+                                                                        0);
                                                                     Future.delayed(
                                                                         Duration(
                                                                             milliseconds:
@@ -1236,7 +1235,7 @@ class _CustomSliderState extends State<CustomSlider> {
                                                                               left:
                                                                                   5),
                                                                           child: Text(
-                                                                              widget?.postEntity?.commentCount ?? "0",
+                                                                              widget.postEntity?.commentCount ?? "0",
                                                                               style: const TextStyle(color: Color(0xFFFFFFFF), fontFamily: "CeraPro", fontWeight: FontWeight.w400, fontSize: 14)))
                                                                     ],
                                                                   ),
@@ -1253,9 +1252,8 @@ class _CustomSliderState extends State<CustomSlider> {
                                                                 ),
                                                                 InkWell(
                                                                   onTap: () {
-                                                                    widget
-                                                                        .onClickAction(
-                                                                            1);
+                                                                    widget.onClickAction!(
+                                                                        1);
                                                                     Future.delayed(
                                                                         Duration(
                                                                             milliseconds:
@@ -1280,8 +1278,8 @@ class _CustomSliderState extends State<CustomSlider> {
                                                                           child: Image(
                                                                               height: 20,
                                                                               width: 20,
-                                                                              image: AssetImage(widget?.postEntity?.isLiked ?? false ? "images/png_image/heart.png" : "images/png_image/white_like.png"),
-                                                                              color: widget?.postEntity?.isLiked ?? false ? Colors.red : Color(0xFFFFFFFF))),
+                                                                              image: AssetImage(widget.postEntity?.isLiked ?? false ? "images/png_image/heart.png" : "images/png_image/white_like.png"),
+                                                                              color: widget.postEntity?.isLiked ?? false ? Colors.red : Color(0xFFFFFFFF))),
                                                                       // ? AppIcons.heartIcon(color: Colors.red)
                                                                       // : AppIcons.likeIcon(color: const Color(0xFF737880))),
 
@@ -1292,8 +1290,8 @@ class _CustomSliderState extends State<CustomSlider> {
                                                                               left:
                                                                                   5),
                                                                           child: Text(
-                                                                              widget?.postEntity?.likeCount ?? "0",
-                                                                              style: TextStyle(color: widget?.postEntity?.isLiked ?? false ? Colors.red : Color(0xFFFFFFFF), fontFamily: "CeraPro", fontWeight: FontWeight.w400, fontSize: 14)))
+                                                                              widget.postEntity?.likeCount ?? "0",
+                                                                              style: TextStyle(color: widget.postEntity?.isLiked ?? false ? Colors.red : Color(0xFFFFFFFF), fontFamily: "CeraPro", fontWeight: FontWeight.w400, fontSize: 14)))
                                                                     ],
                                                                   ),
 
@@ -1307,9 +1305,8 @@ class _CustomSliderState extends State<CustomSlider> {
                                                                 ),
                                                                 InkWell(
                                                                   onTap: () {
-                                                                    widget
-                                                                        .onClickAction(
-                                                                            2);
+                                                                    widget.onClickAction!(
+                                                                        2);
                                                                     // Navigator.pop(context);
                                                                     // ExtendedNavigator.root.pop();
                                                                     Future.delayed(
@@ -1341,7 +1338,7 @@ class _CustomSliderState extends State<CustomSlider> {
                                                                           child: Image(
                                                                               height: 20,
                                                                               width: 20,
-                                                                              image: AssetImage(widget?.postEntity?.isReposted ?? false ? "images/png_image/blur_share.png" : "images/png_image/white_repost.png"))),
+                                                                              image: AssetImage(widget.postEntity?.isReposted ?? false ? "images/png_image/blur_share.png" : "images/png_image/white_repost.png"))),
                                                                       Padding(
                                                                           padding: const EdgeInsets.only(
                                                                               bottom:
@@ -1349,8 +1346,8 @@ class _CustomSliderState extends State<CustomSlider> {
                                                                               left:
                                                                                   5),
                                                                           child: Text(
-                                                                              widget?.postEntity?.repostCount ?? "",
-                                                                              style: TextStyle(color: widget?.postEntity?.isReposted ?? false ? AppColors.alertBg : Color(0xFFFFFFFF), fontFamily: "CeraPro", fontWeight: FontWeight.w400, fontSize: 14)))
+                                                                              widget.postEntity?.repostCount ?? "",
+                                                                              style: TextStyle(color: widget.postEntity?.isReposted ?? false ? AppColors.alertBg : Color(0xFFFFFFFF), fontFamily: "CeraPro", fontWeight: FontWeight.w400, fontSize: 14)))
                                                                     ],
                                                                   ),
 
@@ -1394,9 +1391,8 @@ class _CustomSliderState extends State<CustomSlider> {
                                                                         0)
                                                                     .onTapWidget(
                                                                         () {
-                                                                  widget
-                                                                      .onClickAction(
-                                                                          3);
+                                                                  widget.onClickAction!(
+                                                                      3);
                                                                   Future.delayed(
                                                                       Duration(
                                                                           milliseconds:
@@ -1442,16 +1438,16 @@ class _CustomSliderState extends State<CustomSlider> {
                                                       )
                                                     : CachedNetworkImage(
                                                         imageUrl: widget
-                                                            .mediaItems[index]
-                                                            .url,
-                                                        height:
-                                                            MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .height /
-                                                                2,
+                                                            .mediaItems![index]
+                                                            .url!,
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height /
+                                                            2,
                                                         width: context
-                                                            .getScreenWidth,
+                                                                .getScreenWidth
+                                                            as double,
                                                         fit: BoxFit.fitWidth,
                                                         progressIndicatorBuilder:
                                                             (_, ___, progress) {
@@ -1476,7 +1472,7 @@ class _CustomSliderState extends State<CustomSlider> {
                                                             currentPage =
                                                                 currentPage - 1;
 
-                                                            _pageControllerClick.animateToPage(
+                                                            _pageControllerClick!.animateToPage(
                                                                 currentPage,
                                                                 duration:
                                                                     const Duration(
@@ -1511,14 +1507,14 @@ class _CustomSliderState extends State<CustomSlider> {
                                                     ? Container()
                                                     : InkWell(
                                                         onTap: () {
-                                                          if (widget.mediaItems
+                                                          if (widget.mediaItems!
                                                                       .length -
                                                                   1 !=
                                                               currentPage) {
                                                             currentPage =
                                                                 currentPage + 1;
 
-                                                            _pageControllerClick.animateToPage(
+                                                            _pageControllerClick!.animateToPage(
                                                                 currentPage,
                                                                 duration:
                                                                     const Duration(
@@ -1553,7 +1549,7 @@ class _CustomSliderState extends State<CustomSlider> {
                                             ),
                                           ],
                                         ))),
-                                widget.mediaItems[itemIndex].mediaType ==
+                                widget.mediaItems![itemIndex].mediaType ==
                                         MediaTypeEnum.VIDEO
                                     ? Container()
                                     : Container(
@@ -1566,7 +1562,7 @@ class _CustomSliderState extends State<CustomSlider> {
                                           children: [
                                             InkWell(
                                               onTap: () {
-                                                widget.onClickAction(0);
+                                                widget.onClickAction!(0);
                                                 Future.delayed(
                                                     Duration(milliseconds: 300),
                                                     () {
@@ -1596,7 +1592,7 @@ class _CustomSliderState extends State<CustomSlider> {
                                                               bottom: 0,
                                                               left: 5),
                                                       child: Text(
-                                                          widget?.postEntity
+                                                          widget.postEntity
                                                                   ?.commentCount ??
                                                               "0",
                                                           style: const TextStyle(
@@ -1623,7 +1619,7 @@ class _CustomSliderState extends State<CustomSlider> {
                                             ),
                                             InkWell(
                                               onTap: () {
-                                                widget.onClickAction(1);
+                                                widget.onClickAction!(1);
                                                 Future.delayed(
                                                     Duration(milliseconds: 300),
                                                     () {
@@ -1643,13 +1639,13 @@ class _CustomSliderState extends State<CustomSlider> {
                                                           height: 20,
                                                           width: 20,
                                                           image: AssetImage(widget
-                                                                      ?.postEntity
+                                                                      .postEntity
                                                                       ?.isLiked ??
                                                                   false
                                                               ? "images/png_image/heart.png"
                                                               : "images/png_image/white_like.png"),
                                                           color: widget
-                                                                      ?.postEntity
+                                                                      .postEntity
                                                                       ?.isLiked ??
                                                                   false
                                                               ? Colors.red
@@ -1664,12 +1660,12 @@ class _CustomSliderState extends State<CustomSlider> {
                                                               bottom: 0,
                                                               left: 5),
                                                       child: Text(
-                                                          widget?.postEntity
+                                                          widget.postEntity
                                                                   ?.likeCount ??
                                                               "0",
                                                           style: TextStyle(
                                                               color: widget
-                                                                          ?.postEntity
+                                                                          .postEntity
                                                                           ?.isLiked ??
                                                                       false
                                                                   ? Colors.red
@@ -1694,7 +1690,7 @@ class _CustomSliderState extends State<CustomSlider> {
                                             ),
                                             InkWell(
                                               onTap: () {
-                                                widget.onClickAction(2);
+                                                widget.onClickAction!(2);
                                                 // Navigator.pop(context);
                                                 // ExtendedNavigator.root.pop();
                                                 Future.delayed(
@@ -1719,7 +1715,7 @@ class _CustomSliderState extends State<CustomSlider> {
                                                           height: 20,
                                                           width: 20,
                                                           image: AssetImage(widget
-                                                                      ?.postEntity
+                                                                      .postEntity
                                                                       ?.isReposted ??
                                                                   false
                                                               ? "images/png_image/blur_share.png"
@@ -1730,12 +1726,12 @@ class _CustomSliderState extends State<CustomSlider> {
                                                               bottom: 0,
                                                               left: 5),
                                                       child: Text(
-                                                          widget?.postEntity
+                                                          widget.postEntity
                                                                   ?.repostCount ??
                                                               "",
                                                           style: TextStyle(
                                                               color: widget
-                                                                          ?.postEntity
+                                                                          .postEntity
                                                                           ?.isReposted ??
                                                                       false
                                                                   ? AppColors
@@ -1786,7 +1782,7 @@ class _CustomSliderState extends State<CustomSlider> {
                                                         const Color(0xFFFFFFFF))
                                                 .toPadding(0)
                                                 .onTapWidget(() {
-                                              widget.onClickAction(3);
+                                              widget.onClickAction!(3);
                                               Future.delayed(
                                                   Duration(milliseconds: 300),
                                                   () {
@@ -1885,7 +1881,7 @@ class _CustomSliderState extends State<CustomSlider> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-              CheckLink.removeHtmlTag(widget.postEntity.ogData["title"]) ??
+              CheckLink.removeHtmlTag(widget.postEntity!.ogData["title"]) ??
                   "Page not found!",
               style: const TextStyle(
                 fontWeight: FontWeight.w500,
@@ -1897,7 +1893,7 @@ class _CustomSliderState extends State<CustomSlider> {
           const SizedBox(height: 5),
           Text(
               CheckLink.removeHtmlTag(
-                      widget.postEntity.ogData["description"]) ??
+                      widget.postEntity!.ogData["description"]) ??
                   "Page not found!",
               style: const TextStyle(
                 fontWeight: FontWeight.w500,
@@ -1908,7 +1904,7 @@ class _CustomSliderState extends State<CustomSlider> {
               maxLines: 2),
           const SizedBox(height: 5),
           Text(
-              CheckLink.removeHtmlTag(widget.postEntity.ogData["url"]) ??
+              CheckLink.removeHtmlTag(widget.postEntity!.ogData["url"]) ??
                   "Page link not found!",
               style: TextStyle(
                 fontWeight: FontWeight.w500,

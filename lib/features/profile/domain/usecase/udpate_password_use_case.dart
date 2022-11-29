@@ -7,10 +7,10 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class UpdatePasswordUseCase extends UseCase<dynamic, UpdatePasswordRequest> {
-  final ProfileRepo profileRepo;
+  final ProfileRepo? profileRepo;
   UpdatePasswordUseCase(this.profileRepo);
   @override
   Future<Either<Failure, dynamic>> call(params) {
-    return profileRepo.updatePassword(params);
+    return profileRepo!.updatePassword(params);
   }
 }

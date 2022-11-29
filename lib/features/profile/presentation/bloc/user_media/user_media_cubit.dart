@@ -17,23 +17,23 @@ part 'user_media_state.dart';
 
 @injectable
 class UserMediaCubit extends PostCubit {
-  final GetProfileMediaUseCase getProfileMediaUseCase;
-  String userId;
+  final GetProfileMediaUseCase? getProfileMediaUseCase;
+  String? userId;
 
   UserMediaCubit(
-      AddOrRemoveBookmarkUseCase addOrRemoveBookmarkUseCase,
-      LikeUnlikeUseCase likeUnlikeUseCase,
-      RepostUseCase repostUseCase,
-      DeletePostUseCase deletePostUseCase,
-      SearchPostUseCase searchPostUseCase,
-      ShowLikesPagination showLikesPagination,
+      AddOrRemoveBookmarkUseCase? addOrRemoveBookmarkUseCase,
+      LikeUnlikeUseCase? likeUnlikeUseCase,
+      RepostUseCase? repostUseCase,
+      DeletePostUseCase? deletePostUseCase,
+      SearchPostUseCase? searchPostUseCase,
+      ShowLikesPagination? showLikesPagination,
       this.getProfileMediaUseCase)
       : super(addOrRemoveBookmarkUseCase, likeUnlikeUseCase, repostUseCase,
             deletePostUseCase, searchPostUseCase, showLikesPagination);
 
   @override
-  Future<Either<Failure, List<PostEntity>>> getItems(int pageKey) async {
-    return await getProfileMediaUseCase(
+  Future<Either<Failure, List<PostEntity>>?> getItems(int pageKey) async {
+    return await getProfileMediaUseCase!(
         PostCategoryModel(pageKey.toString(), PostCategory.MEDIA, userId));
   }
 }

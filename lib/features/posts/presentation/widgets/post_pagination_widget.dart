@@ -18,28 +18,28 @@ typedef ValueChangedWithTwoParam<T, R> = void Function(T value, R secondValue);
 
 class PostPaginationWidget extends StatefulWidget {
   final bool isComeHome;
-  final PagingController<int, PostEntity> pagingController;
+  final PagingController<int, PostEntity?> pagingController;
   final ValueChanged<int> onTapLike;
   final ValueChanged<int> onTapRepost;
   final ValueChangedWithTwoParam<PostOptionsEnum, int> onOptionItemTap;
-  final Widget noDataFoundScreen;
+  final Widget? noDataFoundScreen;
   final bool isFromProfileSearch;
 
   /// it can help full in [ProfileScreen] to restrict the current user to open private content
-  final ValueChanged<bool> isPrivateAccount;
+  final ValueChanged<bool>? isPrivateAccount;
 
   /// we can return two diff types of list
   /// 1 [SliverList]
   /// 2 [ListView]
   final bool isSliverList;
-  final Widget firstPageError;
+  final Widget? firstPageError;
   const PostPaginationWidget(
-      {Key key,
-      @required this.isComeHome,
-      @required this.pagingController,
-      @required this.onTapLike,
-      @required this.onTapRepost,
-      @required this.onOptionItemTap,
+      {Key? key,
+      required this.isComeHome,
+      required this.pagingController,
+      required this.onTapLike,
+      required this.onTapRepost,
+      required this.onOptionItemTap,
       this.noDataFoundScreen,
       this.isSliverList = true,
       this.isFromProfileSearch = false,
@@ -66,13 +66,13 @@ class _PostPaginationWidgetState extends State<PostPaginationWidget> {
       PagedChildBuilderDelegate<PostEntity>(
           firstPageErrorIndicatorBuilder: (c) {
             // print("hello ${widget?.isPrivateAccount}" );
-            widget?.isPrivateAccount(widget.pagingController.error ==
+            widget.isPrivateAccount!(widget.pagingController.error ==
                 'This profile data is not available for viewing');
             return widget.pagingController.error ==
                     'This profile data is not available for viewing'
                 ? PrivacyProtectedErrorView()
                 : CustomFirstPageView(onTryAgain: () {
-                    widget?.pagingController?.refresh();
+                    widget.pagingController.refresh();
                   });
           },
           noItemsFoundIndicatorBuilder: (_) =>
@@ -83,7 +83,7 @@ class _PostPaginationWidgetState extends State<PostPaginationWidget> {
                 },
               ),
           itemBuilder: (BuildContext context, item, int index) {
-            if (item.isAdvertisement)
+            if (item.isAdvertisement!)
               return PromotedWidget(
                 advertisementEntity: item.advertisementEntity,
               );
@@ -110,9 +110,9 @@ class _PostPaginationWidgetState extends State<PostPaginationWidget> {
 
                   print("Value data ");
                   print("$value");
-                  print("${value.getOptionsEnum}");
+                  print("${value!.getOptionsEnum}");
 
-                  FocusManager.instance.primaryFocus.unfocus();
+                  FocusManager.instance.primaryFocus!.unfocus();
                   final getOptionsEnum = value.getOptionsEnum;
                   switch (getOptionsEnum) {
                     case PostOptionsEnum.SHOW_LIKES:
@@ -128,7 +128,7 @@ class _PostPaginationWidgetState extends State<PostPaginationWidget> {
                         if (widget.isFromProfileSearch) {
                           Future.delayed(Duration(microseconds: 100), () {
                             ExtendedNavigator.root.pop();
-                            widget?.pagingController?.refresh();
+                            widget.pagingController.refresh();
                           });
                         }
                         widget.onOptionItemTap(PostOptionsEnum.DELETE, index);
@@ -142,10 +142,10 @@ class _PostPaginationWidgetState extends State<PostPaginationWidget> {
                 },
                 detailedPost: true,
                 replyCountIncreased: (value) {
-                  var currentItem = widget.pagingController.itemList[index];
+                  var currentItem = widget.pagingController.itemList![index]!;
                   widget.pagingController
-                    ..itemList[index] = currentItem.copyWith(
-                        commentCount: currentItem.commentCount.inc.toString())
+                    ..itemList![index] = currentItem.copyWith(
+                        commentCount: currentItem.commentCount!.inc.toString())
                     ..notifyListeners();
                 },
               ).toContainer().makeBottomBorder, //
@@ -167,9 +167,9 @@ class _PostPaginationWidgetState extends State<PostPaginationWidget> {
                 ),
               ),
               onClosed: (s) async {
-                var item = widget.pagingController.itemList[index];
+                var item = widget.pagingController.itemList![index];
                 if (item != s) {
-                  widget.pagingController.itemList[index] = s;
+                  widget.pagingController.itemList![index] = s;
                   widget.pagingController.notifyListeners();
                 }
 

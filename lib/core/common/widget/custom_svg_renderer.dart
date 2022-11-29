@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MySvgRenderer extends CustomPainter {
-  final DrawableRoot svgString;
+  final DrawableRoot? svgString;
 
   MySvgRenderer(this.svgString) {
     shouldRepaint(this);
@@ -12,7 +12,7 @@ class MySvgRenderer extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
 // If you only want the final Picture output, just use
-    final Picture picture = svgString?.toPicture(size: const Size(20, 20));
+    final Picture? picture = svgString?.toPicture(size: const Size(20, 20));
 
 // Otherwise, if you want to draw it to a canvas:
 // Optional, but probably normally desirable: scale the canvas dimensions to

@@ -5,18 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AC {
-  static SharedPreferences prefs;
+  static late SharedPreferences prefs;
 
-  static SearchCubit searchCubitHash;
-  static SearchCubit searchCubitA;
-  static PostCubit postCubit;
-  static TextEditingController textEditingController;
+  static SearchCubit? searchCubitHash;
+  static SearchCubit? searchCubitA;
+  static PostCubit? postCubit;
+  static TextEditingController? textEditingController;
 
-  static MediaQueryData _mediaQueryData;
-  static double screenWidth;
-  static double screenHeight;
-  static double blockSizeHorizontal;
-  static double blockSizeVertical;
+  static late MediaQueryData _mediaQueryData;
+  static late double screenWidth;
+  static late double screenHeight;
+  static double? blockSizeHorizontal;
+  static double? blockSizeVertical;
 
   static var loginResponse;
 
@@ -28,7 +28,7 @@ class AC {
 
   static loginData() {
     Future.delayed(Duration(seconds: 2), () async {
-      loginResponse = await localDataSource.getUserAuth();
+      loginResponse = await localDataSource!.getUserAuth();
     });
   }
 

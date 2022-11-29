@@ -6,10 +6,10 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class AddOrRemoveBookmarkUseCase extends UseCase<dynamic, String> {
-  final PostRepo postRepo;
+  final PostRepo? postRepo;
 
   AddOrRemoveBookmarkUseCase(this.postRepo);
   @override
   Future<Either<Failure, dynamic>> call(String params) =>
-      postRepo.addOrRemoveBookMark(params);
+      postRepo!.addOrRemoveBookMark(params);
 }

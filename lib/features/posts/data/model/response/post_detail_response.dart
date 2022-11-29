@@ -19,8 +19,8 @@ class PostDetailResponse {
     this.data,
   });
 
-  int code;
-  Data data;
+  int? code;
+  Data? data;
 
   factory PostDetailResponse.fromJson(Map<String, dynamic> json) =>
       PostDetailResponse(
@@ -30,7 +30,7 @@ class PostDetailResponse {
 
   Map<String, dynamic> toJson() => {
         "code": code == null ? null : code,
-        "data": data == null ? null : data.toJson(),
+        "data": data == null ? null : data!.toJson(),
       };
 }
 
@@ -43,11 +43,11 @@ class Data {
     this.prev,
   });
 
-  Feed post;
-  List<NextPostItem> next;
-  bool canReply;
-  bool canSee;
-  List<NextPostItem> prev;
+  Feed? post;
+  List<NextPostItem>? next;
+  bool? canReply;
+  bool? canSee;
+  List<NextPostItem>? prev;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         post: json["post"] == null ? null : Feed.fromJson(json["post"]),
@@ -64,13 +64,13 @@ class Data {
       );
 
   Map<String, dynamic> toJson() => {
-        "post": post == null ? null : post.toJson(),
+        "post": post == null ? null : post!.toJson(),
         "next": next == null
             ? null
-            : List<dynamic>.from(next.map((x) => x.toJson())),
+            : List<dynamic>.from(next!.map((x) => x.toJson())),
         "can_reply": canReply == null ? null : canReply,
         "can_see": canSee == null ? null : canSee,
-        "prev": prev == null ? null : List<dynamic>.from(prev.map((x) => x)),
+        "prev": prev == null ? null : List<dynamic>.from(prev!.map((x) => x)),
       };
 }
 
@@ -112,43 +112,43 @@ class NextPostItem {
       this.isRepost,
       this.reposter});
 
-  int id;
-  int userId;
-  String text;
-  String type;
-  String replysCount;
-  String repostsCount;
-  String likesCount;
-  String status;
-  int threadId;
-  String target;
+  int? id;
+  int? userId;
+  String? text;
+  String? type;
+  String? replysCount;
+  String? repostsCount;
+  String? likesCount;
+  String? status;
+  int? threadId;
+  String? target;
   dynamic ogData;
   // OgDataClass1 ogData;
   // String ogData;
-  String pollData;
-  String privWcs;
-  String privWcr;
-  String time;
+  String? pollData;
+  String? privWcs;
+  String? privWcr;
+  String? time;
   List<NextPostItem> replys;
-  bool advertising;
-  String timeRaw;
-  String ogText;
-  String ogImage;
-  String url;
-  bool canDelete;
-  List<ProfilePostMedia> media;
-  bool isOwner;
-  bool hasLiked;
-  bool hasSaved;
-  bool hasReposted;
-  bool isBlocked;
-  bool meBlocked;
-  bool canSee;
-  ReplyTo replyTo;
-  Owner owner;
-  int offsetId;
-  bool isRepost;
-  Reposter reposter;
+  bool? advertising;
+  String? timeRaw;
+  String? ogText;
+  String? ogImage;
+  String? url;
+  bool? canDelete;
+  List<ProfilePostMedia>? media;
+  bool? isOwner;
+  bool? hasLiked;
+  bool? hasSaved;
+  bool? hasReposted;
+  bool? isBlocked;
+  bool? meBlocked;
+  bool? canSee;
+  ReplyTo? replyTo;
+  Owner? owner;
+  int? offsetId;
+  bool? isRepost;
+  Reposter? reposter;
 
   factory NextPostItem.fromJson(Map<String, dynamic> json) => NextPostItem(
         reposter: json["reposter"] == null
@@ -225,7 +225,8 @@ class NextPostItem {
         "og_image": ogImage == null ? null : ogImage,
         "url": url == null ? null : url,
         "can_delete": canDelete == null ? null : canDelete,
-        "media": media == null ? null : List<dynamic>.from(media.map((x) => x)),
+        "media":
+            media == null ? null : List<dynamic>.from(media!.map((x) => x)),
         "is_owner": isOwner == null ? null : isOwner,
         "has_liked": hasLiked == null ? null : hasLiked,
         "has_saved": hasSaved == null ? null : hasSaved,
@@ -233,8 +234,8 @@ class NextPostItem {
         "is_blocked": isBlocked == null ? null : isBlocked,
         "me_blocked": meBlocked == null ? null : meBlocked,
         "can_see": canSee == null ? null : canSee,
-        "reply_to": replyTo == null ? null : replyTo.toJson(),
-        "owner": owner == null ? null : owner.toJson(),
+        "reply_to": replyTo == null ? null : replyTo!.toJson(),
+        "owner": owner == null ? null : owner!.toJson(),
         "offset_id": offsetId == null ? null : offsetId,
       };
 }
@@ -249,12 +250,12 @@ class Owner {
     this.verified,
   });
 
-  int id;
-  String url;
-  String avatar;
-  String username;
-  String name;
-  String verified;
+  int? id;
+  String? url;
+  String? avatar;
+  String? username;
+  String? name;
+  String? verified;
 
   factory Owner.fromJson(Map<String, dynamic> json) => Owner(
         id: json["id"] == null ? null : json["id"],
@@ -287,14 +288,14 @@ class ReplyTo {
     this.threadUrl,
   });
 
-  int id;
-  String url;
-  String avatar;
-  String username;
-  String name;
-  String gender;
-  bool isOwner;
-  String threadUrl;
+  int? id;
+  String? url;
+  String? avatar;
+  String? username;
+  String? name;
+  String? gender;
+  bool? isOwner;
+  String? threadUrl;
 
   factory ReplyTo.fromJson(Map<String, dynamic> json) => ReplyTo(
         id: json["id"] == null ? null : json["id"],
@@ -470,13 +471,13 @@ class Media {
     this.x,
   });
 
-  int id;
-  int pubId;
-  String type;
-  String src;
-  String jsonData;
-  String time;
-  X x;
+  int? id;
+  int? pubId;
+  String? type;
+  String? src;
+  String? jsonData;
+  String? time;
+  X? x;
 
   factory Media.fromJson(Map<String, dynamic> json) => Media(
         id: json["id"] == null ? null : json["id"],
@@ -495,7 +496,7 @@ class Media {
         "src": src == null ? null : src,
         "json_data": jsonData == null ? null : jsonData,
         "time": time == null ? null : time,
-        "x": x == null ? null : x.toJson(),
+        "x": x == null ? null : x!.toJson(),
       };
 }
 
@@ -504,7 +505,7 @@ class X {
     this.imageThumb,
   });
 
-  String imageThumb;
+  String? imageThumb;
 
   factory X.fromJson(Map<String, dynamic> json) => X(
         imageThumb: json["image_thumb"] == null ? null : json["image_thumb"],

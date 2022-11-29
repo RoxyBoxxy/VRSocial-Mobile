@@ -38,19 +38,19 @@ class CreatePostCubit extends Cubit<CommonUIState> {
 
   Stream<bool> get imageButton => Rx.combineLatest([images], (values) {
         if (values[0].isEmpty) return true;
-        var data = values[0] as List<MediaData>;
+        var data = values[0];
         return data.any((element) => element.type == MediaTypeEnum.IMAGE);
       });
 
   Stream<bool> get videoButton => Rx.combineLatest([images], (values) {
         if (values[0].isEmpty) return true;
-        var data = values[0] as List<MediaData>;
+        var data = values[0];
         return data.any((element) => element.type == MediaTypeEnum.VIDEO);
       });
 
   Stream<bool> get gifButton => Rx.combineLatest([images], (values) {
         if (values[0].isEmpty) return true;
-        var data = values[0] as List<MediaData>;
+        var data = values[0];
         return data.any((element) => element.type == MediaTypeEnum.GIF);
       });
 
@@ -66,10 +66,10 @@ class CreatePostCubit extends Cubit<CommonUIState> {
   //Text show
   // final _textController = BehaviorSubject<ProfileEntity>();
 
-  final UploadMediaUseCase uploadMediaUseCase;
-  final CreatePostUseCase createPostUseCase;
-  final DeleteMediaUseCase deleteMediaUseCase;
-  final GetDrawerDataUseCase getDrawerDataUseCase;
+  final UploadMediaUseCase? uploadMediaUseCase;
+  final CreatePostUseCase? createPostUseCase;
+  final DeleteMediaUseCase? deleteMediaUseCase;
+  final GetDrawerDataUseCase? getDrawerDataUseCase;
 
   CreatePostCubit(this.uploadMediaUseCase, this.createPostUseCase,
       this.deleteMediaUseCase, this.getDrawerDataUseCase)
@@ -86,14 +86,14 @@ class CreatePostCubit extends Cubit<CommonUIState> {
     });
   }
 
-  addImage(String image) async {
+  addImage(String? image) async {
     emit(const CommonUIState.loading());
     // remove other type of media items expect images
     mediaItems.removeWhere((element) => element.type != MediaTypeEnum.IMAGE);
     var mediaData =
         MediaData(type: MediaTypeEnum.IMAGE, thumbnail: image, path: image);
 
-    var either = await uploadMediaUseCase(mediaData);
+    var either = await uploadMediaUseCase!(mediaData);
     either.fold((l) => null,
         (r) => {mediaItems.add(mediaData.copyWith(id: r.mediaId))});
     emit(const CommonUIState.success(""));
@@ -114,7 +114,7 @@ class CreatePostCubit extends Cubit<CommonUIState> {
       var mediaData = MediaData(
           type: MediaTypeEnum.VIDEO, path: image, thumbnail: thumb.path);
       emit(const CommonUIState.loading());
-      var either = await uploadMediaUseCase(mediaData);
+      var either = await uploadMediaUseCase!(mediaData);
       either.fold((l) => emit(CommonUIState.error(l.errorMessage)), (r) {
         mediaItems.add(mediaData.copyWith(id: r.mediaId));
         changeImages(mediaItems);
@@ -135,7 +135,7 @@ class CreatePostCubit extends Cubit<CommonUIState> {
     }
     changeImages(mediaItems);
     mediaItems.removeAt(index);
-    var either = await deleteMediaUseCase(MediaEntity.fromMediaData(item));
+    var either = await deleteMediaUseCase!(MediaEntity.fromMediaData(item));
     either.fold((l) {
       emit(CommonUIState.error(l.errorMessage));
       mediaItems.insert(index, item);
@@ -145,7 +145,7 @@ class CreatePostCubit extends Cubit<CommonUIState> {
 
   Future<void> getUserData() async {
     emit(const CommonUIState.loading());
-    var response = await getDrawerDataUseCase(unit);
+    var response = await getDrawerDataUseCase!(unit);
     response.fold((l) {
       emit(CommonUIState.error(l.errorMessage));
     }, (data) {
@@ -154,23 +154,23 @@ class CreatePostCubit extends Cubit<CommonUIState> {
     });
   }
 
-  createPost({String threadId, String ogData}) async {
+  createPost({String? threadId, String? ogData}) async {
     changePublishButton(false);
     emit(const CommonUIState.loading());
     var model = PostRequestModel(
         postText: postTextValidator.text,
         threadId: threadId,
         gifUrl: mediaItems
-                ?.firstWhere((element) => element?.type == MediaTypeEnum.GIF,
-                    orElse: () {})
-                ?.path ??
+                .firstWhere((element) => element.type == MediaTypeEnum.GIF,
+                    orElse: () {} as MediaData Function()?)
+                .path ??
             null,
         ogData: ogData);
 
     print(model);
     print("model =>><><><><><><><");
 
-    var either = await createPostUseCase(model);
+    var either = await createPostUseCase!(model);
     either.fold((l) {
       changePublishButton(true);
       emit(CommonUIState.error(l.errorMessage));
@@ -188,7 +188,7 @@ class CreatePostCubit extends Cubit<CommonUIState> {
     changeImages(mediaItems);
   }
 
-  Future<http.Response> ogDataPassingApi(
+  Future<http.Response?> ogDataPassingApi(
       Map<String, dynamic> requestBody) async {
     String uri = ApiConstants.baseUrl + ApiConstants.publishPost;
 

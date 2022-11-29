@@ -12,7 +12,7 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-  NotificationCubit _notificationCubit;
+  late NotificationCubit _notificationCubit;
 
   @override
   void initState() {
@@ -34,13 +34,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   automaticallyImplyLeading: false,
                   leading: null,
                   elevation: 5.0,
-                  expandedHeight: 60.toHeight,
+                  expandedHeight: 60.toHeight as double?,
                   floating: true,
                   pinned: true,
                   // title: Text('Profile'),
                   backgroundColor: Colors.white,
                   bottom: PreferredSize(
-                    preferredSize: Size(context.getScreenWidth, 56.toHeight),
+                    preferredSize: Size(context.getScreenWidth as double,
+                        56.toHeight as double),
                     child: Stack(
                       children: [
                         Positioned.fill(

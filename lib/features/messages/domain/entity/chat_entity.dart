@@ -1,22 +1,21 @@
 import 'package:colibri/core/common/api/response_models/chat_notification_response.dart';
 import 'package:colibri/features/messages/data/models/response/chats_response.dart';
-import 'package:flutter/material.dart';
 import 'package:colibri/extensions.dart';
 
 class ChatEntity {
-  final String time;
-  final String message;
+  final String? time;
+  final String? message;
   final bool isSender;
   final ChatMediaType chatMediaType;
-  final String profileUrl;
-  final String messageId;
-  final String senderUserId;
-  final String offSetId;
+  final String? profileUrl;
+  final String? messageId;
+  final String? senderUserId;
+  final String? offSetId;
 
   const ChatEntity(
-      {@required this.time,
-      @required this.message,
-      @required this.messageId,
+      {required this.time,
+      required this.message,
+      required this.messageId,
       this.isSender = false,
       this.chatMediaType = ChatMediaType.TEXT,
       this.profileUrl,
@@ -44,7 +43,7 @@ class ChatEntity {
         isSender: false);
   }
 
-  ChatEntity copyWith({String time, String id}) {
+  ChatEntity copyWith({String? time, String? id}) {
     return ChatEntity(
         time: time ?? this.time,
         message: this.message,
@@ -62,7 +61,7 @@ class ChatEntity {
         message: notification.data,
         isSender: false,
         profileUrl: notification.avatar,
-        chatMediaType: notification.messageType.contains("text")
+        chatMediaType: notification.messageType!.contains("text")
             ? ChatMediaType.TEXT
             : ChatMediaType.IMAGE,
         senderUserId: notification.userId.toString(),

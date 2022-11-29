@@ -25,15 +25,15 @@ class PushNotificationHelper {
   // bool isMessageShow = false;
 
   // static final _connector = createPushConnector();
-  static LocalDataSource localDataSource = getIt<LocalDataSource>();
+  static LocalDataSource? localDataSource = getIt<LocalDataSource>();
   static FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
   //// it will gives callback to [ChatCubit] so that we can add notification messages
-  static ValueChanged<ChatEntity> listenNotificationOnChatScreen;
+  static ValueChanged<ChatEntity>? listenNotificationOnChatScreen;
 
   // user id of the with whom current user is chatting
-  static String currentUserId;
+  static String? currentUserId;
   Random random = new Random();
   static configurePush(BuildContext context) {
     FirebaseMessaging()
@@ -48,11 +48,11 @@ class PushNotificationHelper {
         ClipboardManager.copyToClipBoard(value).then((value) {
           // context.showSnackBar(message: "Firebase token copied to clipboard");
         });
-        localDataSource.savePushToken(value);
+        localDataSource!.savePushToken(value);
         _savePushNotificationTokenToServer();
       })
       ..onTokenRefresh.listen((event) {
-        localDataSource.savePushToken(event);
+        localDataSource!.savePushToken(event);
         _savePushNotificationTokenToServer();
       });
 
@@ -121,7 +121,7 @@ class PushNotificationHelper {
       var chatObject = message["gcm.notification.chat_message"];
       if (listenNotificationOnChatScreen != null && chatObject != null) {
         if (listenNotificationOnChatScreen != null)
-          listenNotificationOnChatScreen.call(ChatEntity.fromNotification(
+          listenNotificationOnChatScreen!.call(ChatEntity.fromNotification(
               ChatMessage.fromJson(json.decode(chatObject))));
         return;
       }
@@ -295,15 +295,15 @@ class PushNotificationHelper {
     }
   }
 
-  static void _showLocationNotification(Map<String, dynamic> map) async {
+  static void _showLocationNotification(Map<String, dynamic>? map) async {
     // will send notification if user is not on chat screen
     // other wise we will show notification as usual
     var chatObject = Platform.isAndroid
-        ? map['data']['chat_message']
-        : map["gcm.notification.chat_message"];
+        ? map!['data']['chat_message']
+        : map!["gcm.notification.chat_message"];
     if (listenNotificationOnChatScreen != null && chatObject != null) {
       if (listenNotificationOnChatScreen != null)
-        listenNotificationOnChatScreen.call(ChatEntity.fromNotification(
+        listenNotificationOnChatScreen!.call(ChatEntity.fromNotification(
             ChatMessage.fromJson(json.decode(chatObject))));
       // controller.add(1);
 

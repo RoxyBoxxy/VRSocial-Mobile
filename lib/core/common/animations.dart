@@ -6,8 +6,8 @@ class ScrollControllerForAnimationHook extends Hook<NotificationListener> {
   final AnimationController animationController;
   final Widget child;
   const ScrollControllerForAnimationHook({
-    @required this.animationController,
-    @required this.child,
+    required this.animationController,
+    required this.child,
   });
 
   @override
@@ -17,7 +17,7 @@ class ScrollControllerForAnimationHook extends Hook<NotificationListener> {
 
 class _ScrollControllerForAnimationHookState
     extends HookState<NotificationListener, ScrollControllerForAnimationHook> {
-  ScrollController _scrollController;
+  late ScrollController _scrollController;
   final Widget child;
 
   _ScrollControllerForAnimationHookState(this.child);

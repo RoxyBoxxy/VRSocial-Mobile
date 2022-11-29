@@ -8,18 +8,19 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class ProfileMediaPagination extends CustomPagination<PostEntity> {
-  final GetProfileMediaUseCase getProfileMediaUseCase;
+  final GetProfileMediaUseCase? getProfileMediaUseCase;
   // String userId;
   ProfileMediaPagination(this.getProfileMediaUseCase);
 
   @override
   Future<Either<Failure, List<PostEntity>>> getItems(int pageKey) async {
     // return await getProfileMediaUseCase(PostCategoryModel(pageKey.toString(), PostCategory.MEDIA,userId));
+    throw UnimplementedError();
   }
 
   @override
   PostEntity getLastItemWithoutAd(List<PostEntity> item) {
-    if (item.last.isAdvertisement) return item[item.length - 2];
+    if (item.last.isAdvertisement!) return item[item.length - 2];
     return item.last;
   }
 
@@ -30,10 +31,10 @@ class ProfileMediaPagination extends CustomPagination<PostEntity> {
 
   @override
   bool isLastPage(List<PostEntity> item) {
-    if (item.last.isAdvertisement && item.length == ApiConstants.pageSize + 1)
+    if (item.last.isAdvertisement! && item.length == ApiConstants.pageSize + 1)
       return false;
-    else if (!item.last.isAdvertisement && item.length == ApiConstants.pageSize)
-      return false;
+    else if (!item.last.isAdvertisement! &&
+        item.length == ApiConstants.pageSize) return false;
     return true;
   }
 

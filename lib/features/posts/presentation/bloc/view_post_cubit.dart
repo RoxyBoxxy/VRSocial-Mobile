@@ -22,17 +22,17 @@ part 'view_post_state.dart';
 class ViewPostCubit extends Cubit<CommonUIState> {
   FieldValidators postReplyValidator = FieldValidators(null, null);
 
-  final GetThreadedPostUseCase getThreadedPostUseCase;
+  final GetThreadedPostUseCase? getThreadedPostUseCase;
 
-  final CreatePostUseCase createPostUseCase;
+  final CreatePostUseCase? createPostUseCase;
 
-  final LikeUnlikeUseCase likeUnlikeUseCase;
+  final LikeUnlikeUseCase? likeUnlikeUseCase;
 
-  final RepostUseCase repostUseCase;
+  final RepostUseCase? repostUseCase;
 
-  final AddOrRemoveBookmarkUseCase addOrRemoveUseCase;
+  final AddOrRemoveBookmarkUseCase? addOrRemoveUseCase;
 
-  final DeletePostUseCase deletePostUseCase;
+  final DeletePostUseCase? deletePostUseCase;
 
   ViewPostCubit(
       this.getThreadedPostUseCase,
@@ -56,7 +56,7 @@ class ViewPostCubit extends Cubit<CommonUIState> {
 
   getParentPost(String threadId) async {
     emit(const CommonUIState.loading());
-    var either = await getThreadedPostUseCase(threadId);
+    var either = await getThreadedPostUseCase!(threadId);
     either.fold((l) => emit(CommonUIState.error(l.errorMessage)), (r) {
       _items..clear();
       loadPageData(r);
@@ -66,29 +66,29 @@ class ViewPostCubit extends Cubit<CommonUIState> {
   Future<void> likeUnLikePost(int index) async {
     var currentItem = _items[index];
     _items[index] = _items[index].copyWith(
-        isLiked: !currentItem.isLiked,
-        likeCount: (currentItem.isLiked
-                ? currentItem.likeCount.dec
-                : currentItem.likeCount.inc)
+        isLiked: !currentItem.isLiked!,
+        likeCount: (currentItem.isLiked!
+                ? currentItem.likeCount!.dec
+                : currentItem.likeCount!.inc)
             .toString());
     changePostEntity(_items);
-    await likeUnlikeUseCase(_items[index].postId);
+    await likeUnlikeUseCase!(_items[index].postId);
   }
 
   Future<void> addRemoveBook(int index) async {
     var item = _items[index];
     _items[index] = item.copyWith(
-      isSaved: !item.isSaved,
+      isSaved: !item.isSaved!,
     );
-    var either = await addOrRemoveUseCase(item.postId);
+    var either = await addOrRemoveUseCase!(item.postId);
     either.fold((l) {
       _items[index] = item.copyWith(
-        isSaved: !item.isSaved,
+        isSaved: !item.isSaved!,
       );
       // emit(CommonUIState.error(l.errorMessage));
       // emit(CommonUIState.initial());
     }, (r) {
-      var message = _items[index].isSaved
+      var message = _items[index].isSaved!
           ? Strings.bookmarkAdded
           : Strings.removeBookmark;
       emit(CommonUIState.success(message));
@@ -100,12 +100,12 @@ class ViewPostCubit extends Cubit<CommonUIState> {
   Future<void> repost(int index) async {
     var item = _items[index];
     _items[index] = item.copyWith(
-        isReposted: !item.isReposted,
+        isReposted: !item.isReposted!,
         repostCount:
-            (item.isReposted ? item.repostCount.dec : item.repostCount.inc)
+            (item.isReposted! ? item.repostCount!.dec : item.repostCount!.inc)
                 .toString());
     changePostEntity(_items);
-    await repostUseCase(_items[index].postId);
+    await repostUseCase!(_items[index].postId);
   }
 
   postReply() async {
@@ -118,7 +118,7 @@ class ViewPostCubit extends Cubit<CommonUIState> {
     emit(const CommonUIState.loading());
     var item = _items[index];
 
-    var either = await deletePostUseCase(item.postId.toString());
+    var either = await deletePostUseCase!(item.postId.toString());
     either.fold((l) {
       emit(const CommonUIState.initial());
       emit(CommonUIState.error(l.errorMessage));
@@ -139,12 +139,12 @@ class ViewPostCubit extends Cubit<CommonUIState> {
     // both array of next and prev can contains replies in each item
 
     List<PostEntity> postItems = [];
-    var nextItems = r.data.next;
-    var prevItems = r.data.prev;
+    var nextItems = r.data!.next!;
+    var prevItems = r.data!.prev!;
 
     // if there is no prev item main post will be counted as parent
     // else prev array will give you the parent tree
-    var parentItem = PostEntity.fromFeed(r.data.post);
+    var parentItem = PostEntity.fromFeed(r.data!.post!);
 
     // check prev array if it's not empty then add items
     // choose prev first because it will contain parent posts
@@ -195,7 +195,7 @@ class ViewPostCubit extends Cubit<CommonUIState> {
     // postItems.add(parentItem.copyWith(time: r.data.post.timeRaw.toTime));
     postItems.add(parentItem);
     postItems.add(PostEntity.fromDummy()
-        .copyWith(parentPostTime: r.data.post.timeRaw.toTime));
+        .copyWith(parentPostTime: r.data!.post!.timeRaw!.toTime));
 
     // check next array if it's not empty then add items
     // choose next second because it will contain child post
