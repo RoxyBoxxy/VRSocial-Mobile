@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_screenutil/screenutil.dart';
 import 'package:native_device_orientation/native_device_orientation.dart';
 import 'package:rxdart/rxdart.dart';
 import 'core/di/injection.dart';
@@ -87,7 +86,7 @@ class _MyAppState extends State<MyApp> {
         if (constraints.maxWidth != 0) {
           print(constraints);
           var size=Size(constraints.maxWidth, constraints.maxHeight);
-          ScreenUtil.init(designSize: size,allowFontScaling: true);
+          ScreenUtil.init(context, designSize: size, minTextAdapt: true);
           // ScreenUtil.init(
           //   constraints,
           //   designSize: const Size(360, 690),

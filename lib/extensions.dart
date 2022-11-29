@@ -57,7 +57,7 @@ extension DioExtension on DioError {
 }
 
 extension ScreenUtilExtension on num {
-  num get toSp => ScreenUtil().setSp(this, allowFontScalingSelf: true);
+  num get toSp => ScreenUtil().setSp(this);
 
   num get toWidth => ScreenUtil().setWidth(this);
 
@@ -206,7 +206,7 @@ extension TextFieldExtension on TextField {
           textInputAction: TextInputAction.newline,
           maxLength: 600,
           autofocus: false,
-          maxLengthEnforced: true,
+          maxLengthEnforcement: MaxLengthEnforcement.enforced,
           maxLines: this.maxLines,
           style: AppTheme.button.copyWith(fontWeight: FontWeight.w500),
           obscureText: validators.obsecureTextBool,
