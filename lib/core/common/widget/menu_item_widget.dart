@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:colibri/extensions.dart';
+
 class MenuItemWidget extends StatefulWidget {
   final Widget icon;
   final String text;
@@ -13,9 +14,11 @@ class MenuItemWidget extends StatefulWidget {
 class _MenuItemWidgetState extends State<MenuItemWidget> {
   @override
   Widget build(BuildContext context) => [
-      widget.icon,
-      10.toSizedBoxHorizontal,
-      // 15.toSizedBoxHorizontal,
-      widget.text.toCaption()
-    ].toRow(crossAxisAlignment: CrossAxisAlignment.center,);
+        widget.icon,
+        10.toSizedBoxHorizontal,
+        // 15.toSizedBoxHorizontal,
+        widget.text.toCaption()
+      ].toRow(
+        crossAxisAlignment: CrossAxisAlignment.center,
+      );
 }

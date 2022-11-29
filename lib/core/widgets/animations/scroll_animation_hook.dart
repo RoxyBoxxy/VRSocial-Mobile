@@ -25,8 +25,8 @@ class _ScrollControllerForAnimationHookState
     _scrollController.addListener(() {
       switch (_scrollController.position.userScrollDirection) {
         case ScrollDirection.forward:
-        // State has the "widget" property
-        // HookState has the "hook" property
+          // State has the "widget" property
+          // HookState has the "hook" property
           hook.animationController.forward();
           break;
         case ScrollDirection.reverse:
@@ -48,8 +48,8 @@ class _ScrollControllerForAnimationHookState
 }
 
 ScrollController useScrollControllerForAnimation(
-    AnimationController animationController,
-    ) {
+  AnimationController animationController,
+) {
   return use(_ScrollControllerForAnimationHook(
     animationController: animationController,
   ));

@@ -21,10 +21,9 @@ import 'package:meta/meta.dart';
 import 'package:colibri/extensions.dart';
 part 'post_state.dart';
 
-
 @injectable
-class PostCubit extends PostPaginatonCubit<PostEntity,CommonUIState> with PostSearchingMixin,PostInteractionMixin {
-
+class PostCubit extends PostPaginatonCubit<PostEntity, CommonUIState>
+    with PostSearchingMixin, PostInteractionMixin {
   // use cases
   final AddOrRemoveBookmarkUseCase addOrRemoveBookmarkUseCase;
   final LikeUnlikeUseCase likeUnlikeUseCase;
@@ -35,40 +34,40 @@ class PostCubit extends PostPaginatonCubit<PostEntity,CommonUIState> with PostSe
   // pagination
   final ShowLikesPagination showLikesPagination;
 
-
   PostCubit(
       this.addOrRemoveBookmarkUseCase,
       this.likeUnlikeUseCase,
       this.repostUseCase,
       this.deletePostUseCase,
-      this.searchPostUseCase, this.showLikesPagination) : super(const CommonUIState.initial()){
+      this.searchPostUseCase,
+      this.showLikesPagination)
+      : super(const CommonUIState.initial()) {
     // helps to search items from post items
     enableSearch();
   }
 
-
+  @override
+  Future<Either<Failure, List<PostEntity>>> getItems(int pageKey) async =>
+      searchPostUseCase(TextModelWithOffset(
+          queryText: searchedText, offset: pageKey.toString()));
 
   @override
-  Future<Either<Failure, List<PostEntity>>> getItems(int pageKey) async => searchPostUseCase(TextModelWithOffset(queryText: searchedText,offset: pageKey.toString()));
+  PostEntity getLastItemWithoutAd(List<PostEntity> item) =>
+      item.getItemWithoutAd;
 
   @override
-  PostEntity getLastItemWithoutAd(List<PostEntity> item) => item.getItemWithoutAd;
-
-  @override
-  int getNextKey(PostEntity item) => item.offSetId??0;
+  int getNextKey(PostEntity item) => item.offSetId ?? 0;
 
   @override
   bool isLastPage(List<PostEntity> item) => item.isLastPage;
 
   @override
-  Future<void> likeUnlikePost(int index) async{
+  Future<void> likeUnlikePost(int index) async {
     var either = await mLikeUnlike(index, likeUnlikeUseCase);
     either.fold((l) {
       emit(CommonUIState.error(l.errorMessage));
       emit(const CommonUIState.initial());
-    }, (r) => {
-
-    });
+    }, (r) => {});
   }
 
   @override
@@ -77,14 +76,15 @@ class PostCubit extends PostPaginatonCubit<PostEntity,CommonUIState> with PostSe
   }
 
   @override
-  Future<void> addOrRemoveBookmark(int index) async{
+  Future<void> addOrRemoveBookmark(int index) async {
     await mAddRemoveBookmark(index, addOrRemoveBookmarkUseCase);
   }
 
   @override
-  Future<void> deletePost(int index) async{
+  Future<void> deletePost(int index) async {
     await mDeletePost(index, deletePostUseCase);
   }
+
   @override
   Future<void> close() {
     disposeMixin();
@@ -93,13 +93,13 @@ class PostCubit extends PostPaginatonCubit<PostEntity,CommonUIState> with PostSe
   }
 
   @override
-  Future onOptionItemSelected(PostOptionsEnum postOptionsEnum, int index) async{
+  Future onOptionItemSelected(
+      PostOptionsEnum postOptionsEnum, int index) async {
     switch (postOptionsEnum) {
-
       case PostOptionsEnum.SHOW_LIKES:
         break;
       case PostOptionsEnum.BOOKMARK:
-       await addOrRemoveBookmark(index);
+        await addOrRemoveBookmark(index);
         break;
       case PostOptionsEnum.DELETE:
         await deletePost(index);

@@ -17,20 +17,44 @@ import 'package:colibri/features/welcome/presentation/pages/welcome_screen.dart'
 @CupertinoAutoRouter(
   routes: <AutoRoute>[
     // initial route is named "/"
-    CupertinoRoute(page: WelcomeScreen, ),
-    CupertinoRoute(page: SignUpScreen,),
-    CupertinoRoute(page: LoginScreen,),
-    CupertinoRoute(page: ResetPasswordScreen,),
-    MaterialRoute(page: WebViewScreen,),
-    CupertinoRoute(page: ErrorScreen,),
-    CupertinoRoute(page: FeedScreen,),
-    CupertinoRoute(page: ProfileScreen,),
-    MaterialRoute(page: CreatePost,fullscreenDialog: true),
-    CupertinoRoute(page: ChatScreen,),
-    CupertinoRoute(page: ViewPostScreen,),
-    MaterialRoute(page: FollowingFollowersScreen,fullscreenDialog: true),
-    MaterialRoute(page: SearchScreen,),
-    MaterialRoute(page: SettingsScreen,),
+    CupertinoRoute(
+      page: WelcomeScreen,
+    ),
+    CupertinoRoute(
+      page: SignUpScreen,
+    ),
+    CupertinoRoute(
+      page: LoginScreen,
+    ),
+    CupertinoRoute(
+      page: ResetPasswordScreen,
+    ),
+    MaterialRoute(
+      page: WebViewScreen,
+    ),
+    CupertinoRoute(
+      page: ErrorScreen,
+    ),
+    CupertinoRoute(
+      page: FeedScreen,
+    ),
+    CupertinoRoute(
+      page: ProfileScreen,
+    ),
+    MaterialRoute(page: CreatePost, fullscreenDialog: true),
+    CupertinoRoute(
+      page: ChatScreen,
+    ),
+    CupertinoRoute(
+      page: ViewPostScreen,
+    ),
+    MaterialRoute(page: FollowingFollowersScreen, fullscreenDialog: true),
+    MaterialRoute(
+      page: SearchScreen,
+    ),
+    MaterialRoute(
+      page: SettingsScreen,
+    ),
   ],
 )
 class $MyRouter {}

@@ -48,44 +48,46 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
     context.initScreenUtil();
     return SafeArea(
       child: WillPopScope(
-        onWillPop: (){
+        onWillPop: () {
           userSettingCubit.resetAllData();
           ExtendedNavigator.root.pop();
           return Future.value(true);
         },
-        child: BlocBuilder<UserSettingCubit,CommonUIState>(
-          cubit: userSettingCubit,
-          builder: (context, state) =>state.maybeWhen(orElse: ()=>SingleChildScrollView(
-            child: Container(
-              padding:
-              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: [
-                ListTile(
-                  leading: const BackButton(),
-                  title: _getTitle(widget.updateSettingEnum)
-                      .toSubTitle1(fontWeight: FontWeight.w600)
-                      .toHorizontalPadding(8),
-                  tileColor: AppColors.sfBgColor,
-                ),
-                getHomeWidget(widget.updateSettingEnum).toPadding(16),
-                10.toSizedBox,
-                CustomButton(
-                  text: _getButtonText(
-                    widget.updateSettingEnum,
-                  ),
-                  onTap: () {
-                    widget.onTapSave.call();
-                  },
-                  color: widget.updateSettingEnum == UpdateSettingEnum.DELETE_ACCOUNT
-                      ? Colors.red
-                      : AppColors.colorPrimary,
-                ).toPadding(16)
-              ].toColumn(
-                mainAxisSize: MainAxisSize.min,
-              ),
-            ),
-          ),loading: ()=>const LoadingBar())
-        ),
+        child: BlocBuilder<UserSettingCubit, CommonUIState>(
+            cubit: userSettingCubit,
+            builder: (context, state) => state.maybeWhen(
+                orElse: () => SingleChildScrollView(
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom),
+                        child: [
+                          ListTile(
+                            leading: const BackButton(),
+                            title: _getTitle(widget.updateSettingEnum)
+                                .toSubTitle1(fontWeight: FontWeight.w600)
+                                .toHorizontalPadding(8),
+                            tileColor: AppColors.sfBgColor,
+                          ),
+                          getHomeWidget(widget.updateSettingEnum).toPadding(16),
+                          10.toSizedBox,
+                          CustomButton(
+                            text: _getButtonText(
+                              widget.updateSettingEnum,
+                            ),
+                            onTap: () {
+                              widget.onTapSave.call();
+                            },
+                            color: widget.updateSettingEnum ==
+                                    UpdateSettingEnum.DELETE_ACCOUNT
+                                ? Colors.red
+                                : AppColors.colorPrimary,
+                          ).toPadding(16)
+                        ].toColumn(
+                          mainAxisSize: MainAxisSize.min,
+                        ),
+                      ),
+                    ),
+                loading: () => const LoadingBar())),
       ),
     );
   }
@@ -239,7 +241,9 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
               : [
                   11.toSizedBox,
                   SmartSelect<String>.single(
-                    choiceStyle: S2ChoiceStyle(titleStyle: context.subTitle2.copyWith(fontWeight: FontWeight.w600)),
+                    choiceStyle: S2ChoiceStyle(
+                        titleStyle: context.subTitle2
+                            .copyWith(fontWeight: FontWeight.w600)),
                     modalConfig: S2ModalConfig(
                         title: "Gender",
                         headerStyle: S2ModalHeaderStyle(
@@ -267,7 +271,10 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
                     ),
                     choiceItems: ["Male", "Female"]
                         .toList()
-                        .map((e) => S2Choice(value: e.split('')[0], title: e,))
+                        .map((e) => S2Choice(
+                              value: e.split('')[0],
+                              title: e,
+                            ))
                         .toList(),
                   ),
                   11.toSizedBox,
@@ -292,9 +299,8 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
           .toTextField()
           .toStreamBuilder(validators: userSettingCubit.newPasswordValidator),
       11.toSizedBox,
-      Strings.confirmNewPassword
-          .toTextField()
-          .toStreamBuilder(validators: userSettingCubit.confirmPasswordValidator),
+      Strings.confirmNewPassword.toTextField().toStreamBuilder(
+          validators: userSettingCubit.confirmPasswordValidator),
       11.toSizedBox,
       "Before changing your current password, please follow these tips: Indicate the minimum length (8 characters). Use uppercase and lowercase letters. Use numbers and special characters (&%\$)"
           .toCaption(
@@ -308,9 +314,8 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
   Widget _verifyMyAccount() {
     return [
       11.toSizedBox,
-      Strings.fullName
-          .toTextField()
-          .toStreamBuilder(validators: userSettingCubit.verifyFullNameValidator),
+      Strings.fullName.toTextField().toStreamBuilder(
+          validators: userSettingCubit.verifyFullNameValidator),
       11.toSizedBox,
       Strings.messageToReceiver
           .toTextField()
@@ -319,15 +324,16 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
       "Video Message".toSubTitle2(fontWeight: FontWeight.w600),
       5.toSizedBox,
       "Select a video appeal to the reviewer"
-          .toSubTitle2(align: TextAlign.center).toTextStreamBuilder(userSettingCubit.videoPath.map((event) => event.split('/').last))
+          .toSubTitle2(align: TextAlign.center)
+          .toTextStreamBuilder(
+              userSettingCubit.videoPath.map((event) => event.split('/').last))
           .toPadding(18)
           .toContainer(color: AppColors.sfBgColor, alignment: Alignment.center)
           .onTapWidget(() async {
         await openMediaPicker(context, (media) {
-          if(media!=null&&media.isNotEmpty)
-          userSettingCubit.changeVideoPath(media);
-        },
-            mediaType: MediaTypeEnum.VIDEO);
+          if (media != null && media.isNotEmpty)
+            userSettingCubit.changeVideoPath(media);
+        }, mediaType: MediaTypeEnum.VIDEO);
       }),
       15.toSizedBox,
       "Please note that this material will not be published or shared with third parties."
@@ -366,60 +372,71 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
           return snapshot.data == null
               ? const SizedBox()
               : StreamBuilder<List<String>>(
-                stream: userSettingCubit.countries,
-                initialData: [],
-                builder: (context, countrySnapshot) {
-                  return [
-            11.toSizedBox,
-            SmartSelect<String>.single(
-                  modalFilter: true,
-
-                  modalFilterBuilder: (ctx, cont) => TextField(decoration: InputDecoration(
-                      hintStyle: context.subTitle1.copyWith(fontWeight: FontWeight.w600),
-                      hintText: "Search Country",border: InputBorder.none),onChanged: (s){
-                    cont.apply(s);
-                  },),
-                  choiceStyle: S2ChoiceStyle(titleStyle: context.subTitle2.copyWith(fontWeight: FontWeight.w600)),
-                  modalConfig: S2ModalConfig(
-                      title: "Country",
-                      headerStyle: S2ModalHeaderStyle(
-                          textStyle: context.subTitle1
-                              .copyWith(fontWeight: FontWeight.w600))),
-                  modalType: S2ModalType.fullPage,
-                  value: snapshot.data.country,
-                  onChange: (s) {
-                    userSettingCubit
-                      ..changeSettingEntity(snapshot.data.copyWith(
-                          country: s.value));
-                    //   ..gender = s.value;
-                  },
-                  tileBuilder: (c, s) => ListTile(
-                    trailing: const Icon(
-                      Icons.arrow_forward_ios_outlined,
-                      size: 14,
-                    ),
-                    onTap: () {
-                      s.showModal();
-                    },
-                    title: "Country".toSubTitle2(fontWeight: FontWeight.w600),
-                    subtitle: snapshot.data.country
-                        .toCaption(fontWeight: FontWeight.w600),
-                  ),
-                  choiceItems: countrySnapshot.data
-                      .toList()
-                      .map((e) => S2Choice(value: e, title: e,))
-                      .toList(),
-            ),
-            11.toSizedBox,
-            ListTile(title: "Choose the country in which you live. This information will be publicly displayed on your profile."
-                    .toCaption(
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.colorPrimary,
-                    maxLines: 5),)
-                    .toFlexible()
-          ].toColumn();
-                }
-              );
+                  stream: userSettingCubit.countries,
+                  initialData: [],
+                  builder: (context, countrySnapshot) {
+                    return [
+                      11.toSizedBox,
+                      SmartSelect<String>.single(
+                        modalFilter: true,
+                        modalFilterBuilder: (ctx, cont) => TextField(
+                          decoration: InputDecoration(
+                              hintStyle: context.subTitle1
+                                  .copyWith(fontWeight: FontWeight.w600),
+                              hintText: "Search Country",
+                              border: InputBorder.none),
+                          onChanged: (s) {
+                            cont.apply(s);
+                          },
+                        ),
+                        choiceStyle: S2ChoiceStyle(
+                            titleStyle: context.subTitle2
+                                .copyWith(fontWeight: FontWeight.w600)),
+                        modalConfig: S2ModalConfig(
+                            title: "Country",
+                            headerStyle: S2ModalHeaderStyle(
+                                textStyle: context.subTitle1
+                                    .copyWith(fontWeight: FontWeight.w600))),
+                        modalType: S2ModalType.fullPage,
+                        value: snapshot.data.country,
+                        onChange: (s) {
+                          userSettingCubit
+                            ..changeSettingEntity(
+                                snapshot.data.copyWith(country: s.value));
+                          //   ..gender = s.value;
+                        },
+                        tileBuilder: (c, s) => ListTile(
+                          trailing: const Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            size: 14,
+                          ),
+                          onTap: () {
+                            s.showModal();
+                          },
+                          title: "Country"
+                              .toSubTitle2(fontWeight: FontWeight.w600),
+                          subtitle: snapshot.data.country
+                              .toCaption(fontWeight: FontWeight.w600),
+                        ),
+                        choiceItems: countrySnapshot.data
+                            .toList()
+                            .map((e) => S2Choice(
+                                  value: e,
+                                  title: e,
+                                ))
+                            .toList(),
+                      ),
+                      11.toSizedBox,
+                      ListTile(
+                        title:
+                            "Choose the country in which you live. This information will be publicly displayed on your profile."
+                                .toCaption(
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.colorPrimary,
+                                    maxLines: 5),
+                      ).toFlexible()
+                    ].toColumn();
+                  });
         });
   }
 
@@ -446,55 +463,69 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
           return snapshot.data == null
               ? const SizedBox()
               : StreamBuilder<List<String>>(
-              stream: userSettingCubit.languages,
-              initialData: [],
-              builder: (context, countrySnapshot) => [
-                  11.toSizedBox,
-                  SmartSelect<String>.single(
-                    modalFilter: true,
-
-                    modalFilterBuilder: (ctx, cont) => TextField(decoration: InputDecoration(
-                        hintStyle: context.subTitle1.copyWith(fontWeight: FontWeight.w600),
-                        hintText: "Search Language",border: InputBorder.none),onChanged: (s){
-                      cont.apply(s);
-                    },),
-                    choiceStyle: S2ChoiceStyle(titleStyle: context.subTitle2.copyWith(fontWeight: FontWeight.w600)),
-                    modalConfig: S2ModalConfig(
-                        title: "Language",
-                        headerStyle: S2ModalHeaderStyle(
-                            textStyle: context.subTitle1
-                                .copyWith(fontWeight: FontWeight.w600))),
-                    modalType: S2ModalType.fullPage,
-                    value: snapshot.data.displayLanguage,
-                    onChange: (s) => userSettingCubit
-                        ..changeSettingEntity(snapshot.data.copyWith(
-                            displayLang: s.value))..changeSelectedLang(s.value),
-                    tileBuilder: (c, s) => ListTile(
-                      trailing: const Icon(
-                        Icons.arrow_forward_ios_outlined,
-                        size: 14,
-                      ),
-                      onTap: () => s.showModal(),
-                      title: "Select display language".toSubTitle2(fontWeight: FontWeight.w600),
-                      subtitle: allLanguagesMap[snapshot.data.displayLanguage]
-                          .toCaption(fontWeight: FontWeight.w600),
-                    ),
-                    choiceItems: countrySnapshot.data
-                        .toList()
-                        .map((e) => S2Choice(value: e, title: allLanguagesMap[e],))
-                        .toList(),
-                  ),
-                  11.toSizedBox,
-                  ListTile(title: "Choose your preferred language for your account interface. This does not affect the language of the content that you see in your stream."
-                      .toCaption(
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.colorPrimary,
-                      maxLines: 5),)
-                      .toFlexible()
-                ].toColumn()
-          );
+                  stream: userSettingCubit.languages,
+                  initialData: [],
+                  builder: (context, countrySnapshot) => [
+                        11.toSizedBox,
+                        SmartSelect<String>.single(
+                          modalFilter: true,
+                          modalFilterBuilder: (ctx, cont) => TextField(
+                            decoration: InputDecoration(
+                                hintStyle: context.subTitle1
+                                    .copyWith(fontWeight: FontWeight.w600),
+                                hintText: "Search Language",
+                                border: InputBorder.none),
+                            onChanged: (s) {
+                              cont.apply(s);
+                            },
+                          ),
+                          choiceStyle: S2ChoiceStyle(
+                              titleStyle: context.subTitle2
+                                  .copyWith(fontWeight: FontWeight.w600)),
+                          modalConfig: S2ModalConfig(
+                              title: "Language",
+                              headerStyle: S2ModalHeaderStyle(
+                                  textStyle: context.subTitle1
+                                      .copyWith(fontWeight: FontWeight.w600))),
+                          modalType: S2ModalType.fullPage,
+                          value: snapshot.data.displayLanguage,
+                          onChange: (s) => userSettingCubit
+                            ..changeSettingEntity(
+                                snapshot.data.copyWith(displayLang: s.value))
+                            ..changeSelectedLang(s.value),
+                          tileBuilder: (c, s) => ListTile(
+                            trailing: const Icon(
+                              Icons.arrow_forward_ios_outlined,
+                              size: 14,
+                            ),
+                            onTap: () => s.showModal(),
+                            title: "Select display language"
+                                .toSubTitle2(fontWeight: FontWeight.w600),
+                            subtitle:
+                                allLanguagesMap[snapshot.data.displayLanguage]
+                                    .toCaption(fontWeight: FontWeight.w600),
+                          ),
+                          choiceItems: countrySnapshot.data
+                              .toList()
+                              .map((e) => S2Choice(
+                                    value: e,
+                                    title: allLanguagesMap[e],
+                                  ))
+                              .toList(),
+                        ),
+                        11.toSizedBox,
+                        ListTile(
+                          title:
+                              "Choose your preferred language for your account interface. This does not affect the language of the content that you see in your stream."
+                                  .toCaption(
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.colorPrimary,
+                                      maxLines: 5),
+                        ).toFlexible()
+                      ].toColumn());
         });
   }
+
   @override
   void dispose() {
     userSettingCubit.resetAllData();

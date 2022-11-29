@@ -9,8 +9,7 @@ import 'package:colibri/features/feed/presentation/widgets/create_post_card.dart
 import 'package:colibri/features/posts/domain/entiity/media_entity.dart';
 import 'package:dartz/dartz.dart';
 
-abstract class FeedRepo{
-  Future<Either<Failure,List<PostEntity>>> getFeeds(String pageKey);
-  Future<Either<Failure,List<PostEntity>>> saveNotificationToken();
-
+abstract class FeedRepo {
+  Future<Either<Failure, List<PostEntity>>> getFeeds(String pageKey);
+  Future<Either<Failure, List<PostEntity>>> saveNotificationToken();
 }

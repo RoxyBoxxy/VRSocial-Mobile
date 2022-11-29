@@ -3,7 +3,7 @@ import 'package:colibri/features/feed/domain/entity/post_entity.dart';
 import 'package:colibri/features/feed/domain/entity/post_media.dart';
 import 'package:colibri/features/posts/domain/entiity/media_entity.dart';
 
-class ReplyEntity{
+class ReplyEntity {
   final String name;
 
   final String time;
@@ -18,8 +18,8 @@ class ReplyEntity{
 
   final List<PostMedia> items;
 
-  ReplyEntity._({
-      @required this.name,
+  ReplyEntity._(
+      {@required this.name,
       @required this.time,
       @required this.description,
       @required this.id,
@@ -27,17 +27,17 @@ class ReplyEntity{
       @required this.username1,
       @required this.username2,
       @required this.loggedUserProfileUrl,
-    this.items=const []
-  });
+      this.items = const []});
 
-  factory ReplyEntity.fromPostEntity({@required PostEntity postEntity})=> ReplyEntity._(
-        time: postEntity.time,
-        description: postEntity.description,
-        id: postEntity.postId,
-        profileUrl: postEntity.profileUrl,
-        username1: postEntity.userName,
-        username2: postEntity.parentPostUsername??"",
-        loggedUserProfileUrl: postEntity.profileUrl, name: postEntity.name,items: postEntity.media);
-
-
+  factory ReplyEntity.fromPostEntity({@required PostEntity postEntity}) =>
+      ReplyEntity._(
+          time: postEntity.time,
+          description: postEntity.description,
+          id: postEntity.postId,
+          profileUrl: postEntity.profileUrl,
+          username1: postEntity.userName,
+          username2: postEntity.parentPostUsername ?? "",
+          loggedUserProfileUrl: postEntity.profileUrl,
+          name: postEntity.name,
+          items: postEntity.media);
 }

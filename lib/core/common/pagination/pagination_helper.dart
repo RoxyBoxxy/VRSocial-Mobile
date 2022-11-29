@@ -5,12 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 abstract class PostPaginatonCubit<T, S> extends Cubit<S> {
-
-  bool isLoading=false;
+  bool isLoading = false;
 
   final dynamic initCubitState;
 
-  final PagingController<int, T> pagingController = PagingController<int,T>(firstPageKey: 0);
+  final PagingController<int, T> pagingController =
+      PagingController<int, T>(firstPageKey: 0);
 
   PagingStatus pagingStatus;
 
@@ -20,26 +20,24 @@ abstract class PostPaginatonCubit<T, S> extends Cubit<S> {
       _fetchPage(pageKey);
     });
     pagingController.addStatusListener((status) {
-      pagingStatus=status;
+      pagingStatus = status;
       print("current page status : $status");
     });
   }
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      isLoading=true;
+      isLoading = true;
       final response = await getItems(pageKey);
-      response.fold (
-              (l) {
-                isLoading=false;
-                if(l.errorMessage=="No data found")
-                pagingController.appendLastPage([]);
-                else
-                  pagingController.error=l.errorMessage;
-                },
-              (items) {
+      response.fold((l) {
+        isLoading = false;
+        if (l.errorMessage == "No data found")
+          pagingController.appendLastPage([]);
+        else
+          pagingController.error = l.errorMessage;
+      }, (items) {
         // check if last item is of advertisement
-                isLoading=false;
+        isLoading = false;
         if (isLastPage(items)) {
           pagingController.appendLastPage(items);
         } else {
@@ -51,7 +49,7 @@ abstract class PostPaginatonCubit<T, S> extends Cubit<S> {
         // pagingController.appendPage(items, nextPageKey);
       });
     } catch (error) {
-      isLoading=false;
+      isLoading = false;
       pagingController.error = error;
     }
   }
@@ -73,11 +71,7 @@ abstract class PostPaginatonCubit<T, S> extends Cubit<S> {
   Future<void> deletePost(int index);
   Future<void> addOrRemoveBookmark(int index);
 
-  Future onOptionItemSelected(PostOptionsEnum postOptionsEnum,int index);
-
-
-
-
+  Future onOptionItemSelected(PostOptionsEnum postOptionsEnum, int index);
 
   @override
   Future<void> close() {
@@ -85,15 +79,10 @@ abstract class PostPaginatonCubit<T, S> extends Cubit<S> {
     return super.close();
   }
 
-  void onRefresh(){
-    if(!isLoading)
-    {
+  void onRefresh() {
+    if (!isLoading) {
       pagingController?.itemList?.clear();
       pagingController.refresh();
     }
   }
-
-
 }
-
-

@@ -10,7 +10,8 @@ class HashTagEntity {
   HashTagEntity._(
       {@required this.id, @required this.name, @required this.totalPosts});
 
-  factory HashTagEntity.fromHashTag(HashTag item ){
-    return HashTagEntity._(id: item.id.toString(), name: item.hashtag, totalPosts: item.total);
+  factory HashTagEntity.fromHashTag(HashTag item) {
+    return HashTagEntity._(
+        id: item.id.toString(), name: item.hashtag, totalPosts: item.total);
   }
 }

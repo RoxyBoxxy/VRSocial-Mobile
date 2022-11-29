@@ -7,12 +7,11 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class UpdatePasswordUseCase extends UseCase<dynamic,UpdatePasswordRequest>{
+class UpdatePasswordUseCase extends UseCase<dynamic, UpdatePasswordRequest> {
   final ProfileRepo profileRepo;
   UpdatePasswordUseCase(this.profileRepo);
   @override
   Future<Either<Failure, dynamic>> call(params) {
     return profileRepo.updatePassword(params);
   }
-
 }

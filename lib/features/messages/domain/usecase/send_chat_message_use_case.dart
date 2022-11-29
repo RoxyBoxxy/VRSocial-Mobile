@@ -5,8 +5,10 @@ import 'package:colibri/features/messages/data/models/response/send_message_resp
 import 'package:colibri/features/messages/domain/repo/message_repo.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
+
 @injectable
-class SendChatMessageUseCase extends UseCase<SendMessageResponse,MessagesRequestModel>{
+class SendChatMessageUseCase
+    extends UseCase<SendMessageResponse, MessagesRequestModel> {
   final MessageRepo messageRepo;
 
   SendChatMessageUseCase(this.messageRepo);
@@ -14,5 +16,4 @@ class SendChatMessageUseCase extends UseCase<SendMessageResponse,MessagesRequest
   Future<Either<Failure, SendMessageResponse>> call(params) {
     return messageRepo.sendMessage(params);
   }
-
 }

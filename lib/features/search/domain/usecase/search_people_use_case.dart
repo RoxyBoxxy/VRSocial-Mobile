@@ -7,12 +7,12 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class SearchPeopleUseCase extends UseCase<List<PeopleEntity>,TextModelWithOffset>{
+class SearchPeopleUseCase
+    extends UseCase<List<PeopleEntity>, TextModelWithOffset> {
   final SearchRepo searchRepo;
   SearchPeopleUseCase(this.searchRepo);
   @override
   Future<Either<Failure, List<PeopleEntity>>> call(TextModelWithOffset params) {
     return searchRepo.searchPeople(params);
   }
-
 }

@@ -11,7 +11,8 @@ import 'package:infinite_scroll_pagination/src/core/paging_controller.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class ShowLikesPagination extends CustomPagination<PeopleEntity> with FollowUnFollowMixin{
+class ShowLikesPagination extends CustomPagination<PeopleEntity>
+    with FollowUnFollowMixin {
   final GetLikesUseCase getLikesUseCase;
   final FollowUnFollowUseCase followUnFollowUseCaseMixin;
 
@@ -19,10 +20,12 @@ class ShowLikesPagination extends CustomPagination<PeopleEntity> with FollowUnFo
 
   String _postId;
 
-  setPostID(String value)=>_postId=value;
+  setPostID(String value) => _postId = value;
 
   @override
-  Future<Either<Failure, List<PeopleEntity>>> getItems(int pageKey) async => await getLikesUseCase(LikesRequestModel(postId: _postId, offsetId: pageKey.toString()));
+  Future<Either<Failure, List<PeopleEntity>>> getItems(int pageKey) async =>
+      await getLikesUseCase(
+          LikesRequestModel(postId: _postId, offsetId: pageKey.toString()));
 
   @override
   PeopleEntity getLastItemWithoutAd(List<PeopleEntity> item) => item.last;
@@ -34,7 +37,6 @@ class ShowLikesPagination extends CustomPagination<PeopleEntity> with FollowUnFo
   bool isLastPage(List<PeopleEntity> item) => commonLastPage(item);
 
   @override
-  PagingController<int, PeopleEntity> get pagingControllerMixin => pagingController;
-
-
+  PagingController<int, PeopleEntity> get pagingControllerMixin =>
+      pagingController;
 }

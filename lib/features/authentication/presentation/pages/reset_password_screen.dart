@@ -23,62 +23,95 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    resetPasswordCubit=getIt<ResetPasswordCubit>();
+    resetPasswordCubit = getIt<ResetPasswordCubit>();
   }
+
   @override
   Widget build(BuildContext context) {
     context.initScreenUtil();
     return BlocProvider<ResetPasswordCubit>(
-      create: (c)=>resetPasswordCubit,
-      child: BlocListener<ResetPasswordCubit,CommonUIState>(
-        listener: (_,state){
-          state.maybeWhen(orElse: (){},success: (message){
-            ExtendedNavigator.root.pop();
-            context.showSnackBar(message: message);
-          },error: (e){
-            context.showOkAlertDialog(desc: e, title: "Alert");
-          });
-        },
-        child: Scaffold(
+      create: (c) => resetPasswordCubit,
+      child: BlocListener<ResetPasswordCubit, CommonUIState>(
+          listener: (_, state) {
+            state.maybeWhen(
+                orElse: () {},
+                success: (message) {
+                  ExtendedNavigator.root.pop();
+                  context.showSnackBar(message: message);
+                },
+                error: (e) {
+                  context.showOkAlertDialog(desc: e, title: "Alert");
+                });
+          },
+          child: Scaffold(
             backgroundColor: Colors.white,
-            body: BlocBuilder<ResetPasswordCubit,CommonUIState>(
-              builder: (c,state)=>state.when(initial: buildHome,
-                  success: (s)=>buildHome(),
-                  loading:()=> LoadingBar(),
-                  error: (e)=>buildHome()),
+            body: BlocBuilder<ResetPasswordCubit, CommonUIState>(
+              builder: (c, state) => state.when(
+                  initial: buildHome,
+                  success: (s) => buildHome(),
+                  loading: () => LoadingBar(),
+                  error: (e) => buildHome()),
             ),
-        )),
-      );
+          )),
+    );
   }
-  Widget buildHome(){
-    return SingleChildScrollView(child: Container(
-      constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height),
-      child: KeyboardActions(
-        config: KeyboardActionsConfig(
-          keyboardActionsPlatform:KeyboardActionsPlatform.IOS,
-          actions: [
-            KeyboardActionsItem(
-              displayDoneButton: true,
-              focusNode: resetPasswordCubit.emailValidator.focusNode,
-            ),
 
-          ],
+  Widget buildHome() {
+    return SingleChildScrollView(
+      child: Container(
+        constraints:
+            BoxConstraints(maxHeight: MediaQuery.of(context).size.height),
+        child: KeyboardActions(
+          config: KeyboardActionsConfig(
+            keyboardActionsPlatform: KeyboardActionsPlatform.IOS,
+            actions: [
+              KeyboardActionsItem(
+                displayDoneButton: true,
+                focusNode: resetPasswordCubit.emailValidator.focusNode,
+              ),
+            ],
+          ),
+          child: SizedBox(
+            height: context.getScreenHeight,
+            child: [
+              [
+                AppIcons.appLogo
+                    .toContainer(alignment: Alignment.center)
+                    .toExpanded(),
+                "Please check your email after submission"
+                    .toCaption(fontWeight: FontWeight.w600)
+                    .toContainer(alignment: Alignment.center),
+              ].toColumn().toExpanded(),
+              [
+                20.toSizedBox,
+                "Enter email address".toTextField().toStreamBuilder(
+                    validators: resetPasswordCubit.emailValidator),
+                20.toSizedBox,
+                "Reset".toButton().toStreamBuilderButton(
+                    resetPasswordCubit.enableButton,
+                    () => resetPasswordCubit.resetPassword()),
+              ].toColumn().toExpanded(),
+              [
+                "Have an account already?".toCaption(
+                    fontWeight: FontWeight.w600, color: Colors.black54),
+                "SIGN IN"
+                    .toButton(color: AppColors.colorPrimary)
+                    .toUnderLine()
+                    .toFlatButton(() =>
+                        ExtendedNavigator.root.replace(Routes.loginScreen)),
+              ]
+                  .toColumn(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center)
+                  .toExpanded()
+            ]
+                .toColumn(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center)
+                .toHorizontalPadding(24),
+          ),
         ),
-        child: SizedBox(
-          height: context.getScreenHeight,
-          child: [
-            [AppIcons.appLogo.toContainer(alignment: Alignment.center).toExpanded(),
-              "Please check your email after submission".toCaption(fontWeight: FontWeight.w600).toContainer(alignment: Alignment.center),].toColumn().toExpanded(),
-            [
-              20.toSizedBox,
-              "Enter email address".toTextField().toStreamBuilder(validators: resetPasswordCubit.emailValidator),
-              20.toSizedBox,
-              "Reset".toButton().toStreamBuilderButton(resetPasswordCubit.enableButton,() => resetPasswordCubit.resetPassword()),].toColumn().toExpanded(),
-            ["Have an account already?".toCaption(fontWeight: FontWeight.w600,color: Colors.black54),
-              "SIGN IN".toButton(color: AppColors.colorPrimary).toUnderLine().toFlatButton(() => ExtendedNavigator.root.replace(Routes.loginScreen)),].toColumn(crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center).toExpanded()
-          ].toColumn(mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center).toHorizontalPadding(24),
-        ),
-      ),),);
+      ),
+    );
   }
 }

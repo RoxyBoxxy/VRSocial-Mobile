@@ -21,7 +21,6 @@ part 'view_post_state.dart';
 
 @injectable
 class ViewPostCubit extends Cubit<CommonUIState> {
-
   FieldValidators postReplyValidator = FieldValidators(null, null);
 
   final GetThreadedPostUseCase getThreadedPostUseCase;
@@ -36,14 +35,17 @@ class ViewPostCubit extends Cubit<CommonUIState> {
 
   final DeletePostUseCase deletePostUseCase;
 
-  ViewPostCubit(this.getThreadedPostUseCase, this.createPostUseCase,
+  ViewPostCubit(
+      this.getThreadedPostUseCase,
+      this.createPostUseCase,
       this.likeUnlikeUseCase,
       this.repostUseCase,
-      this.addOrRemoveUseCase, this.deletePostUseCase)
+      this.addOrRemoveUseCase,
+      this.deletePostUseCase)
       : super(const CommonUIState.initial());
   List<PostEntity> _items = [];
 
-  List<PostEntity >get items=>_items;
+  List<PostEntity> get items => _items;
 
   final _parentPostControllerController = BehaviorSubject<List<PostEntity>>();
 
@@ -64,20 +66,26 @@ class ViewPostCubit extends Cubit<CommonUIState> {
 
   Future<void> likeUnLikePost(int index) async {
     var currentItem = _items[index];
-    _items[index] = _items[index].copyWith(isLiked: !currentItem.isLiked,
+    _items[index] = _items[index].copyWith(
+        isLiked: !currentItem.isLiked,
         likeCount: (currentItem.isLiked
-            ? currentItem.likeCount.dec
-            : currentItem.likeCount.inc).toString());
+                ? currentItem.likeCount.dec
+                : currentItem.likeCount.inc)
+            .toString());
     changePostEntity(_items);
     await likeUnlikeUseCase(_items[index].postId);
   }
 
   Future<void> addRemoveBook(int index) async {
     var item = _items[index];
-    _items[index] = item.copyWith(isSaved: !item.isSaved,);
+    _items[index] = item.copyWith(
+      isSaved: !item.isSaved,
+    );
     var either = await addOrRemoveUseCase(item.postId);
     either.fold((l) {
-      _items[index] = item.copyWith(isSaved: !item.isSaved,);
+      _items[index] = item.copyWith(
+        isSaved: !item.isSaved,
+      );
       // emit(CommonUIState.error(l.errorMessage));
       // emit(CommonUIState.initial());
     }, (r) {
@@ -92,9 +100,11 @@ class ViewPostCubit extends Cubit<CommonUIState> {
 
   Future<void> repost(int index) async {
     var item = _items[index];
-    _items[index] = item.copyWith(isReposted: !item.isReposted,
-        repostCount: (item.isReposted ? item.repostCount.dec : item.repostCount
-            .inc).toString());
+    _items[index] = item.copyWith(
+        isReposted: !item.isReposted,
+        repostCount:
+            (item.isReposted ? item.repostCount.dec : item.repostCount.inc)
+                .toString());
     changePostEntity(_items);
     await repostUseCase(_items[index].postId);
   }
@@ -102,7 +112,6 @@ class ViewPostCubit extends Cubit<CommonUIState> {
   postReply() async {
     var postRequestModel = PostRequestModel();
     // await createPostUseCase();
-
   }
 
   Future<void> deletePost(int index) async {
@@ -120,15 +129,9 @@ class ViewPostCubit extends Cubit<CommonUIState> {
       changePostEntity(_items);
       emit(const CommonUIState.initial());
       emit(const CommonUIState.success("Deleted Successfully"));
-    }
-    );
+    });
 
-
-    uploadMedia() {
-
-    }
-
-
+    uploadMedia() {}
   }
 
   void loadPageData(PostDetailResponse r) {
@@ -144,7 +147,6 @@ class ViewPostCubit extends Cubit<CommonUIState> {
     // else prev array will give you the parent tree
     var parentItem = PostEntity.fromFeed(r.data.post);
 
-
     // check prev array if it's not empty then add items
     // choose prev first because it will contain parent posts
     if (prevItems.isNotEmpty) {
@@ -154,18 +156,32 @@ class ViewPostCubit extends Cubit<CommonUIState> {
         // check if next item has replies
         if (prevPostItem.replys.isNotEmpty) {
           // add next item then add it's replies
-          postItems.add(prevItem.copyWith(isConnected: true,isReplyItem: true,parentPostUsername: parentItem.userName));
+          postItems.add(prevItem.copyWith(
+              isConnected: true,
+              isReplyItem: true,
+              parentPostUsername: parentItem.userName));
           prevPostItem.replys.forEach((reply) {
             var replyItem = PostEntity.fromPostDetails(reply);
-            postItems.add(replyItem.copyWith(isConnected: false,isReplyItem: prevPostItem.replys.last.id!=reply.id,parentPostUsername: parentItem.userName),);
+            postItems.add(
+              replyItem.copyWith(
+                  isConnected: false,
+                  isReplyItem: prevPostItem.replys.last.id != reply.id,
+                  parentPostUsername: parentItem.userName),
+            );
             // helps to add full divider
-            if(prevPostItem.replys.last.id==reply.id){
-              postItems.add(replyItem.copyWith(showFullDivider: true,isConnected: false,isReplyItem: false,parentPostUsername: parentItem.userName));
+            if (prevPostItem.replys.last.id == reply.id) {
+              postItems.add(replyItem.copyWith(
+                  showFullDivider: true,
+                  isConnected: false,
+                  isReplyItem: false,
+                  parentPostUsername: parentItem.userName));
             }
           });
-        }
-        else {
-          postItems.add(prevItem.copyWith(isConnected: true,isReplyItem: true,parentPostUsername: parentItem.userName));
+        } else {
+          postItems.add(prevItem.copyWith(
+              isConnected: true,
+              isReplyItem: true,
+              parentPostUsername: parentItem.userName));
           // postItems.add(prevItem.copyWith(isConnected: false,isReplyItem: false,showFullDivider: false));
         }
       });
@@ -175,39 +191,55 @@ class ViewPostCubit extends Cubit<CommonUIState> {
     // else will add main post item below the parent tree ( we're getting this from prev posts)
     if (prevItems.isNotEmpty) {
       // parentItem = parentItem.copyWith(isConnected: false,time: r.data.post.timeRaw.toTime);
-      parentItem = parentItem.copyWith(isConnected: false,isReplyItem: true);
+      parentItem = parentItem.copyWith(isConnected: false, isReplyItem: true);
     }
     // postItems.add(parentItem.copyWith(time: r.data.post.timeRaw.toTime));
     postItems.add(parentItem);
-    postItems.add(PostEntity.fromDummy().copyWith(parentPostTime: r.data.post.timeRaw.toTime) );
+    postItems.add(PostEntity.fromDummy()
+        .copyWith(parentPostTime: r.data.post.timeRaw.toTime));
 
     // check next array if it's not empty then add items
     // choose next second because it will contain child post
     if (nextItems.isNotEmpty) {
       nextItems.forEach((nextPostItem) {
         // add item then add replies below if there are
-        var nextItem = PostEntity.fromPostDetails(nextPostItem).copyWith(parentPostUsername: parentItem.userName);
+        var nextItem = PostEntity.fromPostDetails(nextPostItem)
+            .copyWith(parentPostUsername: parentItem.userName);
         // check if next item has replies
         if (nextPostItem.replys.isNotEmpty) {
           // add next item then add it's replies
           if (nextItems.indexOf(nextPostItem) == 0 && prevItems.isNotEmpty) {
-            postItems.add(nextItem.copyWith(isConnected: false,isReplyItem: true,parentPostUsername: parentItem.userName));
-          }
-          else
-            postItems.add(nextItem.copyWith(isConnected: true,isReplyItem: true,parentPostUsername: parentItem.userName));
+            postItems.add(nextItem.copyWith(
+                isConnected: false,
+                isReplyItem: true,
+                parentPostUsername: parentItem.userName));
+          } else
+            postItems.add(nextItem.copyWith(
+                isConnected: true,
+                isReplyItem: true,
+                parentPostUsername: parentItem.userName));
 
           nextPostItem.replys.forEach((reply) {
             var replyItem = PostEntity.fromPostDetails(reply);
-            postItems.add(replyItem.copyWith(isConnected: nextPostItem.replys.last.id!=reply.id,isReplyItem: true,parentPostUsername: parentItem.userName));
-            if(nextPostItem.replys.last.id==reply.id){
-              postItems.add(replyItem.copyWith(showFullDivider: true,isConnected: false,isReplyItem: false,parentPostUsername: parentItem.userName));
+            postItems.add(replyItem.copyWith(
+                isConnected: nextPostItem.replys.last.id != reply.id,
+                isReplyItem: true,
+                parentPostUsername: parentItem.userName));
+            if (nextPostItem.replys.last.id == reply.id) {
+              postItems.add(replyItem.copyWith(
+                  showFullDivider: true,
+                  isConnected: false,
+                  isReplyItem: false,
+                  parentPostUsername: parentItem.userName));
             }
           });
-        }
-        else {
-          postItems.add(nextItem,);
+        } else {
+          postItems.add(
+            nextItem,
+          );
           // helps to adding divider
-          postItems.add(nextItem.copyWith(showFullDivider: true,isConnected: false,isReplyItem: false));
+          postItems.add(nextItem.copyWith(
+              showFullDivider: true, isConnected: false, isReplyItem: false));
         }
       });
     }

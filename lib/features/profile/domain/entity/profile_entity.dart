@@ -24,7 +24,8 @@ class ProfileEntity {
   final String lastName;
   final bool isFollowing;
   final String countryFlag;
-  const ProfileEntity._({@required this.profileUrl,
+  const ProfileEntity._({
+    @required this.profileUrl,
     @required this.backgroundUrl,
     @required this.fullName,
     @required this.userName,
@@ -44,61 +45,66 @@ class ProfileEntity {
     @required this.isFollowing,
     @required this.id,
     @required this.countryFlag,
-
   });
 
   factory ProfileEntity.fromProfileResponse(
       {@required ProfileResponse profileResponse,
-        @required LoginResponse loginResponse}) {
+      @required LoginResponse loginResponse}) {
     var profileData = profileResponse.data;
 
     return ProfileEntity._(
-      profileUrl: profileData.avatar,
-      backgroundUrl: profileData.cover,
-      fullName: profileData.firstName != null && profileData.lastName != null
-          ? "${profileData.firstName} ${profileData.lastName}"
-          : "--",
-      userName: "@" + profileData.userName,
-      about:profileData.aboutYou.isNotEmpty? profileData.aboutYou:"About not available",
-      country: profileData.country,
-      website: profileData.website,
-      memberSince: profileData.memberSince,
-      postCounts: profileData.postCount.toString(),
-      followingCount: profileData.followingCount.toString(),
-      isVerified: profileData.isVerified,
-      followerCount: profileData.followerCount.toString(),
-      email: profileData.email,
-      gender: profileData.gender.toLowerCase().contains("m")
-          ? "Male"
-          : "Female",
-      language: profileData.language,
-      firstName: profileData.firstName,
-      lastName: profileData.lastName,
-      isFollowing: profileData?.user?.isFollowing??false,
+        profileUrl: profileData.avatar,
+        backgroundUrl: profileData.cover,
+        fullName: profileData.firstName != null && profileData.lastName != null
+            ? "${profileData.firstName} ${profileData.lastName}"
+            : "--",
+        userName: "@" + profileData.userName,
+        about: profileData.aboutYou.isNotEmpty
+            ? profileData.aboutYou
+            : "About not available",
+        country: profileData.country,
+        website: profileData.website,
+        memberSince: profileData.memberSince,
+        postCounts: profileData.postCount.toString(),
+        followingCount: profileData.followingCount.toString(),
+        isVerified: profileData.isVerified,
+        followerCount: profileData.followerCount.toString(),
+        email: profileData.email,
+        gender:
+            profileData.gender.toLowerCase().contains("m") ? "Male" : "Female",
+        language: profileData.language,
+        firstName: profileData.firstName,
+        lastName: profileData.lastName,
+        isFollowing: profileData?.user?.isFollowing ?? false,
         countryFlag: profileData.countryFlag,
-        id: profileData.id.toString()
-    );
+        id: profileData.id.toString());
   }
 
-  ProfileEntity copyWith({String profileUrl,String coverUrl,bool isFollowing,String backgroundImage,String profileImage})=> ProfileEntity._(
-  profileUrl: profileImage??this.profileUrl,
-  backgroundUrl: backgroundImage??this.backgroundUrl,
-  fullName: fullName,
-  userName: userName,
-  about: about,
-  country: country,
-  website: website,
-  memberSince: memberSince,
-  postCounts: postCounts,
-  followingCount: followingCount,
-  isVerified: isVerified,
-  followerCount: followerCount,
-  email: email,
-  gender: gender,
-  language: language,
-  firstName: firstName,
-  countryFlag: countryFlag,
-  lastName: lastName, isFollowing: isFollowing??this.isFollowing, id: this.id
-);
-
+  ProfileEntity copyWith(
+          {String profileUrl,
+          String coverUrl,
+          bool isFollowing,
+          String backgroundImage,
+          String profileImage}) =>
+      ProfileEntity._(
+          profileUrl: profileImage ?? this.profileUrl,
+          backgroundUrl: backgroundImage ?? this.backgroundUrl,
+          fullName: fullName,
+          userName: userName,
+          about: about,
+          country: country,
+          website: website,
+          memberSince: memberSince,
+          postCounts: postCounts,
+          followingCount: followingCount,
+          isVerified: isVerified,
+          followerCount: followerCount,
+          email: email,
+          gender: gender,
+          language: language,
+          firstName: firstName,
+          countryFlag: countryFlag,
+          lastName: lastName,
+          isFollowing: isFollowing ?? this.isFollowing,
+          id: this.id);
 }

@@ -5,11 +5,11 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class FollowUnFollowUseCase extends UseCase<dynamic,String>{
+class FollowUnFollowUseCase extends UseCase<dynamic, String> {
   final ProfileRepo profileRepo;
 
   FollowUnFollowUseCase(this.profileRepo);
   @override
-  Future<Either<Failure, dynamic>> call(String params) => profileRepo.followUnFollow(params);
-
+  Future<Either<Failure, dynamic>> call(String params) =>
+      profileRepo.followUnFollow(params);
 }

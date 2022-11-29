@@ -5,11 +5,11 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class DeletePostUseCase extends UseCase<dynamic,String>{
+class DeletePostUseCase extends UseCase<dynamic, String> {
   final PostRepo postRepo;
 
   DeletePostUseCase(this.postRepo);
   @override
-  Future<Either<Failure, dynamic>> call(String params) => postRepo.deletePost(params);
-
+  Future<Either<Failure, dynamic>> call(String params) =>
+      postRepo.deletePost(params);
 }

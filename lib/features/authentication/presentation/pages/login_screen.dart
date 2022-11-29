@@ -1,4 +1,3 @@
-
 import 'package:auto_route/auto_route.dart';
 import 'package:colibri/core/common/uistate/common_ui_state.dart';
 import 'package:colibri/core/di/injection.dart';
@@ -15,7 +14,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 
-
 class LoginScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _LoginScreenState();
@@ -27,9 +25,10 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    loginCubit=getIt<LoginCubit>();
+    loginCubit = getIt<LoginCubit>();
     // EasyLoading.show();
   }
+
   @override
   Widget build(BuildContext context) {
     context.initScreenUtil();
@@ -39,38 +38,42 @@ class _LoginScreenState extends State<LoginScreen> {
         child: BlocListener<LoginCubit, CommonUIState>(
           listener: (_, state) {
             state.maybeWhen(
-                orElse: () {},
-                success: (message) {
-                  // context.showOkAlertDialog(desc: "Login Successfully", title: "Alert");
-                  ExtendedNavigator.root.pushAndRemoveUntil(Routes.feedScreen, (route) => false);
-                  context.showSnackBar(message: "Login Successfully");
-                },
-              error: (e){
-                  if(e.isNotEmpty){
-                    context.showOkAlertDialog(desc: e, title: "Alert");
-                  }
-
+              orElse: () {},
+              success: (message) {
+                // context.showOkAlertDialog(desc: "Login Successfully", title: "Alert");
+                ExtendedNavigator.root
+                    .pushAndRemoveUntil(Routes.feedScreen, (route) => false);
+                context.showSnackBar(message: "Login Successfully");
+              },
+              error: (e) {
+                if (e.isNotEmpty) {
+                  context.showOkAlertDialog(desc: e, title: "Alert");
+                }
               },
             );
           },
-          child: BlocBuilder<LoginCubit,CommonUIState>(
-            builder: (c,state)=>state.when(initial: buildHome, success: (s)=>buildHome(), loading: ()=>LoadingBar(), error: (e)=>buildHome()),
+          child: BlocBuilder<LoginCubit, CommonUIState>(
+            builder: (c, state) => state.when(
+                initial: buildHome,
+                success: (s) => buildHome(),
+                loading: () => LoadingBar(),
+                error: (e) => buildHome()),
           ),
         ),
       ),
     );
   }
 
-  Widget buildHome(){
+  Widget buildHome() {
     return Scaffold(
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Container(
-            constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height),
+            constraints:
+                BoxConstraints(maxHeight: MediaQuery.of(context).size.height),
             child: KeyboardActions(
               config: KeyboardActionsConfig(
-                keyboardActionsPlatform:KeyboardActionsPlatform.IOS,
+                keyboardActionsPlatform: KeyboardActionsPlatform.IOS,
                 actions: [
                   KeyboardActionsItem(
                     focusNode: loginCubit.emailValidators.focusNode,
@@ -78,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   KeyboardActionsItem(
                     displayDoneButton: true,
                     toolbarButtons: [
-                          (node) {
+                      (node) {
                         return GestureDetector(
                           onTap: () => node.unfocus(),
                           child: const Padding(
@@ -90,45 +93,43 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                     focusNode: loginCubit.passwordValidator.focusNode,
                   ),
-                ],),
+                ],
+              ),
               child: SizedBox(
                 height: MediaQuery.of(context).size.height,
                 child: [
-                  buildTopView().
-                  toExpanded(flex: 3),
-                  buildMiddleView(context)
-                      .toExpanded(flex: 3),
-                  buildBottomView()
-                      .toExpanded(flex: 1),
+                  buildTopView().toExpanded(flex: 3),
+                  buildMiddleView(context).toExpanded(flex: 3),
+                  buildBottomView().toExpanded(flex: 1),
                 ]
                     .toColumn(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center)
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center)
                     .toContainer(
-                    alignment: Alignment.center, color: Colors.white)
+                        alignment: Alignment.center, color: Colors.white)
                     .toHorizontalPadding(24.0),
               ),
             ),
           ),
         )
-      // .toFadeAnimation(animationController).toSlideAnimation(animationController),
-    );
+        // .toFadeAnimation(animationController).toSlideAnimation(animationController),
+        );
   }
 
   Widget buildTopView() {
     return [
       AppIcons.appLogo.toContainer(alignment: Alignment.center).toExpanded(),
       [
-
-        Strings.emailAddress.toTextField().toStreamBuilder(validators: loginCubit.emailValidators),
+        Strings.emailAddress
+            .toTextField()
+            .toStreamBuilder(validators: loginCubit.emailValidators),
         10.toSizedBox,
-        Strings.password.toTextField(onSubmit: (value)  {
+        Strings.password.toTextField(onSubmit: (value) {
           loginCubit.loginUser();
           // context.showSnackBar(message:value.toString());
-       // loginCubit.validForm.listen((event) {
-       //   if(event)
-       // });
-
+          // loginCubit.validForm.listen((event) {
+          //   if(event)
+          // });
         }).toStreamBuilder(validators: loginCubit.passwordValidator),
         Strings.forgotPassword
             .toCaption(fontWeight: FontWeight.w600)
@@ -165,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
             .toButton(fontSize: 12.0, color: AppColors.colorPrimary)
             .onTapWidget(() {
           context.removeFocus();
-          ExtendedNavigator.root.push (
+          ExtendedNavigator.root.push(
             Routes.webViewScreen,
             arguments: WebViewScreenArguments(
                 url: Strings.privacyUrl, name: Strings.privacy),
@@ -173,22 +174,22 @@ class _LoginScreenState extends State<LoginScreen> {
         })
       ].toRow(mainAxisAlignment: MainAxisAlignment.center),
       35.toSizedBox,
-      Strings.login.toText.toStreamBuilderButton(loginCubit.validForm, () async{
+      Strings.login.toText.toStreamBuilderButton(loginCubit.validForm,
+          () async {
         await loginCubit.loginUser();
       }),
       35.toSizedBox,
       [
         Images.facebook
             .toSvg()
-            .toFlatButton(
-                () async=> loginCubit.facebookLogin(),
+            .toFlatButton(() async => loginCubit.facebookLogin(),
                 color: AppColors.fbBlue)
             .toSizedBox(height: 40, width: 55),
         10.toSizedBox,
         Images.google
             .toSvg()
             .toFlatButton(
-              () =>  loginCubit.googleLogin(),
+              () => loginCubit.googleLogin(),
             )
             .toSizedBox(height: 40, width: 55)
             .toContainer(
@@ -199,10 +200,10 @@ class _LoginScreenState extends State<LoginScreen> {
         10.toSizedBox,
         Images.twitter
             .toSvg()
-            .toFlatButton(
-                () => loginCubit.twitterLogin(),
+            .toFlatButton(() => loginCubit.twitterLogin(),
                 color: AppColors.twitterBlue)
-            .toSizedBox(height: 40, width: 55).toVisibility(false),
+            .toSizedBox(height: 40, width: 55)
+            .toVisibility(false),
       ].toRow(mainAxisAlignment: MainAxisAlignment.center),
     ]
         .toColumn(
@@ -213,19 +214,21 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget buildBottomView() {
     return [
-      Strings.dontHaveAnAccount.toCaption(fontWeight: FontWeight.w600,color: Colors.black54),
+      Strings.dontHaveAnAccount
+          .toCaption(fontWeight: FontWeight.w600, color: Colors.black54),
       Strings.signUpCaps
           .toButton(color: AppColors.colorPrimary)
           .toUnderLine()
           .toFlatButton(
               () => ExtendedNavigator.root.replace(Routes.signUpScreen)
-          // ()=>loginCubit.loginUser()
-      ),
+              // ()=>loginCubit.loginUser()
+              ),
     ]
         .toColumn(
-        mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center)
-        .toContainer(alignment: Alignment.center,
+        .toContainer(
+          alignment: Alignment.center,
         );
   }
 }

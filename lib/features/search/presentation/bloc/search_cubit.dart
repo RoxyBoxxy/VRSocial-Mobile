@@ -9,9 +9,7 @@ import 'package:injectable/injectable.dart';
 part 'search_state.dart';
 
 @injectable
-class SearchCubit extends Cubit<CommonUIState>  {
-
-
+class SearchCubit extends Cubit<CommonUIState> {
   // pagination
   final HashTagPagination hashTagPagination;
 
@@ -21,7 +19,9 @@ class SearchCubit extends Cubit<CommonUIState>  {
 
   final FollowUnFollowUseCase followUnFollowUseCase;
 
-  SearchCubit(this.hashTagPagination, this.peoplePagination, this.followUnFollowUseCase) : super(const CommonUIState.initial());
+  SearchCubit(
+      this.hashTagPagination, this.peoplePagination, this.followUnFollowUseCase)
+      : super(const CommonUIState.initial());
 
   @override
   Future<void> close() {
@@ -30,21 +30,21 @@ class SearchCubit extends Cubit<CommonUIState>  {
     return super.close();
   }
 
-  followUnFollow(int index)async{
-    var currentItem=peoplePagination.pagingController.itemList[index];
-    peoplePagination.pagingController
-        .itemList[index]=currentItem.copyWith(isFollowed: !currentItem.isFollowed,buttonText: currentItem.isFollowed?"Unfollow":"follow");
+  followUnFollow(int index) async {
+    var currentItem = peoplePagination.pagingController.itemList[index];
+    peoplePagination.pagingController.itemList[index] = currentItem.copyWith(
+        isFollowed: !currentItem.isFollowed,
+        buttonText: currentItem.isFollowed ? "Unfollow" : "follow");
     peoplePagination.pagingController.notifyListeners();
 
     var either = await followUnFollowUseCase(currentItem.id);
     either.fold((l) {
       emit(CommonUIState.error(l.errorMessage));
       peoplePagination.pagingController
-        ..itemList[index]=currentItem.copyWith(isFollowed: !currentItem.isFollowed,buttonText: currentItem.isFollowed?"Unfollow":"follow")
+        ..itemList[index] = currentItem.copyWith(
+            isFollowed: !currentItem.isFollowed,
+            buttonText: currentItem.isFollowed ? "Unfollow" : "follow")
         ..notifyListeners();
     }, (r) {});
   }
-
 }
-
-

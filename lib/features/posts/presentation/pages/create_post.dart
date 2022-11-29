@@ -15,7 +15,12 @@ class CreatePost extends StatefulWidget {
   final String replyTo;
   final String threadId;
   final ReplyEntity replyEntity;
-  const CreatePost({Key key, this.title = "Create Post", this.replyTo = "", this.threadId, this.replyEntity})
+  const CreatePost(
+      {Key key,
+      this.title = "Create Post",
+      this.replyTo = "",
+      this.threadId,
+      this.replyEntity})
       : super(key: key);
 
   @override
@@ -29,11 +34,10 @@ class _CreatePostState extends State<CreatePost> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    scrollController=ScrollController();
-    if(VideoCompress.compressProgress$.notSubscribed) {
+    scrollController = ScrollController();
+    if (VideoCompress.compressProgress$.notSubscribed) {
       listenVideoStream();
-    }
-    else {
+    } else {
       // disposing already subscribed stream
       VideoCompress.dispose();
       listenVideoStream();
@@ -43,12 +47,12 @@ class _CreatePostState extends State<CreatePost> {
     //   scrollController.jumpTo(scrollController.position.maxScrollExtent);
     // });
   }
+
   @override
   Widget build(BuildContext context) {
     context.initScreenUtil();
     return WillPopScope(
-
-      onWillPop: (){
+      onWillPop: () {
         FocusManager.instance.primaryFocus.unfocus();
         return Future.value(true);
       },
@@ -71,7 +75,6 @@ class _CreatePostState extends State<CreatePost> {
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
-
                     // 10.toSizedBox,
                     // [
                     //   65.toSizedBoxHorizontal,
@@ -82,7 +85,10 @@ class _CreatePostState extends State<CreatePost> {
                     //     .toRow()
                     //     .toVisibility(widget.replyTo.isNotEmpty),
 
-                    CreatePostCard(threadId: widget.threadId,replyEntity: widget.replyEntity,),
+                    CreatePostCard(
+                      threadId: widget.threadId,
+                      replyEntity: widget.replyEntity,
+                    ),
                   ],
                 ).makeScrollable(),
               )),
@@ -100,9 +106,13 @@ class _CreatePostState extends State<CreatePost> {
 
   void listenVideoStream() {
     VideoCompress.compressProgress$.subscribe((progress) {
-      if(progress<99.99)
-        EasyLoading.showProgress((progress/100), status: 'Compressing ${progress.toInt()}%',);
-      else EasyLoading.dismiss();
+      if (progress < 99.99)
+        EasyLoading.showProgress(
+          (progress / 100),
+          status: 'Compressing ${progress.toInt()}%',
+        );
+      else
+        EasyLoading.dismiss();
     });
   }
 }

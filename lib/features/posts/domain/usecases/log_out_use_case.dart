@@ -5,11 +5,11 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class LogOutUseCase extends UseCase<dynamic,Unit>{
+class LogOutUseCase extends UseCase<dynamic, Unit> {
   final ProfileRepo profileRepo;
 
   LogOutUseCase(this.profileRepo);
   @override
-  Future<Either<Failure, dynamic>> call(Unit params) => profileRepo.logOutUser();
-
+  Future<Either<Failure, dynamic>> call(Unit params) =>
+      profileRepo.logOutUser();
 }

@@ -11,9 +11,9 @@ Widget buildFloatingSearchBar() {
     transitionDuration: const Duration(milliseconds: 800),
     transitionCurve: Curves.easeInOut,
     physics: const BouncingScrollPhysics(),
-    axisAlignment:  0.0 ,
+    axisAlignment: 0.0,
     openAxisAlignment: 0.0,
-    maxWidth:  600 ,
+    maxWidth: 600,
     debounceDelay: const Duration(milliseconds: 500),
     onQueryChanged: (query) {
       // Call your model, bloc, controller here.

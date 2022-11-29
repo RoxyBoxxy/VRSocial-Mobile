@@ -6,11 +6,12 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class DeleteAllMessagesUseCase extends UseCase<dynamic,DeleteChatRequestModel>{
+class DeleteAllMessagesUseCase
+    extends UseCase<dynamic, DeleteChatRequestModel> {
   final MessageRepo messageRepo;
   DeleteAllMessagesUseCase(this.messageRepo);
   @override
-  Future<Either<Failure,dynamic>> call(DeleteChatRequestModel params) {
+  Future<Either<Failure, dynamic>> call(DeleteChatRequestModel params) {
     return messageRepo.deleteAllMessages(params);
   }
 }

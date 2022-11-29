@@ -7,12 +7,11 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class SignUpUseCase extends UseCase<dynamic,HashMap<String,dynamic>>{
+class SignUpUseCase extends UseCase<dynamic, HashMap<String, dynamic>> {
   final AuthRepo authRepo;
   SignUpUseCase(this.authRepo);
   @override
   Future<Either<Failure, dynamic>> call(HashMap<String, dynamic> params) {
     return authRepo.signUp(params);
   }
-
 }

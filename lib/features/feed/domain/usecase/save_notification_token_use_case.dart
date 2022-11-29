@@ -5,7 +5,7 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class SaveNotificationPushUseCase extends UseCase<dynamic,Unit>{
+class SaveNotificationPushUseCase extends UseCase<dynamic, Unit> {
   final FeedRepo feedRepo;
 
   SaveNotificationPushUseCase(this.feedRepo);
@@ -13,5 +13,4 @@ class SaveNotificationPushUseCase extends UseCase<dynamic,Unit>{
   Future<Either<Failure, dynamic>> call(Unit params) {
     return feedRepo.saveNotificationToken();
   }
-
 }

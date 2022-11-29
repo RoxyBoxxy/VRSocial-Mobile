@@ -34,27 +34,30 @@ class ProfileCubit extends Cubit<CommonUIState> {
   final FollowUnFollowUseCase followUnFollowUseCase;
 
   final LogOutUseCase logOutUseCase;
-  
+
   final UpdateProfileCoverUseCase _updateProfileCoverUseCase;
 
   final UpdateAvatarProfileUseCase _updateAvatarProfileUseCase;
 
-  bool isPrivateUser=false;
+  bool isPrivateUser = false;
 
   ProfileCubit(
       this._getProfileUseCase,
       // this.mediaPagination,
       // this.profileLikesPagination,
-      this.followUnFollowUseCase, this.logOutUseCase, this._updateProfileCoverUseCase, this._updateAvatarProfileUseCase)
+      this.followUnFollowUseCase,
+      this.logOutUseCase,
+      this._updateProfileCoverUseCase,
+      this._updateAvatarProfileUseCase)
       : super(const CommonUIState.initial());
 
   getUserProfile(String userId, String coverUrl, String profileUrl) async {
     emit(const CommonUIState.loading());
     final either = await _getProfileUseCase(userId);
     either.fold((l) => emit(CommonUIState.error(l.errorMessage)), (r) {
-      final profileEntity = r.copyWith(profileUrl: profileUrl, coverUrl: coverUrl);
-      changeProfileEntity(
-          profileEntity);
+      final profileEntity =
+          r.copyWith(profileUrl: profileUrl, coverUrl: coverUrl);
+      changeProfileEntity(profileEntity);
       emit(CommonUIState.success(profileEntity));
     });
   }
@@ -75,19 +78,22 @@ class ProfileCubit extends Cubit<CommonUIState> {
     //     ..notifyListeners();
     // }, (r) {});
   }
-  
-  updateProfileCover(String imagePath) async{
+
+  updateProfileCover(String imagePath) async {
     emit(const CommonUIState.loading());
     var either = await _updateProfileCoverUseCase(imagePath);
-    either.fold((l) => emit(CommonUIState.error(l.errorMessage)), (r) => emit(CommonUIState.success(r)));
-  }
-  updateProfileAvatar(String imagePath) async{
-    emit(const CommonUIState.loading());
-    var either = await _updateAvatarProfileUseCase(imagePath);
-    either.fold((l) => emit(CommonUIState.error(l.errorMessage)), (r) => emit(CommonUIState.success(r)));
+    either.fold((l) => emit(CommonUIState.error(l.errorMessage)),
+        (r) => emit(CommonUIState.success(r)));
   }
 
-  logoutUser() async{
+  updateProfileAvatar(String imagePath) async {
+    emit(const CommonUIState.loading());
+    var either = await _updateAvatarProfileUseCase(imagePath);
+    either.fold((l) => emit(CommonUIState.error(l.errorMessage)),
+        (r) => emit(CommonUIState.success(r)));
+  }
+
+  logoutUser() async {
     var either = await logOutUseCase(unit);
     either.fold((l) => null, (r) => null);
   }

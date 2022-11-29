@@ -82,7 +82,7 @@ class MyRouter extends RouterBase {
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
-  final _pagesMap = <Type, AutoRouteFactory> {
+  final _pagesMap = <Type, AutoRouteFactory>{
     WelcomeScreen: (data) {
       return CupertinoPageRoute<dynamic>(
         builder: (context) => WelcomeScreen(),

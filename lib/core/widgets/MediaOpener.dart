@@ -12,8 +12,6 @@ import 'package:photo_view/photo_view.dart';
 import 'package:video_player/video_player.dart';
 import 'package:colibri/extensions.dart';
 
-
-
 class MediaOpener extends StatefulWidget {
   final MediaData data;
   const MediaOpener({Key key, this.data}) : super(key: key);
@@ -22,46 +20,51 @@ class MediaOpener extends StatefulWidget {
 }
 
 class _MediaOpenerState extends State<MediaOpener> {
-
   @override
   Widget build(BuildContext context) {
-     switch(widget.data.type){
-
-       case MediaTypeEnum.IMAGE:
-        return OpenImage(path: widget.data.path,);
-         break;
-       case MediaTypeEnum.VIDEO:
-         return MyVideoPlayer(path: widget.data.path,);
-         break;
-       case MediaTypeEnum.GIF:
-         return OpenImage(path: widget.data.path,);
-         break;
-       case MediaTypeEnum.EMOJI:
-         return Container();
-         break;
-       default: return Container();
-     }
+    switch (widget.data.type) {
+      case MediaTypeEnum.IMAGE:
+        return OpenImage(
+          path: widget.data.path,
+        );
+        break;
+      case MediaTypeEnum.VIDEO:
+        return MyVideoPlayer(
+          path: widget.data.path,
+        );
+        break;
+      case MediaTypeEnum.GIF:
+        return OpenImage(
+          path: widget.data.path,
+        );
+        break;
+      case MediaTypeEnum.EMOJI:
+        return Container();
+        break;
+      default:
+        return Container();
+    }
   }
 }
 
-
 /// video player code...
 
-
 class MyVideoPlayer extends StatefulWidget {
-
   final String path;
   final bool withAppBar;
   final bool fullVideoControls;
 
-  const MyVideoPlayer({Key key, this.path, this.withAppBar=true, this.fullVideoControls=false}) : super(key: key);
+  const MyVideoPlayer(
+      {Key key,
+      this.path,
+      this.withAppBar = true,
+      this.fullVideoControls = false})
+      : super(key: key);
   @override
   MyVideoPlayerState createState() => MyVideoPlayerState();
-
 }
 
 class MyVideoPlayerState extends State<MyVideoPlayer> {
-
   BetterPlayerController _betterPlayerController;
   bool isPlaying = false;
 
@@ -70,36 +73,35 @@ class MyVideoPlayerState extends State<MyVideoPlayer> {
     super.initState();
 
     isPlaying = widget.fullVideoControls;
-    setState(() { });
+    setState(() {});
     playerControllerShow();
-
   }
 
   playerControllerShow() {
-    BetterPlayerDataSource betterPlayerDataSource = BetterPlayerDataSource (
-        widget.path.contains("https")  ?
-        BetterPlayerDataSourceType.network  :
-        BetterPlayerDataSourceType.file,
-        widget.path
-    );
-    _betterPlayerController = BetterPlayerController (
-        BetterPlayerConfiguration (
-          // fit: BoxFit.scaleDown,
+    BetterPlayerDataSource betterPlayerDataSource = BetterPlayerDataSource(
+        widget.path.contains("https")
+            ? BetterPlayerDataSourceType.network
+            : BetterPlayerDataSourceType.file,
+        widget.path);
+    _betterPlayerController = BetterPlayerController(
+        BetterPlayerConfiguration(
+            // fit: BoxFit.scaleDown,
             fit: BoxFit.fitHeight,
-            controlsConfiguration: isPlaying?const BetterPlayerControlsConfiguration(
-              enablePlayPause: true,
-            ) : const BetterPlayerControlsConfiguration (
-              enableFullscreen: false,
-              showControlsOnInitialize: false,
-              enablePlayPause: true,
-              showControls: false,
-              // overflowMenuIcon: Icons.play_arrow,
-              // playIcon: Icon(Icons.ac_unit),
-            )),
+            controlsConfiguration: isPlaying
+                ? const BetterPlayerControlsConfiguration(
+                    enablePlayPause: true,
+                  )
+                : const BetterPlayerControlsConfiguration(
+                    enableFullscreen: false,
+                    showControlsOnInitialize: false,
+                    enablePlayPause: true,
+                    showControls: false,
+                    // overflowMenuIcon: Icons.play_arrow,
+                    // playIcon: Icon(Icons.ac_unit),
+                  )),
         betterPlayerDataSource: betterPlayerDataSource);
     // _betterPlayerController.play();
   }
-
 
   void pause() {
     _betterPlayerController.pause();
@@ -109,48 +111,51 @@ class MyVideoPlayerState extends State<MyVideoPlayer> {
     _betterPlayerController.play();
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return widget.withAppBar?withAppBarWidget():withOutAppBarWidget();
+    return widget.withAppBar ? withAppBarWidget() : withOutAppBarWidget();
   }
 
   Widget withAppBarWidget() {
-    return Scaffold (
-      appBar: AppBar (
-        iconTheme: const IconThemeData (
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: const IconThemeData(
           color: Colors.black, //change your color here
         ),
-        title:"Video Player".toSubTitle1(color: AppColors.textColor,fontWeight: FontWeight.bold),
+        title: "Video Player".toSubTitle1(
+            color: AppColors.textColor, fontWeight: FontWeight.bold),
         backgroundColor: Colors.white,
         brightness: Brightness.light,
       ),
-      body: SafeArea(child: BetterPlayer (
-        controller: _betterPlayerController,
-       ),
+      body: SafeArea(
+        child: BetterPlayer(
+          controller: _betterPlayerController,
+        ),
       ),
     );
   }
-
 
   Widget withOutAppBarWidget() {
     return Stack(
       alignment: Alignment.center,
       children: [
-
         BetterPlayer(
           controller: _betterPlayerController,
         ),
-
-        if(!widget.fullVideoControls)
-        Align(
-            alignment: Alignment.center,
-            child: Container(
+        if (!widget.fullVideoControls)
+          Align(
               alignment: Alignment.center,
-            height: 45.toHeight,
-            width: 45.toHeight,
-            decoration: const BoxDecoration(shape: BoxShape.circle,color: Colors.black54),
-            child: const Icon(FontAwesomeIcons.play,color: Colors.white,size: 20,)))
+              child: Container(
+                  alignment: Alignment.center,
+                  height: 45.toHeight,
+                  width: 45.toHeight,
+                  decoration: const BoxDecoration(
+                      shape: BoxShape.circle, color: Colors.black54),
+                  child: const Icon(
+                    FontAwesomeIcons.play,
+                    color: Colors.white,
+                    size: 20,
+                  )))
       ],
     );
   }
@@ -162,48 +167,36 @@ class MyVideoPlayerState extends State<MyVideoPlayer> {
   }
 }
 
-
-
 class ModelVideoPlayer extends StatefulWidget {
-
   final String path;
   const ModelVideoPlayer({Key key, this.path}) : super(key: key);
-
 
   @override
   _ModelVideoPlayerState createState() => _ModelVideoPlayerState();
 }
 
 class _ModelVideoPlayerState extends State<ModelVideoPlayer> {
-
-
   @override
   void initState() {
     super.initState();
-
   }
-
 
   @override
   void dispose() {
     super.dispose();
-
   }
-
 
   @override
   Widget build(BuildContext context) {
-    return Stack (
+    return Stack(
       alignment: Alignment.center,
       children: [
-
-
-        Center (
-          child: AwsomeVideoPlayer (
+        Center(
+          child: AwsomeVideoPlayer(
             widget.path,
             // "https://www.runoob.com/try/demo_source/movie.mp4",
 
-            playOptions: VideoPlayOptions (
+            playOptions: VideoPlayOptions(
                 seekSeconds: 10,
                 aspectRatio: 16 / 9,
                 loop: true,
@@ -211,31 +204,28 @@ class _ModelVideoPlayerState extends State<ModelVideoPlayer> {
                 allowScrubbing: false,
                 startPosition: Duration(seconds: 0)),
 
-            videoStyle: VideoStyle (
-              playIcon: Container (
+            videoStyle: VideoStyle(
+              playIcon: Container(
                 height: 50,
                 width: 50,
-                decoration: BoxDecoration (
-                  shape: BoxShape.circle,
-                  color: Colors.black.withOpacity(0.5)
-                ),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.black.withOpacity(0.5)),
                 child: Icon(Icons.play_arrow, color: Colors.white, size: 50),
               ),
               showPlayIcon: true,
               // replayIcon: Icon(Icons.refresh, color: Colors.white, size: 50),
               showReplayIcon: true,
-              videoControlBarStyle: VideoControlBarStyle (
-                progressStyle: VideoProgressStyle(playedColor: AppColors.alertBg),
+              videoControlBarStyle: VideoControlBarStyle(
+                progressStyle:
+                    VideoProgressStyle(playedColor: AppColors.alertBg),
                 bufferedColor: AppColors.alertBg,
                 // playedColor: Colors.blueAccent,
                 // backgroundColor: Colors.blueAccent,
 
                 // barBackgroundColor: AppColors.alertBg,
-                playIcon: const Icon (
-                    Icons.play_arrow,
-                    color: Colors.white,
-                    size: 16
-                ),
+                playIcon:
+                    const Icon(Icons.play_arrow, color: Colors.white, size: 16),
                 pauseIcon: const Icon(
                   Icons.pause,
                   color: AppColors.white,
@@ -256,13 +246,13 @@ class _ModelVideoPlayerState extends State<ModelVideoPlayer> {
                   size: 16,
                   color: Colors.white,
                 ),
+
                 /// 更改进度栏的退出全屏按钮
-                fullscreenExitIcon: const Icon (
+                fullscreenExitIcon: const Icon(
                   Icons.fullscreen_exit,
                   size: 16,
                   color: AppColors.alertBg,
                 ),
-
               ),
             ),
           ),
@@ -276,16 +266,12 @@ class _ModelVideoPlayerState extends State<ModelVideoPlayer> {
         //       : _controller.play();
         //   });
         // })
-
       ],
     );
   }
 }
 
-
-
 ///open image code ...
-
 
 class OpenImage extends StatelessWidget {
   final String path;
@@ -298,15 +284,17 @@ class OpenImage extends StatelessWidget {
         iconTheme: const IconThemeData(
           color: Colors.black, //change your color here
         ),
-        title:"Gallery".toSubTitle1(color: AppColors.textColor,fontWeight: FontWeight.bold),
+        title: "Gallery".toSubTitle1(
+            color: AppColors.textColor, fontWeight: FontWeight.bold),
         backgroundColor: Colors.white,
         brightness: Brightness.light,
       ),
       body: Container(
           child: PhotoView(
-            imageProvider: path.isValidUrl?Image.network(path,headers: {'accept': 'image/*'}):FileImage(File(path)),
-          )
-      ),
+        imageProvider: path.isValidUrl
+            ? Image.network(path, headers: {'accept': 'image/*'})
+            : FileImage(File(path)),
+      )),
     );
   }
 }

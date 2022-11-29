@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:colibri/extensions.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+
 extension ContextExtension on BuildContext {
   TextStyle get headLine6 => AppTheme.headline6;
 
@@ -32,36 +33,43 @@ extension ContextExtension on BuildContext {
 
   TextStyle get caption => AppTheme.caption;
 
-  showSnackBar({String message,bool isError=false,})=>snackBar(this, message, isError);
+  showSnackBar({
+    String message,
+    bool isError = false,
+  }) =>
+      snackBar(this, message, isError);
 
-  removeFocus()=>FocusScope.of(this).requestFocus(FocusNode());
+  removeFocus() => FocusScope.of(this).requestFocus(FocusNode());
 
-  Size get  getScreenSize=>Size(MediaQuery.of(this).size.width, MediaQuery.of(this).size.height);
+  Size get getScreenSize =>
+      Size(MediaQuery.of(this).size.width, MediaQuery.of(this).size.height);
 
-  num get getScreenHeight=>MediaQuery.of(this).size.height;
-  num get getScreenWidth=>MediaQuery.of(this).size.width;
+  num get getScreenHeight => MediaQuery.of(this).size.height;
+  num get getScreenWidth => MediaQuery.of(this).size.width;
 
-  num get getHeightBloc=>ScreenUtil().setHeight(MediaQuery.of(this).size.height)/100;
-  num get getWidthBloc=>ScreenUtil().setWidth(MediaQuery.of(this).size.width)/100;
+  num get getHeightBloc =>
+      ScreenUtil().setHeight(MediaQuery.of(this).size.height) / 100;
+  num get getWidthBloc =>
+      ScreenUtil().setWidth(MediaQuery.of(this).size.width) / 100;
 
-  num get getHeightAndWidthBloc=> getHeightBloc+getWidthBloc;
+  num get getHeightAndWidthBloc => getHeightBloc + getWidthBloc;
 
-  showModelBottomSheet(Widget child){
+  showModelBottomSheet(Widget child) {
     showModalBottomSheet(
         backgroundColor: Colors.transparent,
         barrierColor: Colors.white.withOpacity(0),
         elevation: 0.0,
         context: this,
-        builder: (builder)=> child
-    );
+        builder: (builder) => child);
   }
 
-  showAlertDialog({@required List<Widget> widgets, @required String title}) async{
+  showAlertDialog(
+      {@required List<Widget> widgets, @required String title}) async {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       // title: Text("AlertDialog"),
       content: title.toSubTitle1(),
-      actions:widgets,
+      actions: widgets,
     );
     showAnimatedDialog(
       context: this,
@@ -73,17 +81,22 @@ extension ContextExtension on BuildContext {
     );
   }
 
-  showOkAlertDialog({@required String desc, @required String title,VoidCallback onTapOk}) async{
+  showOkAlertDialog(
+      {@required String desc,
+      @required String title,
+      VoidCallback onTapOk}) async {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       // title: Text("AlertDialog"),
       content: desc.toSubTitle2(fontWeight: FontWeight.w600),
       title: title.toSubTitle1(fontWeight: FontWeight.bold),
-      actions:[
-        "OK".toButton().toFlatButton(()  {
+      actions: [
+        "OK".toButton().toFlatButton(() {
           // Fix the issue
-          if(onTapOk==null) ExtendedNavigator.root.pop();
-          else onTapOk.call();
+          if (onTapOk == null)
+            ExtendedNavigator.root.pop();
+          else
+            onTapOk.call();
         }),
       ],
     );
@@ -97,18 +110,22 @@ extension ContextExtension on BuildContext {
     );
   }
 
-  showOkCancelAlertDialog<T>({@required String desc, @required String title,VoidCallback onTapOk,String okButtonTitle="OK"}) async{
+  showOkCancelAlertDialog<T>(
+      {@required String desc,
+      @required String title,
+      VoidCallback onTapOk,
+      String okButtonTitle = "OK"}) async {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       // title: Text("AlertDialog"),
       content: desc.toSubTitle2(),
       title: title.toSubTitle1(fontWeight: FontWeight.bold),
-      actions:[
-        okButtonTitle.toButton().toFlatButton(()  {
+      actions: [
+        okButtonTitle.toButton().toFlatButton(() {
           // Fix the issue
-          if(!isRedundentClick(DateTime.now())){
+          if (!isRedundentClick(DateTime.now())) {
             // ExtendedNavigator.root.pop();
-            if(onTapOk!=null){
+            if (onTapOk != null) {
               onTapOk.call();
             }
           }
@@ -118,7 +135,7 @@ extension ContextExtension on BuildContext {
         })
       ],
     );
-     return showAnimatedDialog<T>(
+    return showAnimatedDialog<T>(
       context: this,
       barrierDismissible: false,
       builder: (BuildContext context) => alert,
@@ -126,19 +143,24 @@ extension ContextExtension on BuildContext {
       curve: Curves.fastOutSlowIn,
       duration: const Duration(seconds: 1),
     ).then((value) {
-       loginClickTime=null;
-           return value;
-     });
-
+      loginClickTime = null;
+      return value;
+    });
   }
 
-  showDeleteDialog({@required onOkTap}){
-    showOkCancelAlertDialog(desc: "Please note that if you delete this post, then with the removal of this post all posts related to this thread will also be permanently deleted!",
-        title: "Please confirm your actions!",okButtonTitle: "Delete",onTapOk: onOkTap);
+  showDeleteDialog({@required onOkTap}) {
+    showOkCancelAlertDialog(
+        desc:
+            "Please note that if you delete this post, then with the removal of this post all posts related to this thread will also be permanently deleted!",
+        title: "Please confirm your actions!",
+        okButtonTitle: "Delete",
+        onTapOk: onOkTap);
   }
 
-   initScreenUtil()=>ScreenUtil.init(designSize: getScreenSize,allowFontScaling: true);
+  initScreenUtil() =>
+      ScreenUtil.init(designSize: getScreenSize, allowFontScaling: true);
 }
+
 snackBar(BuildContext context, String text, bool isError) {
   Flushbar(
     backgroundColor: isError ? Colors.red : AppColors.colorPrimary,
@@ -147,21 +169,22 @@ snackBar(BuildContext context, String text, bool isError) {
       isError ? Icons.error : Icons.done,
       color: Colors.white,
     ),
-    message: text??"Null value passed",
-
+    message: text ?? "Null value passed",
     duration: const Duration(seconds: 3),
   )..show(context);
 }
+
 DateTime loginClickTime;
 
-bool isRedundentClick(DateTime currentTime){
-  if(loginClickTime==null){
+bool isRedundentClick(DateTime currentTime) {
+  if (loginClickTime == null) {
     loginClickTime = currentTime;
     print("first click");
     return false;
   }
   print('diff is ${currentTime.difference(loginClickTime).inSeconds}');
-  if(currentTime.difference(loginClickTime).inSeconds<4){//set this difference time in seconds
+  if (currentTime.difference(loginClickTime).inSeconds < 4) {
+    //set this difference time in seconds
     return true;
   }
 

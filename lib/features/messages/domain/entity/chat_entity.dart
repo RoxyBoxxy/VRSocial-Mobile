@@ -23,8 +23,7 @@ class ChatEntity {
       this.chatMediaType = ChatMediaType.TEXT,
       this.profileUrl,
       this.senderUserId,
-        this.offSetId
-      });
+      this.offSetId});
 
   factory ChatEntity.fromResponse(ChatResponseModel model) {
     return ChatEntity(
@@ -35,7 +34,8 @@ class ChatEntity {
         profileUrl: model.mediaFile,
         message: model.message,
         isSender: model.side == "right",
-        messageId: model.id.toString(),offSetId: model.id.toString());
+        messageId: model.id.toString(),
+        offSetId: model.id.toString());
   }
 
   factory ChatEntity.fromDummy() {
@@ -53,21 +53,24 @@ class ChatEntity {
         messageId: id ?? this.messageId,
         isSender: this.isSender,
         profileUrl: this.profileUrl,
-        chatMediaType: this.chatMediaType,offSetId: offSetId);
+        chatMediaType: this.chatMediaType,
+        offSetId: offSetId);
   }
-  factory ChatEntity.fromNotification(ChatMessage chatMessage){
-    final notification=chatMessage;
+
+  factory ChatEntity.fromNotification(ChatMessage chatMessage) {
+    final notification = chatMessage;
     return ChatEntity(
         time: DateTime.now().getCurrentFormattedTime(),
         message: notification.data,
         isSender: false,
         profileUrl: notification.avatar,
-        chatMediaType: notification.messageType.contains("text")?ChatMediaType.TEXT:ChatMediaType.IMAGE,
+        chatMediaType: notification.messageType.contains("text")
+            ? ChatMediaType.TEXT
+            : ChatMediaType.IMAGE,
         senderUserId: notification.userId.toString(),
-        messageId: notification.messageId.toString(),offSetId: notification.messageId.toString());
-
+        messageId: notification.messageId.toString(),
+        offSetId: notification.messageId.toString());
   }
-
 }
 
 enum ChatMediaType { IMAGE, TEXT }

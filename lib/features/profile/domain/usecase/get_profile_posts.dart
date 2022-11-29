@@ -7,8 +7,8 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class GetProfilePostsUseCase extends UseCase<List<PostEntity>,PostCategoryModel>{
-
+class GetProfilePostsUseCase
+    extends UseCase<List<PostEntity>, PostCategoryModel> {
   final ProfileRepo profileRepo;
   GetProfilePostsUseCase(this.profileRepo);
 
@@ -16,5 +16,4 @@ class GetProfilePostsUseCase extends UseCase<List<PostEntity>,PostCategoryModel>
   Future<Either<Failure, List<PostEntity>>> call(PostCategoryModel params) {
     return profileRepo.getUserPostByCategory(params);
   }
-
 }

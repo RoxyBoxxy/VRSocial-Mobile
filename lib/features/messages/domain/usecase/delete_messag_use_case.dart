@@ -5,7 +5,7 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class DeleteMessageUseCase extends UseCase<dynamic,String>{
+class DeleteMessageUseCase extends UseCase<dynamic, String> {
   final MessageRepo messageRepo;
 
   DeleteMessageUseCase(this.messageRepo);
@@ -13,5 +13,4 @@ class DeleteMessageUseCase extends UseCase<dynamic,String>{
   Future<Either<Failure, dynamic>> call(String params) {
     return messageRepo.deleteMessage(params);
   }
-
 }

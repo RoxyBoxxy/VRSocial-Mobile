@@ -6,11 +6,11 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class GetProfileUseCase extends UseCase<ProfileEntity,String>{
+class GetProfileUseCase extends UseCase<ProfileEntity, String> {
   final ProfileRepo profileRepo;
 
   GetProfileUseCase(this.profileRepo);
   @override
-  Future<Either<Failure, ProfileEntity>> call(String params) => profileRepo.getProfileData(params);
-
+  Future<Either<Failure, ProfileEntity>> call(String params) =>
+      profileRepo.getProfileData(params);
 }

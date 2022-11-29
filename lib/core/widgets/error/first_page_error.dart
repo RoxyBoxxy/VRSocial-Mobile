@@ -11,11 +11,11 @@ class CustomFirstPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => FirstPageExceptionIndicator(
-    title: 'Something went wrong',
-    message: 'The application has encountered an unknown error.\n'
-        'Please try again later.',
-    onTryAgain: onTryAgain,
-  );
+        title: 'Something went wrong',
+        message: 'The application has encountered an unknown error.\n'
+            'Please try again later.',
+        onTryAgain: onTryAgain,
+      );
 }
 
 class FirstPageExceptionIndicator extends StatelessWidget {
@@ -32,49 +32,49 @@ class FirstPageExceptionIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Center(
-    child: Padding(
-      padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
-      child: Column(
-        children: [
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headline6,
-          ),
-          if (message != null)
-            const SizedBox(
-              height: 16,
-            ),
-          if (message != null)
-            Text(
-              message,
-              textAlign: TextAlign.center,
-            ),
-          if (onTryAgain != null)
-            const SizedBox(
-              height: 48,
-            ),
-          if (onTryAgain != null)
-            SizedBox(
-              height: 50,
-              width: double.infinity,
-              child: RaisedButton.icon(
-                onPressed: onTryAgain,
-                icon: const Icon(
-                  Icons.refresh,
-                  color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
+          child: Column(
+            children: [
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              if (message != null)
+                const SizedBox(
+                  height: 16,
                 ),
-                label: const Text(
-                  'Try Again',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.white,
+              if (message != null)
+                Text(
+                  message,
+                  textAlign: TextAlign.center,
+                ),
+              if (onTryAgain != null)
+                const SizedBox(
+                  height: 48,
+                ),
+              if (onTryAgain != null)
+                SizedBox(
+                  height: 50,
+                  width: double.infinity,
+                  child: RaisedButton.icon(
+                    onPressed: onTryAgain,
+                    icon: const Icon(
+                      Icons.refresh,
+                      color: Colors.white,
+                    ),
+                    label: const Text(
+                      'Try Again',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-        ],
-      ),
-    ),
-  );
+            ],
+          ),
+        ),
+      );
 }

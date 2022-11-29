@@ -8,18 +8,19 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class FollowingPagination extends CustomPagination<FollowerEntity>{
-  final GetFollowingUseCase  getFollowingUseCase;
+class FollowingPagination extends CustomPagination<FollowerEntity> {
+  final GetFollowingUseCase getFollowingUseCase;
   String userId;
   FollowingPagination(this.getFollowingUseCase);
   @override
-  Future<Either<Failure, List<FollowerEntity>>> getItems(int pageKey) async{
-    return getFollowingUseCase(PostCategoryModel(pageKey.toString(),null,userId));
+  Future<Either<Failure, List<FollowerEntity>>> getItems(int pageKey) async {
+    return getFollowingUseCase(
+        PostCategoryModel(pageKey.toString(), null, userId));
   }
 
   @override
   FollowerEntity getLastItemWithoutAd(List<FollowerEntity> item) {
-    return item[item.length-1];
+    return item[item.length - 1];
   }
 
   @override
@@ -29,7 +30,6 @@ class FollowingPagination extends CustomPagination<FollowerEntity>{
 
   @override
   bool isLastPage(List<FollowerEntity> item) {
-
     return commonLastPage(item);
   }
 
@@ -38,5 +38,4 @@ class FollowingPagination extends CustomPagination<FollowerEntity>{
     super.onClose();
     pagingController.dispose();
   }
-
 }

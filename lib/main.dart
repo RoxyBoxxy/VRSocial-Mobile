@@ -25,7 +25,6 @@ LocalDataSource localDataSource;
 var isUserLoggedIn = false;
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
 
   AC.getInstance();
@@ -52,10 +51,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   void initState() {
-
     PushNotificationHelper.configurePush(context);
 
     // TODO: implement initState
@@ -79,13 +76,11 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-
-    return LayoutBuilder (
+    return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-
         if (constraints.maxWidth != 0) {
           print(constraints);
-          var size=Size(constraints.maxWidth, constraints.maxHeight);
+          var size = Size(constraints.maxWidth, constraints.maxHeight);
           ScreenUtil.init(context, designSize: size, minTextAdapt: true);
           // ScreenUtil.init(
           //   constraints,
@@ -94,34 +89,33 @@ class _MyAppState extends State<MyApp> {
           // );
         }
 
-        return MaterialApp (
+        return MaterialApp(
           title: 'Colibri',
           debugShowCheckedModeBanner: false,
-          theme: ThemeData (
+          theme: ThemeData(
               scaffoldBackgroundColor: Colors.white,
               textTheme: appTextTheme,
               primaryColor: AppColors.colorPrimary,
               visualDensity: VisualDensity.adaptivePlatformDensity,
-              tabBarTheme: TabBarTheme (
-                  unselectedLabelStyle: context.subTitle2.copyWith(fontWeight: FontWeight.bold),
-                  labelStyle: context.subTitle2.copyWith(fontWeight: FontWeight.bold),
+              tabBarTheme: TabBarTheme(
+                  unselectedLabelStyle:
+                      context.subTitle2.copyWith(fontWeight: FontWeight.bold),
+                  labelStyle:
+                      context.subTitle2.copyWith(fontWeight: FontWeight.bold),
                   labelColor: AppColors.colorPrimary,
-                  unselectedLabelColor: Colors.grey)
-          ),
+                  unselectedLabelColor: Colors.grey)),
           onGenerateRoute: MyRouter(),
           builder: ExtendedNavigator.builder(
-          // builder: ExtendedNavigator.builder<MyRouter>(
+              // builder: ExtendedNavigator.builder<MyRouter>(
               // router: Router(),
               router: MyRouter(),
               initialRoute:
-              isUserLoggedIn ? Routes.feedScreen : Routes.welcomeScreen,
+                  isUserLoggedIn ? Routes.feedScreen : Routes.welcomeScreen,
               builder: (context, child) {
-                return FlutterEasyLoading(
-                    child: child);
+                return FlutterEasyLoading(child: child);
               }),
         );
       },
-
     );
   }
 }

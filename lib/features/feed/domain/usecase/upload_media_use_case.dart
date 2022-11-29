@@ -9,14 +9,12 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class UploadMediaUseCase extends UseCase<MediaEntity,MediaData>{
+class UploadMediaUseCase extends UseCase<MediaEntity, MediaData> {
   final PostRepo postRepo;
 
   UploadMediaUseCase(this.postRepo);
   @override
   Future<Either<Failure, MediaEntity>> call(MediaData params) {
     return postRepo.uploadMedia(params);
-
   }
-
 }

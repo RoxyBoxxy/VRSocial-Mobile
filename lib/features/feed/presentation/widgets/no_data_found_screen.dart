@@ -11,41 +11,49 @@ class NoDataFoundScreen extends StatelessWidget {
   final Widget icon;
   final String buttonText;
   final bool buttonVisibility;
-  const NoDataFoundScreen({Key key,
-    this.onTapButton,
-    this.buttonVisibility=true,
-    this.message="It looks like there are no posts on your feed yet. All your posts and publications of people you follow will be displayed here.",
-    this.title="No posts yet",
-    this.icon=const Icon(Icons.description,color: AppColors.colorPrimary,size: 40,),
-    this.buttonText="Create my first post"
-  }) : super(key: key);
+  const NoDataFoundScreen(
+      {Key key,
+      this.onTapButton,
+      this.buttonVisibility = true,
+      this.message =
+          "It looks like there are no posts on your feed yet. All your posts and publications of people you follow will be displayed here.",
+      this.title = "No posts yet",
+      this.icon = const Icon(
+        Icons.description,
+        color: AppColors.colorPrimary,
+        size: 40,
+      ),
+      this.buttonText = "Create my first post"})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-        icon,
-        10.toSizedBox,
-        title.toSubTitle1(fontWeight: FontWeight.bold),
-        10.toSizedBox,
-        message
-        .toCaption(textAlign: TextAlign.center,fontWeight: FontWeight.w600)
-        .toHorizontalPadding(18),
-    30.toSizedBox,
-    // "Create my first post"
-    //     .toText
-    //     .toCustomButton(() {}, fullWidth: false)
-    //     .toHorizontalPadding(64),
-    OutlineButton(
-    child:  buttonText
-        .toButton(color: AppColors.colorPrimary),
-    onPressed: onTapButton,
-    borderSide: const BorderSide(color: AppColors.colorPrimary),
-    shape: new RoundedRectangleBorder(
-    borderRadius: new BorderRadius.circular(30.0),
-    side: const BorderSide(color: Colors.red, width: 10))).toVisibility(buttonVisibility)
-      ],),
+          icon,
+          10.toSizedBox,
+          title.toSubTitle1(fontWeight: FontWeight.bold),
+          10.toSizedBox,
+          message
+              .toCaption(
+                  textAlign: TextAlign.center, fontWeight: FontWeight.w600)
+              .toHorizontalPadding(18),
+          30.toSizedBox,
+          // "Create my first post"
+          //     .toText
+          //     .toCustomButton(() {}, fullWidth: false)
+          //     .toHorizontalPadding(64),
+          OutlineButton(
+                  child: buttonText.toButton(color: AppColors.colorPrimary),
+                  onPressed: onTapButton,
+                  borderSide: const BorderSide(color: AppColors.colorPrimary),
+                  shape: new RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(30.0),
+                      side: const BorderSide(color: Colors.red, width: 10)))
+              .toVisibility(buttonVisibility)
+        ],
+      ),
     );
   }
 }

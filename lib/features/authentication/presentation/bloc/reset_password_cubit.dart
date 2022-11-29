@@ -11,25 +11,27 @@ part 'reset_password_state.dart';
 
 @injectable
 class ResetPasswordCubit extends Cubit<CommonUIState> {
-  final emailValidator=FieldValidators(null,null);
-  Stream<bool> get enableButton=>Rx.combineLatest<String,bool>([emailValidator.stream], (values) => values[0].isNotEmpty);
+  final emailValidator = FieldValidators(null, null);
+  Stream<bool> get enableButton => Rx.combineLatest<String, bool>(
+      [emailValidator.stream], (values) => values[0].isNotEmpty);
   final ResetPasswordUseCase resetPasswordUseCase;
-  ResetPasswordCubit(this.resetPasswordUseCase) : super(const CommonUIState.initial()){
+  ResetPasswordCubit(this.resetPasswordUseCase)
+      : super(const CommonUIState.initial()) {
     enableButton.listen((event) {
       print("value is $event");
     });
   }
 
-  resetPassword()async{
-    if(emailValidator.isEmpty){
+  resetPassword() async {
+    if (emailValidator.isEmpty) {
       emailValidator.onChange("");
-    }
-    else {
+    } else {
       emit(const CommonUIState.loading());
-      var response=await resetPasswordUseCase(emailValidator.text.trim());
+      var response = await resetPasswordUseCase(emailValidator.text.trim());
       emit(response.fold(
-              (l) => CommonUIState.error(l.errorMessage),
-              (r) => const CommonUIState.success("Password link sent successfully")));
+          (l) => CommonUIState.error(l.errorMessage),
+          (r) =>
+              const CommonUIState.success("Password link sent successfully")));
     }
   }
 }

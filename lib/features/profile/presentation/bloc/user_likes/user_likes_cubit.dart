@@ -19,22 +19,23 @@ part 'user_likes_state.dart';
 
 @injectable
 class UserLikesCubit extends PostCubit {
-
   final GetProfileLikedPostsUseCase getProfileLikedPostsUseCase;
   String userId;
 
-  UserLikesCubit(AddOrRemoveBookmarkUseCase addOrRemoveBookmarkUseCase,
+  UserLikesCubit(
+      AddOrRemoveBookmarkUseCase addOrRemoveBookmarkUseCase,
       LikeUnlikeUseCase likeUnlikeUseCase,
       RepostUseCase repostUseCase,
       DeletePostUseCase deletePostUseCase,
       SearchPostUseCase searchPostUseCase,
-      this.getProfileLikedPostsUseCase,ShowLikesPagination showLikesPagination) : super(addOrRemoveBookmarkUseCase,
-    likeUnlikeUseCase, repostUseCase, deletePostUseCase, searchPostUseCase,showLikesPagination);
+      this.getProfileLikedPostsUseCase,
+      ShowLikesPagination showLikesPagination)
+      : super(addOrRemoveBookmarkUseCase, likeUnlikeUseCase, repostUseCase,
+            deletePostUseCase, searchPostUseCase, showLikesPagination);
 
   @override
-  Future<Either<Failure, List<PostEntity>>> getItems(int pageKey) async{
-    return await getProfileLikedPostsUseCase(PostCategoryModel(pageKey.toString(), PostCategory.LIKED,userId));
+  Future<Either<Failure, List<PostEntity>>> getItems(int pageKey) async {
+    return await getProfileLikedPostsUseCase(
+        PostCategoryModel(pageKey.toString(), PostCategory.LIKED, userId));
   }
-
-
 }

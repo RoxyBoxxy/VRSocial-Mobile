@@ -6,7 +6,7 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class GetUserSettingsUseCase extends UseCase<SettingEntity,Unit>{
+class GetUserSettingsUseCase extends UseCase<SettingEntity, Unit> {
   final ProfileRepo profileRepo;
 
   GetUserSettingsUseCase(this.profileRepo);
@@ -14,5 +14,4 @@ class GetUserSettingsUseCase extends UseCase<SettingEntity,Unit>{
   Future<Either<Failure, SettingEntity>> call(Unit params) {
     return profileRepo.getUserSettings();
   }
-
 }

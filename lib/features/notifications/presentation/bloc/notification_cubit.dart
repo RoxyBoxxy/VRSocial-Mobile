@@ -10,45 +10,44 @@ import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
 part 'notification_state.dart';
+
 @injectable
 class NotificationCubit extends Cubit<NotificationState> {
-
-  final GlobalKey<AnimatedListState> animatedListState=GlobalKey<AnimatedListState>();
-  final items= List<String>.generate(10, (i) => "${i + 1} Hours ago");
-  final removedItemsIndex=<int>[];
+  final GlobalKey<AnimatedListState> animatedListState =
+      GlobalKey<AnimatedListState>();
+  final items = List<String>.generate(10, (i) => "${i + 1} Hours ago");
+  final removedItemsIndex = <int>[];
 
   // pagination
   final NotificationPagination notificationPagination;
   final MentionsPagination mentionsPagination;
 
+  NotificationCubit(this.notificationPagination, this.mentionsPagination)
+      : super(NotificationInitial());
 
-  NotificationCubit(this.notificationPagination, this.mentionsPagination) : super(NotificationInitial());
-  
   // getAllNotification() async{
   //   await notificationUseCase(NotificationOrMentionRequestModel());
   // }
 
-
-
   // final removeItemCounterNotifications=BehaviorSubject<int>();
   // Function(int) get changeNotificationRemovedCounter=>removeItemCounterNotifications.sink.add;
   // Stream<int> get notificationRemovedCounter=>removeItemCounterNotifications.stream;
-  removeItem(){
-  var newList=<String>[];
-   items.forEach((element) {
-     if(!removedItemsIndex.contains(element))
-      newList.add(element) ;
-   });
-   // items.
+  removeItem() {
+    var newList = <String>[];
+    items.forEach((element) {
+      if (!removedItemsIndex.contains(element)) newList.add(element);
+    });
+    // items.
     // changeItems(items);
     // removedItemsIndex.clear();
   }
 
-  addItemForDelete(int position){
+  addItemForDelete(int position) {
     removedItemsIndex.add(position);
     // changeNotificationRemovedCounter(removedItemsIndex.length);
   }
-  removeItemForDelete(int position){
+
+  removeItemForDelete(int position) {
     removedItemsIndex.remove(position);
     // changeNotificationRemovedCounter(removedItemsIndex.length);
     print("positions: $position");
@@ -56,6 +55,7 @@ class NotificationCubit extends Cubit<NotificationState> {
     // animatedListState?.currentState?.removeItem(position, (context, animation) =>
     //     SizeTransition(sizeFactor: animation,child: NotificationItem(time: items[position],index: position),));
   }
+
   @override
   Future<void> close() {
     notificationPagination.onClose();

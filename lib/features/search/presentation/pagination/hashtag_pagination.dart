@@ -8,18 +8,18 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class HashTagPagination extends CustomPagination<HashTagEntity> with SearchingMixin<HashTagEntity> {
-  
+class HashTagPagination extends CustomPagination<HashTagEntity>
+    with SearchingMixin<HashTagEntity> {
   final SearchHashtagsUseCase searchHashtagsUseCase;
-  
-  HashTagPagination(this.searchHashtagsUseCase){
+
+  HashTagPagination(this.searchHashtagsUseCase) {
     enableSearch();
   }
 
-
   @override
   Future<Either<Failure, List<HashTagEntity>>> getItems(int pageKey) async {
-    return await searchHashtagsUseCase(TextModelWithOffset(queryText: queryText,offset: pageKey.toString()));
+    return await searchHashtagsUseCase(
+        TextModelWithOffset(queryText: queryText, offset: pageKey.toString()));
   }
 
   @override
@@ -44,5 +44,3 @@ class HashTagPagination extends CustomPagination<HashTagEntity> with SearchingMi
     pagingController.dispose();
   }
 }
-
-

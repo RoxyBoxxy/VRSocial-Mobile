@@ -10,15 +10,15 @@ import 'package:dartz/dartz.dart';
 
 import 'entiity/media_entity.dart';
 
-abstract class PostRepo{
-  Future<Either<Failure,dynamic>> likeUnlikePost(String postId);
-  Future<Either<Failure,dynamic>> repost(String postId);
-  Future<Either<Failure,dynamic>> deletePost(String postId);
-  Future<Either<Failure,MediaEntity>> uploadMedia(MediaData mediaData);
-  Future<Either<Failure,dynamic>> deleteMedia(MediaEntity mediaEntity);
-  Future<Either<Failure,dynamic>> createPost(PostRequestModel mediaData);
-  Future<Either<Failure,dynamic>> addOrRemoveBookMark(String postId);
-  Future<Either<Failure,List<PeopleEntity>>> getPostLikes(LikesRequestModel model);
-  Future<Either<Failure,PostDetailResponse>> getThreadedPost(String postId);
-
+abstract class PostRepo {
+  Future<Either<Failure, dynamic>> likeUnlikePost(String postId);
+  Future<Either<Failure, dynamic>> repost(String postId);
+  Future<Either<Failure, dynamic>> deletePost(String postId);
+  Future<Either<Failure, MediaEntity>> uploadMedia(MediaData mediaData);
+  Future<Either<Failure, dynamic>> deleteMedia(MediaEntity mediaEntity);
+  Future<Either<Failure, dynamic>> createPost(PostRequestModel mediaData);
+  Future<Either<Failure, dynamic>> addOrRemoveBookMark(String postId);
+  Future<Either<Failure, List<PeopleEntity>>> getPostLikes(
+      LikesRequestModel model);
+  Future<Either<Failure, PostDetailResponse>> getThreadedPost(String postId);
 }

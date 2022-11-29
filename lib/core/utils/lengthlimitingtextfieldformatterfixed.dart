@@ -11,9 +11,9 @@ class LengthLimitingTextFieldFormatterFixed
 
   @override
   TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue,
-      TextEditingValue newValue,
-      ) {
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
     if (maxLength != null &&
         maxLength > 0 &&
         newValue.text.characters.length > maxLength) {

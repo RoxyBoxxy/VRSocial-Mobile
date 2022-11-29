@@ -1,11 +1,6 @@
-enum PostCategory{
-  POSTS,
-  LIKED,
-  MEDIA
+enum PostCategory { POSTS, LIKED, MEDIA }
 
-}
-
-class PostCategoryModel{
+class PostCategoryModel {
   final String offSetId;
   final PostCategory postCategory;
   final userId;

@@ -25,14 +25,12 @@ import 'package:colibri/extensions.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class PushNotificationHelper {
-
-   // bool isNotificationShow = false;
-   // bool isMessageShow = false;
+  // bool isNotificationShow = false;
+  // bool isMessageShow = false;
 
   // static final _connector = createPushConnector();
-  static LocalDataSource localDataSource= getIt<LocalDataSource>();
+  static LocalDataSource localDataSource = getIt<LocalDataSource>();
   static FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
@@ -43,24 +41,25 @@ class PushNotificationHelper {
   static String currentUserId;
   Random random = new Random();
   static configurePush(BuildContext context) {
-
-    FirebaseMessaging()..configure (
-        onBackgroundMessage:Platform.isIOS ? null : _onMyBackground,
-        onMessage: _onMessage,
-        onLaunch: _onLaunch,
-        onResume: _onResume)..requestNotificationPermissions()..getToken().then((value) {
+    FirebaseMessaging()
+      ..configure(
+          onBackgroundMessage: Platform.isIOS ? null : _onMyBackground,
+          onMessage: _onMessage,
+          onLaunch: _onLaunch,
+          onResume: _onResume)
+      ..requestNotificationPermissions()
+      ..getToken().then((value) {
         print("firebase token $value");
         ClipboardManager.copyToClipBoard(value).then((value) {
           // context.showSnackBar(message: "Firebase token copied to clipboard");
         });
         localDataSource.savePushToken(value);
         _savePushNotificationTokenToServer();
-    })..onTokenRefresh.listen((event) {
-      localDataSource.savePushToken(event);
-      _savePushNotificationTokenToServer();
-    });
-
-
+      })
+      ..onTokenRefresh.listen((event) {
+        localDataSource.savePushToken(event);
+        _savePushNotificationTokenToServer();
+      });
 
     //
     // _connector.configure(
@@ -76,16 +75,17 @@ class PushNotificationHelper {
     // });
     _initLocalNotification();
   }
-  static _savePushNotificationTokenToServer()async{
-    final savePush=getIt<SaveNotificationPushUseCase>();
+
+  static _savePushNotificationTokenToServer() async {
+    final savePush = getIt<SaveNotificationPushUseCase>();
     savePush.call(unit);
   }
+
   static unregister() async {
     // await _connector.unregister();
   }
 
   static Future<void> _onLaunch(Map<String, dynamic> message) async {
-
     print("on Launch");
 
     // controller.add(1);
@@ -100,11 +100,9 @@ class PushNotificationHelper {
     //   AC.prefs.setBool("notification", true);
     // }
 
-
     _navigateToScreen(jsonEncode(message));
 
-
-    if(message['data']['type'] == "chat_message") {
+    if (message['data']['type'] == "chat_message") {
       // isMessageShow = true;
       // isNotificationShow = true;
       AC.prefs.setBool("message", false);
@@ -123,24 +121,21 @@ class PushNotificationHelper {
   }
 
   static Future<void> _onResume(Map<String, dynamic> message) async {
-
-
-
     print("on Resume ${message}");
-    if(Platform.isIOS) {
-      var chatObject=message["gcm.notification.chat_message"];
-      if (listenNotificationOnChatScreen != null && chatObject!=null) {
+    if (Platform.isIOS) {
+      var chatObject = message["gcm.notification.chat_message"];
+      if (listenNotificationOnChatScreen != null && chatObject != null) {
         if (listenNotificationOnChatScreen != null)
-          listenNotificationOnChatScreen.call(ChatEntity.fromNotification (
-              ChatMessage.fromJson(json.decode(chatObject)))
-          );
+          listenNotificationOnChatScreen.call(ChatEntity.fromNotification(
+              ChatMessage.fromJson(json.decode(chatObject))));
         return;
-      };
+      }
+      ;
       _navigateToScreen(jsonEncode(message));
-    }
-    else _showLocationNotification(message);
+    } else
+      _showLocationNotification(message);
 
-    if(message['data']['type'] == "chat_message") {
+    if (message['data']['type'] == "chat_message") {
       // isMessageShow = true;
       // isNotificationShow = true;
       AC.prefs.setBool("message", false);
@@ -155,12 +150,10 @@ class PushNotificationHelper {
     // controller.add(1);
   }
 
-
   static Future<void> _onMessage(Map<String, dynamic> message) async {
-
     print("on Message ${message}");
 
-    if(message['data']['type'] == "chat_message") {
+    if (message['data']['type'] == "chat_message") {
       // isMessageShow = true;
       // isNotificationShow = true;
       AC.prefs.setBool("message", true);
@@ -173,11 +166,9 @@ class PushNotificationHelper {
     _showLocationNotification(message);
 
     controller.add(1);
-
   }
 
   static Future<void> _onMyBackground(Map<String, dynamic> message) async {
-
     // print("on Bg ${message}");
     // if(message['data']['type'] == "chat_message") {
     //   // isMessageShow = true;
@@ -189,10 +180,7 @@ class PushNotificationHelper {
     //   AC.prefs.setBool("notification", true);
     // }
 
-
-
     print("on background notification");
-
 
     // controller.add(1);
     _showLocationNotification(message);
@@ -214,7 +202,6 @@ class PushNotificationHelper {
     //   // AC.prefs.reload();
     //
     // }
-
   }
 
   static void _initLocalNotification() {
@@ -265,12 +252,18 @@ class PushNotificationHelper {
 
   static Future _navigateToScreen(String payload) async {
     var jsonMap = jsonDecode(payload);
-    final postId=Platform.isAndroid?jsonMap['data']['post_id']:jsonMap['gcm.notification.post_id'];
-    final userId=Platform.isAndroid?jsonMap['data']['user_id']:jsonMap['gcm.notification.user_id'];
-    final chatMessage=Platform.isAndroid?jsonMap['data']['chat_message']:jsonMap["gcm.notification.chat_message"];
-   // var cm= ChatEntity.fromNotification(
-   //      ChatMessage.fromJson(json.decode(jsonMap['data']['chat_message'])));
-   //  currentUserId=cm.senderUserId;
+    final postId = Platform.isAndroid
+        ? jsonMap['data']['post_id']
+        : jsonMap['gcm.notification.post_id'];
+    final userId = Platform.isAndroid
+        ? jsonMap['data']['user_id']
+        : jsonMap['gcm.notification.user_id'];
+    final chatMessage = Platform.isAndroid
+        ? jsonMap['data']['chat_message']
+        : jsonMap["gcm.notification.chat_message"];
+    // var cm= ChatEntity.fromNotification(
+    //      ChatMessage.fromJson(json.decode(jsonMap['data']['chat_message'])));
+    //  currentUserId=cm.senderUserId;
     // print("on select $jsonMap");
     if (chatMessage != null) {
       var chatEntity = ChatEntity.fromNotification(
@@ -278,16 +271,15 @@ class PushNotificationHelper {
       // if sender id in notification payload is same as current user who is currently chatting
       // then we will add push data to chat screen directly and notification is not going to triggered
       // if (chatEntity.senderUserId == currentUserId) {
-        ExtendedNavigator.root.popUntil((route) {
-          if (route.settings.name != Routes.chatScreen) {
-            ExtendedNavigator.root.push(Routes.chatScreen,
-                arguments: ChatScreenArguments(
-                    otherPersonProfileUrl:chatEntity.profileUrl,
-                    otherPersonUserId: chatEntity.senderUserId));
-          }
-          return true;
-        });
-
+      ExtendedNavigator.root.popUntil((route) {
+        if (route.settings.name != Routes.chatScreen) {
+          ExtendedNavigator.root.push(Routes.chatScreen,
+              arguments: ChatScreenArguments(
+                  otherPersonProfileUrl: chatEntity.profileUrl,
+                  otherPersonUserId: chatEntity.senderUserId));
+        }
+        return true;
+      });
     }
     // if notification type of post
 
@@ -296,8 +288,7 @@ class PushNotificationHelper {
         if (route.settings.name != Routes.viewPostScreen) {
           ExtendedNavigator.root.push(Routes.viewPostScreen,
               arguments: ViewPostScreenArguments(
-                  threadID: int.tryParse(postId),
-                  postEntity: null));
+                  threadID: int.tryParse(postId), postEntity: null));
         }
         return true;
       });
@@ -305,24 +296,25 @@ class PushNotificationHelper {
     // if notification has user data
     else if (userId != null) {
       ExtendedNavigator.root.push(Routes.profileScreen,
-          arguments:
-              ProfileScreenArguments(otherUserId: userId));
+          arguments: ProfileScreenArguments(otherUserId: userId));
     }
   }
 
   static void _showLocationNotification(Map<String, dynamic> map) async {
     // will send notification if user is not on chat screen
     // other wise we will show notification as usual
-    var chatObject=Platform.isAndroid?map['data']['chat_message']:map["gcm.notification.chat_message"];
-    if (listenNotificationOnChatScreen != null && chatObject!=null) {
+    var chatObject = Platform.isAndroid
+        ? map['data']['chat_message']
+        : map["gcm.notification.chat_message"];
+    if (listenNotificationOnChatScreen != null && chatObject != null) {
       if (listenNotificationOnChatScreen != null)
         listenNotificationOnChatScreen.call(ChatEntity.fromNotification(
-            ChatMessage.fromJson(json.decode(chatObject)))
-        );
+            ChatMessage.fromJson(json.decode(chatObject))));
       // controller.add(1);
 
       return;
-    };
+    }
+    ;
 
     var title = Platform.isAndroid
         ? map['data']['title']
@@ -332,11 +324,11 @@ class PushNotificationHelper {
         Platform.isAndroid ? map['data']['type'] : map["gcm.notification.type"];
     // var body="subscribe";
     final AndroidNotificationDetails androidPlatformChannelSpecifics =
-        const AndroidNotificationDetails('0', 'colibri', 'your channel description',
+        const AndroidNotificationDetails(
+            '0', 'colibri', 'your channel description',
             importance: Importance.max,
             priority: Priority.high,
-            showWhen: true
-        );
+            showWhen: true);
     final NotificationDetails platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics,
         iOS: const IOSNotificationDetails());
@@ -348,14 +340,10 @@ class PushNotificationHelper {
         payload: jsonEncode(map));
 
     // controller.add(1);
-
   }
-
 
   static storeMsg() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool("message", true);
   }
-
-
 }

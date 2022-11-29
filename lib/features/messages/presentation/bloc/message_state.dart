@@ -10,4 +10,3 @@ abstract class MessageState<T> with _$MessageState<T> {
   const factory MessageState.noData() = NoDataFound<T>;
   const factory MessageState.error([String message]) = ErrorDetails<T>;
 }
-

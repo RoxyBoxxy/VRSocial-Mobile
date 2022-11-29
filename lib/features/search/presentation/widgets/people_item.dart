@@ -20,10 +20,14 @@ class PeopleItem extends StatelessWidget {
       peopleEntity.profileUrl.toRoundNetworkImage(radius: 11),
       20.toSizedBoxHorizontal,
       [
-        [peopleEntity.fullName.toSubTitle2(fontWeight: FontWeight.w600).toEllipsis.toFlexible(),
+        [
+          peopleEntity.fullName
+              .toSubTitle2(fontWeight: FontWeight.w600)
+              .toEllipsis
+              .toFlexible(),
           5.toSizedBoxHorizontal,
           AppIcons.verifiedIcons.toVisibility(peopleEntity.isVerified),
-        5.toSizedBoxHorizontal
+          5.toSizedBoxHorizontal
         ].toRow(crossAxisAlignment: CrossAxisAlignment.center),
         peopleEntity.userName.toCaption(
             fontSize: 10.toSp,
@@ -31,15 +35,14 @@ class PeopleItem extends StatelessWidget {
             color: Colors.black54)
       ].toColumn().toExpanded(),
       [
-        if(peopleEntity.buttonText == "Unfollow")
+        if (peopleEntity.buttonText == "Unfollow")
           peopleEntity.buttonText
-              .toSubTitle2(
-              color: Colors.white, fontWeight: FontWeight.w600)
+              .toSubTitle2(color: Colors.white, fontWeight: FontWeight.w600)
               .toVerticalPadding(2)
               .toMaterialButton(() {
             context.showOkCancelAlertDialog(
                 desc:
-                "Please note that, if you unsubscribe then this user's posts will no longer appear in the feed on your main page.",
+                    "Please note that, if you unsubscribe then this user's posts will no longer appear in the feed on your main page.",
                 title: "Please confirm your actions!",
                 onTapOk: () {
                   ExtendedNavigator.root.pop();
@@ -50,7 +53,7 @@ class PeopleItem extends StatelessWidget {
         else
           peopleEntity.buttonText
               .toSubTitle2(
-              color:AppColors.colorPrimary, fontWeight: FontWeight.w600)
+                  color: AppColors.colorPrimary, fontWeight: FontWeight.w600)
               .toVerticalPadding(2)
               .toOutlinedBorder(() {
             onFollowTap.call();
@@ -71,10 +74,14 @@ class PeopleItem extends StatelessWidget {
           .toRow(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center)
-          .toContainer(alignment: Alignment.center).toVisibility(!peopleEntity.isCurrentLoggedInUser),
+          .toContainer(alignment: Alignment.center)
+          .toVisibility(!peopleEntity.isCurrentLoggedInUser),
       20.toSizedBoxHorizontal,
     ].toRow(crossAxisAlignment: CrossAxisAlignment.center).onTapWidget(() {
-      ExtendedNavigator.root.push(Routes.profileScreen,arguments: ProfileScreenArguments(otherUserId: peopleEntity.isCurrentLoggedInUser?null:peopleEntity.id));
+      ExtendedNavigator.root.push(Routes.profileScreen,
+          arguments: ProfileScreenArguments(
+              otherUserId:
+                  peopleEntity.isCurrentLoggedInUser ? null : peopleEntity.id));
       // BlocProvider.of<FeedCubit>(context)
       //     .changeCurrentPage(ScreenType.profile(ProfileScreenArguments(
       //   otherUserId: peopleEntity.id.toString(),

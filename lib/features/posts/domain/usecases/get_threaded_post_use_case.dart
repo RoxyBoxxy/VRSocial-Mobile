@@ -7,11 +7,11 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class GetThreadedPostUseCase extends UseCase<PostDetailResponse,String>{
+class GetThreadedPostUseCase extends UseCase<PostDetailResponse, String> {
   final PostRepo postRepo;
 
   GetThreadedPostUseCase(this.postRepo);
   @override
-  Future<Either<Failure, PostDetailResponse>> call(String params) => postRepo.getThreadedPost(params);
-  
+  Future<Either<Failure, PostDetailResponse>> call(String params) =>
+      postRepo.getThreadedPost(params);
 }

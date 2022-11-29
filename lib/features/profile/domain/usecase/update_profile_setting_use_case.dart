@@ -6,12 +6,12 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class UpdateUserSettingsUseCase extends UseCase<dynamic,UpdateSettingsRequestModel>{
+class UpdateUserSettingsUseCase
+    extends UseCase<dynamic, UpdateSettingsRequestModel> {
   final ProfileRepo profileRepo;
   UpdateUserSettingsUseCase(this.profileRepo);
   @override
   Future<Either<Failure, dynamic>> call(params) {
     return profileRepo.updateUserSetting(params);
   }
-
 }

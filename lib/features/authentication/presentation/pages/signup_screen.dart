@@ -40,41 +40,47 @@ class _SignUpScreenState extends State<SignUpScreen> {
         listener: (_, state) {
           state.maybeWhen(
               orElse: () {},
-              error: (e){
-                if(e.isNotEmpty){
+              error: (e) {
+                if (e.isNotEmpty) {
                   context.showOkAlertDialog(desc: e, title: "Information");
                 }
               },
               success: (isSocial) {
-                if(isSocial){
-                  ExtendedNavigator.root.pushAndRemoveUntil(Routes.feedScreen, (route) => false);
-                }else{
-                  context.showOkAlertDialog(desc: "Sign up successfully", title: "Information",onTapOk: (){
-                    ExtendedNavigator.root.replace(Routes.loginScreen);
-                  });
+                if (isSocial) {
+                  ExtendedNavigator.root
+                      .pushAndRemoveUntil(Routes.feedScreen, (route) => false);
+                } else {
+                  context.showOkAlertDialog(
+                      desc: "Sign up successfully",
+                      title: "Information",
+                      onTapOk: () {
+                        ExtendedNavigator.root.replace(Routes.loginScreen);
+                      });
                 }
               });
         },
-        child: BlocBuilder<SignUpCubit,CommonUIState>(
-          builder: (context,state){
-            return state.when(initial: buildHome, success:(s)=> buildHome(), loading: ()=>LoadingBar(), error: (e)=>buildHome());
+        child: BlocBuilder<SignUpCubit, CommonUIState>(
+          builder: (context, state) {
+            return state.when(
+                initial: buildHome,
+                success: (s) => buildHome(),
+                loading: () => LoadingBar(),
+                error: (e) => buildHome());
           },
         ),
       ),
     );
   }
 
-
-
-  Widget buildHome(){
+  Widget buildHome() {
     return Scaffold(
         backgroundColor: Colors.white,
         body: Container(
-               constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height),
+          constraints:
+              BoxConstraints(maxHeight: MediaQuery.of(context).size.height),
           child: KeyboardActions(
-
-            config:KeyboardActionsConfig(
-              keyboardActionsPlatform:KeyboardActionsPlatform.IOS,
+            config: KeyboardActionsConfig(
+              keyboardActionsPlatform: KeyboardActionsPlatform.IOS,
               actions: [
                 KeyboardActionsItem(
                   focusNode: signUpCubit.firstNameValidator.focusNode,
@@ -95,19 +101,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   displayDoneButton: true,
                   focusNode: signUpCubit.confirmPasswordValidator.focusNode,
                 ),
-              ],),
-            child: [
-              buildTopView(),
-              buildMiddleView(),
-              buildBottomView()
-            ]
+              ],
+            ),
+            child: [buildTopView(), buildMiddleView(), buildBottomView()]
                 .toColumn(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center).makeScrollable()
-                .toContainer(
-                alignment: Alignment.center, color: Colors.white)
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center)
+                .makeScrollable()
+                .toContainer(alignment: Alignment.center, color: Colors.white)
                 .toHorizontalPadding(24.0),
-          ),));
+          ),
+        ));
   }
 
   Widget buildTopView() {
@@ -152,17 +156,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
         Strings.termsOfUse
             .toButton(fontSize: 12.0, color: AppColors.colorPrimary)
             .onTapWidget(() {
-              context.removeFocus();
+          context.removeFocus();
           ExtendedNavigator.root.push(Routes.webViewScreen,
-              arguments: WebViewScreenArguments(url: Strings.termsUrl,name: Strings.termsOfUse));
+              arguments: WebViewScreenArguments(
+                  url: Strings.termsUrl, name: Strings.termsOfUse));
         }),
         " and ".toButton(fontSize: 12.0, color: AppColors.greyText),
         Strings.privacy
             .toButton(fontSize: 12.0, color: AppColors.colorPrimary)
             .onTapWidget(() {
-              context.removeFocus();
-          ExtendedNavigator.root.push(Routes.webViewScreen,
-              arguments: WebViewScreenArguments(url: Strings.privacyUrl,name: Strings.privacy),);
+          context.removeFocus();
+          ExtendedNavigator.root.push(
+            Routes.webViewScreen,
+            arguments: WebViewScreenArguments(
+                url: Strings.privacyUrl, name: Strings.privacy),
+          );
         })
       ].toRow(mainAxisAlignment: MainAxisAlignment.center),
       25.toSizedBox,
@@ -173,17 +181,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
       [
         Images.facebook
             .toSvg()
-            .toFlatButton(
-                () => {signUpCubit.facebookLogin()},
+            .toFlatButton(() => {signUpCubit.facebookLogin()},
                 color: AppColors.fbBlue)
             .toSizedBox(height: 40, width: 55),
         10.toSizedBox,
         Images.google
             .toSvg()
             .toFlatButton(
-              () => {
-                signUpCubit.googleLogin()
-              },
+              () => {signUpCubit.googleLogin()},
             )
             .toSizedBox(height: 40, width: 55)
             .toContainer(
@@ -197,7 +202,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
             .toFlatButton(
                 () => {context.showSnackBar(message: Strings.twitterComing)},
                 color: AppColors.twitterBlue)
-            .toSizedBox(height: 40, width: 55).toVisibility(false),
+            .toSizedBox(height: 40, width: 55)
+            .toVisibility(false),
       ].toRow(mainAxisAlignment: MainAxisAlignment.center),
     ].toColumn(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -212,9 +218,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           .toButton(color: AppColors.colorPrimary)
           .toUnderLine()
           .toFlatButton(
-              () => {
-                ExtendedNavigator.root.replace(Routes.loginScreen)
-              }),
+              () => {ExtendedNavigator.root.replace(Routes.loginScreen)}),
     ].toColumn(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center);

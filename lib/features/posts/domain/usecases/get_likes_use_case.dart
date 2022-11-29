@@ -13,5 +13,6 @@ class GetLikesUseCase extends UseCase<List<PeopleEntity>, LikesRequestModel> {
   GetLikesUseCase(this.postRepo);
 
   @override
-  Future<Either<Failure, List<PeopleEntity>>> call(params) => postRepo.getPostLikes(params);
+  Future<Either<Failure, List<PeopleEntity>>> call(params) =>
+      postRepo.getPostLikes(params);
 }
